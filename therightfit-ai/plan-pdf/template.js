@@ -5,6 +5,7 @@
    zero-network serverless render later (PRODUCTION NOTE in the spec).
    ========================================================= */
 const { CSS } = (typeof require !== 'undefined') ? require('./css.js') : window.PlanPdfCss;
+const { SPORT_THEMES } = (typeof require !== 'undefined') ? require('./themes.js') : window.PlanPdfThemes;
 
 const FONTS_LINK = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
   + '<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100..900&family=Archivo+Expanded:wght@100..900&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">';
@@ -18,6 +19,10 @@ const motif = (t, style, op) => t.motif
   ? `<svg class="court" style="${style};opacity:${op}" viewBox="0 0 500 470">${t.motif}</svg>` : '';
 
 function buildHtml(doc, t) {
+  // Part B accent helpers (used across pages incl. the detailed week).
+  const acc = (sportId) => (SPORT_THEMES[sportId] && SPORT_THEMES[sportId].accent) || t.accent;
+  const accD = (sportId) => (SPORT_THEMES[sportId] && SPORT_THEMES[sportId].accentDeep) || t.accentDeep;
+  const sportsArr = doc.sports || [];
   const cells = doc.metrics.slice(0, 6).map(m =>
     `<div class="cell"><div class="k">${esc(m.key)}</div><div class="v">${hl(m.value)}</div><div class="u">${esc(m.unit)}</div></div>`).join('');
   const bars = doc.focusAreas.slice(0, 4).map(f =>
@@ -28,12 +33,30 @@ function buildHtml(doc, t) {
     `<div class="cell"><div class="k">${esc(r.key)}</div><div class="v" style="font-size:22px">${esc(r.count)}</div><div class="u">${esc(r.note)}</div></div>`).join('');
   const planRows = doc.fullPlan.map(w =>
     `<tr><td class="wk">${esc(w.week)}</td><td class="ph"><span class="phasebadge"></span>${esc(w.phaseShort)}</td><td>${esc(w.focus)}</td><td class="lo">${esc(w.load)}</td></tr>`).join('');
+  const showChips = (doc.sports || []).length > 1;
   const dayRows = doc.detailedWeek.days.map(d => {
     const rest = /rest|recovery|off/i.test(d.title) ? ' rest' : '';
-    return `<div class="day${rest}"><div class="dn">${esc(d.day)}</div><div class="ti">${esc(d.title)}<span class="tag">${esc(d.tag)}</span></div><div class="set${rest ? ' mut' : ''}">${hl(d.set)}</div></div>`;
+    const chip = (showChips && d.sportId)
+      ? `<span class="daychip" style="color:${accD(d.sportId)};border-color:${acc(d.sportId)}">${esc((SPORT_THEMES[d.sportId] && SPORT_THEMES[d.sportId].label.split(' ')[0]) || '')}</span>` : '';
+    return `<div class="day${rest}"><div class="dn">${esc(d.day)}</div><div class="ti">${esc(d.title)}${chip}<span class="tag">${esc(d.tag)}</span></div><div class="set${rest ? ' mut' : ''}">${hl(d.set)}</div></div>`;
   }).join('');
-  const drillCards = doc.drills.slice(0, 6).map(d =>
-    `<div class="drill"><div class="play">${PLAY}</div><div class="tag">${esc(d.tag)}</div><div class="nm">${esc(d.name)}</div><div class="cue">${esc(d.cue)}</div><div class="rx">${esc(d.rx)}</div></div>`).join('');
+  const drillCard = (d) =>
+    `<div class="drill"><div class="play">${PLAY}</div><div class="tag">${esc(d.tag)}</div><div class="nm">${esc(d.name)}</div><div class="cue">${esc(d.cue)}</div><div class="rx">${esc(d.rx)}</div></div>`;
+  const drillCards = doc.drills.slice(0, 6).map(drillCard).join('');
+
+  // ---- Part B (multi-sport): secondary chips, allocation note, per-sport sections ----
+  const secondaryChips = sportsArr.length > 1
+    ? `<div class="chips">${sportsArr.slice(1).map(s => `<span class="schip" style="color:${accD(s.sportId)};border-color:${acc(s.sportId)}">+ ${esc(s.label)} · ${esc(s.season)}</span>`).join('')}</div>`
+    : '';
+  const allocCallout = doc.allocationNote ? `<div class="allocnote">${esc(doc.allocationNote)}</div>` : '';
+  // Skill Work: per-sport sections (multi) themed in each sport's accent, shared base once.
+  const skillBody = (doc.skillSections && doc.skillSections.length)
+    ? doc.skillSections.map(sec =>
+        `<div class="skillsec"><div class="skillsec__h" style="color:${accD(sec.sportId)};border-color:${acc(sec.sportId)}">`
+        + `<span>${esc(sec.label)}${sec.isBase ? ' — shared, built once' : ''}</span><span class="n">${sec.drills.length} DRILL${sec.drills.length === 1 ? '' : 'S'}</span></div>`
+        + `<div class="drills">${sec.drills.slice(0, 4).map(drillCard).join('')}</div></div>`).join('')
+    : `<div class="drills">${drillCards}</div>`;
+
   const targetRows = doc.test.targets.map(r =>
     `<tr><td class="metric">${esc(r.metric)}</td><td class="now">${esc(r.now)}</td><td class="goal">${esc(r.goal)}</td></tr>`).join('');
 
@@ -46,15 +69,16 @@ function buildHtml(doc, t) {
     <div class="id">PLAN №&nbsp;${esc(doc.planId)}<br>ISSUED&nbsp;<b>${esc(doc.issuedDate)}</b><br>${esc(doc.blockLabel)}</div></div>
   <div><h1 class="display">${esc(t.coverWord)}<span class="sub">Performance Plan</span></h1>
     <p class="lead">${lead}</p>
-    <div class="athlete"><span class="name">${esc(doc.athlete.name)}</span><span class="meta">${esc(doc.athlete.descriptor)}</span></div></div>
+    <div class="athlete"><span class="name">${esc(doc.athlete.name)}</span><span class="meta">${esc(doc.athlete.descriptor)}</span></div>
+    ${secondaryChips}</div>
   <div class="footer"><div class="goalchip"><div class="k">${esc(doc.goal.chipLabel)}</div><div class="v">${esc(doc.goal.chipValue)}</div></div>
-    <div class="block">${doc.blockMeta.weeks}-WEEK BLOCK<br><b>${doc.blockMeta.phasesCount} PHASES · ${doc.blockMeta.sessionsPerWeek} SESSIONS / WK</b><br>${esc(doc.blockMeta.phaseFlow)}</div></div></div></section>
+    <div class="block">${doc.blockMeta.weeks}-WEEK BLOCK<br><b>${doc.blockMeta.phasesCount} PHASES · ${doc.blockMeta.sessionsPerWeek} SESSIONS / WK</b><br>${esc(doc.blockMeta.phaseFlow)}${doc.allocationNote ? '<br>' + esc(doc.allocationNote) : ''}</div></div></div></section>
 
 <section class="page">${motif(t, 'bottom:-160px;left:-120px;width:420px;height:420px', 0.10)}
   <div class="frame"><div class="head"><div class="sec">${esc(doc.athlete.sectionWord)}</div><div class="num">01</div></div>
   <p class="subhead">Where you are today, measured. Every number here is re-tested at the end of the block to prove the work showed up.</p>
   <div class="board">${cells}</div>
-  <div class="twocol"><div class="goalbox"><div class="k">${esc(doc.goal.chipLabel)}</div><p>${hl(doc.goal.statement)}</p></div>
+  <div class="twocol"><div class="goalbox"><div class="k">${esc(doc.goal.chipLabel)}</div><p>${hl(doc.goal.statement)}</p>${allocCallout}</div>
     <div class="focus"><div class="k">Focus Areas — from your intake</div>${bars}</div></div></div></section>
 
 <section class="page"><div class="frame"><div class="head"><div class="sec">The Arc</div><div class="num">02</div></div>
@@ -75,7 +99,7 @@ function buildHtml(doc, t) {
 
 <section class="page"><div class="frame"><div class="head"><div class="sec">Skill Work</div><div class="num">05</div></div>
   <p class="subhead">The drills inside your week, each aimed at a focus area. Every drill has a demo — tap the marker to watch the exact rep first.</p>
-  <div class="drills">${drillCards}</div>
+  ${skillBody}
   <div class="watchnote"><span class="dot"></span>EVERY DRILL LINKS TO A SINGLE-LIBRARY VIDEO DEMO · NO SEARCHING ACROSS PLATFORMS</div></div></section>
 
 <section class="page">${motif(t, 'top:-80px;right:-90px;width:460px;height:460px', 0.08)}

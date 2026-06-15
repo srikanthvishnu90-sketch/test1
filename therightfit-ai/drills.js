@@ -2986,27 +2986,49 @@ function buildPdfPayload(planArg, profileArg, sportArg) {
   };
 }
 
+function _triggerDownload(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
 async function downloadPlanPdf(btn, source) {
-  const payload = (source && source.plan)
-    ? buildPdfPayload(source.plan, source.profile, source.sport)
-    : buildPdfPayload();
-  if (!payload) { alert('Build a plan first, then download.'); return; }
   const label = btn && btn.textContent; if (btn) { btn.disabled = true; btn.textContent = 'Preparing PDF…'; }
+  const finish = () => { if (btn) { btn.disabled = false; btn.textContent = label; } };
+  // Resolve the plan + profile to render from (no app state is mutated).
+  let plan = source && source.plan, p = source && source.profile;
+  if (!(plan && p)) { const ctx = (typeof drillCtx === 'function') ? drillCtx() : null; if (ctx) { plan = ctx.plan; p = ctx.profile; } }
+
+  // 1) Themed plan-PDF via the isolated engine (renders + records in the DB).
+  if (plan && p && window.PlanPdfMap && window.PlanPdfMap.fromPlanJson) {
+    try {
+      const doc = window.PlanPdfMap.fromPlanJson(plan, p, {
+        labelFn: (typeof sportLabelFor === 'function') ? sportLabelFor : undefined,
+        name: ((state.data && state.data.name) || '').trim(), weeks: 12,
+      });
+      const res = await fetch('/api/plan-pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ doc }) });
+      if (!res.ok) throw new Error('plan-pdf ' + res.status);
+      const cd = res.headers.get('Content-Disposition') || '';
+      const m = cd.match(/filename="(.+?)"/);
+      _triggerDownload(await res.blob(), (m && m[1]) || 'Sporve-Plan.pdf');
+      if (window.track) track('pdf_downloaded', { sport: doc.sportId, kind: 'themed' });
+      finish(); return;
+    } catch (e) { console.warn('[pdf] themed engine unavailable, falling back:', e && e.message); }
+  }
+
+  // 2) Fallback: original pdf-lib export — the download always works.
+  const payload = (source && source.plan) ? buildPdfPayload(source.plan, source.profile, source.sport) : buildPdfPayload();
+  if (!payload) { alert('Build a plan first, then download.'); finish(); return; }
   try {
     const res = await fetch('/api/report/pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     if (!res.ok) throw new Error('pdf ' + res.status);
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Sporve-' + String(payload.athlete.sport || 'Training').replace(/[^a-z0-9]+/gi, '-') + '-Plan.pdf';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 4000);
-    if (window.track) track('pdf_downloaded', { sport: payload.athlete.sport });
+    _triggerDownload(await res.blob(), 'Sporve-' + String(payload.athlete.sport || 'Training').replace(/[^a-z0-9]+/gi, '-') + '-Plan.pdf');
+    if (window.track) track('pdf_downloaded', { sport: payload.athlete.sport, kind: 'pdflib' });
   } catch (e) {
     console.error('[pdf] download failed', e);
     alert('Sorry — the PDF could not be generated. Please try again.');
-  } finally { if (btn) { btn.disabled = false; btn.textContent = label; } }
+  } finally { finish(); }
 }
 window.downloadPlanPdf = downloadPlanPdf;
 

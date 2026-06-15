@@ -81,6 +81,14 @@ body{font-family:'Archivo',sans-serif;color:var(--ink);background:var(--paper);}
 .targets td.metric{font-family:'Archivo';font-size:13px;font-weight:500;} .targets td.now{color:var(--mut);} .targets td.goal{color:var(--accent-deep);font-weight:700;}
 .closing{margin-top:auto;} .closing .big{font-family:'ArchivoX';font-variation-settings:"wght" 820,"wdth" 124;text-transform:uppercase;font-size:42px;line-height:.92;} .closing .big em{font-style:normal;color:var(--accent);}
 .brandfoot{display:flex;justify-content:space-between;align-items:center;border-top:2px solid var(--line-strong);padding-top:16px;margin-top:22px;font-family:'JBMono';font-size:9px;letter-spacing:.14em;color:var(--mut);}
+/* ---- multi-sport (Part B): secondary chips, allocation note, per-sport sections ---- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;position:relative;z-index:2;}
+.schip{font-family:'JBMono';font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid;border-radius:999px;padding:5px 11px;}
+.allocnote{font-family:'JBMono';font-size:10px;letter-spacing:.04em;color:var(--accent-deep);border-left:3px solid var(--accent);padding:9px 0 9px 14px;margin-top:18px;}
+.daychip{font-family:'JBMono';font-size:8px;letter-spacing:.06em;text-transform:uppercase;border:1.4px solid;border-radius:999px;padding:2px 7px;margin-left:8px;vertical-align:middle;white-space:nowrap;}
+.skillsec{margin-bottom:18px;}
+.skillsec__h{font-family:'ArchivoX';font-variation-settings:"wght" 760,"wdth" 112;text-transform:uppercase;font-size:17px;border-bottom:2px solid;padding-bottom:7px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;}
+.skillsec__h .n{font-family:'JBMono';font-size:9px;letter-spacing:.12em;}
 `;
 
 // Alias the spec's font-family tokens to Google-hosted variable families.
