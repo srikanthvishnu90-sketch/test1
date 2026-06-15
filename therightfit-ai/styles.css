@@ -3185,3 +3185,19 @@ input,textarea,.field input,.ta,.safety-banner,.mcta .btn{ border-radius:0 !impo
 .epe-widget__row{ display:flex; justify-content:space-between; align-items:baseline; font-family:var(--font-mono); font-size:11px; color:var(--epe-muted); }
 .epe-gradbar{ position:relative; height:8px; margin:6px 0; background:linear-gradient(90deg,#E11D48 0%,#16A34A 38%,#16A34A 62%,#E11D48 100%); }
 .epe-gradbar i{ position:absolute; top:-3px; width:2px; height:14px; background:#fff; transform:translateX(-1px); }
+
+/* ---- EPE multi-sport allocation view ---- */
+.alloc-card{ background:var(--epe-card); border:1px solid var(--epe-stroke); padding:20px 22px; margin:0 0 18px; }
+.alloc-card__k{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+.alloc-row{ margin-bottom:16px; }
+.alloc-row:last-child{ margin-bottom:0; }
+.alloc-row__hd{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+.alloc-row__hd b{ font-family:var(--font-display); font-weight:800; text-transform:uppercase; letter-spacing:-.01em; font-size:15px; color:var(--epe-text); }
+.alloc-dot{ width:10px; height:10px; flex:0 0 auto; }
+.alloc-anchor{ font-family:var(--font-mono); font-size:9px; letter-spacing:.12em; color:#000; background:var(--accent); padding:2px 7px; }
+.alloc-season,.alloc-mode{ font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; color:var(--epe-muted); margin-left:auto; }
+.alloc-mode{ margin-left:10px; color:var(--epe-muted2); }
+.alloc-bar{ height:8px; background:#1A1A1A; overflow:hidden; }
+.alloc-bar i{ display:block; height:100%; }
+.alloc-meta{ font-family:var(--font-mono); font-size:10px; letter-spacing:.04em; color:var(--epe-muted); margin-top:6px; }
+.alloc-note{ font-family:var(--font-mono); font-size:10.5px; letter-spacing:.04em; color:var(--epe-muted2); border-left:2px solid var(--accent); padding:8px 0 8px 12px; margin-top:14px; }

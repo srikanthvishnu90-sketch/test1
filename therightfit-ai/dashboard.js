@@ -476,6 +476,32 @@ function dashWidgets() {
   return `<div class="epe-grid">${epeReadiness()}${spark}${arc}</div>`;
 }
 
+/* ---- Multi-sport allocation view (renders plan.allocation; existing data) ---- */
+function dashAllocation() {
+  const plan = dash.plan, alloc = plan && plan.allocation;
+  if (!alloc || !alloc.skill || alloc.skill.length < 2) return '';
+  const accentOf = (k) => (typeof SPORT_ACCENT !== 'undefined' && SPORT_ACCENT[k] && SPORT_ACCENT[k].d) || 'var(--accent)';
+  const labelOf = (k) => (typeof sportLabelFor === 'function') ? sportLabelFor(k) : k;
+  const SEASON = { in_season: 'IN-SEASON', pre_season: 'PRE-SEASON', off_season: 'OFF-SEASON', maintenance: 'MAINTENANCE' };
+  const seasonOf = (k) => { const m = (dash.profile && dash.profile.sportMeta && dash.profile.sportMeta[k]) || {}; return SEASON[m.season] || 'OFF-SEASON'; };
+  const total = alloc.skill.reduce((a, s) => a + s.sessions, 0) + (alloc.baseSessions || 0) || 1;
+  const rows = alloc.skill.map(s => {
+    const c = accentOf(s.sportId), p = Math.round((s.sessions / total) * 100), anchor = s.sportId === alloc.anchorSportId;
+    return `<div class="alloc-row"><div class="alloc-row__hd"><span class="alloc-dot" style="background:${c}"></span>`
+      + `<b style="color:${c}">${e(labelOf(s.sportId))}</b>${anchor ? '<span class="alloc-anchor">ANCHOR</span>' : ''}`
+      + `<span class="alloc-season">${seasonOf(s.sportId)}</span><span class="alloc-mode">${e((s.mode || '').toUpperCase())}</span></div>`
+      + `<div class="alloc-bar"><i style="width:${p}%;background:${c}"></i></div>`
+      + `<div class="alloc-meta">${s.sessions} skill session${s.sessions === 1 ? '' : 's'}/wk · ${p}%</div></div>`;
+  }).join('');
+  const bp = Math.round(((alloc.baseSessions || 0) / total) * 100);
+  const baseRow = `<div class="alloc-row"><div class="alloc-row__hd"><span class="alloc-dot" style="background:var(--epe-neutral)"></span><b>Shared Athletic Base</b>`
+    + `<span class="alloc-mode">${(alloc.baseTheme || []).slice(0, 2).map(q => q.replace(/_/g, ' ')).join(' · ')}</span></div>`
+    + `<div class="alloc-bar"><i style="width:${bp}%;background:var(--epe-neutral)"></i></div>`
+    + `<div class="alloc-meta">${alloc.baseSessions || 0}×/wk · built once, transfers across sports</div></div>`;
+  const note = alloc.interference ? `<div class="alloc-note">⚠ ${e((alloc.appliedRules || [])[0] || 'Heavy strength and hard endurance are separated across days.')}</div>` : '';
+  return `<div class="alloc-card"><div class="alloc-card__k">Multi-Sport Allocation · Anchor ${e(labelOf(alloc.anchorSportId))}</div>${rows}${baseRow}${note}</div>`;
+}
+
 /* ---- This Week (premium) ---- */
 function tabWeek() {
   const adapt = dash.adapt ? `<div class="ai-note"><b>AI adjustment</b> ${e(dash.adapt)}</div>` : '';
@@ -609,7 +635,7 @@ function tabWeek() {
         </div>`;
     }).join('');
 
-    dashMain.innerHTML = dashBriefing() + header + overview + dashWidgets() + todayHtml + stripHtml
+    dashMain.innerHTML = dashBriefing() + header + overview + dashWidgets() + dashAllocation() + todayHtml + stripHtml
       + `<details class="allweek"><summary>All sessions this week</summary><div class="daycards daycards--live">${sessions}</div></details>`
       + cta;
 
