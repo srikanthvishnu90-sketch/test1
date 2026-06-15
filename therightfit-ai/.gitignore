@@ -1,0 +1,9 @@
+node_modules/
+server/trf.db
+server/trf.db-journal
+server/trf.db-wal
+server/trf.db-shm
+.env
+*.log
+.DS_Store
+pdf-samples/
