@@ -2134,6 +2134,7 @@ function profileFromData() {
     sport: sportKey, perSport,
     sports: sportKeys, mainSport: sportKeys[0] || null, secondarySport: sportKeys[1] || null,
     multiSport: sportKeys.length >= 2,
+    sportMeta: state.data.sportMeta || {},   // per-sport season/weeks for the allocation engine
     age: Number(d.age) || 12, height: d.height, weight: d.weight, gender: d.gender,
     position: d.position || 'unknown', level: (d.skillLevel || 'Beginner').toLowerCase(),
     dominantFoot: d.dominantFoot || '', dominantHand: d.dominantHand || '',
@@ -2510,10 +2511,17 @@ function allocationFromProfile(p) {
   if (keys.length < 2) return null;
   const main = p.sport || keys[0];
   const ordered = [main].concat(keys.filter(k => k !== main));   // priority = pick order, main = 1
-  const sports = ordered.map((k, i) => ({
-    sportId: k, priorityRank: (i + 1), season: 'off_season',     // smart default
-    weeksToCompetition: undefined, sportMetrics: {}, struggleTags: p.weaknesses || [],
-  }));
+  const meta = p.sportMeta || {};
+  const sports = ordered.map((k, i) => {
+    const m = meta[k] || {};
+    const w = (m.weeks != null && m.weeks !== '') ? Number(m.weeks) : undefined;
+    return {
+      sportId: k, priorityRank: (i + 1),
+      season: m.season || 'off_season',                          // captured, else smart default
+      weeksToCompetition: (typeof w === 'number' && !isNaN(w)) ? w : undefined,
+      sportMetrics: {}, struggleTags: p.weaknesses || [],
+    };
+  });
   const availability = {
     daysPerWeek: p.dayCount, sessionMinutes: p.minutes, age: p.age,
     level: p.level, injuries: p.injury ? ['general'] : [], equipment: [],
@@ -2552,7 +2560,7 @@ function multiSchedule(D, keys) {
 }
 
 function generateMultiSportPlan(p) {
-  const keys = p.sports.slice(0, 2);
+  const keys = p.sports.slice(0, 3);
   const perSport = {}; keys.forEach(k => perSport[k] = scoredForSport(p, k));
   const cross = scoredForSport(p, 'crossover');
   if (cross.length) cross.forEach(x => { x.s += 1.2; });        // crossover is the unifier
@@ -2692,7 +2700,7 @@ function adaptWeek(p, prevPlan, stats) {
 
   // Re-derive the full eligible+scored pool the same way generatePlan does,
   // then BIAS it by what was missed/completed so next week truly adapts.
-  const keys = (p.multiSport && p.sports && p.sports.length >= 2) ? p.sports.slice(0, 2) : [p.sport];
+  const keys = (p.multiSport && p.sports && p.sports.length >= 2) ? p.sports.slice(0, 3) : [p.sport];
   const cross = (keys.length >= 2) ? scoredForSport(p, 'crossover') : [];
 
   const biasScored = (scored) => scored.map(x => {

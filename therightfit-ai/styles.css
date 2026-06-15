@@ -3035,3 +3035,18 @@ textarea:focus-visible,.chip:focus-visible,[tabindex]:focus-visible{
 /* Real photos → black/white duotone so the single accent owns the color */
 .reel__img{ filter:grayscale(1) contrast(1.04); }
 .reel:hover .reel__img{ filter:grayscale(.35) contrast(1.04); }
+
+/* =========================================================
+   Multi-sport — per-sport season & timing capture (onboarding)
+   ========================================================= */
+.sportmeta{ display:flex; flex-direction:column; gap:14px; }
+.sportmeta__row{ border:1px solid var(--line); border-radius:16px; padding:14px 16px; background:var(--paper); }
+.sportmeta__name{ font-family:var(--font-display); font-weight:800; letter-spacing:-.01em; font-size:16px;
+  display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.sportmeta__tag{ font-family:var(--font-body); font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+  color:#fff; background:var(--accent-ink); border-radius:999px; padding:2px 8px; }
+.sportmeta__seasons{ display:flex; flex-wrap:wrap; gap:8px; }
+.sportmeta__seasons .chip{ padding:7px 13px; font-size:13px; }
+.sportmeta__weeks{ display:flex; align-items:center; gap:10px; margin-top:12px; font-size:14px; color:var(--mute); }
+.sportmeta__weeks input{ width:90px; min-height:42px; }
+.sportmeta__weeks.is-hidden{ display:none; }

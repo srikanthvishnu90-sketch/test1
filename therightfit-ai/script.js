@@ -19,7 +19,7 @@ function freshData() {
     name: '', age: '', height: '', weight: '',
     goals: [],
     // Path A — chosen sport (drill-library plan)
-    sportsChosen: [], mainSport: '', gender: '', position: '', dominantFoot: '', dominantHand: '', throwingHand: '', battingSide: '', secondaryPosition: '', skillLevel: '', experienceYears: '',
+    sportsChosen: [], mainSport: '', sportMeta: {}, gender: '', position: '', dominantFoot: '', dominantHand: '', throwingHand: '', battingSide: '', secondaryPosition: '', skillLevel: '', experienceYears: '',
     mainGoal: '', weaknesses: [], strengths: [], struggleText: '', goalTimeline: '', tryout: '',
     // secondary-sport profile (only used when two sports are selected)
     position2: '', skillLevel2: '', experienceYears2: '', mainGoal2: '', weaknesses2: [], strengths2: [],
@@ -123,6 +123,30 @@ function chipGroup(key, opts, { multi = false, max = 0 } = {}) {
     return `<button type="button" class="chip${sel ? ' selected' : ''}" aria-pressed="${sel}" data-value="${esc(val)}">${esc(label)}</button>`;
   }).join('');
   return `<div class="chip-select" data-chips="${key}" data-multi="${multi}"${maxAttr}>${body}</div>`;
+}
+// Per-sport season + weeks-to-competition capture (multi-sport only). Drives the
+// allocation engine's modes: in-season ≤3 weeks → sharpen; in-season → maintenance;
+// off/pre-season → develop. Stored in data().sportMeta keyed by sport KEY.
+const SEASON_OPTS = [['in_season', 'In-season'], ['pre_season', 'Pre-season'], ['off_season', 'Off-season'], ['maintenance', 'Maintenance']];
+function sportMetaBlock() {
+  const chosen = data().sportsChosen || [];
+  if (chosen.length < 2) return '';
+  data().sportMeta = data().sportMeta || {};
+  const rows = chosen.map(label => {
+    const sk = (typeof mapSport === 'function') ? mapSport(label) : label;
+    if (!sk) return '';
+    const meta = data().sportMeta[sk] || { season: 'off_season', weeks: '' };
+    data().sportMeta[sk] = meta;
+    const seasonChips = SEASON_OPTS.map(([v, l]) =>
+      `<button type="button" class="chip${meta.season === v ? ' selected' : ''}" data-season="${sk}" data-v="${v}" aria-pressed="${meta.season === v}">${esc(l)}</button>`).join('');
+    const weeks = `<label class="sportmeta__weeks${meta.season === 'in_season' ? '' : ' is-hidden'}" data-weeks-for="${sk}">`
+      + `<span>Weeks to competition</span>`
+      + `<input type="number" min="0" max="52" inputmode="numeric" data-weeksinput="${sk}" value="${meta.weeks != null ? esc(String(meta.weeks)) : ''}" placeholder="e.g. 6" /></label>`;
+    const tag = data().mainSport === label ? '<span class="sportmeta__tag">Primary</span>' : '';
+    return `<div class="sportmeta__row"><div class="sportmeta__name">${esc(label)}${tag}</div>`
+      + `<div class="seg sportmeta__seasons">${seasonChips}</div>${weeks}</div>`;
+  }).join('');
+  return field('Season &amp; timing per sport', `<div class="sportmeta">${rows}</div>`, { opt: '(drives sharpen vs maintenance)' });
 }
 function sliderBlock(rows) {
   return `<div class="sliders">` + rows.map(r => {
@@ -500,11 +524,11 @@ function validAge() {
 const FLOWS = {
   sport: [
     { accent: '#3b82f6', eyebrow: 'Your Sport', title: 'Which sport are we training for?', lead: 'Pick one — or up to two. We pull drills from the library for your sport.',
-      body: () => field('Choose your sport(s)', chipGroup('sportsChosen', SPORTS, { multi: true, max: 2 }), { opt: '(1–2)', errKey: 'sportsChosen' })
+      body: () => field('Choose your sport(s)', chipGroup('sportsChosen', SPORTS, { multi: true, max: 3 }), { opt: '(1–3)', errKey: 'sportsChosen' })
         + `<p class="field-note">Full drill libraries today: <b>Basketball, Soccer, Football, Baseball/Softball, Golf, Volleyball, Tennis, Lacrosse</b>. Others use a general plan while we expand.</p>`,
       validate: () => {
         const n = data().sportsChosen.length;
-        if (n < 1 || n > 2) { setError('sportsChosen', 'Select one or two sports.'); return false; }
+        if (n < 1 || n > 3) { setError('sportsChosen', 'Select one to three sports.'); return false; }
         // default the main sport so position/goal options + the plan engine resolve correctly
         if (n >= 2) { if (!data().mainSport || !data().sportsChosen.includes(data().mainSport)) data().mainSport = data().sportsChosen[0]; }
         else { data().mainSport = data().sportsChosen[0] || ''; }
@@ -514,8 +538,9 @@ const FLOWS = {
     { accent: '#22d3ee', eyebrow: 'About the Athlete', title: 'Tell us about your athlete.', lead: 'Metrics, position, and level let us match the right drills.',
       body: () => field('Athlete name', txtField('name', 'e.g. Sam'), { opt: '(optional)' })
         + (data().sportsChosen.length >= 2
-          ? field('Which is your main sport?', chipGroup('mainSport', data().sportsChosen.map(s => ({ v: s, l: s }))), { opt: '(plan is built around it; the other is your secondary)', errKey: 'mainSport' })
-            + `<p class="field-note">You picked two sports — we'll build <b>one unified plan</b> with crossover drills that benefit both, plus skill work for each.</p>`
+          ? field('Which is your main sport?', chipGroup('mainSport', data().sportsChosen.map(s => ({ v: s, l: s }))), { opt: '(your #1 priority — the plan is anchored to it)', errKey: 'mainSport' })
+            + `<p class="field-note">You picked multiple sports — we build <b>one unified plan</b>: a shared athletic base (built once, it transfers) plus skill work allocated to each sport by priority and season.</p>`
+            + sportMetaBlock()
           : '')
         + `<div class="field-grid">
           ${field('Age', numField('age', 'e.g. 12'), { errKey: 'age' })}
@@ -721,6 +746,26 @@ function bindStep() {
       });
     });
   });
+  // Per-sport season chips + weeks-to-competition (multi-sport allocation capture)
+  host.querySelectorAll('[data-season]').forEach(btn => btn.addEventListener('click', () => {
+    const sk = btn.dataset.season, v = btn.dataset.v;
+    data().sportMeta = data().sportMeta || {};
+    data().sportMeta[sk] = data().sportMeta[sk] || { season: 'off_season', weeks: '' };
+    data().sportMeta[sk].season = v;
+    host.querySelectorAll('[data-season="' + sk + '"]').forEach(b => {
+      const on = b.dataset.v === v; b.classList.toggle('selected', on); b.setAttribute('aria-pressed', on);
+    });
+    const wk = host.querySelector('[data-weeks-for="' + sk + '"]');
+    if (wk) wk.classList.toggle('is-hidden', v !== 'in_season');
+    save();
+  }));
+  host.querySelectorAll('[data-weeksinput]').forEach(inp => inp.addEventListener('input', () => {
+    const sk = inp.dataset.weeksinput;
+    data().sportMeta = data().sportMeta || {};
+    data().sportMeta[sk] = data().sportMeta[sk] || { season: 'off_season', weeks: '' };
+    data().sportMeta[sk].weeks = inp.value;
+    save();
+  }));
   host.querySelectorAll('[data-persona]').forEach(card => {
     card.addEventListener('click', () => {
       state.chosenPersona = card.dataset.persona;
