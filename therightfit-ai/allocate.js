@@ -42,6 +42,9 @@
     gymnastics:        { dominant: 'relative strength', energy: 'alactic',   primaryAxis: 'strength_power', baseQualities: ['relative_strength', 'power', 'mobility', 'core_stability'] },
     rock_climbing:     { dominant: 'strength/endurance', energy: 'mixed',    primaryAxis: 'neutral',        baseQualities: ['relative_strength', 'grip_endurance', 'mobility', 'core_stability'] },
     general_athletic:  { dominant: 'mixed',             energy: 'mixed',     primaryAxis: 'neutral',        baseQualities: ['strength', 'conditioning', 'speed', 'mobility'] },
+    // ---- Sporve sport-key aliases (so the engine resolves our keys directly) ----
+    baseball:          { dominant: 'rotational power',  energy: 'alactic',   primaryAxis: 'strength_power', baseQualities: ['rotational_power', 'arm_care', 'sprint', 'mobility'] },
+    track:             { dominant: 'speed/endurance',   energy: 'mixed',     primaryAxis: 'neutral',        baseQualities: ['max_velocity', 'aerobic_capacity', 'plyometrics', 'mobility'] },
   };
 
   /* ---------- §3  ALLOCATION ENGINE ---------- */
