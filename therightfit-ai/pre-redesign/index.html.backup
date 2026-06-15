@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sporve — Training that grows with them.</title>
+  <meta name="description" content="AI training plans for young athletes (ages 8–18), built around their metrics — then tracked to keep them accountable." />
+  <meta name="theme-color" content="#13233F" />
+  <link rel="canonical" href="https://sporve.com/" />
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/icon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Sporve — AI training plans for young athletes" />
+  <meta property="og:description" content="Custom, age-safe training plans for kids 8–18, tracked week by week." />
+  <meta property="og:image" content="/assets/og.svg" />
+  <meta property="og:url" content="https://sporve.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sporve — AI training plans for young athletes" />
+  <meta name="twitter:description" content="Custom, age-safe training plans for kids 8–18, tracked week by week." />
+  <meta name="twitter:image" content="/assets/og.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-screen="landing">
+  <a class="skip-link" href="#how">Skip to content</a>
+
+  <!-- ===== Landing / Home — Sporve v2 (monochrome) + 3D morph-ball hero ===== -->
+  <section class="landing" id="landing">
+
+    <!-- Nav -->
+    <nav class="nav">
+      <div class="wrap nav__in">
+        <a href="#landing-top" class="wordmark" id="landingBrand">Sporve</a>
+        <div class="nav__links">
+          <a data-scroll="#how">How it works</a>
+          <a data-scroll="#tracker">Plan &amp; Tracker</a>
+          <a data-scroll="#safety">Safety</a>
+          <a data-scroll="#pricing">Pricing</a>
+        </div>
+        <div class="nav__auth" id="navAuth">
+          <button type="button" class="nav__login js-login">Log in</button>
+          <button type="button" class="btn btn--solid nav__cta js-start">Create a plan</button>
+        </div>
+      </div>
+    </nav>
+
+    <span id="landing-top"></span>
+
+    <!-- Hero (light, asymmetric — colored morph ball anchored right) -->
+    <!-- headline options:
+         A) "A real training plan. Built for your sport, your age, your goals." (chosen — speaks to both)
+         B) "Training that actually fits your athlete."
+         C) "The plan your kid will actually follow." -->
+    <header class="hero">
+      <span class="hero__glow" aria-hidden="true"></span>
+      <div class="wrap hero__grid">
+        <div class="hero__copy reveal">
+          <h1 class="hero__title">AI training plans built for young athletes.</h1>
+          <p class="lede">Sporve AI creates custom training plans for kids based on their goals, schedule, experience, and progress. Once the plan is ready, the app helps them track workouts, stay accountable, and build healthy training habits over time.</p>
+          <div class="hero__btns">
+            <button type="button" class="btn btn--solid" id="getStartedBtn">Create my training plan <span class="arw">→</span></button>
+            <a class="btn btn--ghost" data-scroll="#how">See how it works</a>
+          </div>
+        </div>
+        <div class="hero__viz reveal">
+          <div class="stage-wrap">
+            <canvas id="heroStage" aria-hidden="true"></canvas>
+            <div class="hero__pill hero__pill--tl" aria-hidden="true">
+              <span class="hero__pill-ic" data-icon="activity"></span>
+              <span class="hero__pill-tx"><small>This week</small><b>3 of 4 done</b></span>
+            </div>
+            <div class="hero__pill hero__pill--br" aria-hidden="true">
+              <span class="hero__pill-ic" data-icon="zap"></span>
+              <span class="hero__pill-tx"><small>Current plan</small><b>Soccer · Age 12</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 5.3 Stat strip (odometers) + sport marquee -->
+    <section class="statstrip" data-cta-start>
+      <div class="wrap statstrip__row">
+        <div class="stat-roll"><span class="odometer" data-odometer="114"></span><span class="stat-roll__label">drills, benchmark-backed</span></div>
+        <div class="stat-roll"><span class="odometer" data-odometer="8–18"></span><span class="stat-roll__label">ages supported</span></div>
+        <div class="stat-roll"><span class="odometer" data-odometer="14"></span><span class="stat-roll__label">sports covered</span></div>
+        <div class="stat-roll"><span class="odometer" data-odometer="2 min"></span><span class="stat-roll__label">to set up a plan</span></div>
+      </div>
+      <div class="marquee" data-speed="34" aria-hidden="true">
+        <div class="marquee__track">
+          <span class="sport-pill"><i style="background:var(--sp-basketball)"></i>Basketball</span>
+          <span class="sport-pill"><i style="background:var(--sp-soccer)"></i>Soccer</span>
+          <span class="sport-pill"><i style="background:var(--sp-tennis)"></i>Tennis</span>
+          <span class="sport-pill"><i style="background:var(--sp-baseball)"></i>Baseball</span>
+          <span class="sport-pill"><i style="background:var(--sp-golf)"></i>Golf</span>
+          <span class="sport-pill"><i style="background:var(--sp-track)"></i>Track &amp; Field</span>
+          <span class="sport-pill"><i style="background:var(--sp-swimming)"></i>Swimming</span>
+          <span class="sport-pill"><i style="background:var(--sp-volleyball)"></i>Volleyball</span>
+          <span class="sport-pill"><i style="background:var(--sp-football)"></i>Football</span>
+          <span class="sport-pill"><i style="background:var(--sp-baseball)"></i>Softball</span>
+          <span class="sport-pill"><i style="background:var(--sp-track)"></i>Lacrosse</span>
+          <span class="sport-pill"><i style="background:var(--sp-swimming)"></i>Cross&nbsp;Country</span>
+          <span class="sport-pill"><i style="background:var(--sp-soccer)"></i>Field&nbsp;Hockey</span>
+          <span class="sport-pill"><i style="background:var(--sp-basketball)"></i>Wrestling</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Credibility strip -->
+    <section class="cred" aria-label="Why parents trust Sporve">
+      <div class="wrap cred__row">
+        <div class="cred__item">
+          <div class="cred__stars" aria-label="5 out of 5 from early families">★★★★★</div>
+          <span>Loved by parents &amp; coaches</span>
+        </div>
+        <div class="cred__item"><span class="icon" data-icon="shield-check"></span><span>Age-safe by design</span></div>
+        <div class="cred__item"><span class="icon" data-icon="file-text"></span><span>Built on youth-development guidelines</span></div>
+        <div class="cred__item"><span class="icon" data-icon="user"></span><span>Made for ages 8–18</span></div>
+      </div>
+    </section>
+
+    <!-- 5.5 Three benefit panels — real info, no placeholders -->
+    <section class="seqsec" data-sequence data-cta-start>
+      <span class="seq-rail" aria-hidden="true"><span class="seq-rail__fill"></span></span>
+      <div class="wrap seqsec__stage">
+
+        <article class="seq-state seq-state--a">
+          <div class="seq-state__media">
+            <div class="infocard">
+              <div class="infocard__hd">Sample week · Soccer · Age 12</div>
+              <div class="infocard__row"><span>Ball-mastery footwork</span><b>12 min</b></div>
+              <div class="infocard__row"><span>Acceleration &amp; first-step</span><b>10 min</b></div>
+              <div class="infocard__row"><span>Core &amp; balance circuit</span><b>8 min</b></div>
+              <div class="infocard__row"><span>Mobility + recovery</span><b>8 min</b></div>
+              <div class="infocard__ft">Built from age, sport, level &amp; goals</div>
+            </div>
+          </div>
+          <div class="seq-state__copy">
+            <span class="eyebrow">01 — Personal</span>
+            <h2>Built for one athlete.</h2>
+            <p>Every plan is generated from their age, sport, level, and goals — never a template scaled down.</p>
+          </div>
+        </article>
+
+        <article class="seq-state seq-state--b">
+          <div class="seq-state__media">
+            <div class="infocard">
+              <div class="infocard__hd">Age-based safety limits</div>
+              <div class="infocard__row"><span>Ages 8–10</span><b>≤30 min · 2 rest days</b></div>
+              <div class="infocard__row"><span>Ages 11–13</span><b>≤45 min · 2 rest days</b></div>
+              <div class="infocard__row"><span>Ages 14–15</span><b>≤60 min · 1 rest day</b></div>
+              <div class="infocard__row"><span>Ages 16–18</span><b>≤75 min · 1 rest day</b></div>
+              <div class="infocard__ft">Recovery is built in and can't be skipped</div>
+            </div>
+          </div>
+          <div class="seq-state__copy">
+            <span class="eyebrow">02 — Safe</span>
+            <h2>Age-safe by design.</h2>
+            <p>Hard age caps, mandatory rest days, and parent visibility — built into every week.</p>
+          </div>
+        </article>
+
+        <article class="seq-state seq-state--c">
+          <div class="seq-state__media">
+            <div class="infocard">
+              <div class="infocard__hd">Progress snapshot</div>
+              <div class="infocard__big">Level 4</div>
+              <div class="infocard__bar"><i style="width:64%"></i></div>
+              <div class="infocard__row"><span>320 / 500 XP</span><b>3-week streak</b></div>
+              <div class="infocard__row"><span>Sprint benchmark</span><b>+8% this month</b></div>
+              <div class="infocard__ft">Downloadable parent report each week</div>
+            </div>
+          </div>
+          <div class="seq-state__copy">
+            <span class="eyebrow">03 — Progress</span>
+            <h2>Progress you can feel.</h2>
+            <p>Streaks, XP, benchmarks, and a downloadable report that shows the season adding up.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Phase 1: product showcase — real app screenshots in browser frames (alternating) -->
+    <section class="showcase">
+      <div class="wrap">
+        <div class="showcase__head reveal">
+          <span class="eyebrow">See it in action</span>
+          <h2>The whole journey, in one place.</h2>
+        </div>
+
+        <div class="showrow">
+          <div class="showrow__copy reveal">
+            <span class="showrow__step">01</span>
+            <h3>Answer a few questions.</h3>
+            <p>Age, sport, level, schedule, and goals — two minutes, no guesswork. Optional fitness tests sharpen the plan.</p>
+          </div>
+          <div class="showrow__shot reveal">
+            <figure class="frame" data-parallax="0.06">
+              <div class="frame__bar"><i></i><i></i><i></i></div>
+              <div class="frame__view"><img src="/assets/product/01-wizard.png" alt="Sporve assessment wizard" loading="lazy" decoding="async" onerror="this.style.display='none'"><span class="frame__ph">Save <code>/assets/product/01-wizard.png</code></span></div>
+            </figure>
+          </div>
+        </div>
+
+        <div class="showrow showrow--rev">
+          <div class="showrow__copy reveal">
+            <span class="showrow__step">02</span>
+            <h3>Get a real, age-safe plan.</h3>
+            <p>Week-by-week drills matched to their profile — each with how-to and the reason it works, plus a personalized AI coach's note.</p>
+          </div>
+          <div class="showrow__shot reveal">
+            <figure class="frame" data-parallax="0.06">
+              <div class="frame__bar"><i></i><i></i><i></i></div>
+              <div class="frame__view"><img src="/assets/product/02-plan.png" alt="Sporve generated training plan" loading="lazy" decoding="async" onerror="this.style.display='none'"><span class="frame__ph">Save <code>/assets/product/02-plan.png</code></span></div>
+            </figure>
+          </div>
+        </div>
+
+        <div class="showrow">
+          <div class="showrow__copy reveal">
+            <span class="showrow__step">03</span>
+            <h3>Track it and level up.</h3>
+            <p>Check off sessions, build streaks and XP, re-test, and watch the plan get harder as they earn it.</p>
+          </div>
+          <div class="showrow__shot reveal">
+            <figure class="frame" data-parallax="0.06">
+              <div class="frame__bar"><i></i><i></i><i></i></div>
+              <div class="frame__view"><img src="/assets/product/03-dashboard.png" alt="Sporve progress dashboard" loading="lazy" decoding="async" onerror="this.style.display='none'"><span class="frame__ph">Save <code>/assets/product/03-dashboard.png</code></span></div>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.6 Oversized drill-engine number moment -->
+    <section class="bignum" data-cta-start>
+      <div class="wrap bignum__in">
+        <span class="bignum__fig" data-reveal="chars">114</span>
+        <div class="bignum__copy">
+          <h2 data-reveal="up">drills, each tied to a real benchmark.</h2>
+          <p data-reveal="up">Pre-filtered to what's safe for their age and sport, then composed into a week they can actually finish.</p>
+          <div class="chips" data-reveal="up">
+            <span class="chip" style="background:var(--sp-basketball);color:#fff">Basketball</span>
+            <span class="chip" style="background:var(--sp-soccer);color:#fff">Soccer</span>
+            <span class="chip" style="background:var(--sp-track);color:#fff">Track</span>
+            <span class="chip" style="background:var(--sp-swimming);color:#fff">Swimming</span>
+            <span class="chip" style="background:var(--sp-baseball);color:#fff">Baseball</span>
+          </div>
+          <button type="button" class="linkbtn js-start" data-reveal="up">Explore the library →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dark bento feature grid (uneven tiles — the anti-template moment) -->
+    <section class="bento" id="tracker">
+      <div class="wrap">
+        <div class="bento__head reveal">
+          <span class="label">What you get</span>
+          <h2>One athlete. One plan. Everything in one place.</h2>
+        </div>
+        <div class="bento__grid">
+          <div class="tile tile--xl tile--glow reveal">
+            <div>
+              <h3>Every plan is generated for one athlete</h3>
+              <p>Not a template — built from their sport, age, schedule, and goals, then adapted each week.</p>
+            </div>
+            <div class="planmock" aria-hidden="true">
+              <i class="on"></i><i></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i></i>
+            </div>
+            <div>
+              <div class="drow">Form shooting progression · 12 min</div>
+              <div class="drow">Two-ball pound dribble · 6 min</div>
+              <div class="drow">Mobility flow + recovery · 8 min</div>
+            </div>
+          </div>
+
+          <div class="tile tile--wide tile--glow reveal">
+            <div>
+              <h3>Real drills, stat-backed, age-safe</h3>
+              <p>Pre-filtered to what's safe and right for them — never adult workouts scaled down.</p>
+            </div>
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap">
+              <span class="bigstat">114</span>
+              <div class="chips">
+                <span class="chip" data-c style="background:#EA580C">Basketball</span>
+                <span class="chip" data-c style="background:#16A34A">Soccer</span>
+                <span class="chip" data-c style="background:#84CC16">Tennis</span>
+                <span class="chip" data-c style="background:#DC2626">Baseball</span>
+                <span class="chip" data-c style="background:#010057;color:#fff">Volleyball</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile tile--tall reveal">
+            <div><h3>Progress that sticks</h3><p>Streaks, XP and levels that reward showing up.</p></div>
+            <div style="display:flex;align-items:center;gap:16px">
+              <div class="ring" style="--p:72"><i>L4</i></div>
+              <div style="flex:1"><div class="xpbar"><i></i></div><p style="margin-top:8px">320 / 500 XP · 3-week streak</p></div>
+            </div>
+          </div>
+
+          <div class="tile reveal">
+            <h3>AI coach</h3>
+            <div class="bubble">“How do I get a quicker first step?”</div>
+            <p>Kid-friendly answers, any time.</p>
+          </div>
+
+          <div class="tile reveal">
+            <h3>PDF report</h3>
+            <div class="doc" aria-hidden="true"></div>
+            <p>Take the full plan with you.</p>
+          </div>
+
+          <div class="tile reveal">
+            <h3>Sport coverage</h3>
+            <div class="dots" aria-hidden="true">
+              <span style="background:#EA580C"></span><span style="background:#16A34A"></span><span style="background:#84CC16"></span><span style="background:#DC2626"></span><span style="background:#7C3AED"></span><span style="background:#0891B2"></span><span style="background:#F59E0B"></span>
+            </div>
+            <p>Nine sports and growing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works — asymmetric vertical rhythm (no equal cards) -->
+    <section class="how" id="how">
+      <div class="wrap">
+        <div class="head reveal">
+          <span class="label">Step by step</span>
+          <h2>Two minutes of setup. A season of structure.</h2>
+        </div>
+        <div class="steps2">
+          <div class="step2 reveal"><span class="step2__n">01</span><div><h3>Tell us about them</h3><p>Their sport, age, experience, and the days they can actually train.</p></div></div>
+          <div class="step2 reveal"><span class="step2__n">02</span><div><h3>Get the plan</h3><p>A weekly schedule built for their stage. Never too long, never too intense — generated from real drills for their exact profile.</p></div></div>
+          <div class="step2 reveal"><span class="step2__n">03</span><div><h3>Train and check off</h3><p>Each session is clear and short. Streaks make showing up the easy part.</p></div></div>
+          <div class="step2 reveal"><span class="step2__n">04</span><div><h3>Watch it adapt</h3><p>As they improve or life gets busy, the plan adjusts to keep fitting.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="families" id="families">
+      <div class="wrap">
+        <div class="head reveal"><span class="label">From families</span><h2>Parents like the structure. Kids like the streaks.</h2></div>
+        <div class="quotes">
+          <div class="quote reveal">
+            <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <q>Two minutes of setup and she had a real plan — age-appropriate, not some adult workout. She actually looks forward to her sessions now.</q>
+            <div class="quote__by"><span class="avatar" style="--a:var(--sp-soccer)" aria-hidden="true">SM</span><div class="attr"><b>Sarah M.</b><span>Parent of a 12-year-old · Soccer</span></div></div>
+          </div>
+          <div class="quote reveal">
+            <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <q>Checking off drills and watching my streak grow keeps me going. I leveled up to intermediate after my re-test.</q>
+            <div class="quote__by"><span class="avatar" style="--a:var(--sp-basketball)" aria-hidden="true">JT</span><div class="attr"><b>Jayden</b><span>Age 13 · Basketball</span></div></div>
+          </div>
+          <div class="quote reveal">
+            <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <q>Finally, training that's organized and low-pressure — and the parent summary tells us exactly what he worked on each week.</q>
+            <div class="quote__by"><span class="avatar" style="--a:var(--sp-track)" aria-hidden="true">DL</span><div class="attr"><b>David &amp; Lena</b><span>Parents of a 10-year-old</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Safety -->
+    <section class="safety" id="safety">
+      <div class="wrap">
+        <div class="head reveal"><span class="label">Safety</span><h2>Designed for growing bodies.</h2></div>
+        <div class="safety__grid">
+          <div class="scol reveal"><h3>Built to their age</h3><p>Volume and intensity are capped by age group, following youth development guidelines. No adult workouts scaled down.</p></div>
+          <div class="scol reveal"><h3>Rest is part of the plan</h3><p>Recovery days are built in and can't be skipped. Streaks reward consistency, not overtraining.</p></div>
+          <div class="scol reveal"><h3>Parents see everything</h3><p>A weekly summary shows what they trained, how they're progressing, and what's changing next.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.7 High-speed athlete reel (fast-cut photo edit) -->
+    <section class="reel" data-reel data-cta-start aria-label="Young athletes in action">
+      <div class="reel__fallback" aria-hidden="true">Add 5 photos to <code>/assets/athletes/</code> — they play here automatically.</div>
+      <img class="reel__img" src="/assets/athletes/02-basketball.jpg" alt="" loading="lazy" decoding="async">
+      <img class="reel__img" src="/assets/athletes/04-swimming.jpg" alt="" loading="lazy" decoding="async">
+      <img class="reel__img" src="/assets/athletes/01-basketball.jpg" alt="" loading="lazy" decoding="async">
+      <img class="reel__img" src="/assets/athletes/05-golf.jpg" alt="" loading="lazy" decoding="async">
+      <img class="reel__img" src="/assets/athletes/03-basketball.jpg" alt="" loading="lazy" decoding="async">
+      <div class="reel__scrim" aria-hidden="true"></div>
+      <div class="reel__copy">
+        <span class="eyebrow eyebrow--light">Built for every young athlete</span>
+        <h2 class="reel__title">Their sport. Their level. Their plan.</h2>
+        <p class="reel__sub">From the pool to the green to the hardwood — Sporve builds it around them.</p>
+        <button type="button" class="btn btn--solid js-start">Create a plan <span class="arw">→</span></button>
+      </div>
+    </section>
+
+    <!-- Pricing — free 4-week trial, then $14.99 membership (featured), $29 report footnote -->
+    <section class="pricing" id="pricing">
+      <div class="wrap">
+        <div class="head reveal"><span class="label">Pricing</span><h2>Start free. Upgrade only if it sticks.</h2></div>
+        <div class="price__grid">
+          <div class="plan reveal">
+            <span class="plan__name">Try free</span>
+            <div class="plan__price">$0 <span>/ 4 weeks</span></div>
+            <ul class="plan__list">
+              <li><span class="check"></span>A limited training plan</li>
+              <li><span class="check"></span>4 weeks of guided development</li>
+              <li><span class="check"></span>Weekly checklists</li>
+              <li><span class="check"></span>Basic progress tracking</li>
+            </ul>
+            <button type="button" class="btn btn--ghost js-start">Start free</button>
+          </div>
+          <div class="plan plan--pro reveal">
+            <span class="plan__flag">Most popular</span>
+            <span class="plan__name">Membership</span>
+            <div class="plan__price" id="landingMemberPrice">$14.99 <span>/ per month</span></div>
+            <div class="bill" id="landingBill">
+              <button type="button" data-bill="monthly" class="on">Monthly</button>
+              <button type="button" data-bill="annual">Annual <span class="save">· save 30%</span></button>
+            </div>
+            <ul class="plan__list">
+              <li><span class="check"></span>Plans that adapt every week</li>
+              <li><span class="check"></span>Monthly reassessments</li>
+              <li><span class="check"></span>AI coach chat</li>
+              <li><span class="check"></span>Progress tracking and parent reports</li>
+            </ul>
+            <button type="button" class="btn btn--solid js-start">Create a plan <span class="arw">→</span></button>
+          </div>
+        </div>
+        <p class="price__note">Prefer a one-time option? Get the full athletic report for <strong>$29</strong> after your assessment.</p>
+      </div>
+    </section>
+
+    <!-- FAQ — accessible native accordion -->
+    <section class="faq" id="faq">
+      <div class="wrap">
+        <div class="head reveal"><span class="label">Questions</span><h2>Everything parents ask first.</h2></div>
+        <div class="faq__list">
+          <details class="faq__item reveal"><summary>Is it safe for my child?<span class="faq__icn" aria-hidden="true"></span></summary><p>Yes — safety is the core of the engine. Volume and intensity are capped by age band, recovery days are built in and can't be skipped, and the plan never programs adult workouts scaled down. It's general guidance, not medical advice — check with a physician before starting.</p></details>
+          <details class="faq__item reveal"><summary>What ages and sports does it cover?<span class="faq__icn" aria-hidden="true"></span></summary><p>Built for ages 8–18, across basketball, soccer, tennis, baseball/softball, golf, volleyball, football, swimming, track, lacrosse and more — with sport- and position-specific drills.</p></details>
+          <details class="faq__item reveal"><summary>How does the AI actually personalize it?<span class="faq__icn" aria-hidden="true"></span></summary><p>Your answers (and optional fitness tests) are turned into real capability scores. Drills are selected from a benchmark-backed library to target the athlete's specific weaknesses, then a coach's note explains the week. Re-test to earn a harder level.</p></details>
+          <details class="faq__item reveal"><summary>Do we need special equipment?<span class="faq__icn" aria-hidden="true"></span></summary><p>No. The plan adapts to the space and gear you have — most drills need little more than a ball and an open area. You tell us what's available during setup.</p></details>
+          <details class="faq__item reveal"><summary>What does it cost?<span class="faq__icn" aria-hidden="true"></span></summary><p>Start with a free 4-week plan. Membership is $14.99/mo (or $125/yr) for plans that adapt weekly, the AI coach, and parent reports — or grab a one-time full report for $29. Cancel anytime.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA — accent gradient band -->
+    <section class="final">
+      <div class="wrap reveal">
+        <div class="final__band">
+          <h2>Ready when they are.</h2>
+          <p>Two minutes of setup. A full season of structure.</p>
+          <button type="button" class="btn btn--solid js-start">Build my plan <span class="arw">→</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="foot">
+      <div class="wrap">
+        <div class="foot__top">
+          <span class="wordmark">Sporve</span>
+          <div class="foot__links">
+            <a data-scroll="#how">How it works</a>
+            <a data-scroll="#tracker">Plan &amp; Tracker</a>
+            <a data-scroll="#safety">Safety</a>
+            <a data-scroll="#pricing">Pricing</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+          </div>
+        </div>
+        <p class="foot__legal">Sporve provides general youth fitness guidance and is not medical advice. Talk to a physician before starting any new training program, especially with a history of injury or illness. For ages 8–18, a parent or guardian must set up and supervise the account.</p>
+        <div class="foot__base"><span>© 2026 Sporve</span><span>Built for ages 8–18</span></div>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===== Choose Path screen ===== -->
+  <section class="choose" id="choose" hidden>
+    <header class="landing__bar">
+      <a href="#" class="brand" id="chooseBrand">
+        Sporve
+      </a>
+    </header>
+    <main class="choose__inner">
+      <span class="choose__eyebrow">Step 1 — Choose your path</span>
+      <h1 class="choose__title">How would you like to start?</h1>
+      <p class="choose__lead">Two ways in. Pick the one that fits where your athlete is right now.</p>
+
+      <div class="path-grid">
+        <button type="button" class="path-card" data-path="sport" data-cursor="Start">
+          <span class="path-card__icon" data-icon="target"></span>
+          <h3>Build a Training Plan</h3>
+          <p class="path-card__sub">I already know the sport</p>
+          <p class="path-card__desc">Pick one or two sports, complete a quick assessment, and get a personalized training plan — workouts, drills, conditioning, recovery, and benchmarks.</p>
+          <span class="path-card__go">Choose this path →</span>
+        </button>
+
+        <button type="button" class="path-card" data-path="persona" data-cursor="Start">
+          <span class="path-card__icon" data-icon="compass"></span>
+          <h3>Discover Your Persona</h3>
+          <p class="path-card__sub">Help me find the right direction</p>
+          <p class="path-card__desc">Share metrics, traits, goals, and interests. The AI generates three athletic personas — choose the one that fits, and get a matching training path.</p>
+          <span class="path-card__go">Choose this path →</span>
+        </button>
+      </div>
+
+      <label class="consent" id="consentGate">
+        <input type="checkbox" id="consentCheck" />
+        <span>I'm a parent or guardian (or have their permission), I'll supervise this athlete's training, and I agree to the
+          <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and
+          <a href="terms.html" target="_blank" rel="noopener">Terms</a>. This plan is general guidance, not medical advice.</span>
+      </label>
+      <p class="consent__err" id="consentErr" hidden>Please confirm the box above to continue.</p>
+    </main>
+  </section>
+
+  <!-- ===== Top bar: logo + progress indicator ===== -->
+  <header class="topbar" hidden>
+    <div class="topbar__inner">
+      <a href="#" class="brand" id="topbarBrand">
+        Sporve
+      </a>
+      <div class="progress">
+        <div class="progress__meta">
+          <span id="progressLabel">Step 1</span>
+          <span id="progressPct">0% Complete</span>
+        </div>
+        <div class="progress__track"><div class="progress__fill" id="progressFill"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Wizard (dynamic, one step at a time) ===== -->
+  <main class="wizard" hidden>
+    <div class="wizard__card">
+      <section class="step" id="stepHost"></section>
+    </div>
+
+    <!-- Footer nav -->
+    <div class="wizard__nav">
+      <button type="button" class="btn btn--ghost" id="prevBtn">← Previous</button>
+      <button type="button" class="btn btn--solid" id="nextBtn">Continue →</button>
+    </div>
+  </main>
+
+  <!-- ===== Results / Pricing ===== -->
+  <section class="results" id="results" hidden>
+    <header class="landing__bar">
+      <a href="#" class="brand" id="resultsBrand">
+        Sporve
+      </a>
+    </header>
+    <main class="results__inner">
+      <span class="choose__eyebrow">Your blueprint is ready</span>
+      <h1 class="choose__title">Choose how to keep going.</h1>
+      <p class="choose__lead">Take the full report with you, unlock the coaching platform, or start free and build the habit first.</p>
+
+      <div id="planSummary"></div>
+
+      <div class="tier-grid">
+        <!-- Download report -->
+        <div class="tier-card">
+          <h3 class="tier-card__name">Full report</h3>
+          <p class="tier-card__price">$29 <span>one-time</span></p>
+          <ul class="tier-list">
+            <li>Athlete profile summary</li>
+            <li>Strengths &amp; weaknesses analysis</li>
+            <li>Sport fit / chosen persona</li>
+            <li>Personalized training plan</li>
+            <li>Weekly schedule &amp; monthly milestones</li>
+            <li>Progress benchmarks &amp; goal roadmap</li>
+            <li>Parent recommendations</li>
+            <li>Long-term development strategy</li>
+          </ul>
+          <button type="button" class="btn btn--ghost tier-card__cta" id="downloadBtn">Download Your Complete Athletic Blueprint</button>
+        </div>
+
+        <!-- Membership -->
+        <div class="tier-card tier-card--featured">
+          <span class="tier-card__flag">Most popular</span>
+          <h3 class="tier-card__name">Membership</h3>
+          <div class="bill-toggle" id="billToggle">
+            <button type="button" data-bill="monthly" class="active">Monthly</button>
+            <button type="button" data-bill="annual">Annual <span>save 30%</span></button>
+          </div>
+          <p class="tier-card__price" id="memberPrice">$14.99 <span>/ per month</span></p>
+          <ul class="tier-list">
+            <li>Plans that adapt every week</li>
+            <li>Monthly reassessments</li>
+            <li>AI coach chat</li>
+            <li>Progress tracking and parent reports</li>
+          </ul>
+          <button type="button" class="btn btn--solid tier-card__cta" id="memberBtn">Start Membership</button>
+        </div>
+
+        <!-- Free -->
+        <div class="tier-card">
+          <h3 class="tier-card__name">Try free</h3>
+          <p class="tier-card__price">$0 <span>/ 4 weeks</span></p>
+          <ul class="tier-list">
+            <li>A limited training plan</li>
+            <li>4 weeks of guided development</li>
+            <li>Weekly checklists</li>
+            <li>Basic progress tracking</li>
+          </ul>
+          <button type="button" class="btn btn--ghost tier-card__cta" id="freeBtn">Start Free Trial</button>
+        </div>
+      </div>
+      <button type="button" class="linkbtn" id="resultsStartOver">Start a new assessment</button>
+    </main>
+  </section>
+
+  <!-- ===== Weekly Training Dashboard ===== -->
+  <section class="dash" id="dash" hidden>
+    <header class="dash__bar">
+      <a href="#" class="brand" id="dashBrand">
+        Sporve
+      </a>
+      <div class="dash__hud">
+        <div class="hud-item hud-level" title="Athlete level">Lv<b id="hudLevel">1</b></div>
+        <div class="hud-xp">
+          <div class="hud-xp__track"><div class="hud-xp__fill" id="hudXp"></div></div>
+          <span id="hudXpLabel">0 / 100 XP</span>
+        </div>
+        <div class="hud-item hud-streak" title="Training streak"><span class="icon hud-flame" data-icon="flame"></span><b id="hudStreak">0</b></div>
+        <span class="hud-tier" id="hudTier">Free</span>
+      </div>
+    </header>
+    <nav class="dash__tabs" id="dashTabs">
+      <button type="button" data-tab="week" class="active">Today</button>
+      <button type="button" data-tab="progress">Progress</button>
+      <button type="button" data-tab="coach">AI Coach</button>
+      <button type="button" data-tab="goals">Goals</button>
+      <button type="button" data-tab="reassess">Reassess</button>
+      <button type="button" data-tab="parent">Parent</button>
+    </nav>
+    <main class="dash__main" id="dashMain"></main>
+  </section>
+
+  <!-- ===== Celebration / milestone modal ===== -->
+  <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-label="Dialog">
+    <div class="modal__card">
+      <button type="button" class="modal__x" id="modalX" aria-label="Close"><span class="icon" data-icon="x"></span></button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ===== Cinematic AI processing screen ===== -->
+  <div class="aiproc" id="aiproc" hidden>
+    <div class="aiproc__fx" aria-hidden="true"></div>
+    <div class="aiproc__core" aria-hidden="true">
+      <svg viewBox="0 0 160 160">
+        <circle class="aiproc__ring aiproc__ring--a" cx="80" cy="80" r="68" />
+        <circle class="aiproc__ring aiproc__ring--b" cx="80" cy="80" r="54" />
+        <circle class="aiproc__ring aiproc__ring--c" cx="80" cy="80" r="40" />
+      </svg>
+      <div class="aiproc__pct"><span id="aiprocPct">0</span><i>%</i></div>
+    </div>
+    <div class="aiproc__msg" id="aiprocMsg">Analyzing athlete profile…</div>
+    <div class="aiproc__bar"><i id="aiprocBar"></i></div>
+    <div class="aiproc__brand">Sporve</div>
+  </div>
+
+  <!-- ===== Printable report (PDF via browser print) ===== -->
+  <div class="report" id="report"></div>
+
+  <script>
+  /* landing pricing toggle (monthly | annual). $14.99/mo → $125/yr ($10.42/mo, ~30% off). */
+  (function () {
+    var t = document.getElementById('landingBill'); if (!t) return;
+    var price = document.getElementById('landingMemberPrice');
+    t.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-bill]'); if (!b) return;
+      t.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      price.innerHTML = b.dataset.bill === 'annual'
+        ? '$10.42 <span>/ mo · billed annually ($125/yr)</span>'
+        : '$14.99 <span>/ per month</span>';
+    });
+  })();
+  </script>
+
+  <!-- Sticky mobile CTA (landing only) -->
+  <div class="mcta" aria-hidden="false">
+    <button type="button" class="btn btn--solid js-start">Create my training plan</button>
+  </div>
+
+  <!-- Heavy smooth-scroll/pin libs removed for performance; motion.js runs vanilla
+       (native scroll, IntersectionObserver reveals, CSS marquee). -->
+  <script src="icons.js"></script>
+  <script src="analytics.js"></script>
+  <script src="api.js"></script>
+  <script src="auth-ui.js"></script>
+  <script src="ai-client.js"></script>
+  <script src="script.js"></script>
+  <script src="drills.imported.js"></script>
+  <script src="drills.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="morph.js"></script>
+  <script src="reel.js"></script>
+  <!-- Reusable motion system: Lenis↔GSAP loop, reveals, odometers, marquee, header, cursor, transitions -->
+  <script src="motion.js"></script>
+</body>
+</html>
