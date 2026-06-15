@@ -105,6 +105,20 @@ function chipGroup(key, opts, { multi = false, max = 0 } = {}) {
     const label = typeof o === 'string' ? o : o.l;
     const soon = typeof o === 'object' && o.soon;
     const sel = multi ? (data()[key] || []).includes(val) : data()[key] === val;
+    // KINETIK sport-picker: per-sport accent card (the one multi-accent screen).
+    // Keeps .chip + data-value + aria-pressed + data-soon so behavior is unchanged.
+    if (key === 'sportsChosen') {
+      const sk = (typeof mapSport === 'function') ? mapSport(val) : null;
+      const c = (sk && typeof SPORT_ACCENT !== 'undefined' && SPORT_ACCENT[sk]) ? SPORT_ACCENT[sk].d : '';
+      const ghost = esc(String(label).trim().charAt(0).toUpperCase());
+      return `<button type="button" class="chip chip--sport${sel ? ' selected' : ''}${soon ? ' chip--soon' : ''}"`
+        + `${soon ? ' data-soon="1" aria-disabled="true"' : ''} aria-pressed="${sel}" data-value="${esc(val)}"${c ? ` style="--c:${c}"` : ''}>`
+        + `<span class="chip--sport__ghost" aria-hidden="true">${ghost}</span>`
+        + `<span class="chip--sport__dot" aria-hidden="true"></span>`
+        + `<span class="chip--sport__label">${esc(label)}</span>`
+        + (soon ? '<span class="chip__soon">Soon</span>' : '')
+        + `</button>`;
+    }
     if (soon) return `<button type="button" class="chip chip--soon" data-soon="1" aria-disabled="true" data-value="${esc(val)}">${esc(label)}<span class="chip__soon">Soon</span></button>`;
     return `<button type="button" class="chip${sel ? ' selected' : ''}" aria-pressed="${sel}" data-value="${esc(val)}">${esc(label)}</button>`;
   }).join('');
@@ -452,6 +466,16 @@ function renderPersonas() {
 
   const skip = host.querySelector('#skipPersonasBtn');
   if (skip) skip.addEventListener('click', () => { enterPath('sport'); });
+
+  // KINETIK: the recommendation resolved → flood the matched (top) sport's accent in.
+  try {
+    const top = personas[0];
+    const k = top && top.sports && top.sports.length && (typeof mapSport === 'function') && mapSport(top.sports[0]);
+    if (k && typeof SPORT_ACCENT !== 'undefined' && SPORT_ACCENT[k]) {
+      applyTheme(k);
+      if (!state._recoFlooded && typeof floodTransition === 'function') { state._recoFlooded = true; floodTransition(() => {}); }
+    }
+  } catch (e) {}
 }
 
 /* =========================================================
@@ -940,7 +964,7 @@ function showScreen(name) {
   if (name === 'results' || name === 'dash' || name === 'wizard') setSportTheme();
 }
 function showLanding() { showScreen('landing'); startAmbient(); requestAnimationFrame(() => animateHero()); }
-function goChoose() { stopAmbient(); setAccent(); showScreen('choose'); window.scrollTo({ top: 0 }); }
+function goChoose() { stopAmbient(); state._recoFlooded = false; setAccent(); showScreen('choose'); window.scrollTo({ top: 0 }); }
 function enterResults() {
   setAccent('#3b82f6');
   showScreen('results');
