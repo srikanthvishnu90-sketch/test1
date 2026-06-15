@@ -3144,3 +3144,14 @@ input,textarea,.field input,.ta,.safety-banner,.mcta .btn{ border-radius:0 !impo
 
 /* ---- Reduced motion (ball is WebGL/JS — unaffected, stays spinning) ---- */
 @media (prefers-reduced-motion:reduce){ .epe-live::before{animation:none !important} *{transition:none !important;animation:none !important} }
+
+/* ---- EPE onboarding: "Define Your Performance Protocol" framing ---- */
+.choose__eyebrow{ font-family:var(--font-mono) !important; text-transform:uppercase; letter-spacing:.22em; color:var(--epe-muted) !important; }
+.path-card{ position:relative; }
+.path-card .proto-idx{ position:absolute; top:18px; right:18px; font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; color:var(--epe-muted); }
+.path-card__sub{ font-family:var(--font-mono) !important; text-transform:uppercase; letter-spacing:.1em; font-size:11px; color:var(--accent) !important; }
+.path-card h3{ font-family:var(--font-display); font-weight:900; text-transform:uppercase; letter-spacing:-.02em; }
+.path-card__go{ font-family:var(--font-mono) !important; letter-spacing:.06em; color:var(--accent) !important; }
+.path-card__icon{ color:var(--accent) !important; }
+.proto-status{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--epe-muted); margin-top:28px; text-align:center; }
+.consent span,.consent a{ font-family:var(--font-body); color:var(--epe-muted2); }
