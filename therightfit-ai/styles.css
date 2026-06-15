@@ -3173,3 +3173,15 @@ input,textarea,.field input,.ta,.safety-banner,.mcta .btn{ border-radius:0 !impo
 /* ensure all in-app body copy is light on the void */
 .choose__lead,.path-card__desc,.field-note,.step__lead,.recent__row,.obj__top,.goalbar,.day .set,.dchk__txt,.dchk__meta,.dchk__why{ color:var(--epe-muted2) !important; }
 .path-card h3,.day .ti b,.dchk__txt b,.stat b,.obj b{ color:var(--epe-text) !important; }
+
+/* ---- EPE dense dashboard (FinGlow-informed widgets, sharp EPE skin) ---- */
+.epe-brief{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+.epe-brief__hi{ font-family:var(--font-display); font-weight:900; text-transform:uppercase; letter-spacing:-.02em; font-size:clamp(22px,3vw,34px); color:var(--epe-text); }
+.epe-brief__date{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--epe-muted); margin-top:4px; }
+.epe-brief__live{ font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--epe-muted2); border:1px solid var(--epe-stroke); padding:7px 12px; }
+.epe-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin:0 0 18px; }
+.epe-widget{ background:var(--epe-card); border:1px solid var(--epe-stroke); padding:16px 18px; display:flex; flex-direction:column; gap:10px; }
+.epe-widget__k{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+.epe-widget__row{ display:flex; justify-content:space-between; align-items:baseline; font-family:var(--font-mono); font-size:11px; color:var(--epe-muted); }
+.epe-gradbar{ position:relative; height:8px; margin:6px 0; background:linear-gradient(90deg,#E11D48 0%,#16A34A 38%,#16A34A 62%,#E11D48 100%); }
+.epe-gradbar i{ position:absolute; top:-3px; width:2px; height:14px; background:#fff; transform:translateX(-1px); }

@@ -431,6 +431,51 @@ function nextMilestoneLabel() {
   return weekPct() >= 100 ? 'Finish the week' : 'Complete this week';
 }
 
+/* ---- EPE dense-dashboard widgets (FinGlow-informed; existing data only) ---- */
+function epeSparkline(vals) {
+  vals = (vals || []).filter(v => typeof v === 'number');
+  if (vals.length < 2) return '<p class="muted" style="font-size:12px;margin:8px 0">Not enough history yet.</p>';
+  const w = 240, h = 54;
+  const pts = vals.map((v, i) => ((i / (vals.length - 1)) * w).toFixed(1) + ',' + (h - (cl(v, 0, 100) / 100) * h).toFixed(1)).join(' ');
+  const ly = h - (cl(vals[vals.length - 1], 0, 100) / 100) * h;
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="width:100%;height:54px;display:block">`
+    + `<polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`
+    + `<line x1="${w}" y1="0" x2="${w}" y2="${h}" stroke="var(--epe-stroke,#222)" stroke-width="1"/>`
+    + `<circle cx="${w}" cy="${ly.toFixed(1)}" r="2.5" fill="var(--accent)"/></svg>`;
+}
+function epeArc(done, total) {
+  const p = total ? Math.min(1, done / total) : 0;
+  const C = Math.PI * 42, off = C * (1 - p);
+  return `<svg viewBox="0 0 100 58" style="width:120px;height:60px;display:block;margin:0 auto">`
+    + `<path d="M8,52 A42,42 0 0 1 92,52" fill="none" stroke="#1A1A1A" stroke-width="6" stroke-linecap="round"/>`
+    + `<path d="M8,52 A42,42 0 0 1 92,52" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg>`;
+}
+function epeReadiness() {
+  const a = (typeof acwr === 'function') ? acwr() : null;
+  if (!a) return '';                                   // only render when the data exists
+  const r = a.ratio;
+  const pos = cl(((r - 0.5) / (1.8 - 0.5)) * 100, 2, 98);
+  const zone = (r >= 0.8 && r <= 1.3) ? 'Optimal' : (r < 0.8 ? 'Under-loaded' : 'High load');
+  return `<div class="epe-widget"><div class="epe-widget__k">Readiness · Load Balance</div>`
+    + `<div class="epe-gradbar"><i style="left:${pos.toFixed(0)}%"></i></div>`
+    + `<div class="epe-widget__row"><span>ACWR ${r.toFixed(2)}</span><span style="color:var(--accent)">${zone}</span></div></div>`;
+}
+function dashBriefing() {
+  const name = ((dash.athleteName || (data().name || '').trim()) || 'Athlete').split(' ')[0];
+  let date = ''; try { date = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }); } catch (e2) {}
+  return `<div class="epe-brief"><div><div class="epe-brief__hi">Hello, ${e(name)}</div>`
+    + `<div class="epe-brief__date">Daily Briefing${date ? ' · ' + e(date) : ''}</div></div>`
+    + `<span class="epe-brief__live epe-live">Synced</span></div>`;
+}
+function dashWidgets() {
+  if (dash.mode !== 'drills') return '';               // drill plans only (tasks mode keeps its objectives)
+  const hist = (dash.history || []).map(h => h.pct).concat([weekPct()]);
+  const done = weekDone(), total = weekTarget();
+  const spark = `<div class="epe-widget"><div class="epe-widget__k">Progress over time</div>${epeSparkline(hist)}<div class="epe-widget__row"><span>Weekly completion</span><span style="color:var(--accent)">${weekPct()}%</span></div></div>`;
+  const arc = `<div class="epe-widget"><div class="epe-widget__k">Block volume</div>${epeArc(done, total)}<div class="epe-widget__row"><span>Drills this week</span><span style="color:var(--accent)">${done}/${total}</span></div></div>`;
+  return `<div class="epe-grid">${epeReadiness()}${spark}${arc}</div>`;
+}
+
 /* ---- This Week (premium) ---- */
 function tabWeek() {
   const adapt = dash.adapt ? `<div class="ai-note"><b>AI adjustment</b> ${e(dash.adapt)}</div>` : '';
@@ -564,7 +609,7 @@ function tabWeek() {
         </div>`;
     }).join('');
 
-    dashMain.innerHTML = header + overview + todayHtml + stripHtml
+    dashMain.innerHTML = dashBriefing() + header + overview + dashWidgets() + todayHtml + stripHtml
       + `<details class="allweek"><summary>All sessions this week</summary><div class="daycards daycards--live">${sessions}</div></details>`
       + cta;
 
@@ -612,7 +657,7 @@ function tabWeek() {
           ${Array.from({ length: t.target }).map((_, i) => `<button type="button" class="pip${i < t.done ? ' on' : ''}" data-i="${i}"></button>`).join('')}
         </div>
       </div>`).join('');
-    dashMain.innerHTML = header + overview + `<div class="objs">${objs}</div>` + cta;
+    dashMain.innerHTML = dashBriefing() + header + overview + `<div class="objs">${objs}</div>` + cta;
     dashMain.querySelectorAll('.pips').forEach(group => {
       const t = dash.tasks.find(x => x.id === group.dataset.task);
       group.querySelectorAll('.pip').forEach(p => {
