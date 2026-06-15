@@ -3155,3 +3155,21 @@ input,textarea,.field input,.ta,.safety-banner,.mcta .btn{ border-radius:0 !impo
 .path-card__icon{ color:var(--accent) !important; }
 .proto-status{ font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--epe-muted); margin-top:28px; text-align:center; }
 .consent span,.consent a{ font-family:var(--font-body); color:var(--epe-muted2); }
+
+/* ---- EPE sweep: convert leftover hardcoded-white surfaces to the void
+        (fixes EPE-grey text that was landing on white panels) ---- */
+.wizard__card,.dchk,.drillrow,.stat,.obj,.recent,.goal-item,.load-card,
+.landing .tile,.landing .plan,.bp,.daycard,.daycard--live,.notify{
+  background:var(--epe-card) !important; border:1px solid var(--epe-stroke) !important;
+  color:var(--epe-text) !important; box-shadow:none !important; border-radius:0 !important; }
+.landing .how,.landing .safety,.landing .final{ background:var(--epe-page) !important; }
+.landing .ring i{ background:var(--epe-l2) !important; color:var(--epe-text) !important; }
+/* checkboxes */
+.dchk__box{ border:1.5px solid #3a3a3a !important; background:transparent !important; border-radius:0 !important; }
+.dchk.on .dchk__box{ background:var(--accent) !important; border-color:var(--accent) !important; }
+.landing .check{ background:#000 !important; }
+/* any remaining body text that sits on a light pill stays dark (toggles) */
+.landing .bill button.on,.bill-toggle button.active,.tier-card--featured .bill-toggle button.active{ background:#fff !important; color:#000 !important; }
+/* ensure all in-app body copy is light on the void */
+.choose__lead,.path-card__desc,.field-note,.step__lead,.recent__row,.obj__top,.goalbar,.day .set,.dchk__txt,.dchk__meta,.dchk__why{ color:var(--epe-muted2) !important; }
+.path-card h3,.day .ti b,.dchk__txt b,.stat b,.obj b{ color:var(--epe-text) !important; }
