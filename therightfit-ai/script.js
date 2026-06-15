@@ -812,10 +812,11 @@ function mixHex(hex, withHex, amt) {
 }
 // Set the two propagating vars (+ back-compat aliases) from a sport key.
 // null/unknown → neutral: accent collapses to ink (pure black/white page).
+const EPE_NEUTRAL = '#c6c6c6';                   // visible neutral accent on the void (no sport)
 function applyTheme(sportKey) {
   const pair = (sportKey && SPORT_ACCENT[sportKey]) || null;
-  const dark = pair ? pair.d : KINETIK_INK;     // vivid, for dark surfaces
-  const light = pair ? pair.l : KINETIK_INK;    // deepened, readable on white
+  const dark = pair ? pair.d : EPE_NEUTRAL;     // sport accent, else neutral (visible on black)
+  const light = pair ? pair.l : EPE_NEUTRAL;
   const b = document.body.style;
   b.setProperty('--accent', dark);
   b.setProperty('--accent-ink', light);
