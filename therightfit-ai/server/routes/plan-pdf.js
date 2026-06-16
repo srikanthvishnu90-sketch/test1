@@ -10,6 +10,22 @@ const { renderPlanPdf } = require('../plan-pdf-render');
 
 const router = express.Router();
 
+// Lightweight in-memory rate limit — PDF rendering spins up Chrome, so cap it
+// per client to avoid CPU exhaustion / abuse. 12 renders / 5 min per IP.
+const _hits = new Map();
+function rateLimit(max, windowMs) {
+  return (req, res, next) => {
+    const key = req.ip || (req.headers['x-forwarded-for'] || '').split(',')[0] || 'anon';
+    const now = Date.now();
+    const arr = (_hits.get(key) || []).filter(t => now - t < windowMs);
+    if (arr.length >= max) return res.status(429).json({ error: 'Too many PDF requests — please wait a minute and try again.' });
+    arr.push(now); _hits.set(key, arr);
+    if (_hits.size > 5000) { for (const [k, v] of _hits) if (!v.some(t => now - t < windowMs)) _hits.delete(k); }
+    next();
+  };
+}
+router.post('/', rateLimit(12, 5 * 60 * 1000));
+
 // Persistence is optional + fully isolated: a single NEW table, insert + read only.
 let db = null, ready = false;
 function store() {

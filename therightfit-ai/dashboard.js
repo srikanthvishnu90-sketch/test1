@@ -2133,9 +2133,16 @@ wireResults();
 // Returning signed-in users get a persistent shortcut back into their dashboard.
 // CSS hides it on the wizard/dash screens (keyed off body[data-screen]).
 (function mountReturnButton() {
+  function hasResumablePlan() {
+    if (window.API && API.isAuthed()) return true;             // server-backed plan
+    try { const d = JSON.parse(localStorage.getItem(DASH_KEY) || 'null'); return !!(d && d.tier); } catch (e) { return false; }
+  }
   function ensure() {
-    if (!(window.API && API.isAuthed())) { const ex = document.getElementById('returnDash'); if (ex) ex.remove(); return; }
-    if (document.getElementById('returnDash')) return;
+    // Keep the nav auth (Login / My plan) in sync too — single post-login entrypoint.
+    if (typeof refreshNavAuth === 'function') refreshNavAuth();
+    const ex = document.getElementById('returnDash');
+    if (!hasResumablePlan()) { if (ex) ex.remove(); return; }   // guests with no saved plan: nothing to return to
+    if (ex) return;
     const b = document.createElement('button');
     b.id = 'returnDash';
     b.type = 'button';
@@ -2145,5 +2152,5 @@ wireResults();
     document.body.appendChild(b);
   }
   ensure();
-  window.refreshReturnButton = ensure;   // call after login/logout
+  window.refreshReturnButton = ensure;   // call after login/logout AND when a plan is saved locally
 })();

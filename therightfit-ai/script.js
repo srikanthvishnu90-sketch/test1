@@ -525,7 +525,7 @@ const FLOWS = {
   sport: [
     { accent: '#3b82f6', eyebrow: 'Your Sport', title: 'Which sport are we training for?', lead: 'Pick one — or up to two. We pull drills from the library for your sport.',
       body: () => field('Choose your sport(s)', chipGroup('sportsChosen', SPORTS, { multi: true, max: 3 }), { opt: '(1–3)', errKey: 'sportsChosen' })
-        + `<p class="field-note">Full drill libraries today: <b>Basketball, Soccer, Football, Baseball/Softball, Golf, Volleyball, Tennis, Lacrosse</b>. Others use a general plan while we expand.</p>`,
+        + `<p class="field-note">Full drill libraries today: <b>Basketball, Golf, Swimming, Football, Volleyball, Soccer, Baseball/Softball, Track &amp; Field, Tennis, Lacrosse</b>. Other sports get a solid general athletic plan while we expand their libraries.</p>`,
       validate: () => {
         const n = data().sportsChosen.length;
         if (n < 1 || n > 3) { setError('sportsChosen', 'Select one to three sports.'); return false; }
@@ -1009,7 +1009,7 @@ function showScreen(name) {
   if (dash) dash.hidden = name !== 'dash';
   if (name === 'results' || name === 'dash' || name === 'wizard') setSportTheme();
 }
-function showLanding() { showScreen('landing'); startAmbient(); requestAnimationFrame(() => animateHero()); }
+function showLanding() { showScreen('landing'); startAmbient(); if (window.refreshReturnButton) window.refreshReturnButton(); requestAnimationFrame(() => animateHero()); }
 function goChoose() { stopAmbient(); state._recoFlooded = false; setAccent(); showScreen('choose'); window.scrollTo({ top: 0 }); }
 function enterResults() {
   setAccent('#3b82f6');
