@@ -235,30 +235,41 @@ window.enterDashboard = enterDashboard;
 // Reuses the existing active plan when it matches the current assessment so we
 // don't create duplicate plans every time the button is pressed.
 async function startTrackingPlan(tier, openDashboard) {
-  return new Promise(resolve => {
-    window.Auth.requireAuth(async () => {
-      try {
-        const sig = planSig();
-        let reused = false;
-        try {
-          const active = await API.getActivePlan();
-          if (active && active.sig === sig) { hydrateFromServerPlan(active); reused = true; }
-        } catch (e) {}
-        if (!reused) {
-          seedOrReuseLocal(tier || 'free');
-          await persistNewPlan(dash.tier, 'active');
-        }
-        if (openDashboard) {
-          setAccent(DASH_ACCENT); showScreen('dash'); activeTab = 'week'; syncTabs();
-          saveDash(); renderDashboard();
-        }
-        resolve(true);
-      } catch (e) {
-        alert((e && e.message) || 'Your plan was generated but could not be saved. Please try again.');
-        resolve(false);
-      }
-    });
-  });
+  const openLocalDash = () => {
+    if (openDashboard) {
+      setAccent(DASH_ACCENT); showScreen('dash'); activeTab = 'week'; syncTabs();
+      saveDash(); renderDashboard();
+    }
+    if (window.refreshReturnButton) window.refreshReturnButton();
+  };
+  // Guest-first: tracking works WITHOUT a login (saved locally on this device).
+  // Login is optional and only adds cross-device sync.
+  if (!(window.API && API.isAuthed())) {
+    seedOrReuseLocal(tier || 'free');
+    openLocalDash();
+    return true;
+  }
+  // Signed in → server-backed (reuse the active plan when it matches this assessment).
+  try {
+    const sig = planSig();
+    let reused = false;
+    try {
+      const active = await API.getActivePlan();
+      if (active && active.sig === sig) { hydrateFromServerPlan(active); reused = true; }
+    } catch (e) {}
+    if (!reused) {
+      seedOrReuseLocal(tier || 'free');
+      await persistNewPlan(dash.tier, 'active');
+    }
+    openLocalDash();
+    return true;
+  } catch (e) {
+    // Even if the server save fails, keep tracking locally — never block the athlete.
+    seedOrReuseLocal(tier || 'free');
+    openLocalDash();
+    toast('Saved on this device (cloud sync unavailable).');
+    return true;
+  }
 }
 
 /* =========================================================
