@@ -2578,7 +2578,9 @@ function generateMultiSportPlan(p) {
     if (spec.type === 'recovery') {
       const mob = cross.filter(x => ['Mobility', 'Core Stability'].includes(x.d.skill_category));
       const list = mob.length ? mob : cross;
-      return buildSession(list[0] ? list[0].d.skill_category : 'Mobility', i, p, list, { focusLabel: 'Recovery & Mobility', sportLabel: 'Recovery', recovery: true, capDelta: -2, usedIds });
+      // recovery may REUSE drills (own set) so a small crossover pool already
+      // spent on skill/base days never leaves the recovery day empty.
+      return buildSession(list[0] ? list[0].d.skill_category : 'Mobility', i, p, list, { focusLabel: 'Recovery & Mobility', sportLabel: 'Recovery', recovery: true, capDelta: -2, usedIds: new Set() });
     }
     const scored = perSport[spec.sport] || [];
     const theme = focusCats(sportProfile(p, spec.sport), scored)[0] || (scored[0] && scored[0].d.skill_category) || 'Skill';
@@ -2674,14 +2676,14 @@ function siblingDrill(d, dir, p) {
 function progressDrill(d, p) {               // harder sibling: explicit link, else nearest harder
   if (d && d.progression_option) {
     const next = DRILL_DB.find(x => x.sport === d.sport && x.drill_name === d.progression_option);
-    if (next) return next;
+    if (next && swapOk(next, p)) return next;   // honor the link only if the athlete can do it
   }
   return siblingDrill(d, +1, p) || d;
 }
 function regressDrill(d, p) {                // easier sibling: explicit link, else nearest easier
   if (d && d.regression_option) {
     const prev = DRILL_DB.find(x => x.sport === d.sport && x.drill_name === d.regression_option);
-    if (prev) return prev;
+    if (prev && swapOk(prev, p)) return prev;
   }
   return siblingDrill(d, -1, p) || d;
 }
@@ -2709,13 +2711,15 @@ function adaptWeek(p, prevPlan, stats) {
     if (stats.missedCats[cat]) { s += 3; }                            // repeat what was missed
     // Per-drill ACHIEVED quality drives progression more reliably than week %:
     // "too easy" → advance that exact drill; "too hard"/pain → make it easier.
-    if (stats.easyIds && stats.easyIds.has(x.d.id)) { d = progressDrill(d, p); s += 1.2; }
+    const wasEasy = !!(stats.easyIds && stats.easyIds.has(x.d.id));
+    if (wasEasy) { d = progressDrill(d, p); s += 1.2; }
     else if ((stats.hardIds && stats.hardIds.has(x.d.id)) || (stats.painIds && stats.painIds.has(x.d.id))) { d = regressDrill(d, p); s -= 1; }
     else if (stats.doneDrillIds && stats.doneDrillIds.has(x.d.id)) {
       if (direction === 'increase') { d = progressDrill(d, p); s += 1; } // advance mastered drills
       else if (direction === 'decrease') s -= 1.5;                    // de-prioritize; make room
     }
-    if (direction === 'decrease') d = regressDrill(d, p);             // simpler variations overall
+    // overall de-load, but never undo a per-drill "too easy" progression
+    if (direction === 'decrease' && !wasEasy) d = regressDrill(d, p);
     return { d, s, reasons: x.reasons };
   }).sort((a, b) => b.s - a.s);
 
@@ -2728,7 +2732,7 @@ function adaptWeek(p, prevPlan, stats) {
     const usedIds = new Set();
     const week = layout.map((spec, i) => {
       if (spec.type === 'cross') return buildSession((crossB[0] && crossB[0].d.skill_category) || 'Conditioning', i, p, crossB, { focusLabel: 'Shared Athletic Base', sportLabel: 'Both sports', crossover: true, usedIds, capDelta, repNote });
-      if (spec.type === 'recovery') { const mob = crossB.filter(x => ['Mobility', 'Core Stability'].includes(x.d.skill_category)); const list = mob.length ? mob : crossB; return buildSession(list[0] ? list[0].d.skill_category : 'Mobility', i, p, list, { focusLabel: 'Recovery & Mobility', sportLabel: 'Recovery', recovery: true, capDelta: -2, usedIds }); }
+      if (spec.type === 'recovery') { const mob = crossB.filter(x => ['Mobility', 'Core Stability'].includes(x.d.skill_category)); const list = mob.length ? mob : crossB; return buildSession(list[0] ? list[0].d.skill_category : 'Mobility', i, p, list, { focusLabel: 'Recovery & Mobility', sportLabel: 'Recovery', recovery: true, capDelta: -2, usedIds: new Set() }); }
       const scored = perSport[spec.sport] || [];
       const theme = focusCats(sportProfile(p, spec.sport), scored)[0] || (scored[0] && scored[0].d.skill_category) || 'Skill';
       return buildSession(theme, i, p, scored, { focusLabel: sportLabelFor(spec.sport) + ' — ' + theme, sportLabel: sportLabelFor(spec.sport), usedIds, capDelta, repNote });

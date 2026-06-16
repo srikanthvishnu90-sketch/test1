@@ -104,9 +104,17 @@
     const dayTitle = (s) => s.recovery ? 'Recovery' : s.crossover ? 'Shared Base' : (s.sportLabel ? up(s.sportLabel) + ' Skill' : (s.focus || 'Training'));
     const dayTag = (s) => s.recovery ? 'OFF · mobility + film' : ('~' + (s.total || 0) + ' MIN');
     const wkArr = (plan.week || []).slice(0, 7);
+    // case-insensitive label→key match so a day's sport chip themes correctly
+    // regardless of the labelFn's casing (falls back to the anchor sport).
+    const keyForLabel = (lbl) => {
+      if (!lbl) return anchorKey;
+      const low = String(lbl).toLowerCase();
+      const i = (p.sports || []).map(k => String(labelFn(k)).toLowerCase()).indexOf(low);
+      return (i >= 0 && p.sports[i]) || anchorKey;
+    };
     const days = wkArr.map(s => ({
       day: up(String(s.dayName || '').slice(0, 3)), title: dayTitle(s), tag: dayTag(s), set: s.recovery ? 'Full rest. 20-min mobility + review film.' : sessFor(s),
-      sportId: s.crossover || s.recovery ? null : (s.sportLabel ? themeKeyOf(p.sports && p.sports[(p.sports || []).map(labelFn).indexOf(s.sportLabel)] || anchorKey) : anchorTheme),
+      sportId: s.crossover || s.recovery ? null : (s.sportLabel ? themeKeyOf(keyForLabel(s.sportLabel)) : anchorTheme),
     }));
     while (days.length < 7) days.push({ day: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'][days.length], title: 'Recovery', tag: 'OFF · mobility', set: 'Full rest. Light mobility.' });
     const detailedWeek = { weekNumber: '06', phaseName: 'BUILD', intro: 'A representative week, fully prescribed. Follow as-is or log it in the app to auto-adjust.', days, loadSummary: (wkArr.length || (p.dayCount || 0)) + ' SESSIONS' };

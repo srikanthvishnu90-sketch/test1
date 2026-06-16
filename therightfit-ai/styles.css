@@ -490,7 +490,7 @@ em { font-style: italic; }
 .btn--solid:hover { box-shadow: 0 12px 34px -10px color-mix(in srgb, var(--page-accent) 70%, transparent); }
 .btn--ghost { background: transparent; color: var(--text); border-color: var(--line-2); }
 .btn--ghost:hover { background: var(--panel-2); border-color: var(--page-accent); }
-.btn[disabled] { opacity: 0; pointer-events: none; }
+.btn[disabled] { opacity: 0.5; pointer-events: none; }
 
 /* ===== Footer nav ===== */
 .wizard__nav {
