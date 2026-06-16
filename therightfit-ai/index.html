@@ -634,14 +634,18 @@
         <span class="hud-tier" id="hudTier">Free</span>
       </div>
     </header>
-    <nav class="dash__tabs" id="dashTabs">
-      <button type="button" data-tab="week" class="active">Today</button>
-      <button type="button" data-tab="progress">Progress</button>
-      <button type="button" data-tab="coach">AI Coach</button>
-      <button type="button" data-tab="goals">Goals</button>
-      <button type="button" data-tab="reassess">Reassess</button>
-      <button type="button" data-tab="parent">Parent</button>
-    </nav>
+    <aside class="dash__side">
+      <div class="dash__profile" id="dashProfile"></div>
+      <nav class="dash__tabs" id="dashTabs">
+        <button type="button" data-tab="week" class="active">Today</button>
+        <button type="button" data-tab="progress">Progress</button>
+        <button type="button" data-tab="coach">AI Coach</button>
+        <button type="button" data-tab="goals">Goals</button>
+        <button type="button" data-tab="reassess">Reassess</button>
+        <button type="button" data-tab="parent">Parent</button>
+      </nav>
+      <button type="button" class="btn btn--ghost btn--sm dash__viewplan" id="dashViewPlan">View AI Plan</button>
+    </aside>
     <main class="dash__main" id="dashMain"></main>
   </section>
 

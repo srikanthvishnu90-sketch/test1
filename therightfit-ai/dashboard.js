@@ -359,6 +359,15 @@ function renderHud() {
   document.getElementById('hudXpLabel').textContent = `${dash.xp - cur} / ${next - cur} XP`;
   document.getElementById('hudStreak').textContent = dash.streak;
   document.getElementById('hudTier').textContent = dash.tier === 'member' ? 'Member' : 'Free';
+  // Sidebar athlete profile (FinGlow-style grouped left nav header).
+  const prof = document.getElementById('dashProfile');
+  if (prof) {
+    const name = ((dash.athleteName || (data().name || '').trim()) || 'Athlete');
+    const sport = dash.sport || dash.focus || 'Training';
+    const status = dash.tier === 'member' ? 'PRO STATUS' : 'FREE';
+    prof.innerHTML = `<div class="dash__avatar" aria-hidden="true">${e((name[0] || 'A').toUpperCase())}</div>`
+      + `<div class="dash__who"><b>${e(name)}</b><span>${e(status)} · ${e(sport)}</span></div>`;
+  }
 }
 function syncTabs() {
   dashTabs.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.tab === activeTab));
@@ -2114,6 +2123,10 @@ document.getElementById('modalX').addEventListener('click', closeModal);
 modal.addEventListener('click', ev => { if (ev.target === modal) closeModal(); });
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && !modal.hidden) closeModal(); });
 document.getElementById('dashBrand').addEventListener('click', e2 => { e2.preventDefault(); saveDash(); showLanding(); });
+(function () {
+  const vp = document.getElementById('dashViewPlan');
+  if (vp) vp.addEventListener('click', () => { activeTab = 'week'; syncTabs(); renderDashboard(); dashMain.scrollIntoView({ block: 'start', behavior: 'smooth' }); });
+})();
 
 wireResults();
 
