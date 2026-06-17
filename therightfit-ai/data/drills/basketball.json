@@ -3853,6 +3853,363 @@
       "coaching_notes": "Best for low passing strength, poor distance control, weak accuracy, or forced long passes. Assign if the player tries to throw passes farther than they can safely control. Use only the closest mark for younger or low-strength players.",
       "statistic": "Passing range should match strength. This finds the player’s clean passing distance and protects mechanics.",
       "safety": "Do not move back if the pass gets unsafe. Clean short passes beat wild long passes."
+    },
+    {
+      "name": "Fingertip Balance Hold",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "8-10 reps",
+      "coach_reviewed": true,
+      "instructions": "Stand still with the ball in both hands. Hold the ball lightly on the fingertips at chest height for 3 seconds, then pull it into the chest with strong hands. Reset and repeat. Do 8-10 reps. Younger players use a smaller or lighter ball so the hold does not turn into a strain.",
+      "coaching_notes": "Best for low hand strength, poor ball feel, weak catch security, or low ball comfort. Assign if the player palms the ball awkwardly, drops simple catches, or cannot hold the ball with control. Use a smaller ball if the player cannot hold it without pain or strain.",
+      "statistic": "Younger players often lack the hand strength to control a full-size ball. This builds fingertip awareness before harder passing or ball handling.",
+      "safety": "No squeezing through pain. Use the right ball size."
+    },
+    {
+      "name": "Ball Flip and Secure",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "8 clean catches, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Hold the ball with two hands at waist height. Flip it lightly upward, let it rotate once if possible, catch with two hands, and pull it into the chest. Keep the flip low and controlled. Do 8 clean catches, rest, repeat.",
+      "coaching_notes": "Best for poor ball tracking, weak soft hands, low catch control, or low hand-eye coordination. Assign if the player struggles to secure the ball after it moves or rotates. Use a foam or smaller ball if the player is afraid of catching.",
+      "statistic": "Playmaking starts with ball control. A player who cannot secure a small self-flip will struggle with faster passes from teammates.",
+      "safety": "Keep the flip below the face. No high tosses."
+    },
+    {
+      "name": "Low Pocket Carry Walk",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "2-3 trips",
+      "coach_reviewed": true,
+      "instructions": "Hold the ball tight near one hip or low pocket area with two hands. Walk 10 steps forward, stop, switch the ball to the other side, and walk back. Keep the ball close, eyes forward, and body calm. Do 2-3 trips.",
+      "coaching_notes": "Best for poor ball security, low body control, weak grip, or high turnover risk. Assign if the player carries the ball loose, swings it away from the body, or loses it when moving. Use a smaller ball if the player cannot hold it close safely.",
+      "statistic": "Some beginners need to learn how to simply own the ball before they can pass or dribble well. Ball security is a base playmaking skill.",
+      "safety": "Walk only. No running or contact."
+    },
+    {
+      "name": "Protect the Ball Turn",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "5 turns each direction",
+      "coach_reviewed": true,
+      "instructions": "Stand still with the ball held strong near the chest or side pocket. On the coach cue, turn the body 90 degrees while keeping the ball tight, then turn back. Do 5 turns each direction. Move slowly and stay balanced.",
+      "coaching_notes": "Best for poor ball protection, weak body control, low pivot awareness, or turnover risk. Assign if the player turns with the ball away from the body or loses control under light pressure. Use no pivot-foot emphasis at first if footwork is confusing.",
+      "statistic": "A lot of turnovers happen because players turn into pressure with the ball exposed. This teaches a safer body-and-ball relationship.",
+      "safety": "No spinning fast. Keep the turn slow and balanced."
+    },
+    {
+      "name": "Eyes-Up Dribble Scan",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "10s, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Dribble in place or walk slowly with the ball. A coach stands in front and holds up fingers, colors, or simple signs. Call out what you see while keeping the dribble alive. Start with 10 seconds, rest, repeat. Younger players use a lower bounce and the strong hand first.",
+      "coaching_notes": "Best for low eyes-up control, poor dribble awareness, weak court vision, or low playmaking confidence. Assign if the player cannot dribble and see a teammate or coach at the same time. Use stationary ball control first if the player cannot dribble safely; ages 7-8 use a smaller ball and very short reps.",
+      "statistic": "A playmaker has to see the floor. This keeps the ball task simple while adding a safe visual cue.",
+      "safety": "No speed. Keep space clear."
+    },
+    {
+      "name": "Red Light Green Light Dribble Control",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "short space, control not racing",
+      "coach_reviewed": true,
+      "instructions": "Players line up with a ball. On \"green,\" dribble forward slowly. On \"red,\" stop the body and keep control of the ball. On \"yellow,\" slow down but keep dribbling. Start in a short space. The goal is control, not racing.",
+      "coaching_notes": "Best for poor start-stop control, low dribble control, weak listening response, or high lost-ball rate. Assign if the player runs faster than they can control the ball. Use walking speed and smaller balls for younger athletes.",
+      "statistic": "Young athletes need start-stop control before faster ball handling. This keeps playmaking fun while teaching control.",
+      "safety": "No racing. Keep players spaced apart."
+    },
+    {
+      "name": "Color Cone Dribble Choice",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone"
+      ],
+      "reps_target": "reps, strong hand first",
+      "coach_reviewed": true,
+      "instructions": "Place three colored cones in front of the player. Start with the ball. The coach calls a color. Dribble slowly to that cone, stop under control, protect the ball, and reset. Start with the strong hand. Add weak hand only if control is safe.",
+      "coaching_notes": "Best for low decision speed, poor dribble control, weak stop control, or low court awareness. Assign if the player loses the ball when asked to think while dribbling. Use two cones only for younger players.",
+      "statistic": "Decision-making should start small. A color call gives the player a simple playmaking read without adding pressure.",
+      "safety": "No sprinting. Stop before turning."
+    },
+    {
+      "name": "Partner Mirror Dribble Control",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "10-15s, rest, switch leaders",
+      "coach_reviewed": true,
+      "instructions": "Two players face each other, each with a ball. Player A leads, dribbling in place while changing body height, hand, or slow side steps. Player B mirrors while keeping control. Go 10-15 seconds, rest, switch leaders. Keep it slow for beginners.",
+      "coaching_notes": "Best for low reaction control, poor eyes-up dribbling, weak coordination, or low focus. Assign if the player can dribble alone but loses control when watching another person. Use one leader with no ball for younger players; ages 7-8 only with very simple stationary versions.",
+      "statistic": "Playmaking requires reacting to other players. This adds a teammate cue while keeping the movement low-pressure.",
+      "safety": "Keep space between players. No fast lateral moves."
+    },
+    {
+      "name": "Dribble Circle Keep-In",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone"
+      ],
+      "reps_target": "10-15s, strong hand first",
+      "coach_reviewed": true,
+      "instructions": "Create a small circle with cones or use a painted circle on the court. Dribble inside the circle for 10-15 seconds without stepping out or losing the ball — walk or shuffle slowly. Start with the strong hand. Add weak hand later if safe.",
+      "coaching_notes": "Best for poor space control, low dribble control, weak body awareness, or high lost-ball rate. Assign if the player needs too much space to control the dribble. Make the circle bigger for younger players.",
+      "statistic": "Players need to control the ball in limited space before handling pressure. This teaches safe space awareness without defenders.",
+      "safety": "No crowding. One player per circle."
+    },
+    {
+      "name": "Dribble Stop Show Target",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, short distance",
+      "coach_reviewed": true,
+      "instructions": "Take three slow dribbles forward. On the coach cue, stop, pick the ball up with two hands, secure it, then show target hands to the coach. The coach gives a soft return pass, and the player catches. Reset and repeat. Keep the distance short.",
+      "coaching_notes": "Best for poor dribble stop control, weak catch readiness, low ball security, or low playmaking awareness. Assign if the player stops the dribble and does not know what to do next. Use one dribble only if control is poor.",
+      "statistic": "A player who stops dribbling becomes a passer or receiver again. This teaches the transition from ball handler to ready teammate.",
+      "safety": "No fast stops. Secure the ball before showing hands."
+    },
+    {
+      "name": "Receiver Backpedal Catch",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "6-8 reps, then switch roles",
+      "coach_reviewed": true,
+      "instructions": "A receiver starts 4-6 feet from the passer. Take two slow backpedal steps, show hands, and catch a soft pass. After the catch, stop, secure the ball, and pass it back. Start slow and keep the pass soft. Do 6-8 reps, switch roles.",
+      "coaching_notes": "Best for poor moving catch, weak balance, low receiver control, or low spacing awareness. Assign if the player cannot catch while moving away from the passer. Use stationary catching first if balance is poor; ages 7-8 only with walking steps and very soft passes.",
+      "statistic": "Receivers do not always move toward the ball. Sometimes they create space by moving out or back. This teaches that safely.",
+      "safety": "Check space behind the receiver. No fast backpedaling."
+    },
+    {
+      "name": "Receiver Slide Catch",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps both directions",
+      "coach_reviewed": true,
+      "instructions": "A receiver starts in front of a passer. On the coach cue, slide two steps to the side, show hands, and catch a soft pass. Secure the ball and pass back. Do both directions. Keep the slide slow and the pass short.",
+      "coaching_notes": "Best for low lateral control, poor catch balance, weak receiver movement, or low spacing skill. Assign if the player only catches standing still and struggles moving to open space. Walk sideways instead of sliding for younger players.",
+      "statistic": "Playmakers need receivers who move into passing windows. This teaches simple side movement and catch control.",
+      "safety": "No fast slides. Keep feet under control."
+    },
+    {
+      "name": "Give-and-Follow Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "30s, slow",
+      "coach_reviewed": true,
+      "instructions": "Three players stand in a short line or triangle. Player A passes to Player B, then follows the pass to Player B’s spot. Player B passes to Player C and follows. Player C passes to Player A’s new spot and follows. Keep passes short and controlled. Go slowly for 30 seconds.",
+      "coaching_notes": "Best for low pass-and-move habit, poor spacing, weak passing rhythm, or low team awareness. Assign if the player passes and stays frozen. Walk the pattern first without the ball.",
+      "statistic": "Passing should create movement. Give-and-follow teaches a simple team habit without adding defenders or speed.",
+      "safety": "Walk first. No running into the receiver."
+    },
+    {
+      "name": "Triangle Catch-Turn-Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "30s, then reverse direction",
+      "coach_reviewed": true,
+      "instructions": "Three players form a small triangle. Player A passes to Player B. Player B catches, turns the body toward Player C, and passes. Player C catches, turns, and passes to Player A. Keep the ball moving slowly. Reverse direction after 30 seconds.",
+      "coaching_notes": "Best for poor body control, low passing rhythm, weak catch security, or low group awareness. Assign if the player catches and passes without turning to the next target. Use a smaller triangle for younger players.",
+      "statistic": "A player often has to catch facing one direction and pass another. This teaches that body turn in a safe, organized way.",
+      "safety": "No hard passes. Make sure each player is watching."
+    },
+    {
+      "name": "Dribble Draw Two Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner",
+        "cone"
+      ],
+      "reps_target": "reps, no live defender",
+      "coach_reviewed": true,
+      "instructions": "Place a cone or coach near the lane as the help defender. A ball handler starts on the wing with a teammate in the corner or short wing. Dribble slowly toward the cone, stop before the cone, and pass to the teammate. The teammate catches and secures the ball. Start with no live defender.",
+      "coaching_notes": "Best for low drive-and-kick awareness, poor decision timing, weak passing under movement, or high turnover risk. Assign if the player dribbles into help and does not pass to the open teammate. Use stationary coach point passing first if the decision is too hard; ages 8-9 only with very slow speed and short pass distance.",
+      "statistic": "Playmaking means knowing when the defense has helped. This gives the player a clear, safe cue to pass before pressure gets real.",
+      "safety": "No live defense. Stop before the cone. No collisions."
+    },
+    {
+      "name": "Look-Off Target Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, switch sides, short passes",
+      "coach_reviewed": true,
+      "instructions": "Two receivers stand close, one on each side. The passer looks briefly at Receiver A, then passes to Receiver B’s target hands. Then switch sides. The look-off should be small and controlled. The passer must still step and pass with balance. Start with very short passes.",
+      "coaching_notes": "Best for low vision control, predictable passing, poor target accuracy, or low decision confidence. Assign if the player telegraphs every pass but can already make safe short passes. Use coach point passing first if the player cannot handle two targets; younger players only if basic passing is already safe.",
+      "statistic": "Deception should be small for beginners. This teaches eye control without wild fakes or risky passes.",
+      "safety": "No hard passes. Do not use if the player is still missing basic targets."
+    },
+    {
+      "name": "Trap Calm Pivot Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "very short reps",
+      "coach_reviewed": true,
+      "instructions": "Start with the ball. Two coaches or teammates stand nearby as soft shadows with hands up, but they do not reach or touch. Keep the ball protected, pivot slowly, find the open receiver, and pass. The receiver catches and returns the ball. Start with very short reps.",
+      "coaching_notes": "Best for low trap confidence, poor pivot passing, weak ball protection, or panic passing. Assign if the player freezes or throws wildly when two defenders are nearby. Use one shadow defender first if the player panics; younger players only if calm and safe.",
+      "statistic": "Pressure should be introduced in layers. This gives the player a trap picture without steals, contact, or chaos.",
+      "safety": "No reaching, no trapping contact, no yelling. Shadows only."
+    },
+    {
+      "name": "Middle Flash Catch and Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing or short corner. Flash to the middle area, show hands, catch a soft pass, turn under control, and pass to another teammate or coach. Do not rush after the catch. Do reps from both sides.",
+      "coaching_notes": "Best for low middle-catch confidence, poor receiver movement, weak pass-after-catch skill, or low team awareness. Assign if the player catches in the middle and panics or forces a shot. Use a stationary middle catch first if movement is hard.",
+      "statistic": "Some of the best beginner playmaking is simple catch-and-move-the-ball work. This teaches the player to connect the offense.",
+      "safety": "No defenders at first. Keep the middle area clear."
+    },
+    {
+      "name": "Two-Spot Decision Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, switch ready receiver",
+      "coach_reviewed": true,
+      "instructions": "Two receivers stand at short, safe distances. The passer starts with the ball in the middle. One receiver shows hands while the other keeps hands down. The passer must pass only to the receiver showing hands. Switch which receiver is ready each rep. Keep the pass short and easy.",
+      "coaching_notes": "Best for poor decision-making, low visual awareness, weak target recognition, or panic passing. Assign if the player passes to teammates who are not ready or throws without looking. Use one target first if two choices are too much.",
+      "statistic": "Beginners need simple decisions before live defense. Target hands give the passer a clear cue for who is ready.",
+      "safety": "No fake surprise passes. Keep all players watching."
+    },
+    {
+      "name": "Ball Control Relay Walk",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner",
+        "cone"
+      ],
+      "reps_target": "relay, walking only",
+      "coach_reviewed": true,
+      "instructions": "Players line up in small teams. The first player walks to a cone holding the ball securely, walks around the cone, comes back, and hands the ball to the next player. The next player repeats. Start with walking only. The goal is clean control and a safe handoff, not speed.",
+      "coaching_notes": "Best for low ball security, poor movement control, weak handoff control, or low team confidence. Assign if the player drops the ball while moving or struggles handing it to a teammate. Use a smaller ball or shorter walking distance.",
+      "statistic": "For very young players, playmaking starts with safe control and sharing the ball. This low-load relay builds comfort before harder passing games.",
+      "safety": "Walking only. No racing or pushing."
     }
   ]
 }
