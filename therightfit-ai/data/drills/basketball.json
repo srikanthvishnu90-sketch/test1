@@ -1091,6 +1091,309 @@
       "coaching_notes": "Best for low body control, poor finishing footwork, weak balance, or low finish variety. Assign if the player has basic finishes down and needs a new controlled move near the rim. Practice the spin without the ball first.",
       "statistic": "A spin finish can help players change direction near the rim, but beginners learn it slowly first. Controlled footwork matters more than speed.",
       "safety": "No defender. No fast spins until the player can land safely."
+    },
+    {
+      "name": "Backdoor Cut Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both wings",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing; a passer stands near the top of the key. Take one or two steps away from the basket like you are coming to the ball, then quickly cut behind the imaginary defender toward the rim. Show both hands, catch the pass, gather under control, and finish close. Rebound, pass back out, reset. Reps from both wings.",
+      "coaching_notes": "Best for low off-ball movement, weak cutting timing, poor catch control, or low rim confidence. Assign if the player stands still on offense or only tries to score by dribbling. Walk the cut first if timing is hard.",
+      "statistic": "Beginner players often chase the ball instead of moving into open space. Backdoor cuts teach simple off-ball scoring — timing, spacing, and finishing without over-dribbling.",
+      "safety": "One cutter at a time. No contact and no crowded lane."
+    },
+    {
+      "name": "Give-and-Go Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing with the ball. Pass to a coach or teammate at the top of the key, then cut hard toward the rim. The passer gives the ball back. Catch, gather, and finish close to the basket. Rebound and rotate. Reps from both sides.",
+      "coaching_notes": "Best for low passing movement, poor cutting habit, weak catch-and-finish control, or low team-offense awareness. Assign if the player passes and stands still or does not know how to move after giving up the ball. Walk through pass-cut-catch before adding speed.",
+      "statistic": "The give-and-go is one of the simplest basketball actions. It teaches a beginner that passing can create their own scoring chance if they move right after the pass.",
+      "safety": "Use soft passes. Keep the lane clear."
+    },
+    {
+      "name": "Curl Cut Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Place a cone or coach at the elbow as a screen marker. Start on the wing or corner. Run toward the marker, curl tightly around it, show hands, catch the pass near the lane, and finish close to the rim. Stay balanced and do not drift too wide. Reset and repeat both sides.",
+      "coaching_notes": "Best for poor movement timing, weak curved cuts, low catch balance, or low finishing rhythm. Assign if the player cuts in straight lines only or catches while drifting away from the basket. Walk the curl first if they lose balance.",
+      "statistic": "A lot of beginner scoring chances come from simple movement, not advanced dribbling. Curl cuts teach players how to turn a cut into a close finish.",
+      "safety": "No live screen contact. Use a cone or coach marker only."
+    },
+    {
+      "name": "Rip-Through Straight-Line Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing in triple threat. Rip the ball from one side of the body to the other, step past the imaginary defender, take one or two controlled dribbles, and finish close to the rim. Keep the ball tight to the body during the rip. Reset and repeat both sides.",
+      "coaching_notes": "Best for low first-move score, weak ball protection, poor straight-line drive, or low attack confidence. Assign if the player catches and freezes or exposes the ball before driving. Practice the rip-through without dribbling first.",
+      "statistic": "A rip-through is a basic way to protect the ball and start a drive — needed before advanced moves or live one-on-one finishes.",
+      "safety": "No defender at first. Keep the drive controlled."
+    },
+    {
+      "name": "Jab Step Drive Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both wings",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing with the ball in triple threat. Give one short jab step with the outside foot, bring the foot back under control, then drive straight toward the rim for a close finish. Keep the ball protected, avoid extra steps, and finish balanced. Reps from both wings.",
+      "coaching_notes": "Best for low triple-threat attack, poor jab control, weak first step, or low drive confidence. Assign if the player catches and dribbles right away without using footwork or balance. Do jab-step-only reps before adding the drive.",
+      "statistic": "A jab step is one of the simplest ways to create a driving lane. Beginners learn to use footwork before relying on speed or difficult dribble moves.",
+      "safety": "No defender until the footwork is clean. Do not let the player travel."
+    },
+    {
+      "name": "Hesitation Drive Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start outside the paint with the ball. Take a controlled dribble toward the basket, give a small hesitation by slowing the body and ball for a second, then drive to the rim and finish. Keep the hesitation simple and balanced. Rebound, reset, repeat both sides.",
+      "coaching_notes": "Best for one-speed driving, low change-of-pace score, poor body control, or low paint confidence. Assign if the player always drives at the same speed and runs into traffic. Walk through the hesitation first without finishing.",
+      "statistic": "Players who only go one speed are easier to guard. A hesitation finish teaches beginners how to control pace and attack after a simple pause.",
+      "safety": "Controlled speed only. No hard stop if knees or ankles hurt."
+    },
+    {
+      "name": "Deceleration Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Place a cone a few feet outside the paint. Dribble toward the cone at a controlled jog, slow down before reaching the paint, gather the ball, and finish close to the rim. Coach cues \"slow down before you go up.\" Reset and repeat both sides.",
+      "coaching_notes": "Best for poor deceleration, weak balance, low finishing control, or rushed paint decisions. Assign if the player gets to the rim but cannot slow down enough to finish cleanly. Walk the approach first if stopping control is poor.",
+      "statistic": "Finishing is not just speed. Players need to slow down, gather, and control the body before the shot. Deceleration work reduces wild misses and bad landings.",
+      "safety": "No max speed. Land balanced and stop if knee or ankle pain appears."
+    },
+    {
+      "name": "Pool Noodle Extension Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "pool noodle",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach stands near the rim holding a pool noodle straight up or slightly to the side as a safe obstacle. Drive slowly toward the basket and finish around the noodle without touching it — keep the ball high, extend the arm, finish softly. Both sides.",
+      "coaching_notes": "Best for low extension score, weak ball protection, low release height, or poor finish angle. Assign if the player brings the ball into the body or shoots directly into pressure. Hold the noodle farther away if the player is nervous.",
+      "statistic": "A pool noodle gives a safe visual obstacle. It helps beginners learn extension and ball protection before live defenders are added.",
+      "safety": "No contact with the coach. Noodle only, no hard objects."
+    },
+    {
+      "name": "Pad Brush Balance Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "pad",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach stands near the lane with a soft pad. Drive slowly toward the basket. As you gather, the coach gives a light brush with the pad on the side of the body. Stay balanced and finish close to the rim. Contact stays light and controlled. Both sides.",
+      "coaching_notes": "Best for low balance through contact, weak finish strength, poor body control, or fear of paint contact. Assign if the player loses balance from small bumps or avoids finishing near bodies. Do no-contact reps if the player cannot land safely.",
+      "statistic": "Players eventually need to finish with some body pressure, but beginners should start with soft, controlled contact. A pad brush gives feedback without a dangerous collision.",
+      "safety": "Light pad only. No pushing, no hard bumps, no airborne contact."
+    },
+    {
+      "name": "Low Ball Pick-Up Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Place the ball on the floor near the block or lane line. Start a few steps away, move to the ball, bend the knees, pick it up with two hands, gather the body, and finish close to the rim. Do not bend only at the waist. Reset the ball and repeat both sides.",
+      "coaching_notes": "Best for low gather control, poor loose-ball handling, weak balance, or low second-effort finishing. Assign if the player fumbles low balls or cannot turn a loose ball into a clean finish. Start closer to the rim if they need more control.",
+      "statistic": "Games create messy catches and loose balls. Players need to bend, gather, and finish without panicking — this builds that habit safely.",
+      "safety": "Bend the knees. No diving on the floor."
+    },
+    {
+      "name": "Dribble Handoff Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach or teammate stands near the wing or slot with the ball. Start a few steps away and cut toward the ball. The passer hands the ball off. Take the ball, turn the corner, take one or two controlled dribbles, and finish close to the rim. Reset and repeat both sides.",
+      "coaching_notes": "Best for low handoff timing, poor catch control, weak turn-the-corner footwork, or low drive-finish score. Assign if the player fumbles handoffs or does not know how to attack after receiving the ball. Walk through the handoff before adding a dribble.",
+      "statistic": "Handoffs are common in youth offense because they combine passing, cutting, and driving. Beginners need to learn the exchange before live defense is added.",
+      "safety": "No screens or contact. Keep the exchange slow at first."
+    },
+    {
+      "name": "Wide-Lane Transition Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start near half court on the sideline lane; a passer stands in the middle. Run wide down the court, receive the pass near the wing or lane line, take controlled steps, and finish close to the rim. Keep spacing wide before cutting in to finish. Both sides.",
+      "coaching_notes": "Best for low transition spacing, poor lane running, weak catch-and-finish control, or low fast-break awareness. Assign if the player runs down the middle every time and crowds teammates in transition. Start closer than half court if timing is hard.",
+      "statistic": "Transition offense works better when players fill lanes. Wide-lane finishing teaches spacing and gives the player a cleaner angle to the rim.",
+      "safety": "Jog speed first. No traffic under the basket."
+    },
+    {
+      "name": "Corner Backdoor Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both corners",
+      "coach_reviewed": true,
+      "instructions": "Start in the corner; a passer stands on the wing. Take a small step up like you are coming to the ball, then cut behind the imaginary defender toward the rim. The passer leads with a soft pass. Catch and finish close. Reset and do both corners.",
+      "coaching_notes": "Best for low corner awareness, poor backdoor timing, weak catch finish, or low off-ball scoring. Assign if the player stands still in the corner or only waits for jump shots. Walk the cut before passing.",
+      "statistic": "Corner players need to know how to score without dribbling. A corner backdoor cut teaches spacing, timing, and a direct finish at the rim.",
+      "safety": "Keep the baseline clear. No contact under the rim."
+    },
+    {
+      "name": "Slot Drive Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both slots",
+      "coach_reviewed": true,
+      "instructions": "Start in the slot with the ball, between the top of the key and the wing. Take one strong first step, dribble straight toward the paint, gather under control, and finish near the rim. Do not drift sideways. Rebound, reset, repeat both slots.",
+      "coaching_notes": "Best for poor drive angle, weak first step, low paint control, or low finishing confidence. Assign if the player starts drives from the slot but curves wide or loses the angle to the rim. Start without a dribble and walk the angle first.",
+      "statistic": "Different floor spots create different driving angles. Slot drive finishing teaches the player to attack a clear line to the rim instead of drifting into bad space.",
+      "safety": "No defender at first. Control the speed."
+    },
+    {
+      "name": "Cut, Stop, Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing. Cut into the paint, catch a pass, stop on balance, then finish close to the rim. Coach cues the player to land strong before going up. Rebound, pass back, reset. Both sides.",
+      "coaching_notes": "Best for poor moving balance, weak catch control, rushed finishes, or low body control. Assign if the player catches while moving and throws the ball up before getting balanced. Walk the cut and stop first without shooting.",
+      "statistic": "Catching on the move is hard for beginners. This drill separates the cut, the stop, and the finish so the player learns control before speed.",
+      "safety": "No contact. Stop balanced before jumping."
+    },
+    {
+      "name": "Relocation Cut Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start in the corner. Relocate up toward the wing for a step or two, then cut hard to the basket. A passer hits the player near the rim. Catch, gather, and finish close. Reset and repeat both sides.",
+      "coaching_notes": "Best for low spacing awareness, poor cut timing, weak off-ball scoring, or low catch-finish control. Assign if the player stands in one spot and does not know how to move before cutting. Walk through relocation first if timing is confusing.",
+      "statistic": "Small off-ball movement can set up a better cut. Relocation cut finishes help beginners connect spacing, timing, and finishing without needing advanced plays.",
+      "safety": "One cutter at a time. Keep the lane clear."
     }
   ]
 }
