@@ -2696,6 +2696,371 @@
       "coaching_notes": "Best for low visual focus, rushed shot decisions, poor patience, or low coach-cue response. Assign if the player shoots every time they touch the ball without looking or thinking. Use only one signal first if the player gets confused.",
       "statistic": "Decision-making can start with simple cues. This gives beginners a safe way to practice seeing before shooting without adding defenders.",
       "safety": "No pressure or yelling. Keep the player calm and balanced."
+    },
+    {
+      "name": "Clean Range Finder",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone"
+      ],
+      "reps_target": "step back until form breaks, mark last clean spot",
+      "coach_reviewed": true,
+      "instructions": "Start very close to the basket and take short shots with normal form. If the player can make shots without throwing, leaning, or pushing with two hands, take one small step back. Once the player forces the ball, drops the form, or misses badly because of distance, stop and mark the last clean spot — that is the player’s current form range.",
+      "coaching_notes": "Best for shooting strength, age-appropriate range, form consistency, and shot confidence. Assign if the player throws from the chest, leans back, loses guide-hand control, or cannot reach the rim without changing form. Use a lower rim or smaller ball for younger players if regulation forces bad form. Do not move the player beyond clean range just because they are talented.",
+      "statistic": "Young players often miss because the shot is too far for their strength, not effort. Finding the real form range protects mechanics and gives the app a better distance ceiling.",
+      "safety": "Stop as soon as the player starts throwing or leaning. Do not reward forced range."
+    },
+    {
+      "name": "Lower-Rim Smooth Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8-10 makes close, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Set the rim lower if the gym allows. Start close to the basket with the right ball size for the player’s age. Shoot with normal form, relaxed shoulders, and a smooth release. Watch for clean motion, not deep range. Make 8-10 from close range, rest, repeat.",
+      "coaching_notes": "Best for low shooting strength, poor regulation-rim mechanics, low confidence, or forced two-hand push. Assign if the shot looks clean on a lower rim but breaks down on a regulation rim. Use close-range regulation shots only if no lower rim is available.",
+      "statistic": "A lower rim helps younger players practice the right motion instead of building bad habits just to reach the basket. The goal is clean reps that match the athlete’s strength.",
+      "safety": "Use a stable adjustable rim. Do not let players hang on the rim or crowd underneath."
+    },
+    {
+      "name": "Smaller Ball Smooth Release",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8-10 clean makes, rest",
+      "coach_reviewed": true,
+      "instructions": "Use an age-appropriate ball. Start close to the basket and shoot short, smooth shots. Watch whether the ball comes off the hand cleanly and whether the player can hold it without squeezing or pushing with both hands. After 8-10 clean makes, rest. Do not switch to a bigger ball until the smaller ball looks controlled.",
+      "coaching_notes": "Best for hand-size limits, poor grip control, weak release, or forced two-hand shooting. Assign if the player cannot control the ball in one hand or it slips during the release. Use close no-shot grip work first if the player cannot hold the ball safely.",
+      "statistic": "Ball size matters for young shooters. A player who cannot control the ball usually builds a push or side-spin habit. This keeps the tool matched to the athlete.",
+      "safety": "Do not force a regulation ball if it breaks the player’s form."
+    },
+    {
+      "name": "No-Rim Form Lift",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "8 slow reps, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand in open space with the ball. Bend the knees slightly, lift the ball along a clean path, finish with the shooting hand toward an imaginary rim, and hold the finish. The ball can stay in the hands or be lightly tossed a few feet up and caught. Do 8 slow reps, rest, repeat.",
+      "coaching_notes": "Best for poor shooting motion, low strength, rushed release, or bad ball path. Assign if the player’s shot breaks down when a hoop is involved. Use a lighter ball if the player cannot lift the ball smoothly.",
+      "statistic": "Removing the rim takes pressure off the athlete. The player learns the motion first, then adds the basket once strength and control improve.",
+      "safety": "Do not throw the ball high. Keep reps slow and controlled."
+    },
+    {
+      "name": "Mirror Shot Shape",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "mirror"
+      ],
+      "reps_target": "5 slow reps, feedback, 5 more",
+      "coach_reviewed": true,
+      "instructions": "Stand in front of a mirror, window reflection, or a coach holding a camera. Go through the shooting motion slowly without shooting at a basket. Check the feet, knees, ball path, elbow, and finish. Do 5 slow reps, pause for feedback, then 5 more. Do not rush.",
+      "coaching_notes": "Best for low body awareness, poor shot shape, inconsistent setup, or low form understanding. Assign if the player cannot feel when the shot is off balance or crooked. Use coach demonstration if no mirror is available.",
+      "statistic": "Beginners often cannot feel form mistakes yet. Visual feedback helps connect coach cues to what the body is actually doing.",
+      "safety": "Use safe open space. No shooting into glass."
+    },
+    {
+      "name": "Quiet Shoulder Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8 makes",
+      "coach_reviewed": true,
+      "instructions": "Start very close to the basket. Before shooting, relax the shoulders and take a small breath. Shoot a short shot while keeping the shoulders quiet and the head still. Check if the shoulders jumped up or twisted. Rebound, reset, repeat for 8 makes.",
+      "coaching_notes": "Best for shoulder tension, poor upper-body control, rushed release, or hard misses. Assign if the player shrugs, twists, or throws the ball from the upper body. Move closer or use a smaller ball if the player tenses up because of distance.",
+      "statistic": "Tension makes the shot harder to repeat. A relaxed upper body helps the player shoot softer and stay on line.",
+      "safety": "Stop if shoulder pain appears. Do not add range."
+    },
+    {
+      "name": "Short Rainbow Arc Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8 makes close",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. Shoot the ball like a small rainbow, not a hard pass — let it go up, peak, and come down softly near the rim. Rebound and reset. Do 8 makes from close range.",
+      "coaching_notes": "Best for low arc, poor touch, flat misses, or low shot softness. Assign if the shot hits the front rim hard or looks like a pass. Use a lower rim or smaller ball if the player cannot create arc without throwing.",
+      "statistic": "Soft arc gives the ball a better chance to drop in. For young players, the drill must stay close so arc does not turn into a forced heave.",
+      "safety": "Stay close. Do not let the player lean back to get arc."
+    },
+    {
+      "name": "Front-Rim Drop Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6-8 soft makes",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. Shoot so the ball clears the front rim softly and drops in — do not aim hard at the back rim. Rebound, reset, repeat. Count only shots that are soft and controlled. Do 6-8 makes.",
+      "coaching_notes": "Best for poor distance control, hard misses, low touch, or front-rim misses. Assign if the player hits the front rim with a flat shot or launches the ball too hard. Move closer if the player cannot clear the front rim softly.",
+      "statistic": "Good shooters learn distance control. This gives a simple target: clear the front rim with touch instead of throwing the ball.",
+      "safety": "Keep reps low and close. Do not force power."
+    },
+    {
+      "name": "Back-Rim Soft Touch Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6-8 soft makes",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. Shoot softly toward the back half of the rim — the ball should not fly hard off the back rim. Shoot, check the miss, rebound, reset. Do 6-8 makes or clean soft attempts.",
+      "coaching_notes": "Best for short misses, low depth control, weak touch, or low confidence from beginner range. Assign if the shots keep hitting the front rim or falling short. Move closer or lower the rim if the player cannot reach softly.",
+      "statistic": "Some players miss short because they are underpowered or unsure. This teaches depth control without telling the player to throw harder.",
+      "safety": "Do not push range. The shot must stay smooth."
+    },
+    {
+      "name": "Two-Step Range Step-In",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone"
+      ],
+      "reps_target": "8-10 reps",
+      "coach_reviewed": true,
+      "instructions": "Start at a marked beginner spot. If the player can shoot with clean form, take the shot. If it feels too far or the coach sees bad form, take two steps in, reset, and shoot from the closer spot. Rebound and go back to the starting mark. Repeat for 8-10 reps.",
+      "coaching_notes": "Best for poor shot selection, forced range, low shooting strength, or low form awareness. Assign if the player keeps shooting from too far even when mechanics break down. Start closer if the first spot is already too far.",
+      "statistic": "Shot selection starts with knowing your range. Young players need permission to move in when form breaks down.",
+      "safety": "Never punish a player for stepping closer. Clean form is the win."
+    },
+    {
+      "name": "Soft Ball Touch Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8-10 clean reps, rest",
+      "coach_reviewed": true,
+      "instructions": "Use a soft training ball, foam ball, or lighter basketball if available. Stand close to the basket or a lower hoop and shoot with the same motion as with a real ball. Watch the release, arc, and balance. Do 8-10 clean reps, then rest.",
+      "coaching_notes": "Best for low hand strength, low shot control, poor release, or forced regulation-ball mechanics. Assign if the player cannot shoot a standard ball without pushing or twisting. Use a smaller basketball instead if a soft ball changes the feel too much.",
+      "statistic": "A lighter ball reduces the strength barrier so the player can learn touch and release — a lower-load rung, not a permanent replacement for a normal basketball.",
+      "safety": "Use a safe ball. Do not throw hard indoors."
+    },
+    {
+      "name": "Partner Form Toss to Hands",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "8 clean shots",
+      "coach_reviewed": true,
+      "instructions": "A passer stands close and tosses the ball softly to the player’s hands. Catch, pause for balance, then shoot from close range. The pass should be easy enough to catch without panic. Get the ball and pass it back. Do 8 clean shots.",
+      "coaching_notes": "Best for low catch strength, poor shot prep, weak hand control, or rushed catch-and-shoot mechanics. Assign if the player bobbles normal passes before shooting. Use a smaller or lighter ball if catching is still hard.",
+      "statistic": "Young players need passes that match their hand strength. If every pass is too hard, the shot rep breaks before it starts.",
+      "safety": "Pass softly to the hands. No chest-high rockets."
+    },
+    {
+      "name": "Close Chair Balance Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "chair"
+      ],
+      "reps_target": "6-8 makes",
+      "coach_reviewed": true,
+      "instructions": "Place a chair a safe distance beside the player, not in front of the feet. Stand close to the basket. Before shooting, lightly touch the chair with the off hand for balance, then let go and shoot. The chair is only a reminder. Rebound, reset, repeat. Do 6-8 makes.",
+      "coaching_notes": "Best for poor shooting balance, body sway, weak base, or low posture control. Assign if the player cannot stay still during a short shot. Remove the chair if the player leans on it too much.",
+      "statistic": "Some beginners need a physical reminder to feel balance. The drill keeps the load low and the shot close while teaching body control.",
+      "safety": "Use a stable chair and keep it away from the feet. Do not let the player trip."
+    },
+    {
+      "name": "Eyes-Lift Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps, eyes to rim before motion",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket with the ball. Before each shot, say \"eyes\" and look at the rim for one full second, then shoot with balance. Rebound and reset. The eyes must reach the rim before the shooting motion starts.",
+      "coaching_notes": "Best for poor visual focus, rushed shot prep, low target awareness, or inconsistent aim. Assign if the player watches the ball while shooting or looks at the rim too late. Use no-shot \"eyes only\" reps first if the player rushes.",
+      "statistic": "A shooter needs to see the target before the ball leaves the hand. This simple cue helps beginners slow down and aim with purpose.",
+      "safety": "Keep the shot close. No pressure."
+    },
+    {
+      "name": "Quiet Feet Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8 clean makes (feet must stay still)",
+      "coach_reviewed": true,
+      "instructions": "Start at a close shooting spot. The feet must stay quiet from the start of the shot until the ball leaves the hand. If the feet move, the rep does not count. Shoot, hold balance, rebound, repeat. Do 8 clean makes.",
+      "coaching_notes": "Best for foot movement, poor base stability, rushed shooting, or inconsistent shot balance. Assign if the player shuffles, steps, or bounces during short set shots. Move closer if the feet move because the shot is too far.",
+      "statistic": "A stable base helps the shot repeat. Beginners often move their feet because they are off balance or shooting outside their strength range.",
+      "safety": "Do not freeze the knees. Keep a comfortable bend."
+    },
+    {
+      "name": "Small Step-In Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start one small step behind a close shooting spot. Step in with the shooting-side foot, bring the other foot into balance, and shoot. Keep the step small and quiet. Rebound and repeat from both sides. Keep the spot close enough for good form.",
+      "coaching_notes": "Best for poor step-in control, low shooting rhythm, weak balance, or slow shot prep. Assign if the player needs rhythm but a hop or faster footwork is too much. Use stationary shooting if stepping causes form breakdown.",
+      "statistic": "A small step-in is a lower-impact way to build rhythm — easier than faster movement shooting and safer for young players.",
+      "safety": "No jump needed. Keep the step small."
+    },
+    {
+      "name": "Short Pass Catch Pause Shoot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "8 makes",
+      "coach_reviewed": true,
+      "instructions": "A passer stands close and gives a soft pass. Catch the ball, pause for one second, check the feet, then shoot from close range. The pause is part of the drill. Rebound or pass back and repeat. Do 8 makes.",
+      "coaching_notes": "Best for poor catch control, rushed shot prep, weak balance, or low hand strength. Assign if the player catches and immediately throws the ball before getting set. Use an even softer pass or smaller ball if catching is hard.",
+      "statistic": "Some young players need a pause before rhythm. Rushing before they are strong or coordinated enough can build bad mechanics.",
+      "safety": "Soft passes only. Give the player time to set."
+    },
+    {
+      "name": "Soft Touch Backboard Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start a few feet from the basket at a short angle. Set the feet, look at a soft spot on the glass, and shoot a short bank-style shot with light touch from a set position (not a drive). Rebound, reset, repeat both sides. Stay close enough to avoid throwing.",
+      "coaching_notes": "Best for poor glass touch, hard short shots, low angle control, or weak short-range accuracy. Assign if the player can make straight shots but struggles with short angled shots. Move closer or lower the rim if the player cannot shoot softly.",
+      "statistic": "Short glass shots teach angle, touch, and depth — another safe close-range shot without adding speed or contact.",
+      "safety": "No drifting or jumping into other players. Keep it close."
+    },
+    {
+      "name": "Wrist-Friendly Push Range Check",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "5 slow shots, check for pain",
+      "coach_reviewed": true,
+      "instructions": "Start very close to the basket. Shoot 5 slow shots with normal form. After each, the coach asks if the wrist, elbow, or shoulder feels okay. If the player feels pain or has to push hard, move closer, use a smaller ball, or stop shooting for the day. The drill is about finding a safe shooting setup.",
+      "coaching_notes": "Best for pain monitoring, shooting strength, wrist control, and safe range selection. Assign if the player says shooting hurts, shakes the wrist after shots, or visibly forces the ball. Do not continue if pain is present.",
+      "statistic": "Pain and forced mechanics are warning signs. Young players should build shooting strength slowly and stay within a pain-free range.",
+      "safety": "Pain stops the drill. Do not coach through wrist, elbow, or shoulder pain."
+    },
+    {
+      "name": "Parent-Range Spot Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone"
+      ],
+      "reps_target": "10 shots from one marked spot",
+      "coach_reviewed": true,
+      "instructions": "A parent or coach helps the player find one close spot where they can shoot with clean form. Mark it with tape, chalk, or a cone. Shoot 10 shots from that spot only. If form stays clean, keep that spot for the week; if form breaks, move it closer. The goal is consistent, safe reps.",
+      "coaching_notes": "Best for home-practice safety, age-appropriate range, low confidence, or poor shot selection. Assign if the player practices deep shots at home and builds bad habits. Use a lower rim or smaller ball if clean form is not possible.",
+      "statistic": "Kids often copy older players and shoot from too far away. A marked parent-range spot keeps practice productive and protects the shot.",
+      "safety": "No deep shots during this drill. Stay at the marked clean-form spot."
     }
   ]
 }
