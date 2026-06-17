@@ -5297,6 +5297,354 @@
       "coaching_notes": "Best for low listening response, poor decision-making, weak dribble control, or panic with the ball. Assign if the player does not know whether to keep the ball or pass. Use only one command at first if the player gets confused.",
       "statistic": "Playmaking starts with simple choices. This teaches the player to hear a cue and make a controlled action without pressure.",
       "safety": "No speed. No defenders. Control first."
+    },
+    {
+      "name": "Stance Sit and Stand",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "6-8 reps",
+      "coach_reviewed": true,
+      "instructions": "Stand tall, feet about shoulder-width. On the coach cue, bend the knees, drop the hips slightly, keep the chest up, and hold a defensive stance for 2 seconds. Stand back up and reset. Do 6-8 reps. The stance should be comfortable, not a deep squat.",
+      "coaching_notes": "Best for low stance strength, poor posture, weak balance, or low defensive readiness. Assign if the player stands too upright, bends only at the waist, or cannot hold a safe stance. Shorten the hold if knees, hips, or back feel uncomfortable.",
+      "statistic": "Younger players often lack the leg strength to hold long defensive stances. Short stance reps teach posture without turning the drill into conditioning.",
+      "safety": "No deep squat. Stop if knee, hip, or back pain appears."
+    },
+    {
+      "name": "Hands Wide Stance Hold",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "6-8 reps",
+      "coach_reviewed": true,
+      "instructions": "Get into a comfortable defensive stance. Hold both hands wide, palms out, for 3 seconds. The coach checks that the player is not leaning, grabbing, or swiping. Stand up, reset, and repeat. Do 6-8 reps.",
+      "coaching_notes": "Best for poor hand activity, low defensive awareness, weak posture, or reaching fouls. Assign if the player keeps hands down or reaches instead of staying balanced. Lower the arms slightly if shoulder fatigue appears.",
+      "statistic": "Early defensive development should teach safe positioning before pressure. Wide hands help players contest space without fouling.",
+      "safety": "No grabbing or swiping. Stop if shoulder pain appears."
+    },
+    {
+      "name": "Mirror Stance Partner",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "10s, rest, switch roles",
+      "coach_reviewed": true,
+      "instructions": "Two players face each other with no ball. Player A leads, slowly moving the hands, shoulders, or body side to side. Player B mirrors the movement while staying in a comfortable stance. Go for 10 seconds, rest, switch roles. Keep it slow.",
+      "coaching_notes": "Best for poor reaction control, weak stance balance, low focus, or poor body control. Assign if the player loses stance when watching another person. Use hand-only mirroring for younger players.",
+      "statistic": "Defenders need to react without jumping out of position. Mirroring gives a safe reaction task before live offense is added.",
+      "safety": "No contact, no fast cuts, no chasing."
+    },
+    {
+      "name": "Slide Two Steps and Freeze",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "6 reps each direction",
+      "coach_reviewed": true,
+      "instructions": "Start in a comfortable stance. On the coach cue, slide two short steps to the right and freeze. Then slide two short steps to the left and freeze. The coach checks feet, knees, and balance. Do 6 reps each direction.",
+      "coaching_notes": "Best for poor lateral control, weak footwork, low balance, or crossed feet. Assign if the player crosses feet, hops, or loses balance during slides. Use one step each way for younger players or low-strength athletes.",
+      "statistic": "Defensive sliding should start with short controlled steps. Beginners need control before speed or longer slide patterns.",
+      "safety": "Short steps only. Stop if ankle or knee pain appears."
+    },
+    {
+      "name": "Angle Cut-Off Walk",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps, switch roles",
+      "coach_reviewed": true,
+      "instructions": "Place two cones in a lane. The offensive player walks from one cone toward the other without a ball. The defender starts beside them and walks to cut off the path, staying between the player and the basket. No contact. Switch roles after each rep.",
+      "coaching_notes": "Best for poor defensive angle, low positioning awareness, weak body control, or chasing habits. Assign if the player follows behind the offense instead of getting in front. Use slower walking speed if the defender gets confused; ages 7-8 do it as a walking game.",
+      "statistic": "Good defense starts with position. Walking angle work teaches the idea before speed, contact, or live dribbling is added.",
+      "safety": "No bumping or blocking. Walk only."
+    },
+    {
+      "name": "Ball-Side Point Drill",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "reps, add \"basket\" point if ready",
+      "coach_reviewed": true,
+      "instructions": "A coach stands with a ball on one side of the court; the player stands in the middle. The coach moves the ball to different spots. The player points to the ball and says \"ball,\" then resets into a comfortable stance. Add \"basket\" as a second point if the player is ready.",
+      "coaching_notes": "Best for low ball awareness, poor defensive focus, weak court understanding, or low help-side readiness. Assign if the player loses track of the ball on defense. Use one ball spot at a time for younger players.",
+      "statistic": "Players cannot defend or rebound well if they do not know where the ball is. A low-load awareness drill.",
+      "safety": "No running. Teach the concept first."
+    },
+    {
+      "name": "Ball-You-Man Triangle",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, walking pace",
+      "coach_reviewed": true,
+      "instructions": "Use three people: coach with the ball, defender, and offensive player. The defender stands where they can see both the ball and the offensive player. The coach moves the ball slowly to a new spot, and the defender adjusts — pointing one hand toward the ball and one toward their player.",
+      "coaching_notes": "Best for low off-ball awareness, poor help positioning, weak visual tracking, or poor defensive spacing. Assign if the player watches only the ball and loses their matchup. Use walking pace and clear spacing only.",
+      "statistic": "Off-ball defense starts with vision. This teaches the relationship between the ball, the defender, and the matchup.",
+      "safety": "No live cuts or screens. Walk and point."
+    },
+    {
+      "name": "Closeout Hands High Stop",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "6 reps",
+      "coach_reviewed": true,
+      "instructions": "Start 6-8 feet from a coach holding the ball. Take quick but controlled steps toward the coach, slow down, raise both hands, and stop balanced. Do not jump, swipe, or crowd the coach. Reset and repeat 6 reps.",
+      "coaching_notes": "Best for poor closeout control, weak stop balance, low hand activity, or fly-by risk. Assign if the player runs past the shooter or closes out with hands down. Walk the closeout if stopping control is poor; ages 7-8 only with walking closeouts.",
+      "statistic": "Closeouts are common in youth defense, but speed must be controlled. Beginners need to learn slow-down and hands-up before live contests.",
+      "safety": "No contact with the shooter. No jumping into the coach."
+    },
+    {
+      "name": "Contest Without Jump",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, add soft shot only if safe",
+      "coach_reviewed": true,
+      "instructions": "A coach or partner holds the ball in shooting position. The defender stands a safe distance away, gets into stance, raises one or both hands, and holds the contest for 2 seconds — staying on the floor. Reset and repeat. Add a soft shot only if the player can keep space safely.",
+      "coaching_notes": "Best for poor contest control, high foul risk, low discipline, or weak defensive hand position. Assign if the player jumps into shooters, reaches, or cannot contest without fouling. Use no shot attempt at first.",
+      "statistic": "Beginners often foul because they jump or swipe. This teaches a low-risk contest with hands high and feet down.",
+      "safety": "Stay on the floor. Keep safe distance from the shooter."
+    },
+    {
+      "name": "No-Ball Box-Out Turn",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach points to an imaginary shooter. The player says \"shot,\" turns to find the nearest partner or cone, steps into a safe box-out position, and holds for 2 seconds. No pushing and no ball. Reset and repeat from both sides.",
+      "coaching_notes": "Best for poor box-out awareness, weak footwork, low rebounding positioning, or low possession awareness. Assign if the player watches the ball and forgets to find their player after a shot. Use a cone instead of a player for younger athletes.",
+      "statistic": "Youth drills often start box-out work without a ball so players learn the movement first, reducing contact and confusion.",
+      "safety": "No pushing. Hold space, do not hit the partner."
+    },
+    {
+      "name": "Box-Out Back-to-Contact Hold",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "5 reps, then switch roles",
+      "coach_reviewed": true,
+      "instructions": "A defender stands in front of a partner. On the coach cue, the defender turns, places their back lightly against the partner’s front, keeps arms safe, and holds position for 2 seconds. The partner gives only light resistance. No ball is used. Switch roles after 5 reps.",
+      "coaching_notes": "Best for low contact confidence, poor box-out balance, weak body control, or fear of rebounding contact. Assign if the player avoids contact completely but has safe movement control. Avoid for players with fear of contact, pain, or poor balance; younger players should use cone box-outs instead.",
+      "statistic": "Rebounding has contact, but it must be introduced carefully. Light contact holds are safer than competitive rebounding for beginners.",
+      "safety": "Light contact only. No pushing, leaning hard, elbows, or wrestling."
+    },
+    {
+      "name": "Shot Call Find Player",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "reps, turn both ways",
+      "coach_reviewed": true,
+      "instructions": "Players stand in pairs. The coach calls \"shot.\" Each defender turns to find their partner, gets into a safe box-out position, and holds for 2 seconds. No ball needed at first. After a few reps, the coach points to different directions so players learn to turn both ways.",
+      "coaching_notes": "Best for poor rebounding awareness, weak box-out reaction, low player-location skill, or low possession finish habits. Assign if the player ball-watches after shots and gives up rebounds. Use cones for younger players who are not ready for body contact.",
+      "statistic": "A key rebounding habit is \"shot, find, hit, get.\" For beginners, this starts with the \"find\" piece before adding contact or ball pursuit.",
+      "safety": "No bumping. Find and hold only."
+    },
+    {
+      "name": "Two-Hand Rebound Catch",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6-8 clean rebounds",
+      "coach_reviewed": true,
+      "instructions": "A coach stands close and tosses the ball softly off the backboard or straight up. Track it, catch with two hands, land balanced, and pull the ball to the chest or chin. Start with low tosses. Do 6-8 clean rebounds.",
+      "coaching_notes": "Best for poor rebound catching, weak hands, low tracking, or loose rebound security. Assign if the player bats at rebounds or catches with one hand only. Use no-jump catches for younger or low-strength players.",
+      "statistic": "Rebounding is not finished until the ball is secured. Two-hand catches build control and reduce loose-ball rebounds.",
+      "safety": "Use low tosses. Land balanced. No crowding under the ball."
+    },
+    {
+      "name": "Rebound Chin and Outlet",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach tosses the ball softly to the player or off the backboard. Catch with two hands, bring the ball to the chin or chest, pivot slowly, and make a short outlet pass to a coach or teammate. Keep the outlet close and controlled. Do both sides.",
+      "coaching_notes": "Best for poor rebound security, low outlet awareness, weak pivot control, or high turnover risk after rebounds. Assign if the player rebounds and immediately drops, travels, or throws wild passes. Practice rebound and secure without outlet first; ages 7-8 can do no-jump catches and very short outlets.",
+      "statistic": "A rebound should end with possession, not panic. This teaches secure first, then outlet safely.",
+      "safety": "No swinging elbows. Outlet distance must match strength."
+    },
+    {
+      "name": "Rebound Land Wide",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6-8 reps",
+      "coach_reviewed": true,
+      "instructions": "A coach tosses the ball gently. Catch it with two hands and land with feet about shoulder-width apart. Freeze for 2 seconds after landing while the coach checks balance. Start with no jump or small jump only. Do 6-8 reps.",
+      "coaching_notes": "Best for poor landing control, narrow base, low balance, or rebound instability. Assign if the player catches rebounds and falls, stumbles, or lands with feet too close. Use no-jump catches if landing control is poor; ages 7 should use no-jump catches.",
+      "statistic": "Rebounding includes landing safely. Young players need landing control before competitive rebounding.",
+      "safety": "No high tosses. Stop if knee or ankle pain appears."
+    },
+    {
+      "name": "Backboard Track and Catch",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6-8 reps both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach stands close and tosses the ball softly off the backboard. Watch the ball, step to it, catch with two hands, and secure it. The toss should be easy and predictable at first. Do 6-8 reps from both sides of the hoop.",
+      "coaching_notes": "Best for poor ball tracking, weak rebound timing, low catching confidence, or missed rebounds. Assign if the player loses the ball off the backboard or mistimes easy rebounds. Use straight-up tosses before backboard tosses if tracking is poor; ages 7 can use soft tosses without jumping.",
+      "statistic": "Rebounds come off the rim and backboard at different angles. Beginners need simple tracking reps before competitive rebounding.",
+      "safety": "One player at a time. No crowded rebounding."
+    },
+    {
+      "name": "Rebound Tip to Self",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "5-6 clean reps",
+      "coach_reviewed": true,
+      "instructions": "Stand close to the basket or in open space. The coach tosses the ball softly. Tip it lightly upward once, then catch it with two hands and secure it. Start with very low tosses and no jumping if needed. Do 5-6 clean reps.",
+      "coaching_notes": "Best for low rebound touch, weak hand control, poor tracking, or low coordination. Assign if the player bats rebounds away instead of controlling them. Use two-hand rebound catch first if the player cannot control the tip; ages 8-9 only with no-jump soft tosses.",
+      "statistic": "Some rebounds are not caught cleanly right away. A light tip-to-self teaches control, but only after basic catching is safe.",
+      "safety": "No high jumping, no crowds, no tipping over other players."
+    },
+    {
+      "name": "Loose Ball Stop and Secure",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "6-8 reps from different angles",
+      "coach_reviewed": true,
+      "instructions": "A coach gently rolls the ball a short distance. Move to the ball, stop it with two hands, pick it up, and secure it at the chest. Then pass it back to the coach. Do 6-8 reps from different short angles.",
+      "coaching_notes": "Best for poor loose-ball awareness, low ball security, weak pickup control, or panic around loose balls. Assign if the player kicks at loose balls, dives unsafely, or cannot secure the ball. Roll the ball slower or closer for younger players.",
+      "statistic": "Loose balls often lead to chaos. This teaches a safe, controlled pickup before adding speed or competition.",
+      "safety": "No diving. No sliding on the floor. Secure with two hands."
+    },
+    {
+      "name": "Defensive Rebound Call \"Mine\"",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6-8 reps",
+      "coach_reviewed": true,
+      "instructions": "A coach tosses the ball softly. Track the ball, call \"mine,\" catch with two hands, and secure it. Start with one player. Add a second nearby teammate only after the player can communicate safely. Do 6-8 reps.",
+      "coaching_notes": "Best for low communication, poor rebound ownership, weak ball tracking, or team confusion. Assign if players watch each other and let rebounds drop. Use one player only for younger athletes.",
+      "statistic": "Communication helps finish possessions. Calling the ball builds ownership and reduces hesitation.",
+      "safety": "No two-player collisions. Add teammates slowly."
+    },
+    {
+      "name": "Box-Out Then Rebound Toss",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps, cone version for young players",
+      "coach_reviewed": true,
+      "instructions": "A defender stands in front of a cone or passive partner. The coach calls \"shot.\" The defender turns, gets into a safe box-out position for 1 second, then the coach tosses the ball softly nearby. The defender releases, gets the ball with two hands, and secures it. Use cones instead of partners for younger players.",
+      "coaching_notes": "Best for poor box-out habit, weak rebound pursuit, low ball security, or low possession finish skill. Assign if the player boxes out but does not go get the ball, or watches the ball without making contact first. Use the no-contact cone version for younger or contact-averse players; ages 8-9 use cone box-outs with no contact.",
+      "statistic": "Rebounding has two parts: make space and secure the ball. This teaches both without making it a live battle.",
+      "safety": "No pushing or wrestling. Toss must be soft and close."
     }
   ]
 }
