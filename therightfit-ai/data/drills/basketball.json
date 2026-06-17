@@ -1,0 +1,326 @@
+{
+  "sport": "basketball",
+  "drills": [
+    {
+      "name": "Stationary Pound Dribble",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "20s right, 20s left, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start in an athletic stance, knees bent, feet about shoulder-width. Pound the ball with the right hand for 20 seconds, then the left for 20 seconds \u2014 waist height or lower, controlled with the fingertips, eyes up, stay low. Rest, reset, repeat.",
+      "coaching_notes": "Best for low ball-control, weak-hand control, poor stance, or low dribble confidence. Use lower speed and shorter sets if control slips. No speed challenge until the dribble is steady.",
+      "statistic": "Youth development builds from basic control, stance, and confidence before adding speed or defenders \u2014 a player who can't control a stationary dribble isn't ready for full-speed moves.",
+      "safety": "Keep the player in control. No speed challenge until the dribble is steady."
+    },
+    {
+      "name": "Low Dribble Control",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "15s right, 15s left, repeat",
+      "coach_reviewed": true,
+      "instructions": "In a low athletic stance, dribble below knee height with the right hand for 15 seconds, then the left for 15. Back straight, hips low, eyes up. Control first, not speed. Rest, reset, repeat.",
+      "coaching_notes": "Best for players who dribble too high or lose the ball under pressure. Allow waist-high dribbles first if low is too hard. Keep the stance strong; stop if knees or back hurt.",
+      "statistic": "Good handlers change dribble height. A low dribble protects the ball and builds hand strength before crossovers or defense.",
+      "safety": "Keep the stance strong. Stop if knees or back hurt."
+    },
+    {
+      "name": "Stationary Crossover",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "20 controlled crossovers, repeat",
+      "coach_reviewed": true,
+      "instructions": "In an athletic stance, dribble the ball low across the body to the other hand and back, keeping it in front. Chest up, knees bent, eyes forward. 20 controlled crossovers, rest, repeat.",
+      "coaching_notes": "Best for the first dribble move. Use slower, wider crossovers first. Stay balanced \u2014 no hard side-to-side lunging yet.",
+      "statistic": "The crossover is a basic move, but beginners learn control before speed. A clean stationary crossover sets up movement drills later.",
+      "safety": "Stay balanced. No hard side-to-side lunging yet."
+    },
+    {
+      "name": "Stationary Between-the-Legs Setup",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "10 reps each side, repeat",
+      "coach_reviewed": true,
+      "instructions": "One foot slightly in front. Dribble the ball from the back hand through the legs to the front hand, then reset the feet and repeat. Start slow, keep it low. 10 reps each side, rest, repeat.",
+      "coaching_notes": "Best once a basic crossover is controlled. Stay with the stationary crossover if control isn't there. Keep the stance comfortable \u2014 don't force a wide split.",
+      "statistic": "Between-the-legs takes coordination between stance, hands, and timing. Slowing it down teaches the pattern without losing balance.",
+      "safety": "Keep the stance comfortable. Do not force a wide split stance."
+    },
+    {
+      "name": "Right-Hand Walking Dribble",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "20\u201330 ft down and back, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start on a line with the ball in the right hand. Walk forward dribbling at the side of the body, eyes up, steps under control. Go 20\u201330 ft, turn, come back. Rest, repeat.",
+      "coaching_notes": "Best for players who can dribble still but lose it while walking. Shorten the distance if the ball gets away. Walk first; no speed until control is steady.",
+      "statistic": "Players must carry the ball up the floor with control before making moves or reading defenders \u2014 walking dribbles are the safest first step.",
+      "safety": "Walk first. Do not add speed until control is steady."
+    },
+    {
+      "name": "Left-Hand Walking Dribble",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "20\u201330 ft, repeat",
+      "coach_reviewed": true,
+      "instructions": "Ball in the left hand, walk forward dribbling on the left side, eyes up. If it gets loose, slow down, regain control, keep going. 20\u201330 ft, rest, repeat.",
+      "coaching_notes": "Best for weak off-hand dribbling. Use shorter distance or stationary weak-hand dribbles first. Slow is fine \u2014 clean control first.",
+      "statistic": "Players who use one hand are easy to guard. Building the weak hand early adds options and confidence.",
+      "safety": "Slow is fine. Clean control first."
+    },
+    {
+      "name": "Cone Dribble Walk",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [
+        "Footwork"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cones"
+      ],
+      "reps_target": "4\u20135 cones, strong then weak hand",
+      "coach_reviewed": true,
+      "instructions": "Set 4\u20135 cones in a line. Dribble slowly around each with control \u2014 strong hand first, then weak hand. Keep the dribble low, eyes up when possible, feet under control. Walk back, rest, repeat.",
+      "coaching_notes": "Best for learning direction change with the ball. Use fewer cones and wider spacing first. Walk speed first; keep spacing wide.",
+      "statistic": "Cone dribbling gives a simple target and teaches the body to move with the ball before live defense.",
+      "safety": "Walk speed first. Keep cone spacing wide enough."
+    },
+    {
+      "name": "Triple Threat Hold",
+      "primary_skill": "Footwork",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "3s hold \u00d7 8\u201310 reps",
+      "coach_reviewed": true,
+      "instructions": "Catch or start with the ball near the chest. Bend the knees, strong base, ball in the shooting pocket / close to the body, eyes forward. Hold 3 seconds, relax, reset. 8\u201310 reps.",
+      "coaching_notes": "Best for offensive stance and ball protection. Use no defense first. Knees bent but comfortable; no contact needed.",
+      "statistic": "Triple threat connects shooting, passing, and driving \u2014 a strong stance gives the player more control.",
+      "safety": "Keep knees bent but comfortable. No contact needed."
+    },
+    {
+      "name": "Front Pivot Drill",
+      "primary_skill": "Footwork",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "5 each direction, switch feet",
+      "coach_reviewed": true,
+      "instructions": "Start in triple threat; pick a pivot foot. Keep it planted and step around with the other foot to face a new direction, then return. 5 front pivots each direction, reset, switch pivot feet.",
+      "coaching_notes": "Best for footwork and not traveling. Practice without the ball first if footwork is confusing. Move slowly; keep the pivot foot planted.",
+      "statistic": "Pivoting keeps players under control, protects the ball, and avoids travel calls.",
+      "safety": "Move slowly first. Keep the pivot foot planted."
+    },
+    {
+      "name": "Reverse Pivot Drill",
+      "primary_skill": "Footwork",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "5 each direction, switch feet",
+      "coach_reviewed": true,
+      "instructions": "Start in triple threat. Step backward and around with the free foot, turning the body away to protect the ball, keeping the pivot foot down. Reset to triple threat. 5 reps each direction, switch feet.",
+      "coaching_notes": "Best for protecting the ball and avoiding travels. Do the footwork without a ball first. No defender needed at first; slow and controlled.",
+      "statistic": "Reverse pivots create space and protect the ball \u2014 needed before facing real pressure.",
+      "safety": "No defender needed at first. Keep it slow and controlled."
+    },
+    {
+      "name": "Wall Shooting Form",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "wall"
+      ],
+      "reps_target": "10\u201315 reps",
+      "coach_reviewed": true,
+      "instructions": "Stand a few feet from a wall, pick a small target. Shoot the ball softly toward it, hold the follow-through, catch, repeat. Smooth and straight. 10\u201315 reps.",
+      "coaching_notes": "Best for shooting form without a basket. Use a softer ball indoors if needed. Use a safe wall and enough space; don't throw hard.",
+      "statistic": "Form can be trained without a hoop \u2014 wall form shooting builds clean mechanics and a straight release.",
+      "safety": "Use a safe wall and enough space. Do not throw the ball hard."
+    },
+    {
+      "name": "Layup Footwork Walkthrough",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Footwork"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "slow reps each side",
+      "coach_reviewed": true,
+      "instructions": "A few steps from the basket, no dribble. Right-hand layup: step right, then left, jump and reach the right hand to the rim. Left-hand: step left, then right, reach the left hand. Start slow, finish close, get the ball, repeat.",
+      "coaching_notes": "Best for learning layup steps. Practice without the ball first if timing is hard. Walk first; no contact or speed until steps are clean.",
+      "statistic": "Layups are a core beginner scoring skill, and bad steps cause misses or travels \u2014 footwork comes first.",
+      "safety": "Walk first. No contact or speed until steps are clean."
+    },
+    {
+      "name": "Bounce Pass to Wall",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "wall"
+      ],
+      "reps_target": "15\u201320 reps",
+      "coach_reviewed": true,
+      "instructions": "Stand 6\u201310 ft from a wall. Aim for a spot on the floor about two-thirds of the way to the wall so the ball bounces up to the wall and back. Catch, reset, repeat for 15\u201320 reps.",
+      "coaching_notes": "Best for bounce-pass control. Move closer and slow the pass if it's short, hard, or off-angle. Use clear space; no hard passes near others.",
+      "statistic": "Bounce passes matter for passing around defenders \u2014 beginners learn where the ball should hit and how hard to throw it.",
+      "safety": "Use clear space. No hard passes near other players."
+    },
+    {
+      "name": "Partner Chest Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "20 clean passes",
+      "coach_reviewed": true,
+      "instructions": "Two players 8\u201312 ft apart. Step toward the partner and throw a chest pass; the partner shows hands, catches with two hands, resets, passes back. Call names, pass to the chest. 20 clean passes.",
+      "coaching_notes": "Best for team passing. Stand closer if passes are weak. Pass to the chest \u2014 do not throw at the face.",
+      "statistic": "Basketball is a team sport; partner passing teaches timing and communication better than solo work alone.",
+      "safety": "Pass to the chest. Do not throw at the face."
+    },
+    {
+      "name": "Partner Bounce Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "20 clean passes",
+      "coach_reviewed": true,
+      "instructions": "Two players 8\u201312 ft apart. Step forward and throw a bounce pass so the ball hits the floor and rises to the partner's hands; catch, reset, pass back the same way. 20 clean passes.",
+      "coaching_notes": "Best for bounce passing with a teammate. Move closer and slow down if needed. Keep passes controlled; watch for loose balls.",
+      "statistic": "Bounce passes get the ball around defenders \u2014 beginners learn the right bounce spot and speed with a real partner.",
+      "safety": "Keep passes controlled. Watch for loose balls."
+    },
+    {
+      "name": "Defensive Stance Hold",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "court"
+      ],
+      "reps_target": "10\u201320s holds, repeat",
+      "coach_reviewed": true,
+      "instructions": "Feet wider than shoulder-width, knees bent, chest up, hands out. Hold 10\u201320 seconds \u2014 coach checks for being too upright, leaning too far forward, or sitting on the heels. Rest, reset, repeat.",
+      "coaching_notes": "Best for basic defense. Shorten the hold if legs tire. No long holds if knees hurt; keep posture strong.",
+      "statistic": "Defense starts with stance \u2014 a player who can't hold a stance can't slide, close out, or guard the ball.",
+      "safety": "No long holds if knees hurt. Keep posture strong."
+    },
+    {
+      "name": "Defensive Slide Line Drill",
+      "primary_skill": "Defense",
+      "secondary_skills": [
+        "Footwork"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "court"
+      ],
+      "reps_target": "3 rounds, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start in defensive stance on a line. Slide right 3\u20135 steps, then back left, without crossing the feet \u2014 stay low, chest up, push off the outside foot. 3 rounds, rest, repeat.",
+      "coaching_notes": "Best for lateral defensive movement. Use slower slides or shorter distance first. Keep distance short; stop if knees, ankles, or hips hurt.",
+      "statistic": "Slides teach balance, lateral control, and staying between the offensive player and the basket.",
+      "safety": "Keep distance short. Stop if knees, ankles, or hips hurt."
+    },
+    {
+      "name": "Closeout Walkthrough",
+      "primary_skill": "Defense",
+      "secondary_skills": [
+        "Footwork"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "court",
+        "cones"
+      ],
+      "reps_target": "walk \u2192 jog reps",
+      "coach_reviewed": true,
+      "instructions": "Start near the paint; a cone/coach on the wing. Jog toward it, take short choppy steps near the end, raise one or both hands, and stop balanced in a defensive stance. Backpedal/walk back, repeat.",
+      "coaching_notes": "Best for approaching a shooter under control. Walk the closeout first before jogging. No contact; no jumping into shooters.",
+      "statistic": "Closeouts are common on defense \u2014 beginners learn control first, because a wild closeout gives up easy drives.",
+      "safety": "No contact. No jumping into shooters."
+    }
+  ]
+}
