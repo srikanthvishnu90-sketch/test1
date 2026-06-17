@@ -71,6 +71,9 @@ const SPORT_KEY_TO_THEME = {
   swimming: 'swimming', track: 'track_sprints',
 };
 
-const API = { SPORT_THEMES, SPORT_KEY_TO_THEME };
-if (typeof module !== 'undefined' && module.exports) module.exports = API;
-if (typeof window !== 'undefined') window.PlanPdfThemes = API;
+// NOTE: must NOT be a bare `const API` — in a classic <script> that leaks into
+// the shared global scope and shadows window.API (the auth client), breaking
+// every API.isAuthed() call in dashboard.js. Use a namespaced name.
+const PLAN_PDF_THEMES = { SPORT_THEMES, SPORT_KEY_TO_THEME };
+if (typeof module !== 'undefined' && module.exports) module.exports = PLAN_PDF_THEMES;
+if (typeof window !== 'undefined') window.PlanPdfThemes = PLAN_PDF_THEMES;
