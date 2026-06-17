@@ -1394,6 +1394,463 @@
       "coaching_notes": "Best for low spacing awareness, poor cut timing, weak off-ball scoring, or low catch-finish control. Assign if the player stands in one spot and does not know how to move before cutting. Walk through relocation first if timing is confusing.",
       "statistic": "Small off-ball movement can set up a better cut. Relocation cut finishes help beginners connect spacing, timing, and finishing without needing advanced plays.",
       "safety": "One cutter at a time. Keep the lane clear."
+    },
+    {
+      "name": "Shot Pocket Hold",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 clean holds before adding a shot",
+      "coach_reviewed": true,
+      "instructions": "Stand close to the basket or in open space with the ball. Bring the ball to the shot pocket, shooting hand under or slightly behind the ball, guide hand on the side. Hold for 2 seconds, relax, reset. Do 10 clean holds before adding a shot. Coach checks the ball is not too low, too far outside the body, or sitting in both palms.",
+      "coaching_notes": "Best for poor shot setup, low shooting consistency, weak ball placement, or random shooting motion. Assign if the player starts every shot from a different place or brings the ball across the body before shooting. Use no shot first if they cannot find the pocket consistently.",
+      "statistic": "A consistent shot starts before the ball leaves the hand. Beginners usually miss because the setup changes every rep. The shot pocket gives one repeatable starting point.",
+      "safety": "No shooting volume needed at first. Hold, reset, and keep the shoulders relaxed."
+    },
+    {
+      "name": "Guide Hand Freeze",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8-10 makes from close range",
+      "coach_reviewed": true,
+      "instructions": "Stand close to the hoop. Get into shooting position, shoot, and freeze both hands after the release. The shooting hand should finish toward the rim; the guide hand stays quiet on the side and does not turn over. Check the hands, rebound, reset, repeat. 8-10 makes from close range.",
+      "coaching_notes": "Best for guide-hand interference, crooked release, poor shot direction, or low shooting accuracy. Assign if the ball spins sideways, misses left/right often, or the guide hand crosses over after release. Move very close so the player can shoot without forcing power.",
+      "statistic": "A pushing guide hand can change the direction of the shot. Freezing the hands after release makes the mistake easy to see and correct.",
+      "safety": "Stay close. Do not move back until the guide hand stays quiet."
+    },
+    {
+      "name": "Follow-Through Hold Makes",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 clean makes, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. Shoot and hold the follow-through until the ball hits rim, backboard, or net — wrist relaxed, fingers toward the rim, body balanced. Only count makes where the follow-through is held. Make 10 clean shots, rest, repeat.",
+      "coaching_notes": "Best for poor follow-through, inconsistent release, low touch, or rushed shooting. Assign if the player shoots and immediately pulls the hand down or turns away from the shot. Use very close range if strength is low.",
+      "statistic": "Holding the follow-through helps the player repeat the same release and gives the coach a simple way to see if the shot was rushed.",
+      "safety": "Shoot close enough that the player does not throw the ball."
+    },
+    {
+      "name": "Feet Set Before Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8 shots with clean feet per spot",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot. Place both feet under the body, bend the knees, check balance, then shoot. Rebound and return to the same spot. Coach cues \"feet first, then shot.\" Make 8 shots with clean feet before changing spots.",
+      "coaching_notes": "Best for poor shooting balance, moving feet, low set-shot accuracy, or rushed shot prep. Assign if the player catches and shoots while drifting, stepping, or falling away. Use no jump and very close range first.",
+      "statistic": "Beginners need balance before range. If the feet are not set, the shot changes every time. This makes foot control the first priority.",
+      "safety": "No jumping backward or drifting. Keep the shot short."
+    },
+    {
+      "name": "Square-Up to Shoot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both directions",
+      "coach_reviewed": true,
+      "instructions": "Start slightly turned away from the basket with the ball. Pivot or step into a square position, point the chest and feet toward the rim, then shoot. Rebound, reset at the same angle, repeat. Do both left-turn and right-turn square-ups.",
+      "coaching_notes": "Best for poor alignment, low shot direction, weak footwork, or off-balance shooting. Assign if the player shoots with the body turned sideways or shoulders not facing the target. Practice the square-up without shooting first.",
+      "statistic": "A straight shot starts with the body facing the target. Square-up work teaches the player to organize feet, hips, shoulders, and eyes before the ball goes up.",
+      "safety": "Move slowly. Keep the pivot foot controlled."
+    },
+    {
+      "name": "Chair Catch Shot Pocket",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "chair",
+        "partner"
+      ],
+      "reps_target": "reps, soft passes",
+      "coach_reviewed": true,
+      "instructions": "Place a chair or cone at a short shooting spot; start behind it. A coach or teammate passes. Step around the chair, catch, bring the ball straight to the shot pocket, pause one second, then shoot. Rebound and reset. Keep the pass soft and the shot close.",
+      "coaching_notes": "Best for poor catch prep, slow shot pocket, low hand readiness, or catch-and-shoot struggles. Assign if the player catches the ball low, bobbles the pass, or takes too long to organize the shot. Remove the chair if the movement is too confusing.",
+      "statistic": "Catch-and-shoot starts with ready hands and a clean shot pocket. This slows the process down so beginners can learn the catch before speed is added.",
+      "safety": "Use a safe object. Do not let the player trip over the chair or cone."
+    },
+    {
+      "name": "Self-Spin Catch-and-Shoot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps, start close",
+      "coach_reviewed": true,
+      "instructions": "Stand at a short shooting spot and spin the ball out in front with backspin so it bounces back. Step into the catch, set the feet, bring the ball to the shot pocket, and shoot. Rebound, reset, repeat. Start close before moving farther out.",
+      "coaching_notes": "Best for low solo shooting routine, poor catch rhythm, slow feet, or weak shot prep. Assign if the player needs catch-and-shoot reps but does not have a partner. Use a small toss instead of spin if they cannot control the ball.",
+      "statistic": "Players need a way to practice game-like shooting without always needing a passer. A self-spin creates a moving catch and helps build rhythm.",
+      "safety": "Make sure the ball does not roll into other players. Stay close and controlled."
+    },
+    {
+      "name": "Partner Pocket Pass Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, short distance",
+      "coach_reviewed": true,
+      "instructions": "A passer stands a few feet away. Show target hands near the shot pocket. The passer gives a soft pass right to the pocket. Catch, bend the knees, and shoot — do not drop the ball to the waist first. Rebound, pass back, repeat.",
+      "coaching_notes": "Best for poor catch location, slow release, low shot prep, or weak shooting rhythm. Assign if the player catches and dips it too low before every shot. Move closer or use softer passes if catching is hard.",
+      "statistic": "A good pass helps the shooter; a good catch helps the shot. Pocket passes teach the shooter where the ball should arrive before the shot begins.",
+      "safety": "Pass to the hands, not the face. Keep the distance short."
+    },
+    {
+      "name": "Corner Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6 makes, then switch corners",
+      "coach_reviewed": true,
+      "instructions": "Start in the short corner or beginner corner range (not deep three). Set the feet, bend the knees, bring the ball to the shot pocket, and shoot. Rebound and return to the same corner. Make 6, then switch corners.",
+      "coaching_notes": "Best for low corner shooting confidence, poor spot balance, weak set-shot form, or low angle shooting. Assign if the player only practices straight-on shots and struggles from side spots. Move closer inside the corner if they have to throw the ball.",
+      "statistic": "Different spots change the angle and sight line. Corner set shots teach beginners to keep the same form from a side location.",
+      "safety": "Do not shoot from three-point range unless form stays clean."
+    },
+    {
+      "name": "Elbow Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6 makes each elbow",
+      "coach_reviewed": true,
+      "instructions": "Start at one elbow with the ball. Set the feet, look at the rim, bend the knees, and shoot with the same motion every time. Rebound and return to the elbow. Make 6, then move to the other elbow.",
+      "coaching_notes": "Best for low elbow shooting, weak midrange confidence, poor shot balance, or inconsistent set-shot form. Assign if the player can make close shots but loses form from a few steps out. Move closer if they cannot shoot without forcing power.",
+      "statistic": "The elbow is a common shooting spot in youth basketball — far enough to challenge form but close enough for beginners to keep control.",
+      "safety": "No long range. Make sure the player is not throwing from the shoulder."
+    },
+    {
+      "name": "Short Wing Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6 makes, then switch wings",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing, a few steps inside the three-point line or wherever the player can shoot with good form. Set the feet, bend the knees, shoot, hold the follow-through, and rebound. Make 6, then switch wings.",
+      "coaching_notes": "Best for low wing shooting, poor spot-shot confidence, inconsistent form, or weak shooting balance. Assign if the player only shoots from straight in front and struggles from wing angles. Move closer if form breaks down.",
+      "statistic": "Players need to learn the same shot from different spots. Short wing shooting builds comfort without asking for long-range strength.",
+      "safety": "Stay within the player’s real range. Clean form first."
+    },
+    {
+      "name": "Top-of-Key Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6 makes before moving",
+      "coach_reviewed": true,
+      "instructions": "Start near the top of the key, closer if needed. Point the feet and shoulders toward the rim, bring the ball to the shot pocket, and shoot. Hold the finish, rebound, repeat. Make 6 before moving.",
+      "coaching_notes": "Best for poor straight-on shooting, low shot direction, weak balance, or inconsistent follow-through. Assign if the player misses left and right often from straight-on shots. Move closer if they cannot shoot with natural form.",
+      "statistic": "Straight-on shots give the player a clear view of the rim and backboard, making it a useful spot for checking alignment and release.",
+      "safety": "No deep range. Keep the player inside their strength level."
+    },
+    {
+      "name": "Five-Spot Short Shooting",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone"
+      ],
+      "reps_target": "2 makes per spot, 5 spots",
+      "coach_reviewed": true,
+      "instructions": "Pick five beginner-range spots: short corner, wing, top, opposite wing, opposite short corner. Shoot from each until 2 makes, then move to the next. Stay close enough to shoot with good form. The goal is clean makes, not deep range.",
+      "coaching_notes": "Best for low shooting consistency, poor spot confidence, weak shot routine, or limited shooting comfort. Assign if the player only practices from one spot or loses form when changing locations. Use three spots first if five is too much.",
+      "statistic": "Spot shooting helps players repeat form from different court angles. Keeping the spots short lets beginners build real makes instead of forcing range.",
+      "safety": "Stay close. Do not turn it into long-range shooting."
+    },
+    {
+      "name": "Make Two Move One",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone"
+      ],
+      "reps_target": "2 makes per spot, 3-5 spots",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot. Make 2 shots before moving to the next spot. If you miss, stay there until 2 makes are done. Use 3-5 beginner-range spots. Reset after every shot and keep the same form.",
+      "coaching_notes": "Best for low make consistency, poor focus, low shooting confidence, or rushed reps. Assign if the player shoots randomly without goals or moves spots too quickly. Use make-1-move-1 for younger players.",
+      "statistic": "Beginner shooters need goals that reward makes and focus. Make-count drills create a simple standard without making the workout too advanced.",
+      "safety": "Keep the distance short enough for clean form."
+    },
+    {
+      "name": "Swish Only Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "5 swishes, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. Shoot short shots and only count makes that go cleanly through the net without hitting the rim hard. Focus on soft arc, relaxed wrist, and holding the finish. Make 5 swishes, rest, repeat.",
+      "coaching_notes": "Best for low arc, poor touch, hard misses, or stiff release. Assign if the shot hits the front rim hard or has very little arc. Stand closer if swishes are too hard at first.",
+      "statistic": "A softer shot with better arc has more room to go in. Swish-only work gives beginners feedback on touch, not just whether the ball happened to drop.",
+      "safety": "Do not move back until touch is soft from close range."
+    },
+    {
+      "name": "Backspin Check Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps, count clean rotation",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. After each shot, watch the ball in the air for clean backspin. Shoot with a relaxed wrist and fingers through the ball. Only count makes with good rotation. Rebound, reset, repeat.",
+      "coaching_notes": "Best for poor ball rotation, stiff wrist, palm push, or inconsistent release. Assign if the ball spins sideways, has no spin, or comes off the hand unevenly. Start very close and reduce power demand.",
+      "statistic": "Clean backspin usually means the ball is coming off the fingers better. Rotation gives quick feedback on the release.",
+      "safety": "Close range only. Do not force wrist motion."
+    },
+    {
+      "name": "Bank Shot Angle Series",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "5 makes each side",
+      "coach_reviewed": true,
+      "instructions": "Start a few steps from the basket on the right side. Shoot a short bank shot off the backboard. After making a few, move to the left side and do the same. Aim softly and use the correct angle. Make 5 from each side.",
+      "coaching_notes": "Best for poor bank-shot touch, low angle shooting, weak short midrange, or low backboard awareness. Assign if the player shoots every short angle shot straight at the rim and misses hard. Move closer if they cannot hit the glass softly.",
+      "statistic": "Bank shots are useful from short angles. Beginners who learn the glass early have another simple way to score without needing deep range.",
+      "safety": "No rushing. Keep the shot short and soft."
+    },
+    {
+      "name": "Free Throw Routine Build",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 free throws, track makes",
+      "coach_reviewed": true,
+      "instructions": "Step to the free throw line or a closer line if needed. Pick a simple routine: breathe, two dribbles, set the feet, look at the rim, shoot, hold the follow-through. Do the same routine every rep. Shoot 10 free throws and track makes.",
+      "coaching_notes": "Best for poor free throw routine, low focus, inconsistent shot prep, or low free throw confidence. Assign if the player rushes free throws or changes the routine every shot. Use a closer line if they cannot reach with good form.",
+      "statistic": "Free throws reward routine and repetition. A consistent routine helps beginners slow down and repeat the same shot under pressure.",
+      "safety": "Use the right distance for the player’s strength."
+    },
+    {
+      "name": "Short Free Throw Line",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone"
+      ],
+      "reps_target": "reps, move line back over time",
+      "coach_reviewed": true,
+      "instructions": "Place a tape mark or cone a few feet in front of the free throw line. Use the free throw routine from that shorter spot. Shoot, hold the follow-through, rebound, repeat. Once the player makes shots with clean form, slowly move the line back over time.",
+      "coaching_notes": "Best for low shooting strength, poor free throw form, low confidence, or forced shooting mechanics. Assign if the player throws free throws from the shoulder or chest because the line is too far. Use an even closer mark if form still breaks.",
+      "statistic": "Players should not have to ruin their mechanics just to reach the rim. A shorter free throw line lets beginners build the same routine with age-appropriate distance.",
+      "safety": "Do not force full-distance free throws if the player is not strong enough yet."
+    },
+    {
+      "name": "Free Throw Plus Rebound Reset",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 total, record makes",
+      "coach_reviewed": true,
+      "instructions": "Shoot one free throw using your routine. Get the rebound, walk back to the line, reset the feet, take a breath, and shoot again. Do not rush the next shot. Shoot 10 total and record makes.",
+      "coaching_notes": "Best for poor reset habits, low free throw focus, inconsistent routine, or emotional response after misses. Assign if the player misses one shot and immediately rushes the next. Use 5-shot sets for younger players.",
+      "statistic": "Free throw shooting is also a reset skill. Players need to learn that every shot has its own routine, even after a miss.",
+      "safety": "Walk to the rebound. No diving or rushing under the rim."
+    },
+    {
+      "name": "Catch, Dip, Shoot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, short spot",
+      "coach_reviewed": true,
+      "instructions": "A passer gives the ball to the shooter at a short spot. Catch, dip the ball slightly to the shot pocket, bend the knees, and shoot. The dip should be small and controlled, not all the way to the waist. Rebound, pass back, repeat.",
+      "coaching_notes": "Best for poor shooting rhythm, stiff catch, slow shot prep, or low catch-and-shoot accuracy. Assign if the player catches and pauses too long or shoots with no rhythm. Use self-spin catch if no passer is available.",
+      "statistic": "A small dip can help rhythm if the player controls it. This teaches a clean dip to the shot pocket instead of a big, slow windup.",
+      "safety": "Keep the shot close. Do not dip so low that form gets slow."
+    },
+    {
+      "name": "Hop Into Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps from same spot",
+      "coach_reviewed": true,
+      "instructions": "Start one small step behind a short shooting spot. Take a small hop into the shot, land on both feet at the same time, bend the knees, and shoot. Keep the hop short and quiet. Rebound, reset, repeat from the same spot.",
+      "coaching_notes": "Best for poor foot rhythm, weak shooting base, low catch-and-shoot balance, or inconsistent footwork. Assign if the player catches with feet too narrow, too wide, or pointed away from the rim. Use feet-set-before-shot if hopping causes balance issues.",
+      "statistic": "Some players shoot better with a small hop into the catch. Beginners need to learn to land balanced before the ball goes up.",
+      "safety": "Small hop only. Land soft and balanced."
+    },
+    {
+      "name": "One-Two Step Into Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start one step behind a short shooting spot. Step with the inside foot, then the outside foot, set the base, and shoot. Rebound and reset. Work both sides so the player learns stepping in from different directions.",
+      "coaching_notes": "Best for poor shooting footwork, low balance, slow shot prep, or weak catch-and-shoot rhythm. Assign if the player cannot get the feet organized before the shot. Walk through the steps without shooting first.",
+      "statistic": "A 1-2 step is a common way to enter a shot. It gives the player rhythm and helps the body face the rim before the release.",
+      "safety": "Slow steps first. No drifting forward."
+    },
+    {
+      "name": "Rebound to Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 shots per spot",
+      "coach_reviewed": true,
+      "instructions": "Shoot from a short spot. Get the rebound, dribble or carry the ball back to the same spot, set the feet, and shoot again. Do not throw up quick shots while off balance. Do 10 total shots from one spot, then change spots.",
+      "coaching_notes": "Best for poor reset habits, rushed shooting, low shooting discipline, or inconsistent form. Assign if the player rebounds and immediately shoots while leaning or off balance. Use fewer reps for younger players.",
+      "statistic": "Good practice reps matter more than random volume. Rebound-reset-shoot teaches the player to treat every shot as a real rep.",
+      "safety": "Do not chase rebounds into other players. Reset before each shot."
+    },
+    {
+      "name": "Beat Your Best Short Shooting",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 shots, then try to beat the score",
+      "coach_reviewed": true,
+      "instructions": "Pick one short shooting spot. Shoot 10 shots and record makes. After resting, try to beat that number from the same spot — same form, routine, and distance. Once the player beats the score twice, move to a new beginner-range spot.",
+      "coaching_notes": "Best for low shooting focus, low confidence, poor tracking habits, or inconsistent short shooting. Assign if the player practices without counting makes or does not know if they are improving. Use 5-shot rounds for younger players.",
+      "statistic": "Tracking makes gives beginners a simple goal. It helps the player see progress and keeps practice focused instead of random.",
+      "safety": "Keep the spot close enough for clean form. No deep shots for the score."
     }
   ]
 }
