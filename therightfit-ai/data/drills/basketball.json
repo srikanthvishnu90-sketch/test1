@@ -5645,6 +5645,1870 @@
       "coaching_notes": "Best for poor box-out habit, weak rebound pursuit, low ball security, or low possession finish skill. Assign if the player boxes out but does not go get the ball, or watches the ball without making contact first. Use the no-contact cone version for younger or contact-averse players; ages 8-9 use cone box-outs with no contact.",
       "statistic": "Rebounding has two parts: make space and secure the ball. This teaches both without making it a live battle.",
       "safety": "No pushing or wrestling. Toss must be soft and close."
+    },
+    {
+      "name": "Chair Height Stance Check",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "6 reps",
+      "coach_reviewed": true,
+      "instructions": "A chair or cone is placed behind the player as a height guide. Drop into a comfortable stance until the hips lightly match the guide height, hold 2 seconds, then stand and reset. Do 6 reps.",
+      "coaching_notes": "Best for stance depth, leg strength, and posture control. Assign if the player squats too deep, stands too tall, or bends at the waist. Remove the chair and use coach feedback if the player leans back.",
+      "statistic": "Teaches the athlete to find a stance that is low enough to defend but not so deep that their legs fail.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Toe-Heel Balance Stance",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "8 slow reps",
+      "coach_reviewed": true,
+      "instructions": "Get into a stance. The coach says 'toes,' 'heels,' or 'middle.' Gently feel the weight shift, then return to the middle balanced position. Do 8 slow reps.",
+      "coaching_notes": "Best for balance, foot pressure, and stance control. Assign if the player falls forward, leans back, or cannot freeze in stance. Use standing balance first if stance is too hard.",
+      "statistic": "Teaches the player to feel balance through the whole foot instead of rocking onto the toes or heels.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Defensive Step Stop",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "reps with 1s freeze",
+      "coach_reviewed": true,
+      "instructions": "Start in stance, take one short step right, freeze, then return to the middle. Repeat left, forward, and backward. Each rep ends with a 1-second freeze.",
+      "coaching_notes": "Best for stop control, body control, and foot discipline. Assign if the player drifts, hops, or loses balance after one step. Hold a taller stance for younger athletes.",
+      "statistic": "Teaches the player to take one defensive step and stop without drifting.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Lane Line Shuffle Walk",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "shuffle 6 ft and back",
+      "coach_reviewed": true,
+      "instructions": "Start on a lane line in a comfortable stance. Shuffle-walk 6 feet, freeze, then come back. The coach watches for crossed feet and tall posture.",
+      "coaching_notes": "Best for lateral control, footwork, and balance. Assign if the player crosses feet or cannot keep the body controlled. Shorten distance for ages 7-9.",
+      "statistic": "Teaches side movement along a court line at a pace the player can control.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Corner Close Step",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "A cone is placed at the corner and another on the wing. Walk from corner cone to wing cone, slow down, and land in stance with hands up. Do both sides.",
+      "coaching_notes": "Best for angle movement, stop balance, and hand discipline. Assign if the player runs straight, overshoots, or closes with hands down. Walk only if the player cannot stop safely.",
+      "statistic": "Teaches the player to close a small angle from corner to wing without running past the spot.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Backpedal to Stance",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "6 reps",
+      "coach_reviewed": true,
+      "instructions": "Backpedal 3 slow steps, then drop into a comfortable stance and freeze. Reset and repeat 6 times, keeping eyes forward.",
+      "coaching_notes": "Best for backpedal control, balance, and stance reset. Assign if the player trips, crosses feet, or leans backward. Use two steps only for younger athletes; ages 7-8 use walking steps.",
+      "statistic": "Teaches the player to move backward and sit into stance without falling.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Diagonal Slide Reset",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "both diagonal directions",
+      "coach_reviewed": true,
+      "instructions": "Start at a cone, slide diagonally to a second cone, freeze, then return to the start. Do both diagonal directions slowly.",
+      "coaching_notes": "Best for diagonal control, balance, and defensive footwork. Assign if the player can slide sideways but loses control diagonally. Walk the pattern first.",
+      "statistic": "Teaches the player to move diagonally while staying balanced.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Hands Up Backpedal",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start near a coach, take 3 controlled backpedal steps with hands up, then freeze. Reset and repeat. No ball pressure is used.",
+      "coaching_notes": "Best for recovery control, hand activity, and balance. Assign if the player drops hands or falls backward while recovering. Keep hands lower if shoulder fatigue appears.",
+      "statistic": "Teaches the player to recover with hands high without running into the shooter.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Stance Clock Steps",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "short reps",
+      "coach_reviewed": true,
+      "instructions": "The coach calls 12, 3, 6, or 9. Take one short step in that direction and reset to the middle. Use slow calls and short reps.",
+      "coaching_notes": "Best for directional control, reaction, and stance balance. Assign if the player steps the wrong way or cannot reset. Use only two directions first.",
+      "statistic": "Teaches the player to move to different directions like a clock while staying in control.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "No-Reach Hip Pocket Defense",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "15s, switch",
+      "coach_reviewed": true,
+      "instructions": "An offensive partner walks slowly in a straight line without a ball. Walk beside them, staying near the hip pocket with hands out but no reaching. Switch after 15 seconds.",
+      "coaching_notes": "Best for containment, body position, and reach discipline. Assign if the defender reaches or trails behind the offensive player. Use a cone walking path for younger players.",
+      "statistic": "Teaches the defender to stay near an offensive player's hip without reaching.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Shadow Zig-Zag Walk",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps, switch roles",
+      "coach_reviewed": true,
+      "instructions": "Use cones in a wide zig-zag. The offensive player walks from cone to cone. The defender shadows the path, staying in front without contact. Switch roles.",
+      "coaching_notes": "Best for change direction, containment, and balance. Assign if the player loses position when direction changes. Use 2 cones only for younger athletes.",
+      "statistic": "Teaches the player to change direction on defense at walking speed.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Stance Talk Drill",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "10 short calls",
+      "coach_reviewed": true,
+      "instructions": "Get into stance. The coach points left, right, ball, or help. Call the word out loud while staying balanced. Do 10 short calls.",
+      "coaching_notes": "Best for communication, stance control, and focus. Assign if the player stays silent or loses stance while talking. Use simple words for younger players.",
+      "statistic": "Teaches the player to communicate while holding a defensive position.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "High-Hand Low-Hand Contest",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "hold 1s, reset",
+      "coach_reviewed": true,
+      "instructions": "A coach holds the ball high or low. If high, show one high hand. If low, show one low hand without reaching. Hold 1 second and reset.",
+      "coaching_notes": "Best for hand discipline, no-foul contest, and visual reaction. Assign if the player reaches, swipes, or uses the wrong hand position. Use no ball first if the player swipes.",
+      "statistic": "Teaches the defender to choose a high hand for a shot and a low hand for a dribble without swiping.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Closeout Brake Steps",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start 8 feet away. Approach a coach with quick but short steps, then use three tiny brake steps and stop with hands up. Reset and repeat.",
+      "coaching_notes": "Best for braking, closeout control, and balance. Assign if the player cannot slow down or crowds the shooter. Shorten distance if stopping is unsafe; ages 7-8 walk only.",
+      "statistic": "Teaches the player to use short brake steps at the end of a closeout.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Closeout Voice Call",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start near the lane. Coach holds the ball on the wing. Close out slowly, call 'ball,' raise hands, and freeze. If coach raises the ball, say 'shot.'",
+      "coaching_notes": "Best for communication, closeout control, and focus. Assign if the player closes out silently or loses hand position. Walk speed for younger players.",
+      "statistic": "Teaches the player to call 'ball' or 'shot' while closing out under control.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Help Foot In Paint",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Place one cone in the paint and one cone at the defender's player. Step one foot toward the paint cone, point to ball, then recover to the player cone.",
+      "coaching_notes": "Best for help positioning, recovery, and spacing. Assign if the player never helps or leaves too far. Point only before stepping.",
+      "statistic": "Teaches the defender where a basic help position can be without overhelping.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Corner Ball Deny Hands",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "cone"
+      ],
+      "reps_target": "hold 2s, switch sides",
+      "coach_reviewed": true,
+      "instructions": "A receiver stands in the corner. Stand nearby with one hand in the passing lane and one hand toward the receiver. Hold 2 seconds, reset, switch sides.",
+      "coaching_notes": "Best for deny position, hand control, and spacing. Assign if the player grabs, face-guards, or loses the receiver. Use no live pass at first; younger players use a cone receiver.",
+      "statistic": "Teaches the player to show one hand in the passing lane without grabbing.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Wing Deny Step",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "cone"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach holds the ball at the top. Receiver cone is on the wing. Take one step toward the passing lane, show a hand, then return to neutral. Do both sides.",
+      "coaching_notes": "Best for deny step, recovery control, and hand discipline. Assign if the player lunges too far or cannot recover. Use a shorter step for younger players.",
+      "statistic": "Teaches the defender to take one safe step into the passing lane, then recover.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Paint Help Hands Wall",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "hold 2s, reset",
+      "coach_reviewed": true,
+      "instructions": "Stand in the paint in a comfortable stance. On cue, show both hands wide like a wall, hold 2 seconds, then reset. Add a coach with a ball only if safe.",
+      "coaching_notes": "Best for help stance, hand activity, and no-foul positioning. Assign if the player reaches down or turns sideways. Lower hands if shoulder fatigue appears.",
+      "statistic": "Teaches the player to make the body wide in the paint without fouling.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Baseline Cut-Off Step",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "freeze, reset, repeat",
+      "coach_reviewed": true,
+      "instructions": "A cone marks the baseline drive path. Start inside the lane and step to block the path with body position, not hands. Freeze, reset, repeat.",
+      "coaching_notes": "Best for baseline containment, body control, and angle awareness. Assign if the player opens the baseline or reaches instead of moving feet. Walk only for younger players.",
+      "statistic": "Teaches the defender to take one step to cut off the baseline without contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Shot Hand Switch Contest",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "hold 1s, reset",
+      "coach_reviewed": true,
+      "instructions": "Coach holds the ball on the right or left side. Raise the near hand, keep the other hand wide, hold 1 second, then reset. No jumping.",
+      "coaching_notes": "Best for contest hand choice, hand control, and foul risk. Assign if the player reaches across the body or jumps at the ball. Use no ball if the player swipes.",
+      "statistic": "Teaches the defender to contest with the hand closest to the ball without crossing the body wildly.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Closeout Chop and Turn",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "cone"
+      ],
+      "reps_target": "both directions",
+      "coach_reviewed": true,
+      "instructions": "Close out to a coach, chop the feet, then the coach points to a cone. Turn and walk back to that cone. Do both directions.",
+      "coaching_notes": "Best for closeout recovery, stop control, and direction change. Assign if the player closes out but cannot recover safely. Remove the turn if stopping is unsafe; ages 8-9 walk only.",
+      "statistic": "Teaches the player to close out, then turn and recover to a new spot under control.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Help Tag Step",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "A cone represents a cutter moving through the lane. Take one controlled step toward the cone, say 'tag,' then recover to the original cone.",
+      "coaching_notes": "Best for help timing, recovery, and communication. Assign if the player overhelps or never helps. No live cutter at first; younger players use pointing only.",
+      "statistic": "Teaches a small help step toward a cutter without contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Skip Ball Point Recover",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach moves a ball from one side to the other. Point to the new ball spot, take one recovery step, and reset in stance.",
+      "coaching_notes": "Best for ball awareness, recovery step, and focus. Assign if the player loses the ball when it changes sides. Use slow ball movement.",
+      "statistic": "Teaches the player to point to a skipped ball and recover stance.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Talk Touch Help Cone",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "A cone is placed in help position. Say 'help,' walk to touch the cone with a foot, then recover to the start. Do both sides.",
+      "coaching_notes": "Best for communication, help positioning, and recovery. Assign if the player does not talk or forgets the help spot. Use pointing only for ages 7-8.",
+      "statistic": "Teaches the player to communicate help while moving to a safe help spot.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "See Both Shoulder Check",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Stand between a ball coach and receiver cone. Coach says 'check.' Glance to the receiver cone, then back to the ball, keeping stance.",
+      "coaching_notes": "Best for vision, shoulder check, and focus. Assign if the player stares only at the ball or only at the player. Stand tall if the stance hold is tiring.",
+      "statistic": "Teaches the defender to check over the shoulder without losing stance.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "No-Swipe Ball Shadow",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "10s",
+      "coach_reviewed": true,
+      "instructions": "Coach holds the ball and slowly moves it side to side. Follow with the hands but never touch the ball. Hold a safe distance for 10 seconds.",
+      "coaching_notes": "Best for hand discipline, focus, and foul risk. Assign if the player slaps or grabs at the ball. Increase distance if the player reaches.",
+      "statistic": "Teaches the defender to mirror the ball without trying to steal it.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Lane Plug Step",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach points to the lane. Take one step to the lane line, show hands, say 'help,' then reset. Use cones for location.",
+      "coaching_notes": "Best for paint help, body position, and communication. Assign if the player stands out of position on drives. No live offense.",
+      "statistic": "Teaches the player to step into the lane line area to stop a drive path without contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Recover to Corner Cone",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start near the paint help cone. Coach calls 'corner.' Walk or slide to the corner cone, show hands, and freeze.",
+      "coaching_notes": "Best for help recovery, closeout angle, and balance. Assign if the player helps but cannot get back under control. Shorten the distance.",
+      "statistic": "Teaches the player to recover from help position back to the corner safely.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Defensive Seatbelt Hands",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "10s, switch",
+      "coach_reviewed": true,
+      "instructions": "Walk beside a partner with hands lightly across the chest like a seatbelt. The goal is foot movement only. Switch roles after 10 seconds.",
+      "coaching_notes": "Best for foul prevention, foot movement, and body control. Assign if the player uses hands to steer the opponent. Use a cone instead of a partner if contact risk.",
+      "statistic": "Teaches the player to keep hands safe when moving beside an offensive player.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Cut-Off Cone Gate",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "freeze",
+      "coach_reviewed": true,
+      "instructions": "Two cones make a gate. Start beside the gate, step into position between the offensive cone and the basket cone, and freeze. No partner needed.",
+      "coaching_notes": "Best for containment angle, positioning, and body control. Assign if the player does not understand getting between player and basket. Use a larger gate for younger players.",
+      "statistic": "Teaches the defender to close a gate with body position.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Hands High Walk-Through Contest",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "cone"
+      ],
+      "reps_target": "reps from angles",
+      "coach_reviewed": true,
+      "instructions": "Walk from one cone to a coach with the ball, lift hands high, hold, back out, and repeat from another angle.",
+      "coaching_notes": "Best for contest habit, hand activity, and balance. Assign if the player contests with hands low. Lower hands if shoulder fatigue appears.",
+      "statistic": "Teaches the player to arrive with hands high without jumping.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Corner Closeout No Middle",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "freeze",
+      "coach_reviewed": true,
+      "instructions": "Coach stands in the corner. Close out slowly with the inside foot shading the middle, hands high, and freeze. No live drive.",
+      "coaching_notes": "Best for closeout angle, no-middle stance, and balance. Assign if the player gives up the middle immediately. No live offense; younger players use a walk-through.",
+      "statistic": "Teaches the defender to close out in a way that keeps the ball away from the middle.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Help Side Step Line",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Use a line from ball to basket as a visual. Walk to the help-side cone, point to ball and player, then reset.",
+      "coaching_notes": "Best for help-side awareness, positioning, and vision. Assign if the player stands too high, too low, or loses the ball. Use two spots only.",
+      "statistic": "Teaches the defender to stand on the correct help-side line.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Ball Pressure Distance Check",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "freeze",
+      "coach_reviewed": true,
+      "instructions": "Coach holds the ball. Step in until one arm could reach space near the ball, then step back to a safe distance and freeze. No reaching.",
+      "coaching_notes": "Best for ball-pressure distance, balance, and foul risk. Assign if the player crowds or stands too far away. No live dribble.",
+      "statistic": "Teaches the player to guard at a safe arm-length distance without crowding.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Defensive Call and Point",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "10 calls",
+      "coach_reviewed": true,
+      "instructions": "Coach says 'ball,' 'help,' or 'player.' Call it out, point correctly, then reset stance. Do 10 quick but calm calls.",
+      "coaching_notes": "Best for communication, awareness, and focus. Assign if the player is quiet or confused on defense. Use fewer words for young players.",
+      "statistic": "Teaches the player to call their job and point to the ball or player.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Closeout Feet Under Hips",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "hold 1s, 3 angles",
+      "coach_reviewed": true,
+      "instructions": "Close to a cone, stop with feet under the hips, hands up, and hold 1 second. Coach checks for no lunge. Repeat from three angles.",
+      "coaching_notes": "Best for closeout balance, foot position, and lunge risk. Assign if the player lands too wide, too narrow, or leaning. Walk-through first.",
+      "statistic": "Teaches the player to finish closeouts with feet under the hips instead of lunging.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Help Recover Name Call",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start at the help cone. Coach says 'recover.' Call 'corner' or a teammate name and move back to the cone under control.",
+      "coaching_notes": "Best for communication, recovery, and team awareness. Assign if the player recovers silently or to the wrong spot. Use spot names before teammate names.",
+      "statistic": "Teaches the player to recover while naming the teammate or spot they are returning to.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "No-Middle Foot Angle Hold",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "hold 2s, both sides",
+      "coach_reviewed": true,
+      "instructions": "Stand on the wing in stance. Coach checks the top foot and baseline foot. Hold a no-middle angle for 2 seconds, reset, repeat both sides.",
+      "coaching_notes": "Best for foot angle, no-middle positioning, and stance control. Assign if the player stands square and gives up the middle. Use visual floor tape.",
+      "statistic": [
+        "partner"
+      ],
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Closeout to Contest Voice",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Close from 6 feet, say 'contest,' raise hands, and freeze. The coach can pump fake but the defender stays down.",
+      "coaching_notes": "Best for contest discipline, communication, and pump-fake control. Assign if the player jumps on pump fakes or stays silent. Remove the pump fake for younger players.",
+      "statistic": "Teaches the player to finish a closeout by saying 'contest' and showing hands without jumping.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Box-Out Cone Spin",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "hold 1s, both directions",
+      "coach_reviewed": true,
+      "instructions": "Face away from a cone. Coach says 'shot.' Turn, place hips between the cone and basket, hold 1 second, then reset. Do both directions.",
+      "coaching_notes": "Best for box-out turn, positioning, and balance. Assign if the player turns the wrong way or forgets to get between cone and basket. Use a larger cone target for younger players.",
+      "statistic": "Teaches the player to turn around a cone and create safe rebounding position without contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Find Cone Then Ball",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "A cone represents the opponent. On 'shot,' find the cone, then the coach tosses the ball softly. Get the ball with two hands and secure it.",
+      "coaching_notes": "Best for find-first habit, tracking, and a secure catch. Assign if the player watches the ball and skips the box-out location. Remove the toss first.",
+      "statistic": "Teaches the player to locate a player or object first, then track the ball.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Hit Air Hold",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [],
+      "reps_target": "hold 2s, reset",
+      "coach_reviewed": true,
+      "instructions": "Turn as if boxing out, take a safe wide base, and hold arms in a safe frame for 2 seconds. No partner. Reset and repeat.",
+      "coaching_notes": "Best for box-out shape, base control, and arm safety. Assign if the player needs box-out shape before partner contact. Keep arms lower if shoulders tire.",
+      "statistic": "Teaches box-out contact shape without actually hitting anyone.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Squeeze Hold",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "squeeze 2s",
+      "coach_reviewed": true,
+      "instructions": "Start with the ball at the chest, squeeze with two hands for 2 seconds, pivot slightly, then reset. Add a soft toss only if secure.",
+      "coaching_notes": "Best for ball security, grip strength, and rebound control. Assign if the ball gets knocked loose or slips after the catch. Use a smaller ball for weak hands.",
+      "statistic": "Teaches the player to squeeze and secure the ball after a rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Low Toss Rebound Catch",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "8 reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball gently just above chest height. Track it, catch with two hands, land or stand balanced, and secure. Do 8 reps.",
+      "coaching_notes": "Best for tracking, two-hand catch, and confidence. Assign if the player cannot yet handle backboard or high tosses. Use a foam ball if fear appears.",
+      "statistic": "Teaches catching a rebound from a low safe toss without jumping.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Overhead Secure Walk",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "walk 5 steps",
+      "coach_reviewed": true,
+      "instructions": "Hold the ball overhead with two hands, walk 5 steps, bring it to the chest, and reset. Use a smaller ball if needed.",
+      "coaching_notes": "Best for overhead control, shoulder endurance, and ball security. Assign if the player drops rebounds or brings the ball down too soon. Avoid if shoulder pain appears.",
+      "statistic": "Teaches the player to hold a rebound strong overhead while walking slowly.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Pivot Square",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "4 each side",
+      "coach_reviewed": true,
+      "instructions": "Start with the ball at the chest, pivot 90 degrees to each side, keep the ball tight, then return square. Do 4 each side.",
+      "coaching_notes": "Best for pivot control, ball security, and travel risk. Assign if the player rebounds and travels or turns into pressure. No pivot for younger players; use turns only.",
+      "statistic": "Teaches the player to pivot after securing a rebound without traveling or exposing the ball.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Backboard Bounce Read",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball softly off the backboard to one side. Call 'left' or 'right,' move one step, catch, and secure.",
+      "coaching_notes": "Best for backboard read, tracking, and reaction. Assign if the player loses the ball after it hits the board. Use a straight toss if reading is poor.",
+      "statistic": "Teaches the player to read a predictable bounce off the backboard.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rim Bounce Drop Catch",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach softly bounces the ball off the rim or tosses near the rim. Track, wait, catch with two hands, and secure. Keep tosses easy.",
+      "coaching_notes": "Best for timing, patience, and catch security. Assign if the player jumps early or slaps at the ball. No crowded rim area; ages 8-9 use coach toss only.",
+      "statistic": "Teaches the player to wait for the ball to come down instead of grabbing early or swiping.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Two-Step Go Get It",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball softly a short distance away. Take two controlled steps, catch with two hands, and secure.",
+      "coaching_notes": "Best for pursuit, tracking, and body control. Assign if the player waits for the ball to come to them. Shorter toss for younger players.",
+      "statistic": "Teaches the player to move two steps to a rebound instead of waiting.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Outside Foot Step",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start in the lane. Coach tosses to the right or left. Step with the outside foot first, gather the ball, and secure.",
+      "coaching_notes": "Best for first step, rebound range, and tracking. Assign if the player turns awkwardly or steps across the body. Walk-through without the ball first.",
+      "statistic": "Teaches the player to step with the outside foot toward a rebound angle.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Box-Out to Outlet Name",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Turn to a cone box-out, coach tosses the ball, secure it and call the outlet teammate's name before a short pass.",
+      "coaching_notes": "Best for box-out habit, communication, and outlet awareness. Assign if the player rebounds silently or outlets blindly. Short outlet only; younger players use no outlet pass.",
+      "statistic": "Teaches the player to rebound and call the outlet target by name.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Elbows Safe Check",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Hold the ball at the chin. Coach says 'check.' Turn the shoulders slightly left and right while elbows stay controlled, then freeze.",
+      "coaching_notes": "Best for elbow safety, ball security, and body control. Assign if the player clears space with elbows unsafely. Slow only; no partner contact.",
+      "statistic": "Teaches the player to secure the ball without swinging elbows.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Block-Out Step Back",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Face the coach. On 'shot,' turn and take one short step back into box-out space, hold, then get a soft toss.",
+      "coaching_notes": "Best for box-out space, balance, and rebound timing. Assign if the player runs straight to the rim without making space. Use a cone instead of a partner.",
+      "statistic": "Teaches the player to step back into space before going to the ball.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Wall Cushion Catch",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball softly. Catch quietly with two hands and bring it in. Coach listens for loud slaps and cues soft hands.",
+      "coaching_notes": "Best for soft hands, catch security, and tracking. Assign if the ball pops out of the hands on rebounds. Use a foam ball if nervous.",
+      "statistic": "Teaches the player to cushion the ball into the hands instead of slapping it.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Outlet Fake Secure",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Secure the ball. Coach shows hands or keeps hands down. If hands show, outlet. If not, keep the ball tight and pivot.",
+      "coaching_notes": "Best for decision-making, outlet safety, and ball security. Assign if the player throws the outlet even when the target is not ready. No pressure defender; younger players use one cue only.",
+      "statistic": "Teaches the player to hold the rebound when the outlet is not open.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Step Through Traffic Cones",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Cones make a small lane. Secure a soft toss, then walk through the lane with the ball protected at the chest. Reset and repeat.",
+      "coaching_notes": "Best for rebound exit, ball protection, and body control. Assign if the player catches but freezes under the rim. Make the lane wider.",
+      "statistic": "Teaches the player to move out of rebounding traffic after securing the ball.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Weak-Side Cone Crash",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start at the weak-side cone. Coach says 'shot' and tosses the ball to the middle. Step in, catch, and secure.",
+      "coaching_notes": "Best for weak-side rebounding, pursuit, and tracking. Assign if the player stays on the weak side and watches. Walk-in only for young athletes.",
+      "statistic": "Teaches the player to move from the weak-side cone toward rebound space.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Box-Out Call Shot Partner",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "hold 1s, reset",
+      "coach_reviewed": true,
+      "instructions": "A partner stands behind. Coach says shot. Say 'shot,' turn, create safe space, hold 1 second, and reset.",
+      "coaching_notes": "Best for communication, box-out reaction, and contact readiness. Assign if the player forgets to call or turn. No pushing; ages 8-9 use a cone partner.",
+      "statistic": "Teaches the player to call 'shot' and turn to box out a passive partner.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound High-Low Secure",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach alternates a soft high toss and a chest-height toss. Catch with two hands and secure each one. Keep the high toss safe.",
+      "coaching_notes": "Best for catch range, tracking, and hand strength. Assign if the player handles one height but not another. No high toss for younger players.",
+      "statistic": "Teaches the player to secure rebounds from different heights.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Tip Check No Chase",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 11,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball. Only tip if you can control it; otherwise catch or let the coach reset. The goal is a good decision, not chaos.",
+      "coaching_notes": "Best for tip decision, control, and safety awareness. Assign if the player tips every ball wildly. Use catch-only for younger players.",
+      "statistic": "Teaches the player not to chase uncontrolled tips.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Board Touch Land Freeze",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "hoop"
+      ],
+      "reps_target": "freeze 2s",
+      "coach_reviewed": true,
+      "instructions": "Reach or lightly jump to touch a low target, land, and freeze for 2 seconds. Coach checks knees and balance.",
+      "coaching_notes": "Best for landing control, rebound timing, and balance. Assign if the player lands narrow or stumbles. Reach-only if landing is poor; ages 7-8 reach only.",
+      "statistic": "Teaches the player to land and freeze after a rebound-style reach.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Turn and Face Coach",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "Catch a soft toss, secure the ball, turn under control, and face the coach without passing. Do both sides.",
+      "coaching_notes": "Best for post-rebound awareness, ball security, and pivot control. Assign if the player catches and looks down or turns blindly. No pass until control improves.",
+      "statistic": "Teaches the player to secure the ball and find the coach/outlet with the eyes.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Box-Out Seat Position",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "hold 2s, reset",
+      "coach_reviewed": true,
+      "instructions": "Face away from a cone, drop the hips slightly like sitting into space, hold 2 seconds, then reset. No partner.",
+      "coaching_notes": "Best for box-out base, hip position, and balance. Assign if the player stands tall or bends at the waist. Do not squat deeply.",
+      "statistic": "Teaches the player to sit the hips back into a safe box-out base without contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Catch Above Eyes",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball gently above the forehead. Catch with two hands above the eyes, then bring it down safely to the chest.",
+      "coaching_notes": "Best for high catch, hand strength, and tracking. Assign if the player catches everything low or lets the ball drop. Use a smaller ball if strength is low; younger players use a lower toss.",
+      "statistic": "Teaches the player to catch the ball above eye level when possible.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Loose Ball Foot Stop",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach rolls the ball slowly. Step beside it, stop it lightly with the foot, then bend and secure with two hands.",
+      "coaching_notes": "Best for loose-ball control, body control, and pickup safety. Assign if the player kicks wildly or dives. Use a hands-only pickup if the foot stop is unsafe.",
+      "statistic": "Teaches the player to stop a rolling ball safely before picking it up.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Loose Ball Turn Away Secure",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach places the ball on the floor. Pick it up with two hands, turn away from cone pressure, and hold tight.",
+      "coaching_notes": "Best for loose-ball security, turn control, and protection. Assign if the player picks up the ball and exposes it. No live defender.",
+      "statistic": "Teaches the player to secure a loose ball and turn away from pressure.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Outlet Walk Lane",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Catch a soft toss, take two controlled steps toward a sideline cone, then pass to an outlet partner. Keep the pass short.",
+      "coaching_notes": "Best for outlet lane, ball security, and pass control. Assign if the player outlets from a bad angle or rushes. Remove the pass for younger athletes.",
+      "statistic": "Teaches the player to rebound, walk to a safe outlet lane, and pass short.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Box-Out Voice Check",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach says 'shot.' Say 'find,' turn to a cone/partner, hold a box-out shape, then say 'ball.' No rebound needed.",
+      "coaching_notes": "Best for communication, sequence memory, and box-out habit. Assign if the player forgets the order after a shot. Use one cue for ages 7-8.",
+      "statistic": "Teaches players to say the box-out cue before moving.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Secure Under Chin",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "hold 2s",
+      "coach_reviewed": true,
+      "instructions": "Catch a coach toss, bring the ball under the chin/chest, elbows safe, and hold 2 seconds. Coach checks for strong hands.",
+      "coaching_notes": "Best for ball protection, hand strength, and rebound security. Assign if the player brings the rebound to the waist or exposes it. Smaller ball if hands are weak.",
+      "statistic": "Teaches the player to hold the ball strong under the chin after a rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Guard-Rebound Switch Cue",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start in stance. Coach calls 'guard' for 3 seconds, then 'shot.' Turn to a cone, hold box-out shape, then secure a soft toss.",
+      "coaching_notes": "Best for the transition from defense to board, reaction, and box-out habit. Assign if the player keeps guarding and forgets the rebound. Cone only for younger players.",
+      "statistic": "Teaches the player to switch from guarding to rebounding when the coach calls shot.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Deny to Rebound Turn",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start denying a cone receiver. Coach says 'shot.' Turn to the box-out cone, hold, then reset. Add a ball toss only if safe.",
+      "coaching_notes": "Best for deny-to-rebound, reaction, and position change. Assign if the player denies but never finds a body on the shot. No partner contact first.",
+      "statistic": "Teaches the player to move from denial position into rebound position.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Help to Hit to Get",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start at the help cone. Coach says 'shot.' Find the box-out cone, hold 1 second, then get a soft toss and secure.",
+      "coaching_notes": "Best for help position, box-out habit, and possession finish. Assign if the player helps but does not finish the possession. Remove the toss if the sequence is hard; younger players use first two parts only.",
+      "statistic": "Teaches help position, box-out shape, and ball secure in a simple sequence.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Closeout Rebound Callout",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Close out to a coach. Coach raises the ball. Say 'shot,' turn to a cone, say 'find,' then hold box-out shape.",
+      "coaching_notes": "Best for communication, closeout, and rebound reaction. Assign if the player is quiet or stops after the contest. Walk speed only.",
+      "statistic": "Teaches the defender to close out, call shot, then communicate rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Two-Player Safe Board Share",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Two players stand apart. Coach tosses the ball softly between them and calls one name. The called player secures; the other stops and boxes out air.",
+      "coaching_notes": "Best for communication, safety, and rebound ownership. Assign if players collide or both grab blindly. One player only if safety is poor; younger players use wider spacing.",
+      "statistic": "Teaches two teammates to avoid colliding when going for the same ball.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Find Ball Find Outlet",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Catch a soft toss, secure it, then point to the outlet coach before passing or resetting. Start without a pass.",
+      "coaching_notes": "Best for tracking, outlet awareness, and decision. Assign if the player catches and looks down or panics. Remove the pass if needed.",
+      "statistic": "Teaches the player to track the rebound and immediately find a safe outlet target.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Defensive Slide to Loose Ball",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Slide two short steps to a cone. Coach rolls the ball nearby. Stop, bend the knees, secure the ball with two hands.",
+      "coaching_notes": "Best for slide control, loose-ball pickup, and body control. Assign if the player rushes from a slide into an unsafe pickup. No speed, no diving; ages 7-8 walk only.",
+      "statistic": "Teaches the player to slide, stop, then secure a loose ball safely.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Closeout to Loose Ball Secure",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Close to a cone, freeze, then the coach rolls the ball to the side. Move under control and secure with two hands.",
+      "coaching_notes": "Best for closeout stop, loose-ball control, and balance. Assign if the player cannot stop before chasing the ball. Walk the closeout first.",
+      "statistic": "Teaches the player to close out, stop, then pick up a loose ball safely.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Escape Pivot No Pass",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Catch a soft toss, secure it, coach points left or right. Pivot away and hold. No outlet pass.",
+      "coaching_notes": "Best for pivot protection, ball security, and decision patience. Assign if the player catches and throws blindly. No pivot for younger players.",
+      "statistic": "Teaches the player to pivot out of pressure after a rebound without forcing a pass.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Box-Out Balance Push Test",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 11,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "pad"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Set a no-contact box-out shape. Coach gives a light shoulder-level air tap or tiny pad pressure. Hold balance. No pushing back.",
+      "coaching_notes": "Best for balance, contact readiness, and base strength. Assign if the player falls from small pressure or pushes back. Avoid for contact-averse or younger players.",
+      "statistic": "Teaches the player to hold a box-out base against a very light coach check.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Wall Rebound Hand Tap",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "wall"
+      ],
+      "reps_target": "8 reps",
+      "coach_reviewed": true,
+      "instructions": "Face the wall, reach to tap a safe target with both hands, then bring hands to the chest. Do 8 reps. No ball needed.",
+      "coaching_notes": "Best for reach pattern, hand speed, and shoulder control. Assign if the player struggles reaching safely overhead. Lower the target if shoulder fatigue.",
+      "statistic": "Teaches the player to tap a wall target with two hands like reaching for a rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Count the Bounce",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach bounces the ball off the floor or board. Count 'one' when it bounces, then catch with two hands and secure.",
+      "coaching_notes": "Best for tracking focus, timing, and catch security. Assign if the player loses sight of the ball after the bounce. Use a soft floor bounce first.",
+      "statistic": "Teaches the player to track ball flight and bounce before securing it.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Shot Fake Stay Down Board",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach holds the ball and gives a slow shot fake. Keep the feet down. Coach then says shot; turn to a cone box-out shape.",
+      "coaching_notes": "Best for discipline, contest control, and rebound reaction. Assign if the player jumps on the fake or forgets the rebound. Slow fake only; younger players no fake.",
+      "statistic": "Teaches the defender to stay down on a shot fake, then rebound on cue.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Paint Wall to Board",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start in a paint wall stance with hands wide. Coach says 'shot.' Turn to a cone and secure a soft toss.",
+      "coaching_notes": "Best for help stance, rebound reaction, and a secure catch. Assign if the player helps but watches the shot. Remove the toss for young athletes.",
+      "statistic": "Teaches the player to show help in the paint, then turn for a rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Corner Box-Out Cone Pair",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "cone"
+      ],
+      "reps_target": "hold",
+      "coach_reviewed": true,
+      "instructions": "Two cones mark the shooter and basket line in the corner. Turn from the shooter cone, place the body between the cone and basket, and hold.",
+      "coaching_notes": "Best for corner rebound angle, box-out position, and balance. Assign if the player boxes out in the wrong direction from the corner. Walk-through only.",
+      "statistic": "Teaches box-out positioning from the corner area without contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Wing Shot Long Board Read",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach stands on the wing and tosses the ball toward the free throw area. Start in the lane, step to the ball, and secure. Keep the toss soft.",
+      "coaching_notes": "Best for rebound angle, long board awareness, and tracking. Assign if the player expects every rebound under the rim. Short toss only if tracking is poor; younger players use a shorter toss.",
+      "statistic": "Teaches the player that wing shots can create longer rebounds.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Baseline Miss Track",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner",
+        "hoop"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses from the baseline side to the backboard or air. Track the angle, move one or two steps, catch, and secure.",
+      "coaching_notes": "Best for angle tracking, movement, and catch security. Assign if the player misreads baseline misses. No high toss.",
+      "statistic": "Teaches the player to track a rebound coming from a baseline angle.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Free Throw Rebound Spot Walk",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start on a marked lane spot. Coach says 'shot.' Step into a safe rebounding position and freeze. Add a soft toss later.",
+      "coaching_notes": "Best for free throw position, step timing, and balance. Assign if the player stands in the wrong spot or steps early. No contact or live free throw.",
+      "statistic": "Teaches the player where to stand and how to step during a free throw rebound without contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound and Tuck Walk",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Catch a soft toss, tuck the ball safely to the chest/side, walk three steps to an outlet cone, freeze. No pass needed.",
+      "coaching_notes": "Best for ball security, movement control, and outlet prep. Assign if the player drops the ball while moving after a rebound. Shorter walk for younger athletes.",
+      "statistic": "Teaches the player to secure the ball and walk out safely without exposing it.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Two Hands Above Traffic",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball overhead. Reach with two hands, catch, and bring it tight. No jumping unless landing is safe.",
+      "coaching_notes": "Best for two-hand catch, overhead control, and security. Assign if the player uses one hand or waits too low. Smaller ball if strength is low; younger players use a lower toss.",
+      "statistic": "Teaches the player to catch with two hands above imaginary traffic, then secure safely.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Outlet Target Look First",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Catch a soft toss, secure, turn the head to the outlet target, say the target name, then pass short or reset.",
+      "coaching_notes": "Best for outlet vision, decision, and pass safety. Assign if the player throws the outlet without looking. No pass if the target is not ready.",
+      "statistic": "Teaches the player to look at the outlet before passing after a rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Protect Against Cone",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone"
+      ],
+      "reps_target": "hold 2s",
+      "coach_reviewed": true,
+      "instructions": "Secure the ball. A cone represents a defender. Pivot so the back/side protects the ball from the cone, hold 2 seconds.",
+      "coaching_notes": "Best for rebound protection, pivot control, and ball security. Assign if the player exposes the ball toward pressure. Turn only, no pivot for young players.",
+      "statistic": "Teaches the player to keep the body between ball and imaginary defender after securing a rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Defensive Turn Find Rim",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start facing away from the hoop. Coach says shot. Turn, point to the rim, then get in rebounding position. Add a ball later.",
+      "coaching_notes": "Best for rim awareness, turn control, and rebound orientation. Assign if the player turns and loses rim location. No ball first.",
+      "statistic": "Teaches the player to know where the rim is after turning for a rebound.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Miss Direction Call",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "partner",
+        "ball"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach calls 'short,' 'long,' 'left,' or 'right.' Take one step that direction and get into rebound-ready hands. Add a toss if safe.",
+      "coaching_notes": "Best for reaction, rebound language, and first step. Assign if the player does not understand miss directions. Use two directions first.",
+      "statistic": "Teaches the player to react to the coach's call for where the miss goes.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Safe Box-Out Release",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "cone",
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Hold a box-out shape on a cone. Coach says 'release.' Step to a soft ball toss and secure. Reset.",
+      "coaching_notes": "Best for box-out timing, release, and ball secure. Assign if the player never goes to the ball after boxing out. No partner contact; younger players cone only.",
+      "statistic": "Teaches the player when to release the box-out and go to the ball.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Deflect Stance Hands Only",
+      "primary_skill": "Defense",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 10,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach gently tosses a soft or foam ball through a lane. Reach one hand into the lane to tap it softly down, then reset.",
+      "coaching_notes": "Best for hand activity, timing, and no-contact defense. Assign if the player swings hard or reaches across the body. Younger players use a balloon or foam only. Avoid with finger pain.",
+      "statistic": "Teaches the player to use quick hands in a safe lane without body contact.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "No-Jump Rebound Contest",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach tosses the ball chest-high between the player and open space. Step to position, catch with two hands, and secure without jumping.",
+      "coaching_notes": "Best for position, two-hand catch, and low-impact rebound. Assign if the player jumps unnecessarily or loses balance. Keep the toss chest high.",
+      "statistic": "Teaches the player to win position and catch without jumping.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Board Tap Count Hold",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 9,
+      "space_needed": "court",
+      "equipment": [
+        "hoop"
+      ],
+      "reps_target": "freeze",
+      "coach_reviewed": true,
+      "instructions": "Reach to touch a low backboard or target twice, then freeze in a balanced stance. Use reach-only unless jumping is safe.",
+      "coaching_notes": "Best for reach control, landing if used, and shoulder control. Assign if the player cannot reach safely or lands poorly. Stop if shoulder or knee pain; ages 7-8 reach a lower target.",
+      "statistic": "Teaches safe repeated reach without high jump volume.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Rebound Footwork Square-Up",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 8,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Catch a soft toss, land or stand wide, pivot to square the shoulders to the coach, and hold the ball secure.",
+      "coaching_notes": "Best for square-up, pivot control, and ball security. Assign if the player catches but stays turned or off balance. No outlet pass until stable.",
+      "statistic": "Teaches the player to square the body after a rebound before making the next play.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
+    },
+    {
+      "name": "Loose Ball Call and Cover",
+      "primary_skill": "Rebounding",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "min_age": 7,
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Coach rolls the ball slowly. Say 'ball,' move to it, cover with two hands, pick up, and secure.",
+      "coaching_notes": "Best for communication, loose-ball control, and security. Assign if the player is silent or swipes at the ball. No diving.",
+      "statistic": "Teaches the player to call the loose ball and cover it safely with two hands.",
+      "safety": "Keep the rep controlled. Remove speed, contact, or jumping if the athlete loses balance, shows fear, or reports pain."
     }
   ]
 }
