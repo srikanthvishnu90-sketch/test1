@@ -2311,6 +2311,391 @@
       "coaching_notes": "Best for low baseline movement, poor relocation balance, weak short shot confidence, or low off-ball shooting awareness. Assign if the player stays stuck on the baseline and does not know how to lift into open space. Walk the lift first and shoot closer.",
       "statistic": "Simple lifts are common in spacing. Beginners can learn the movement without needing deep range or advanced reads.",
       "safety": "Keep the shot close. No sprinting into the catch."
+    },
+    {
+      "name": "Noodle Arc Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "pool noodle",
+        "partner"
+      ],
+      "reps_target": "6-8 makes, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "A coach stands a few feet in front and holds a pool noodle straight up, safely away from the body. Start close to the basket. Shoot the ball over the noodle with a soft arc and hold the finish. Rebound, reset, repeat. The goal is a soft shot that clears the noodle and still lands near the rim — not high for no reason. Do 6-8 makes, rest, repeat.",
+      "coaching_notes": "Best for low arc, hard misses, poor shot softness, or low touch. Assign if the shot hits the front rim hard, has very little arc, or looks pushed straight forward. Remove the noodle if the player starts throwing the ball instead of shooting it.",
+      "statistic": "Youth resources teach arc, touch, and age-appropriate distance before deeper shooting. A soft visual obstacle helps the player feel a higher shot path without a defender or pressure.",
+      "safety": "The noodle must stay away from the shooter. No jumping into the coach."
+    },
+    {
+      "name": "Chair Sit-to-Stand Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "chair"
+      ],
+      "reps_target": "6-8 clean makes",
+      "coach_reviewed": true,
+      "instructions": "Sit lightly on the front edge of a chair or bench, close to the basket, holding the ball in shooting position. Stand up under control and shoot as the body comes up — no jump, no leaning back, no throwing. Rebound, sit back down, reset, repeat. Do 6-8 clean makes.",
+      "coaching_notes": "Best for poor leg rhythm, arm-heavy shot, weak shot power, or low body control. Assign if the player shoots with stiff legs or throws the ball from the chest or shoulder. Do standing rhythm shots if the chair setup is not safe.",
+      "statistic": "Good youth shooting starts with safe, repeatable mechanics. This teaches leg timing with very low impact and no jump volume.",
+      "safety": "Use a stable chair. No falling backward. Coach should watch the setup."
+    },
+    {
+      "name": "Color Cone Shot Call",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps, slow movement first",
+      "coach_reviewed": true,
+      "instructions": "Place three colored cones around beginner range (short wing, short slot, short corner). Start in the middle with the ball or receive a pass. The coach calls a color. Move to that cone, stop balanced, and shoot from that spot. Rebound and reset. Keep the movement slow at first.",
+      "coaching_notes": "Best for low reaction focus, poor court awareness, weak shot balance, or low spot recognition. Assign if the player gets confused moving between spots or rushes when a coach calls a direction. Use two cones instead of three for younger players.",
+      "statistic": "Decision-based shooting should start simple. Color calls give young players a light reaction task while keeping the shot short and controlled.",
+      "safety": "No sprinting between cones. Stop balanced before shooting."
+    },
+    {
+      "name": "Handoff Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "A coach or teammate stands near the wing or slot holding the ball. Walk toward the handoff, take the ball with two hands, take one small step into balance, and shoot from beginner range. Do not rush or drift after taking the ball. Rebound, reset, repeat both sides.",
+      "coaching_notes": "Best for low handoff timing, poor shot prep after handoff, weak catch control, or low team shooting awareness. Assign if the player takes a handoff and looks unsure, fumbles, or cannot get balanced before shooting. Walk the exchange without shooting first.",
+      "statistic": "Handoffs are common in youth offense. This teaches the exchange and shot prep without defenders, screens, or speed.",
+      "safety": "No screens or contact. Keep the exchange slow and clean."
+    },
+    {
+      "name": "Cone Curl Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Place a cone near the elbow or short wing as a screen marker. Start a few steps away. Jog slowly around the cone, curl toward the basket, catch a pass or pick up the ball, set the feet, and shoot from short range. Do not drift sideways. Reps from both sides.",
+      "coaching_notes": "Best for low curl footwork, poor catch balance, weak movement shooting, or low shot readiness. Assign if the player moves around a screen marker but cannot stop and shoot under control. Walk the curl first without shooting.",
+      "statistic": "Movement shooting is easier to learn with a cone before a live screen. The player gets the footwork and balance first.",
+      "safety": "No live screens. Keep the curl slow and controlled."
+    },
+    {
+      "name": "Cone Flare Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Place a cone near the wing as a screen marker. Start near the lane line. Move away from the basket at an angle, like flaring to open space. Catch a pass, stop with balance, and shoot from beginner range. Keep the shot short enough for clean form. Reps from both sides.",
+      "coaching_notes": "Best for low flare awareness, poor foot control, weak catch-and-shoot balance, or low off-ball shooting confidence. Assign if the player only moves toward the ball and does not understand moving into open shooting space. Walk the flare angle first.",
+      "statistic": "A flare movement teaches spacing and balance. Beginners should learn the movement at short range before adding speed or deeper shots.",
+      "safety": "No sprinting. No deep shots. Keep the movement small and safe."
+    },
+    {
+      "name": "Extra Pass Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "rotate after each rep",
+      "coach_reviewed": true,
+      "instructions": "Use three players, or two players and a coach. Player 1 passes to Player 2. Player 2 makes one more pass to Player 3. Player 3 catches, sets the feet, and shoots from beginner range. Rotate after each rep. The shooter should be ready before the ball arrives, not surprised by it.",
+      "coaching_notes": "Best for low extra-pass awareness, poor catch readiness, weak team shooting rhythm, or low shot prep. Assign if the player watches passes instead of getting ready to shoot. Use two-player passing first if three-player timing is too hard.",
+      "statistic": "Youth resources teach team habits along with skill work. Extra-pass shooting teaches spacing, readiness, and simple decision habits without live defense.",
+      "safety": "Use soft passes. Keep all shots inside beginner range."
+    },
+    {
+      "name": "Skip Pass Catch Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, controlled passes",
+      "coach_reviewed": true,
+      "instructions": "A passer stands on one side of the court. The shooter stands at a short spot on the opposite side, inside beginner range. The passer throws a safe skip pass. Show hands early, catch, set the feet, and shoot. Rebound or rotate. Keep the pass controlled, not a hard throw.",
+      "coaching_notes": "Best for low skip-pass catch control, poor hand readiness, weak shot prep, or low cross-court awareness. Assign if the player gets surprised by passes from across the court or catches off balance. Shorten the pass distance if catching is hard.",
+      "statistic": "Game shots often come from different pass angles. Skip-pass shooting teaches players to prepare early and organize the feet before shooting.",
+      "safety": "No hard passes to young players. Keep the distance age-appropriate."
+    },
+    {
+      "name": "High Catch Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, soft tosses",
+      "coach_reviewed": true,
+      "instructions": "A coach stands close and tosses the ball slightly above the chest or shoulder level. Catch with two hands, bring the ball down only to the shooting pocket, and shoot from short range. Do not drop the ball to the waist. Reset and repeat.",
+      "coaching_notes": "Best for poor high-catch control, slow shot prep, low hand strength, or weak catch-and-shoot rhythm. Assign if the player catches high passes awkwardly, drops the ball too low, or rushes the shot. Use chest-level passes first if high catches are too hard.",
+      "statistic": "Players do not always receive perfect passes. Catching a high pass and still shooting under control builds useful game readiness.",
+      "safety": "No passes near the face. Keep throws soft and controlled."
+    },
+    {
+      "name": "Low Catch Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps from short range",
+      "coach_reviewed": true,
+      "instructions": "A coach gives a soft low pass near the knees or waist. Bend the knees, catch with two hands, bring the ball up to the shooting pocket, set the feet, and shoot. Do not bend only at the waist. Reset and repeat from short range.",
+      "coaching_notes": "Best for low-catch control, poor shot prep, weak lower-body position, or low catch-and-shoot confidence. Assign if the player fumbles low passes or shoots before getting balanced. Start with waist-level passes before knee-level passes.",
+      "statistic": "Bad passes happen in games. A beginner shooter needs to catch low, use the legs, and still get into a clean shot.",
+      "safety": "Bend the knees. Do not round the back or reach wildly."
+    },
+    {
+      "name": "Inside-Out Pass Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "rotate or reset after each rep",
+      "coach_reviewed": true,
+      "instructions": "A passer starts in the paint or short post area. The shooter starts at a short wing or short corner spot. The passer kicks the ball out. Catch, get balanced, and shoot from beginner range. Rotate or reset. The shooter should be ready before the pass leaves the paint.",
+      "coaching_notes": "Best for low inside-out awareness, poor catch readiness, weak spot shooting rhythm, or low team shooting confidence. Assign if the player does not get ready when a teammate drives or posts. Use a shorter pass if timing is hard.",
+      "statistic": "Inside-out passes create clean shots because the defense often collapses toward the paint. Beginners can learn the simple habit without advanced reads.",
+      "safety": "No live defense or contact in the paint. Keep passes controlled."
+    },
+    {
+      "name": "Short Roll Pop Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, stop before shooting",
+      "coach_reviewed": true,
+      "instructions": "Start near the elbow or slot. Take two controlled steps toward the paint like rolling, then stop at beginner midrange. A passer gives the ball. Catch, set the feet, and shoot. Stop before shooting and stay inside your range.",
+      "coaching_notes": "Best for low short-roll awareness, poor stop balance, weak catch-and-shoot control, or low paint-area shooting confidence. Assign if the player rolls too deep every time or cannot stop and shoot with balance. Walk the movement first without shooting.",
+      "statistic": "Not every roll has to end at the rim. A short roll pop teaches the player to stop in space and take a controlled short shot.",
+      "safety": "No screens, no contact, no speed. Stop balanced first."
+    },
+    {
+      "name": "Pin-Down Walk-Up Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Place a cone near the lane as the screen marker. Start low near the baseline. Walk or jog up around the cone, catch a pass near beginner range, set the feet, and shoot. Come around tight but controlled. Rebound, reset, repeat both sides.",
+      "coaching_notes": "Best for low screen-movement awareness, poor catch balance, weak shot prep, or low off-ball shooting. Assign if the player does not know how to come off a screen marker into a shot. Walk the route without the ball first.",
+      "statistic": "Screen shooting should be taught without contact first. A cone pin-down lets the player learn the path, catch, and balance before live action.",
+      "safety": "No live screen contact. Keep speed controlled."
+    },
+    {
+      "name": "Baseline Drift Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both baselines",
+      "coach_reviewed": true,
+      "instructions": "Start near the short corner. A coach cues \"drift.\" Slide or jog a few steps along the baseline to a new short spot. Catch the pass, stop, and shoot. Keep the shot close enough for good form. Do both baselines.",
+      "coaching_notes": "Best for low baseline spacing, poor catch balance, weak relocation shooting, or low drive-and-kick awareness. Assign if the player stands still when a teammate drives baseline. Walk the drift before adding the pass.",
+      "statistic": "Baseline drift is a simple spacing habit. Beginners can learn the movement at short range before deeper corner shooting.",
+      "safety": "Watch the baseline boundary. No sprinting into the shot."
+    },
+    {
+      "name": "Nail Catch Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start at the nail, the middle area around the free throw line. A passer gives the ball. Catch, set the feet, and shoot from beginner range. Keep the body straight and do not fade left or right. Rebound and repeat.",
+      "coaching_notes": "Best for low nail-area shooting, poor middle-floor balance, weak catch-and-shoot control, or low short-shot confidence. Assign if the player catches in the middle and rushes or turns sideways before shooting. Move closer if the free throw line area is too far.",
+      "statistic": "The nail is a useful teaching spot because it gives a straight view of the rim and connects passing, spacing, and short shooting.",
+      "safety": "Stay inside the player’s real range. No forced distance."
+    },
+    {
+      "name": "Short Corner Lift Catch Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start in the short corner. Lift up a few steps toward the wing, catch a pass, set the feet, and shoot from beginner range. Do not drift while shooting. Rebound, reset, repeat both sides.",
+      "coaching_notes": "Best for low short-corner awareness, poor relocation balance, weak catch-and-shoot control, or low spot spacing. Assign if the player stays buried near the baseline and does not move into a passing window. Walk the lift first without a shot.",
+      "statistic": "Short corner lifts are simple and useful for spacing. For beginners, the shot must stay close enough to keep the form clean.",
+      "safety": "Keep movement small. No deep corner shots."
+    },
+    {
+      "name": "Slot Fill Catch Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing. The coach or passer cues the player to fill up to the slot. Move to the slot, show hands, catch the pass, set the feet, and shoot from beginner range. Rebound and reset. Do both sides.",
+      "coaching_notes": "Best for low fill movement, poor shot readiness, weak catch balance, or low spacing awareness. Assign if the player does not understand moving into open perimeter spots. Use a closer slot spot if shooting range is limited.",
+      "statistic": "Filling open space is one of the first spacing habits young players learn. This connects that movement to a short, controlled shot.",
+      "safety": "No rushing or drifting. Stop before shooting."
+    },
+    {
+      "name": "Corner Replace Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "cone",
+        "partner"
+      ],
+      "reps_target": "reps both corners",
+      "coach_reviewed": true,
+      "instructions": "A cone marks the wing spot and another marks the corner spot. Start at the corner. On the coach cue, move up to replace the wing spot, catch the pass, and shoot from beginner range. Arrive balanced and ready. Reset and repeat both corners.",
+      "coaching_notes": "Best for low replace movement, poor catch readiness, weak spot awareness, or low off-ball shooting habits. Assign if the player stands still after a teammate leaves a spot. Walk the replace movement first.",
+      "statistic": "Replace movement is a simple way to keep spacing. Beginners can learn it before more advanced motion offense concepts.",
+      "safety": "Keep the movement short and the shot close."
+    },
+    {
+      "name": "Quick Feet Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps",
+      "coach_reviewed": true,
+      "instructions": "Start a few feet from a short shooting spot. Do quick feet in place for 3 seconds. On the coach cue, step to the shooting spot, stop, and shoot. Do not shoot while bouncing or leaning. Rebound, reset, repeat.",
+      "coaching_notes": "Best for poor foot control, weak balance after movement, rushed shots, or low shot readiness. Assign if the player gets excited after quick feet and shoots off balance. Use slower feet or shorter reps for younger players.",
+      "statistic": "Game shots often happen after movement. This teaches the player to calm the body before the ball goes up.",
+      "safety": "No hard jumping or sprinting. Stop balanced before shooting."
+    },
+    {
+      "name": "Coach Hand Signal Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, keep it slow",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot with the ball. A coach stands in front or to the side and gives one of two hand signals: one means shoot, the other means hold and reset. On the shoot signal, set the feet and shoot. On the hold signal, stay balanced and do not shoot. Keep it simple and slow.",
+      "coaching_notes": "Best for low visual focus, rushed shot decisions, poor patience, or low coach-cue response. Assign if the player shoots every time they touch the ball without looking or thinking. Use only one signal first if the player gets confused.",
+      "statistic": "Decision-making can start with simple cues. This gives beginners a safe way to practice seeing before shooting without adding defenders.",
+      "safety": "No pressure or yelling. Keep the player calm and balanced."
     }
   ]
 }
