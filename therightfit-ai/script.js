@@ -820,10 +820,21 @@ function applyTheme(sportKey) {
   const b = document.body.style;
   b.setProperty('--accent', dark);
   b.setProperty('--accent-ink', light);
+  // auto-contrast text for accent FILLS: black on light accents (lime/aqua/orange),
+  // white on dark ones (violet/magenta) — white only on dark, black only on light.
+  b.setProperty('--accent-on', textOn(dark));
   // back-compat: existing components read these (mostly white surfaces → light)
   b.setProperty('--sport', light);
   b.setProperty('--page-accent', light);
   b.setProperty('--sport-press', mixHex(light, KINETIK_INK, 0.28));
+}
+// pick black/white for text sitting ON a colored fill, by the fill's luminance
+function textOn(hex) {
+  try {
+    const c = hex.replace('#', '');
+    const r = parseInt(c.slice(0, 2), 16), g = parseInt(c.slice(2, 4), 16), bl = parseInt(c.slice(4, 6), 16);
+    return (0.2126 * r + 0.7152 * g + 0.0722 * bl) / 255 > 0.45 ? '#0A0A0B' : '#ffffff';
+  } catch (e) { return '#0A0A0B'; }
 }
 function currentSportKey() {
   try { return (typeof getSportKey === 'function') ? getSportKey() : null; } catch (e) { return null; }

@@ -3222,3 +3222,24 @@ input,textarea,.field input,.ta,.safety-banner,.mcta .btn{ border-radius:0 !impo
   .dash__tabs button.active{ background:transparent !important; color:var(--accent) !important; border-left:2px solid var(--accent) !important; }
   .dash__viewplan{ display:inline-flex; margin-top:auto; }
 }
+
+/* =========================================================
+   Contrast rule (per spec): WHITE text only on dark/black, BLACK text only on
+   light/white, accent colors on either. Fixes reskin-missed light surfaces
+   (they keep their light bg) + auto-contrast text on accent fills.
+   ========================================================= */
+/* light surfaces the dark reskin missed → force dark text (keep them light) */
+.landing__bar, .landing__bar *,
+.landing .showcase, .landing .showcase *,
+.landing .bignum, .landing .bignum *,
+.landing .faq, .landing .faq *,
+.landing .infocard, .landing .infocard *,
+.landing .frame, .landing .frame *,
+#aiproc, #aiproc *{ color:#0d0d0e !important; }
+code{ color:#0d0d0e !important; }
+/* the AI-processing brand/labels read on its light panel */
+#aiproc .aiproc__brand{ color:#52525b !important; }
+/* accent-filled chips/badges/buttons → auto-contrast text (black on light accent, white on dark) */
+.chip.selected,.chip[aria-pressed="true"],.chip.active,
+.btn--solid:hover,.btn--primary:hover,.landing .btn--solid:hover,.dash-cta:hover,.mcta .btn:hover,
+.nav__avatar,.mcta .btn,.alloc-anchor,.dtag--boost,.dash__tabs button.active{ color:var(--accent-on,#0A0A0B) !important; }
