@@ -1851,6 +1851,466 @@
       "coaching_notes": "Best for low shooting focus, low confidence, poor tracking habits, or inconsistent short shooting. Assign if the player practices without counting makes or does not know if they are improving. Use 5-shot rounds for younger players.",
       "statistic": "Tracking makes gives beginners a simple goal. It helps the player see progress and keeps practice focused instead of random.",
       "safety": "Keep the spot close enough for clean form. No deep shots for the score."
+    },
+    {
+      "name": "Elbow Under Ball Check",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8 clean makes",
+      "coach_reviewed": true,
+      "instructions": "Stand close to the basket with the ball. Before shooting, pause and check that the shooting elbow is under the ball and pointed toward the rim. Once set, shoot a short shot and hold the finish. Rebound, reset, check the elbow again, repeat. 8 clean makes.",
+      "coaching_notes": "Best for poor elbow alignment, low shot direction, inconsistent release, or side-spin misses. Assign if the player misses left and right often or shoots with the elbow pointed away from the rim. Move closer if they cannot keep the elbow under the ball without forcing the shot.",
+      "statistic": "Youth shooting progressions start with form checks before speed or distance. Elbow alignment is a simple body cue that connects to straighter shots.",
+      "safety": "Do not force the elbow into pain. Keep the shot close and relaxed."
+    },
+    {
+      "name": "Shooting Line Tape Drill",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "tape"
+      ],
+      "reps_target": "10 makes",
+      "coach_reviewed": true,
+      "instructions": "Place a strip of tape, court line, or flat marker on the floor pointing toward the rim. Stand with the shooting foot and ball lined up with the line. Shoot a short shot, keeping the ball moving straight along the line. Check whether the body twisted or stayed straight. Rebound, reset, repeat for 10 makes.",
+      "coaching_notes": "Best for crooked shot path, poor body alignment, side misses, or inconsistent release direction. Assign if the player shoots across the face, twists the shoulders, or misses sideways often. Use an existing court line if tape is not allowed.",
+      "statistic": "A visual line gives beginners immediate feedback — the shot should travel toward the rim, not across the body.",
+      "safety": "Use flat tape or a safe floor marker. Do not create a tripping hazard."
+    },
+    {
+      "name": "No-Jump Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 clean makes before moving spots",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket with both feet planted. Bend the knees, push through the legs, and shoot without leaving the floor. Stay balanced from start to finish. Rebound, reset, repeat. Make 10 clean shots before moving spots.",
+      "coaching_notes": "Best for poor balance, low release control, weak set-shot form, or forced jump shooting. Assign if the player jumps sideways, fades, or loses the shot line during short shots. Use a lower hoop or closer spot if they cannot reach with safe form.",
+      "statistic": "Beginners do not always need a jump shot right away. A no-jump set shot lets the coach clean up balance and release before adding lift.",
+      "safety": "Stay close. Do not let the player throw the ball from the chest to reach."
+    },
+    {
+      "name": "Knee Bend Lift Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 clean makes",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. Bend the knees first, then lift the body and ball together into the shot — feel the legs help the ball go up. Land or stand balanced, rebound, repeat. Coach cues \"bend, lift, shoot.\" Do 10 clean makes.",
+      "coaching_notes": "Best for low leg drive, weak shooting range, poor rhythm, or arm-heavy shooting. Assign if the player throws the ball from the arms or cannot get power without losing form. Move closer if they still have to throw the shot.",
+      "statistic": "Good shooting rhythm connects the legs and upper body. Youth coaches teach power from the floor first so players do not build a two-hand push habit.",
+      "safety": "Keep the knee bend comfortable. No deep squats or forced jumps."
+    },
+    {
+      "name": "Wrist Snap Close Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 makes",
+      "coach_reviewed": true,
+      "instructions": "Start very close to the basket. Shoot a short shot and focus only on the wrist finishing relaxed toward the rim — hand finishing down, like reaching into the basket. Check the wrist, rebound, repeat. Do 10 makes.",
+      "coaching_notes": "Best for poor wrist snap, stiff hand, hard misses, or low shooting touch. Assign if the player pushes the ball with a flat hand or cannot get soft touch near the rim. Use a smaller or lighter ball if they cannot control the wrist.",
+      "statistic": "A relaxed wrist and finger finish help create softer shots. This isolates the end of the shot without adding distance or speed.",
+      "safety": "No forced wrist motion. Stop if wrist pain appears."
+    },
+    {
+      "name": "Elbow-to-Eye Lift Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8-10 makes",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket with the ball in front of the body. Slowly lift the shooting elbow and ball up toward eye level, then finish the shot. The ball should move up cleanly, not around the side of the head. Rebound, reset, repeat. Do 8-10 makes.",
+      "coaching_notes": "Best for poor ball path, slow release, low shot consistency, or side-swing mechanics. Assign if the player brings the ball around the hip, across the face, or behind the head before shooting. Do the lift without shooting first.",
+      "statistic": "A cleaner ball path makes the shot easier to repeat. Beginners need a simple lift pattern before quick releases or movement shots.",
+      "safety": "Keep the motion smooth. Do not force the shoulder."
+    },
+    {
+      "name": "Seams-to-Rim Shot Prep",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps, keep it quick",
+      "coach_reviewed": true,
+      "instructions": "Start close to the basket. Before every shot, quickly turn the ball so the shooting hand feels the seams in a comfortable spot. Set the hand, shoot, hold the finish. Rebound, reset the hand placement, repeat. Do not take too long — the goal is awareness, not a slow routine.",
+      "coaching_notes": "Best for poor hand placement, inconsistent grip, low release feel, or weak shooting touch. Assign if the hand is on a different part of the ball every shot or the ball comes off unevenly. Let the player shoot without seam focus if it causes overthinking.",
+      "statistic": "Players do not need a perfect grip every time, but beginners benefit from learning what a clean hand placement feels like. It helps the ball leave the hand more consistently.",
+      "safety": "Keep the routine short. Do not make the player freeze before every shot."
+    },
+    {
+      "name": "Catch Ready Hands Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, show hands before each pass",
+      "coach_reviewed": true,
+      "instructions": "A passer stands close. Start with hands up and ready before the pass. The passer gives a soft pass. Catch with two hands, bring the ball into shooting motion, and shoot from beginner range. Rebound or pass back, repeat. Show hands before every pass.",
+      "coaching_notes": "Best for low catch readiness, poor hand target, slow shot prep, or low catch-and-shoot control. Assign if the player waits for the ball to arrive before getting hands ready. Use slower passes if catching is hard.",
+      "statistic": "A shot starts before the catch. Ready hands help the player catch clean and shoot in rhythm instead of fighting the ball.",
+      "safety": "Pass to the hands, not the face. Keep the pass soft."
+    },
+    {
+      "name": "Pass Back Shot Prep",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "8 makes per spot, then switch sides",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot with a partner. Pass to the partner, immediately get the feet and hands ready, catch the return pass, and shoot. Rebound or rotate. The key is not to relax after passing. Do 8 makes from one spot, then switch sides.",
+      "coaching_notes": "Best for low pass-and-ready score, slow catch prep, poor shooting rhythm, or low team-offense awareness. Assign if the player passes and stands flat-footed instead of preparing for the return. Stand closer if the return pass is hard to handle.",
+      "statistic": "Players often get open shots after moving the ball. Passing and getting ready again teaches a simple team shooting habit.",
+      "safety": "Use controlled passes. Keep spacing clear."
+    },
+    {
+      "name": "Lift From Corner Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both corners",
+      "coach_reviewed": true,
+      "instructions": "Start in the corner without shooting from deep. Move up a few steps toward the wing, catch a pass or pick up the ball from a coach, set the feet, and shoot from beginner range. Move under control and do not drift sideways on the shot. Reps from both corners.",
+      "coaching_notes": "Best for low relocation shooting, poor foot control, weak catch balance, or low corner-to-wing awareness. Assign if the player stands in the corner and does not know how to move into a shot. Walk the lift first without shooting.",
+      "statistic": "Relocation shooting helps players learn how to move into open space. Beginners should start with short, controlled lifts before game-speed movement.",
+      "safety": "No sprinting. Keep the shot inside the player’s range."
+    },
+    {
+      "name": "Drift Stop Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both directions",
+      "coach_reviewed": true,
+      "instructions": "Start a few steps from a short shooting spot. Jog or slide lightly into the spot, stop the body completely, then shoot. Coach watches for continued drift. Only count makes where the body stops first. Do both directions.",
+      "coaching_notes": "Best for poor drift control, weak shooting balance, low catch control, or moving-body misses. Assign if the player catches and shoots while falling left, right, forward, or backward. Walk into the spot before jogging.",
+      "statistic": "Drifting changes the shot line and makes the shot harder to repeat. Stopping before the shot builds better balance.",
+      "safety": "No hard stops. Land and stop softly."
+    },
+    {
+      "name": "Backpedal Into Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps, short distance",
+      "coach_reviewed": true,
+      "instructions": "Start a few feet closer to the basket than the shooting spot. Backpedal two small steps to the spot, stop with balance, and shoot — do not fall backward on the shot. Rebound, reset, repeat. Keep the distance short.",
+      "coaching_notes": "Best for poor backward balance, weak foot control, low shooting stability, or rushed movement shots. Assign if the player moves backward and shoots while leaning away from the rim. Use one backpedal step first.",
+      "statistic": "Players often move away from pressure before catching or shooting. This teaches the athlete to regain balance before shooting.",
+      "safety": "No fast backpedaling. Check space behind the player."
+    },
+    {
+      "name": "Pass Fake to Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot with the ball. Give a small pass fake to the side, bring the ball back under control, set the feet, and shoot. The fake should be short and realistic, not a huge swing. Rebound, reset, repeat both sides.",
+      "coaching_notes": "Best for low shot patience, weak fake control, poor balance after fake, or low decision confidence. Assign if the player catches and rushes shots without reading the defense. Practice the pass fake without shooting first.",
+      "statistic": "A pass fake can create a cleaner shot if the player stays balanced. Beginners learn that a fake only works if they can still shoot under control after it.",
+      "safety": "No defender needed. Keep the fake small."
+    },
+    {
+      "name": "Shot Fake Reset Jumper",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps, no defender",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot. Give a small shot fake by lifting the ball and eyes, then bring the ball back to shooting control without moving the pivot foot. After the fake, shoot with balance. Rebound, reset, repeat. No defender yet.",
+      "coaching_notes": "Best for poor shot-fake control, rushed shooting, travel risk, or low balance after fake. Assign if the player jumps on the fake, travels after faking, or cannot shoot after resetting. Practice fake-and-hold without shooting first.",
+      "statistic": "A shot fake should keep the player in control. This teaches patience and legal footwork before adding live defense.",
+      "safety": "Keep both feet controlled. No jumping into defenders."
+    },
+    {
+      "name": "One-Dribble Pull-Up Right",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps from same spot",
+      "coach_reviewed": true,
+      "instructions": "Start at beginner midrange with the ball. Take one controlled dribble to the right, gather the ball, stop on balance, and shoot. Rebound and reset at the same spot. Focus on dribble, gather, balance, shoot — not speed.",
+      "coaching_notes": "Best for low off-dribble shooting, poor gather balance, weak right-hand control, or rushed pull-up form. Assign if the player can shoot standing still but loses form after one dribble. Use shorter distance if they have to throw the shot.",
+      "statistic": "Off-the-dribble shooting is a different skill than spot shooting. A one-dribble pull-up gives beginners a simple way to learn the timing without advanced moves.",
+      "safety": "No hard stop. Keep the dribble slow until balance improves."
+    },
+    {
+      "name": "One-Dribble Pull-Up Left",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6 makes",
+      "coach_reviewed": true,
+      "instructions": "Start at beginner midrange with the ball. Take one controlled dribble to the left, gather with two hands, stop balanced, and shoot. Rebound and reset. Go slow enough to keep the ball under control. Do 6 makes.",
+      "coaching_notes": "Best for low weak-side pull-up control, poor gather, weak left-hand dribble, or off-balance shooting. Assign if the player avoids dribbling left into shots or loses form after a left-hand dribble. Use a closer shot or no shot if the gather is poor.",
+      "statistic": "Players need to shoot after moving both directions. Left-side pull-up work keeps the player from becoming one-sided.",
+      "safety": "Controlled speed only. Stop if the player twists the knee or lands off balance."
+    },
+    {
+      "name": "Dribble Stop Set Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps from different short spots",
+      "coach_reviewed": true,
+      "instructions": "Start a few steps from a short shooting spot. Take two slow dribbles to the spot, stop fully, set the base, and shoot. The stop must happen before the shot starts. Rebound and repeat from different short spots.",
+      "coaching_notes": "Best for poor dribble-to-shot control, rushed shot prep, weak stopping balance, or low shot consistency. Assign if the player dribbles into a shot while still moving or falling forward. Use one slow dribble first.",
+      "statistic": "Beginners often blend the dribble and shot too fast. Stopping first teaches balance and control before harder pull-up work.",
+      "safety": "No speed. Stop safely before shooting."
+    },
+    {
+      "name": "Pound Dribble Lift Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "reps both hands",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot. Take one strong pound dribble, catch the ball back into the hands, lift into the shot, and shoot. The dribble should be controlled and close to the body. Rebound, reset, repeat. Do both right- and left-hand pound dribbles.",
+      "coaching_notes": "Best for low dribble rhythm, poor shot timing, weak gather control, or stiff set-shot mechanics. Assign if the player’s shot looks stiff from a standstill but better with a simple rhythm. Use dribble-stop set shot first if they cannot gather cleanly.",
+      "statistic": "Some players shoot better when the dribble gives them rhythm. This teaches that rhythm while keeping the movement simple.",
+      "safety": "Keep the dribble low and controlled. No rushed pull-ups yet."
+    },
+    {
+      "name": "Partner Call Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, react to the call",
+      "coach_reviewed": true,
+      "instructions": "Stand at a short shooting spot with a partner or coach holding the ball. The coach says \"ready,\" then passes and calls \"shoot.\" Catch, set the body, and shoot — do not panic on the call. Rebound or pass back, repeat.",
+      "coaching_notes": "Best for low shot readiness, poor reaction focus, rushed catch-and-shoot, or low communication confidence. Assign if the player looks surprised by passes or hurries shots under simple pressure. Use slower calls and softer passes first.",
+      "statistic": "Players need to be ready before the ball arrives. A simple call-and-pass setup adds focus without turning it into a pressure drill.",
+      "safety": "No hard passes. Keep the shot close and controlled."
+    },
+    {
+      "name": "Shot Clock Countdown Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "8-10 reps from close range",
+      "coach_reviewed": true,
+      "instructions": "Start at a short shooting spot. The coach counts down from 3 out loud. Get the shot off before the count ends, but the shot still has to be balanced. If you rush and lose form, the rep does not count. Do 8-10 reps from close range.",
+      "coaching_notes": "Best for low pressure control, rushed shooting, slow shot prep, or low confidence. Assign if the player panics when they feel time pressure. Count down from 5 if they need more time.",
+      "statistic": "Pressure should be added slowly. A short countdown gives beginners a small challenge while keeping the shot simple and close.",
+      "safety": "Do not rush into bad landings. Form still comes first."
+    },
+    {
+      "name": "Partner Contest Hand Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, no contact",
+      "coach_reviewed": true,
+      "instructions": "Start at a short spot. A partner stands a safe distance away with one hand up, not touching the shooter. Catch or start with the ball, shoot over the visual hand, and hold the finish. The partner stays still and does not jump into the shooter. Rebound, reset, repeat.",
+      "coaching_notes": "Best for low visual focus, poor contest confidence, rushed release, or low shot discipline. Assign if the player changes form every time a hand is near them. Use a cone or raised foam stick instead of a person.",
+      "statistic": "Players need to keep their eyes and form steady with a closeout hand nearby — a safe first step before live contests.",
+      "safety": "No body contact. Defender must not step into the shooter’s landing space."
+    },
+    {
+      "name": "Follow Your Shot Midrange",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 reps from one spot",
+      "coach_reviewed": true,
+      "instructions": "Shoot from beginner midrange. After the shot leaves the hand, follow the shot toward the rim under control, grab the rebound, and return to the same spot. Do not sprint wildly or crash into others. Shoot 10 reps from one spot.",
+      "coaching_notes": "Best for low rebound awareness, poor follow-shot habit, low shooting focus, or low effort after release. Assign if the player shoots and immediately walks away or watches the ball. Use walking follow only in crowded gyms.",
+      "statistic": "Players should learn the rep does not end when the ball leaves the hand. Following the shot builds effort and rebound awareness.",
+      "safety": "No crashing into other players. Move under control."
+    },
+    {
+      "name": "Short Relocate After Pass Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing with a partner. Pass to the partner, slide or step a few feet to a new short shooting spot, show hands, catch the return pass, and shoot. Keep the movement small and controlled. Rebound, reset, repeat both sides.",
+      "coaching_notes": "Best for low relocation habit, poor off-ball movement, weak catch balance, or low team shooting awareness. Assign if the player passes and stays frozen instead of moving to open space. Walk the relocation first without shooting.",
+      "statistic": "Moving after the pass creates open shots. This teaches that habit without requiring a full offensive action.",
+      "safety": "Keep movement short. Do not drift into other players."
+    },
+    {
+      "name": "Trail Spot-Up Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps, jog speed",
+      "coach_reviewed": true,
+      "instructions": "Start near half court or the top area. Jog into the front court as a trailer, stop at a short shooting spot near the top or slot, catch a pass, and shoot. Stop before shooting and do not drift forward. Rebound, reset, repeat.",
+      "coaching_notes": "Best for low transition shooting awareness, poor stop balance, weak catch-and-shoot control, or low trail spacing. Assign if the player runs down the floor and crowds the paint instead of finding a shooting spot. Start closer to the hoop and jog slowly.",
+      "statistic": "Transition spacing creates open shots. Trail spot-up work helps beginners learn where to arrive and how to shoot under control.",
+      "safety": "Jog speed first. No crowded lanes or rushed shots."
+    },
+    {
+      "name": "Baseline Lift Short Shot",
+      "primary_skill": "Shooting",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "reps both baselines",
+      "coach_reviewed": true,
+      "instructions": "Start near the baseline or short corner. Lift a few steps up toward the wing, catch a pass or pick up the ball, stop balanced, and shoot from beginner range. Do not run all the way to the three-point line. Rebound, reset, repeat both baselines.",
+      "coaching_notes": "Best for low baseline movement, poor relocation balance, weak short shot confidence, or low off-ball shooting awareness. Assign if the player stays stuck on the baseline and does not know how to lift into open space. Walk the lift first and shoot closer.",
+      "statistic": "Simple lifts are common in spacing. Beginners can learn the movement without needing deep range or advanced reads.",
+      "safety": "Keep the shot close. No sprinting into the catch."
     }
   ]
 }
