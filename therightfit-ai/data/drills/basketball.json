@@ -4572,6 +4572,366 @@
       "coaching_notes": "Best for poor catch control, rushed passing, weak rhythm, or fumbled ball movement. Assign if the player rushes passes back without really catching first. Use a smaller ball or shorter distance if catches are not clean.",
       "statistic": "Quick passing still needs control. This teaches rhythm without letting the player skip the catch.",
       "safety": "Soft passes only. Control before speed."
+    },
+    {
+      "name": "Ball Carry Change Hands",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "8-10 slow transfers",
+      "coach_reviewed": true,
+      "instructions": "Stand still with the ball held tight on the right side of the body. Move the ball across the chest to the left side, hold for 2 seconds, then move it back to the right. Keep the ball close to the body. Do 8-10 slow transfers. Younger players use a smaller ball.",
+      "coaching_notes": "Best for low hand strength, poor ball control, weak transfer control, or low ball security. Assign if the player drops the ball when moving it across the body. Use a smaller ball or fewer reps if the player strains to hold it.",
+      "statistic": "Young players often lose the ball because it is too big, too heavy, or poorly controlled. This builds safe control before passing speed is added.",
+      "safety": "No swinging the ball fast. Keep it close to the chest."
+    },
+    {
+      "name": "Ball Around One Leg",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "5 circles each leg",
+      "coach_reviewed": true,
+      "instructions": "Stand with one foot slightly forward. Move the ball around the front leg in a small circle, passing it from hand to hand. Do 5 circles around the right leg, then 5 around the left. Start slow; do not bend too far or lose balance.",
+      "coaching_notes": "Best for poor coordination, weak hand transfer, low ball comfort, or poor body control. Assign if the player struggles moving the ball around the legs without dropping it. Use around-the-waist control drills first if this is too hard.",
+      "statistic": "Body ball-control drills help young players learn where the ball is without relying only on dribbling, supporting better control when passing and catching later.",
+      "safety": "Keep the bend small. Stop if the player loses balance."
+    },
+    {
+      "name": "Ball Tap Walk",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "10 steps out and back",
+      "coach_reviewed": true,
+      "instructions": "Tap the ball lightly between both hands at chest height while walking 10 steps forward. Turn around and walk back keeping the taps controlled. The ball should not go near the face. Start slow and use a smaller ball if needed.",
+      "coaching_notes": "Best for poor hand control, low movement coordination, weak ball familiarity, or low confidence. Assign if the player can tap the ball standing still but loses it while walking. Stand still first if walking causes drops.",
+      "statistic": "Playmaking happens while moving. This gives young players a low-pressure way to carry ball control into movement.",
+      "safety": "Walk only. Keep eyes forward when possible."
+    },
+    {
+      "name": "Pocket Protect Walk",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone"
+      ],
+      "reps_target": "2-3 trips",
+      "coach_reviewed": true,
+      "instructions": "Hold the ball tight near the outside hip with two hands. Walk from one cone to another, keeping the ball close and protected. At the cone, switch the ball to the other hip and walk back. Do 2-3 trips.",
+      "coaching_notes": "Best for poor ball protection, weak grip, high turnover risk, or low body control. Assign if the player carries the ball loose or exposes it while moving. Use shorter walking distance for younger players.",
+      "statistic": "Ball security is part of playmaking. A player who cannot protect the ball while moving will struggle before they ever make the pass.",
+      "safety": "Walking only. No contact or defenders."
+    },
+    {
+      "name": "Partner Chest Target Catch Only",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "8 clean catches",
+      "coach_reviewed": true,
+      "instructions": "A coach or partner stands close and gives a soft pass to the player’s chest target. Show hands, catch with two hands, pull the ball in, and hold it for 2 seconds. The coach takes the ball back and repeats. Do 8 clean catches.",
+      "coaching_notes": "Best for low catch confidence, poor hand readiness, weak ball security, or fear of the ball. Assign if the player cannot catch safely enough to return passes. Use a foam ball first if the player flinches.",
+      "statistic": "Some players are not ready for full partner passing. Removing the return pass lets them focus on catching first.",
+      "safety": "Soft passes only. No face-level throws."
+    },
+    {
+      "name": "Receiver Step-In Catch",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner",
+        "cone"
+      ],
+      "reps_target": "8 reps, then switch roles",
+      "coach_reviewed": true,
+      "instructions": "A receiver starts one step behind a floor marker; a passer stands close. As the passer starts the pass, the receiver steps to the marker, shows hands, catches, and secures the ball. The receiver passes back softly or hands the ball back. Do 8 reps, switch roles.",
+      "coaching_notes": "Best for poor receiver timing, low catch strength, weak ball security, or low pass awareness. Assign if the player waits for the ball instead of moving into the catch. Walk through the step without a pass first.",
+      "statistic": "A good receiver helps the passer. Stepping into the catch reduces lazy turnovers and builds stronger hands.",
+      "safety": "One short step only. No lunging."
+    },
+    {
+      "name": "Pass to Coach’s Pocket",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, change target every few",
+      "coach_reviewed": true,
+      "instructions": "A coach stands 6-8 feet away and shows a target near the right pocket, left pocket, or chest. Throw a soft controlled pass to that exact target. The coach changes the target every few reps. Step, aim, and pass with control.",
+      "coaching_notes": "Best for low pass placement, poor target accuracy, weak teammate awareness, or high turnover risk. Assign if the player throws passes to random spots instead of the receiver’s target. Use one target only if the player struggles.",
+      "statistic": "Good playmakers place the ball where the receiver can use it. This starts with clear pocket targets at short range.",
+      "safety": "Do not target the face. Keep passes soft and close."
+    },
+    {
+      "name": "Soft Pass Over Line",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "8-10 reps",
+      "coach_reviewed": true,
+      "instructions": "Place a flat line or tape mark between passer and receiver. The passer must send the ball softly over the line to the receiver’s hands — not hard or wild. The receiver catches, secures, and passes back. Do 8-10 reps.",
+      "coaching_notes": "Best for poor pass touch, low distance control, weak accuracy, or hard passes. Assign if the player throws every pass too hard or cannot control distance. Shorten the distance for younger players.",
+      "statistic": "Pass touch matters as much as strength. This gives the player a small target task without making the pass long.",
+      "safety": "Use flat tape only. No raised obstacle."
+    },
+    {
+      "name": "Pass to Stationary Hoop Target",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "cone"
+      ],
+      "reps_target": "8-10 reps",
+      "coach_reviewed": true,
+      "instructions": "Place a hula hoop, flat circle, or marked target on the floor. Stand 5-8 feet away and pass the ball so it lands in or near the target — a soft bounce, push, or roll depending on strength. Do 8-10 reps.",
+      "coaching_notes": "Best for low aim, weak passing accuracy, low confidence, or poor force control. Assign if the player misses a partner badly or cannot control pass direction. Move closer or use a bigger target for younger players.",
+      "statistic": "Some athletes need target practice before partner passing. It removes fear of hitting a teammate and lets the player work on direction.",
+      "safety": "Keep rolling balls away from other players’ feet."
+    },
+    {
+      "name": "Short Pass After Catch Turn",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps both turn directions",
+      "coach_reviewed": true,
+      "instructions": "Start facing a passer. The passer gives a soft pass. Catch, turn the shoulders toward a second target, and pass softly — do not rush the turn. Use short distances and no defenders. Do both turn directions.",
+      "coaching_notes": "Best for low catch-turn control, poor body alignment, weak pass accuracy, or rushed passing. Assign if the player catches and passes without facing the target. Practice catch-turn without passing first.",
+      "statistic": "Players often catch from one angle and pass to another. This builds the turn before the pass.",
+      "safety": "Turn slowly. No twisting hard through the knees."
+    },
+    {
+      "name": "Receiver Circle Step Catch",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner",
+        "cone"
+      ],
+      "reps_target": "5 catches each direction",
+      "coach_reviewed": true,
+      "instructions": "Place a cone on the floor. The receiver walks around the cone in a small circle. The passer gives a soft pass when the receiver comes back toward the ball. The receiver catches, secures, and passes back. Do 5 catches clockwise and 5 counterclockwise.",
+      "coaching_notes": "Best for poor moving catch, low receiver control, weak balance, or low timing. Assign if the player can catch standing still but struggles when moving. Walk slower or make the circle smaller.",
+      "statistic": "Moving catches should start with walking patterns. This gives the receiver movement without speed or pressure.",
+      "safety": "Walk only. Keep the cone away from the feet."
+    },
+    {
+      "name": "Dribble Pause Look Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, strong hand first",
+      "coach_reviewed": true,
+      "instructions": "Dribble slowly in place or forward. On the coach cue, pause the body while keeping control of the ball, look up at a receiver, pick the ball up, and pass softly. The receiver catches and returns the ball. Start with strong-hand dribble only.",
+      "coaching_notes": "Best for low court vision, poor dribble-to-pass timing, weak decision control, or rushed passing. Assign if the player dribbles with head down and passes without looking. Use eyes-up dribble work first if the player cannot control the ball; ages 7-8 only with a stationary dribble and short pass.",
+      "statistic": "The player has to see before making the play. This gives a simple rhythm: control, look, pass.",
+      "safety": "No speed. Pick the ball up before passing."
+    },
+    {
+      "name": "Two-Cones Receiver Gap",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner",
+        "cone"
+      ],
+      "reps_target": "reps both sides",
+      "coach_reviewed": true,
+      "instructions": "Place two cones a few feet apart as a gap. The receiver starts to one side, steps into the gap, shows hands, catches a soft pass, and secures the ball. The receiver then passes back and exits the gap. Do reps from both sides.",
+      "coaching_notes": "Best for low spacing awareness, poor receiver movement, weak catch readiness, or low passing-window understanding. Assign if the player stands behind imaginary defenders instead of finding open space. Make the gap wider for younger players.",
+      "statistic": "A receiver can make the pass easier by finding space. This teaches open-window movement without live defense.",
+      "safety": "Step into the gap. No hard cuts."
+    },
+    {
+      "name": "Pass and Point to Space",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, coach asks \"where is space?\"",
+      "coach_reviewed": true,
+      "instructions": "Pass to a teammate or coach. Right after the pass, point to an open spot on the court where a teammate could move. The coach can ask \"where is space?\" Point, then reset. Add movement later only if the player understands the idea.",
+      "coaching_notes": "Best for low spacing awareness, poor court vision, weak playmaking IQ, or low team-concept understanding. Assign if the player passes and watches without thinking about the next action. Use coach-guided pointing first if the player cannot identify space.",
+      "statistic": "Playmaking is not just the pass — it is seeing what happens next. This teaches that idea in a beginner-safe way.",
+      "safety": "No pressure. Teach the concept slowly."
+    },
+    {
+      "name": "Strong-Hand to Weak-Hand Carry Switch",
+      "primary_skill": "Ball handling",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball"
+      ],
+      "reps_target": "reps, then walk slowly",
+      "coach_reviewed": true,
+      "instructions": "Hold the ball on the strong side of the body. Move it across the chest to the weak side, hold for 2 seconds, then move it back. After a few reps, walk slowly while switching. Use a smaller ball if the weak hand struggles.",
+      "coaching_notes": "Best for low weak-hand confidence, poor ball transfer, weak grip, or one-sided ball control. Assign if the player always turns to the strong side or drops the ball when switching hands. Do it standing still before walking.",
+      "statistic": "Weak-hand play starts with safe ball control. A player does not need advanced dribbles before learning to secure the ball on both sides.",
+      "safety": "No speed. Keep the ball close to the body."
+    },
+    {
+      "name": "Coach Shows Open Hand Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, switch which target shows hands",
+      "coach_reviewed": true,
+      "instructions": "Two coaches or teammates stand close. One shows hands and the other keeps hands down. The passer looks, finds the open hands, and passes softly to that player. The receiver catches and gives the ball back. Switch which target shows hands each rep.",
+      "coaching_notes": "Best for low target recognition, poor decision-making, weak passing accuracy, or high turnover risk. Assign if the player passes to teammates who are not ready. Use one receiver first if two targets are confusing.",
+      "statistic": "A ready teammate shows a target. This teaches the passer to wait for the cue before making the pass.",
+      "safety": "No surprise passes. Receivers must be watching."
+    },
+    {
+      "name": "Dribble Around Coach Pass Back",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner",
+        "cone"
+      ],
+      "reps_target": "reps both directions",
+      "coach_reviewed": true,
+      "instructions": "A coach or cone stands still as a marker. Dribble slowly around the marker, gather the ball, and pass back to a receiver behind or beside the starting spot. Start with a wide path and short pass. Do both directions.",
+      "coaching_notes": "Best for low dribble control, weak passing angle, poor gather, or low playmaking awareness. Assign if the player can dribble but cannot pass after changing direction. Use no dribble and walk around the marker first; younger players only with walking speed and the strong hand.",
+      "statistic": "Players often need to change angle before passing. This keeps the read simple and removes live defense.",
+      "safety": "No tight turns at speed. Keep the coach out of the path."
+    },
+    {
+      "name": "Short Reversal Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, then reverse direction",
+      "coach_reviewed": true,
+      "instructions": "Three players or two players and a coach stand across the top area. The ball starts on one side. Pass to the middle, and the middle passes to the other side. Keep all passes short and controlled. After a few reps, reverse direction. Players call names and show hands.",
+      "coaching_notes": "Best for low ball movement, poor spacing, weak communication, or low team awareness. Assign if the player keeps the ball on one side and does not understand reversing it. Move players closer together for younger athletes.",
+      "statistic": "Reversing the ball is a simple team playmaking habit. Beginners need short passes and clear spacing before advanced reads.",
+      "safety": "No long skip passes. Keep distance safe."
+    },
+    {
+      "name": "Receiver Check-In Check-Out",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps both wings",
+      "coach_reviewed": true,
+      "instructions": "The receiver starts on the wing. Take two steps toward the passer, then two steps back out to open space, show hands, and catch a soft pass. Secure the ball and pass it back. Do both wings.",
+      "coaching_notes": "Best for poor receiver timing, low spacing awareness, weak catch readiness, or low off-ball movement. Assign if the player stands still or runs straight into the passer. Walk the movement without the pass first.",
+      "statistic": "Receivers need to create a passing angle. Checking in and out teaches simple timing before more advanced cuts.",
+      "safety": "No hard cuts. Move under control."
+    },
+    {
+      "name": "Safe Save Pass",
+      "primary_skill": "Passing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "partner"
+      ],
+      "reps_target": "reps, slow and close",
+      "coach_reviewed": true,
+      "instructions": "A coach rolls or places the ball near a sideline. Step to the ball, secure it with two hands, and make a short safe pass to a nearby teammate or coach — do not jump out of bounds or throw behind the head. Keep it slow and close.",
+      "coaching_notes": "Best for poor loose-ball awareness, panic passing, weak ball security, or high turnover risk. Assign if the player saves the ball blindly or throws it to the other team. Remove sideline pressure and do it in open space first; ages 7-8 only with walking speed and no sideline rush.",
+      "statistic": "Young players often try heroic saves that become turnovers. This teaches secure first, then pass to a teammate.",
+      "safety": "No diving. No jumping into walls, bleachers, or other players."
     }
   ]
 }
