@@ -321,6 +321,319 @@
       "coaching_notes": "Best for approaching a shooter under control. Walk the closeout first before jogging. No contact; no jumping into shooters.",
       "statistic": "Closeouts are common on defense \u2014 beginners learn control first, because a wild closeout gives up easy drives.",
       "safety": "No contact. No jumping into shooters."
+    },
+    {
+      "name": "Right-Side Backboard Touch Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Shooting"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 makes, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start on the right block. Step toward the basket, look at the top corner of the square, and lay the ball softly off the backboard. Rebound, reset on the same spot, repeat. Make it touch the glass softly \u2014 don't throw it hard. 10 makes, rest, repeat.",
+      "coaching_notes": "Best for low finishing touch, poor backboard aim, or low rim confidence. Move closer / lower the hoop if form slips. No jumping into others; keep under the rim clear.",
+      "statistic": "Beginners need a clear target near the rim. The backboard gives a simple aiming point and builds close-range consistency before speed or defense.",
+      "safety": "No jumping into other players. Keep the area under the rim clear."
+    },
+    {
+      "name": "Left-Side Backboard Touch Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Shooting"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 makes, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start on the left block. Step toward the basket, look at the square, and lay it up softly. Rebound, reset on the left block, go again. Stay calm \u2014 touch, not speed. 10 makes, rest, repeat.",
+      "coaching_notes": "Best for left-side finishing and weak-hand confidence. Let the player use two hands first if one-hand touch isn't ready. Keep reps slow; no contact or speed yet.",
+      "statistic": "Players who finish on only one side are easier to guard. Left-side finishing builds balance and confidence around the rim.",
+      "safety": "Keep reps slow. Do not add contact or speed yet."
+    },
+    {
+      "name": "Two-Hand Soft Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "10 clean makes",
+      "coach_reviewed": true,
+      "instructions": "Right under the rim, hold the ball in two hands. Bend the knees, jump lightly, and place the ball softly off the glass or into the rim. Land, rebound, reset, repeat \u2014 keep the ball high, finish soft. 10 clean makes.",
+      "coaching_notes": "Best for younger/smaller players still building close-range strength. Lower the hoop or move closer if strength is an issue. Land on balance; no jumping under someone's feet.",
+      "statistic": "Some beginners need touch and confidence before one-hand finishes. A two-hand finish gives more control on easy close shots.",
+      "safety": "Land on balance. No jumping under someone else's feet."
+    },
+    {
+      "name": "Outside-Hand Extension Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "6 makes each side",
+      "coach_reviewed": true,
+      "instructions": "Close on the right side, step toward the rim and extend the right hand high toward the backboard \u2014 the ball comes up high and soft, not from the waist. Rebound, reset, repeat; then the left side with the left hand. 6 makes each side.",
+      "coaching_notes": "Best for players who bring the ball low or finish too close to the body. Use a two-hand soft finish if strength is low. No defender yet; keep jumps controlled.",
+      "statistic": "Finishing high gives a better angle and is harder to block \u2014 beginners need high-release habits early.",
+      "safety": "No defender yet. Keep jumps controlled."
+    },
+    {
+      "name": "One-Step Layup Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Footwork"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "slow reps each side",
+      "coach_reviewed": true,
+      "instructions": "Very close to the basket. Take one step with the outside foot, jump, and finish softly off the backboard. Rebound, reset, repeat \u2014 right side first, then left. Slow and clean.",
+      "coaching_notes": "Best for players who take too many steps near the rim. Practice the step without the ball first. No speed yet \u2014 clean footwork first.",
+      "statistic": "Beginners often travel near the rim from panic or unclear steps; one-step finishing simplifies the movement.",
+      "safety": "No speed yet. Clean footwork first."
+    },
+    {
+      "name": "Two-Step Gather Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Footwork"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "A few feet out. Take one controlled dribble, gather the ball with two hands, then two steps into the layup, finishing softly off the backboard. Land controlled, rebound, reset. Both sides.",
+      "coaching_notes": "Best for the gather step before layups. Use no-dribble gather reps first if timing is hard. Keep the speed slow until footwork is clean.",
+      "statistic": "The gather is where many beginner layups break down \u2014 one dribble, gather, two steps, finish gives a clear rhythm.",
+      "safety": "Keep the speed slow until footwork is clean."
+    },
+    {
+      "name": "No-Dribble Cut Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Live Play"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "8 makes each side",
+      "coach_reviewed": true,
+      "instructions": "Start a few steps from the basket. A passer feeds the ball as the player cuts to the rim; catch, take controlled steps, and finish close. Rebound or rotate out. 8 makes each side.",
+      "coaching_notes": "Best for off-ball finishing. Use a stationary pass first if catching on the move is hard. Use soft passes; no traffic in the lane.",
+      "statistic": "Not every finish comes from a dribble \u2014 beginners learn to catch, gather, and finish from cuts, a common scoring chance.",
+      "safety": "Use soft passes. No traffic in the lane."
+    },
+    {
+      "name": "Baseline Cut Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Live Play"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "Start near the short corner/baseline; a passer on the wing. Cut toward the basket, show hands, catch, and finish close. Rebound, reset. Reps from both sides.",
+      "coaching_notes": "Best for simple cuts and close finishes. Walk the cut first before adding speed. No crowding under the rim; keep passes controlled.",
+      "statistic": "Baseline cuts create simple layup chances \u2014 beginners learn to move without the ball and finish right after the catch.",
+      "safety": "No crowding under the rim. Keep passes controlled."
+    },
+    {
+      "name": "Wing Cut Layup Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Live Play"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "Start on the wing; passer at the top or opposite wing. Cut hard to the basket, show both hands, catch, and finish off the backboard. Rebound, pass back out, reset. Both sides.",
+      "coaching_notes": "Best for wing cuts and rhythm finishes. Start with a walk-through cut if timing is poor. One cutter at a time; no crossing paths under the rim.",
+      "statistic": "Simple cuts teach beginners that scoring isn't only dribbling \u2014 catching on the move and finishing builds game-ready habits.",
+      "safety": "Use one cutter at a time. No crossing paths under the rim."
+    },
+    {
+      "name": "Elbow Catch and Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Footwork"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "both elbows",
+      "coach_reviewed": true,
+      "instructions": "Start at the elbow; a passer feeds the ball. Catch, square up, take one strong step to the basket, and finish close \u2014 stay under control, don't rush. Rebound, reset, repeat from both elbows.",
+      "coaching_notes": "Best for attacking from the elbow. Start without a pass (stationary ball) if needed. No defender yet; keep the drive short and controlled.",
+      "statistic": "The elbow is a common scoring spot \u2014 catching there and taking one controlled move to the rim teaches simple attacking habits.",
+      "safety": "No defender yet. Keep the drive short and controlled."
+    },
+    {
+      "name": "Short Corner Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "both short corners",
+      "coach_reviewed": true,
+      "instructions": "Start in the short corner with the ball. Take one controlled step toward the rim and finish softly off the backboard. Rebound, reset, repeat \u2014 both short corners. Soft and balanced.",
+      "coaching_notes": "Best for close finishes from side angles. Move closer if angle touch is poor. Watch the baseline; don't step out of bounds during the rep.",
+      "statistic": "Games create different angles around the rim \u2014 short corner finishes teach how the backboard changes by position.",
+      "safety": "Watch the baseline area. Do not step out of bounds during the rep."
+    },
+    {
+      "name": "Overhand High Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "Close to the basket, hold the ball high, take one controlled step, and finish with an overhand layup off the backboard \u2014 reach up, don't push from the chest. Rebound, reset, repeat both sides.",
+      "coaching_notes": "Best for players who need a higher release. Move closer if strength is low. No defender yet; focus on control and reach.",
+      "statistic": "A higher release finishes cleaner near the basket and builds habits for finishing over taller defenders later.",
+      "safety": "No defender yet. Focus on control and reach."
+    },
+    {
+      "name": "Catch High Finish High",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop",
+        "partner"
+      ],
+      "reps_target": "8\u201310 makes",
+      "coach_reviewed": true,
+      "instructions": "A passer tosses softly near the rim. Catch high with two hands, keep it above the chest, and finish right away. Rebound or rotate out. Cue: catch high, finish high. 8\u201310 makes.",
+      "coaching_notes": "Best for players who bring the ball low after catching. Use a self-toss if no passer. Soft passes; no contact under the rim.",
+      "statistic": "Young players lose scoring chances by bringing the ball down \u2014 keeping it high makes the finish quicker and safer.",
+      "safety": "Use soft passes. No contact under the rim."
+    },
+    {
+      "name": "Self-Toss Catch and Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "both sides",
+      "coach_reviewed": true,
+      "instructions": "Near the basket, toss the ball softly to yourself off the backboard or into the air. Catch with two hands, land balanced, then finish close. Rebound, reset, repeat. Both sides.",
+      "coaching_notes": "Best for catch-and-finish reps alone. Use smaller tosses if catching is hard. Toss softly; land balanced before finishing.",
+      "statistic": "Finishing isn't only the shot \u2014 the catch and gather matter. Self-toss reps train those parts without a teammate.",
+      "safety": "Toss softly. Land balanced before finishing."
+    },
+    {
+      "name": "Rebound Putback Finish",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Rebounding"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8 makes",
+      "coach_reviewed": true,
+      "instructions": "Under the basket, toss the ball softly off the backboard, jump or reach for the rebound, land balanced, and finish right away \u2014 keep the ball high after the rebound. Reset, repeat. 8 makes.",
+      "coaching_notes": "Best for second-chance finishing. Use no jump first for younger players. No crowding under the basket; land under control.",
+      "statistic": "Many beginner scoring chances come after rebounds \u2014 securing the ball and finishing quickly turns them into points.",
+      "safety": "No crowding under the basket. Land under control."
+    },
+    {
+      "name": "Two-Foot Putback",
+      "primary_skill": "Finishing",
+      "secondary_skills": [
+        "Rebounding"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "court",
+      "equipment": [
+        "ball",
+        "hoop"
+      ],
+      "reps_target": "8 clean makes",
+      "coach_reviewed": true,
+      "instructions": "Toss the ball off the backboard, catch the rebound with two hands, land on two feet, bend the knees, and go back up strong \u2014 don't drift sideways. Reset, repeat. 8 clean makes.",
+      "coaching_notes": "Best for players who rush putbacks or shoot off balance. Use a low toss and no jump if landing control is poor. Land first, then jump; no contact.",
+      "statistic": "Two-foot putbacks teach gathering strength before finishing \u2014 safer and cleaner for beginners than off-balance second jumps.",
+      "safety": "Land first, then jump. No contact."
     }
   ]
 }
