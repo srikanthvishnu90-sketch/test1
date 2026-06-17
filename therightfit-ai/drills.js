@@ -2147,26 +2147,45 @@ function profileFromData() {
     space: d.space || 'half', environment: d.environment || '', competition: d.competitionLevel || '',
     dayCount: DAY_COUNT[d.availability] || 3, minutes: MINUTES[d.sessionMinutes] || 35,
     injury: ['Recurring', 'Currently recovering'].includes(d.injuryHistory),
-    minorInjury: d.injuryHistory === 'Minor / past', injuryHistory: d.injuryHistory || 'None'
+    minorInjury: d.injuryHistory === 'Minor / past', injuryHistory: d.injuryHistory || 'None',
+    // GATE 1 inputs: age/developmental readiness (LTAD). Talent never overrides this.
+    growthSpurt: d.growthSpurt || 'unknown',
+    dev: (typeof LTAD !== 'undefined'
+      ? LTAD.deriveDevProfile(Number(d.age) || 12, LTAD.sexFromGender(d.gender), d.growthSpurt || 'unknown')
+      : null),
+    injuries: Array.isArray(d.injuries) ? d.injuries : []
   };
 }
 
 function passes(drill, p) {
   // NOTE: height & weight are intentionally never used to include/exclude a drill —
-  // they only personalize wording. Eligibility is skill level, position, goal,
-  // injury, equipment, space, and age.
+  // they only personalize wording.
+  //
+  // TWO ORTHOGONAL GATES. GATE 1 (age / developmental readiness) is a HARD
+  // safety ceiling that runs FIRST and is NEVER relaxed by skill, severity,
+  // priority, or talent. GATE 2 (per-skill difficulty band) is talent and only
+  // selects rungs WITHIN the age-eligible pool.
+
+  /* ---------- GATE 1: AGE / DEVELOPMENTAL READINESS (hard, talent-independent) ---------- */
+  if (typeof LTAD !== 'undefined' && p.dev) {
+    if (!LTAD.gate1(drill, { dev: p.dev, age: p.age, injuries: p.injuries, supervisionAvailable: p.supervisionAvailable })) return false;
+  } else {
+    // fallback if LTAD module is absent: keep the original age-range floor/ceiling
+    if (p.age < drill.recommended_age_min || p.age > drill.recommended_age_max) return false;
+  }
+  // legacy injury + youth-heading safety (kept; complements Gate 1 contraindications)
+  if (p.injury && drill.injury_cautions.some(c => INJURY_BLOCK.includes(c))) return false;
+  if (drill.injury_cautions.includes('heading') && p.age < 12) return false;
+
+  /* ---------- GATE 2: SKILL DIFFICULTY BAND (talent) ---------- */
   const allow = p.level === 'beginner' ? ['beginner'] : p.level === 'intermediate' ? ['beginner', 'intermediate'] : ['intermediate', 'advanced'];
   if (!allow.includes(drill.difficulty_level)) return false;
-  if (p.age < drill.recommended_age_min || p.age > drill.recommended_age_max) return false;
   if (SPACE_ORDER[drill.space_required] > (SPACE_ORDER[p.space] ?? 2)) return false;
   for (const eq of drill.required_equipment) {
     if (eq === 'ball') continue;
     if (eq === 'partner') { if (!p.partner && !(drill.wallok && p.equip.has('wall'))) return false; continue; }
     if (!p.equip.has(eq)) return false;
   }
-  if (p.injury && drill.injury_cautions.some(c => INJURY_BLOCK.includes(c))) return false;
-  // youth heading safety — no heading drills under age 12
-  if (drill.injury_cautions.includes('heading') && p.age < 12) return false;
   return true;
 }
 

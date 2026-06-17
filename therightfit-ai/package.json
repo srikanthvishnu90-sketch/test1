@@ -10,7 +10,9 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "node --watch server/index.js",
-    "import-drills": "node scripts/import-drills.js"
+    "import-drills": "node scripts/import-drills.js",
+    "validate-drills": "node scripts/validate-drills.js",
+    "test-ltad": "node scripts/test-ltad.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

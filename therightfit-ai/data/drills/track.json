@@ -1,0 +1,946 @@
+{
+  "sport": "track",
+  "drills": [
+    {
+      "name": "Tall Posture March",
+      "primary_skill": "Running Form",
+      "secondary_skills": [
+        "Arm Action"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, walk back, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand tall with the chest up and eyes forward. March in place, then slowly move forward. Each knee comes up to about waist height, the opposite arm swings forward, and the foot comes back down under the body. Stay tall — do not lean back. Go 10–15 yards, walk back, rest, then repeat.",
+      "coaching_notes": "Best for athletes who run with head down, shoulders tight, arms crossing, or feet landing all over. Use marching in place if balance is poor. Keep it slow and clean; do not rush.",
+      "statistic": "USATF coaching progressions start with posture, rhythm, and basic mechanics before full-speed work. Movement quality and body control come before harder speed training.",
+      "safety": "Keep it slow and clean. Do not rush the drill."
+    },
+    {
+      "name": "Arm Swing Seated Drill",
+      "primary_skill": "Arm Action",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10s smooth + 10s faster",
+      "coach_reviewed": true,
+      "instructions": "Sit on the ground or a bench with legs straight or slightly bent and chest tall. Swing the arms like sprinting — one hand moves from cheek level down toward the hip, then the other does the same. Keep the elbows bent and shoulders relaxed. Do 10 seconds smooth, rest, then 10 seconds faster.",
+      "coaching_notes": "Best for arms that cross the body, swing wide, or stay stiff. Do standing arm swings if sitting is uncomfortable. Keep shoulders relaxed; stop if shoulder discomfort appears.",
+      "statistic": "Sprint coaches teach arm action early because the arms control rhythm and balance. If the arms are messy, the legs usually get messy too.",
+      "safety": "Keep shoulders relaxed. Stop if shoulder discomfort appears."
+    },
+    {
+      "name": "Standing Arm Swing Drill",
+      "primary_skill": "Arm Action",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10s smooth + 5s fast",
+      "coach_reviewed": true,
+      "instructions": "Stand tall, feet about hip-width apart. Bend the elbows and swing the arms like sprinting — hands cheek to hip, elbows driving back. Start smooth for 10 seconds, then go faster for 5 seconds while keeping the body still. Rest, reset, repeat.",
+      "coaching_notes": "Best for athletes who twist the body, shrug the shoulders, or swing across the chest. Use the seated version first if the athlete cannot keep the body still. No heavy resistance; keep it quick but relaxed.",
+      "statistic": "Good sprinting uses strong arm drive with relaxed shoulders. Coaches cue 'cheek to hip' because simple arm rhythm helps the whole sprint pattern.",
+      "safety": "No heavy resistance. Keep it quick but relaxed."
+    },
+    {
+      "name": "Wall Posture Hold",
+      "primary_skill": "Acceleration",
+      "secondary_skills": [
+        "Running Form"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "wall"
+      ],
+      "reps_target": "10s holds, repeat",
+      "coach_reviewed": true,
+      "instructions": "Face a wall and place both hands on it at shoulder height. Step the feet back until the body makes a straight line from head to heel. Keep the core tight, hips tall, and heels slightly off the ground. Hold this strong position for 10 seconds, rest, then repeat.",
+      "coaching_notes": "Best for athletes who start upright too soon, fold at the hips, or cannot hold a strong sprint angle. Shorten the hold if the athlete loses position. Hands must be secure — no slipping.",
+      "statistic": "Acceleration requires body angle and force into the ground. Wall drills teach the position safely before asking the athlete to sprint out of it.",
+      "safety": "Hands must be secure. No slipping."
+    },
+    {
+      "name": "Wall Drive March",
+      "primary_skill": "Acceleration",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "wall"
+      ],
+      "reps_target": "10 marches, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start in the wall posture position with both hands on the wall. Bring one knee up toward the chest, then place that foot back down under the hip. Switch legs. Move slowly at first, keeping the body straight, hips tall, and feet active. Do 10 total marches, rest, repeat.",
+      "coaching_notes": "Best for athletes who cannot drive the knees without losing body angle. Use single-leg holds before marching if coordination is poor. Keep the movement controlled; do not slam the feet.",
+      "statistic": "Acceleration depends on applying force while keeping posture. Wall drive marches teach knee drive without full-speed sprinting.",
+      "safety": "Keep the movement controlled. Do not slam the feet."
+    },
+    {
+      "name": "Wall Drive Switches",
+      "primary_skill": "Acceleration",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "wall"
+      ],
+      "reps_target": "single switches → 3 fast switches",
+      "coach_reviewed": true,
+      "instructions": "Start with hands on the wall and body in a strong straight line, one knee up. On the coach's call, switch legs quickly — one foot down while the other knee drives up. Start with single switches; once controlled, do 3 fast switches, rest, repeat.",
+      "coaching_notes": "Best for athletes who march well but cannot switch legs quickly with control. Stay with wall drive march if posture breaks. Keep reps short; stop if feet slip or posture breaks.",
+      "statistic": "Sprint acceleration needs quick ground contacts and strong leg switching. This builds the pattern in a controlled position before sprinting.",
+      "safety": "Keep reps short. Stop if feet slip or posture breaks."
+    },
+    {
+      "name": "A-March",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Running Form"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, walk back",
+      "coach_reviewed": true,
+      "instructions": "March forward with tall posture. Each step, the knee comes up, the toe stays pulled up, and the foot comes back down under the hip. The opposite arm swings with the opposite leg. Keep it slow and clean. Go 10–15 yards, walk back, repeat.",
+      "coaching_notes": "Best for athletes who run flat-footed, drag the feet, or cannot match arms and legs. Use the tall posture march first if rhythm is poor. Slow first — clean form matters more than speed.",
+      "statistic": "A-march is one of the most common sprint drills because it teaches posture, knee lift, foot position, and arm-leg rhythm in a simple way.",
+      "safety": "Slow first. Clean form matters more than speed."
+    },
+    {
+      "name": "A-Skip",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10 yards, reset, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start tall and skip forward. Each skip, one knee comes up, the toe stays up, and the opposite arm drives forward. Land softly under the body and keep moving with rhythm. Start slow for 10 yards, reset, repeat.",
+      "coaching_notes": "Best for athletes who can A-march but struggle to add bounce and rhythm. Return to A-march if control is lost. Land softly; do not rush the skip.",
+      "statistic": "A-skip connects posture, knee drive, rhythm, and foot strike. It is simple but gives coaches a lot of information about coordination.",
+      "safety": "Land softly. Do not rush the skip."
+    },
+    {
+      "name": "High Knees in Place",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "5–10 seconds, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand tall with arms ready. On the coach's call, run in place with quick high knees — knees up, arms swinging fast, feet hitting the ground under the body. Go 5–10 seconds, rest, repeat.",
+      "coaching_notes": "Best for athletes with slow feet, low knees, or poor arm-leg timing. Use slower marching if the athlete cannot stay balanced. Short reps only; stop if posture is lost or landings get hard.",
+      "statistic": "Quick foot contact and knee lift are basic sprint qualities. Short high-knee reps help beginners feel faster movement without a long sprint.",
+      "safety": "Short reps only. Stop if athlete loses posture or lands hard."
+    },
+    {
+      "name": "High Knees Forward",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, walk back",
+      "coach_reviewed": true,
+      "instructions": "Start tall and run forward using high knees for 10–15 yards — knees up, feet landing under the hips, arms driving cheek to hip. Do not lean back. After the distance, walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who do high knees in place but lose control moving forward. Shorten to 5–10 yards if form breaks down. Keep it short and controlled; do not let the athlete lean back.",
+      "statistic": "Forward high knees connect quick legs and movement down the track — a simple bridge between form drills and actual sprinting.",
+      "safety": "Keep it short and controlled. Do not let the athlete lean back."
+    },
+    {
+      "name": "Butt Kicks",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Endurance"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, walk back",
+      "coach_reviewed": true,
+      "instructions": "Jog forward while bringing the heels up toward the glutes. Keep the chest tall, arms moving, and steps light. Do not kick wildly behind the body. Go 10–15 yards, walk back, repeat.",
+      "coaching_notes": "Best for athletes with stiff legs, poor warm-up rhythm, or limited coordination. Use slow jogging butt kicks first. Keep it light; do not force the heel high if hamstrings feel tight.",
+      "statistic": "Butt kicks are a basic warm-up drill that improves rhythm and leg recovery and prepares the hamstrings and hips for faster movement.",
+      "safety": "Keep it light. Do not force the heel high if hamstrings feel tight."
+    },
+    {
+      "name": "Straight-Leg Bounds",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Speed"
+      ],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Start tall and move forward with mostly straight legs. Keep the toes up and the feet contacting the ground under or slightly in front of the body. Use strong arms and light bounces. Go 10–15 yards, rest, repeat.",
+      "coaching_notes": "Best for athletes who run with soft feet, poor posture, or weak front-side mechanics. Use a shorter distance if the athlete lands too hard. Low volume only; avoid with shin, ankle, or knee pain.",
+      "statistic": "Straight-leg bounds teach active foot contact and posture. Coaches use them to help athletes feel quick, elastic contacts without full sprinting.",
+      "safety": "Low volume only. Avoid if athlete has shin, ankle, or knee pain.",
+      "min_age": 13,
+      "ltad_stage": "train_to_train",
+      "impact_level": "high_plyometric",
+      "maturation_sensitive": true,
+      "coordination_demand": "med"
+    },
+    {
+      "name": "Ankling Drill",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Running Form"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10 yards, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Move forward with very small steps. The feet roll quickly from the ball of the foot and the ankles stay active. Keep the knees low, posture tall, and arms moving naturally. Go 10 yards, rest, repeat.",
+      "coaching_notes": "Best for athletes who stomp, overstride, or land with heavy feet. Use walking ankling first if coordination is poor. Keep it light; avoid with Achilles or shin pain.",
+      "statistic": "Running speed and efficiency depend on how the foot meets the ground. Ankling practices quick contacts without sprinting hard.",
+      "safety": "Keep it light. Avoid if Achilles or shin pain appears."
+    },
+    {
+      "name": "Falling Start",
+      "primary_skill": "Starts",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yard sprint, walk back",
+      "coach_reviewed": true,
+      "instructions": "Stand tall, feet hip-width apart. Slowly lean forward from the ankles, not the waist. Once you feel about to fall, drive one foot into the ground and sprint out for 10–15 yards. Walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who stand straight up when starting or do not understand forward drive. Use wall posture drills first if the athlete cannot lean safely. Lean under control; do not stumble or dive forward.",
+      "statistic": "A falling start teaches forward lean and first-step reaction simply. It is used before advanced starts because it needs no blocks.",
+      "safety": "Lean under control. Do not let athlete stumble or dive forward."
+    },
+    {
+      "name": "Two-Point Start",
+      "primary_skill": "Starts",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–20 yard sprint, walk back",
+      "coach_reviewed": true,
+      "instructions": "Start with one foot forward and one foot back, knees slightly bent, body leaning forward, arms set opposite the legs. On the coach's call, push hard through the ground and sprint 10–20 yards. Walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who start too tall, step backward first, or hesitate. Use the falling start first if the athlete struggles with body angle. Short reps only; rest between starts.",
+      "statistic": "Two-point starts teach acceleration without blocks. They help the athlete learn to push first instead of standing up immediately.",
+      "safety": "Short reps only. Rest between starts."
+    },
+    {
+      "name": "Three-Point Start",
+      "primary_skill": "Starts",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yard sprint, walk back",
+      "coach_reviewed": true,
+      "instructions": "Start with one hand on the ground, one foot forward, one foot back. Hips slightly higher than the shoulders, eyes down and forward. On the coach's call, push off, drive the arms, and sprint 10–15 yards. Walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who handle two-point starts but need a stronger low start. Use the two-point start if the athlete cannot hold the position safely. Keep the sprint short.",
+      "statistic": "Three-point starts bridge to block starts — teaching low body angle, push-off strength, and arm-leg coordination in a simple setup.",
+      "safety": "Keep the sprint short. Do not force a low start if athlete cannot hold it."
+    },
+    {
+      "name": "10-Yard Acceleration",
+      "primary_skill": "Acceleration",
+      "secondary_skills": [
+        "Starts"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track",
+        "cones"
+      ],
+      "reps_target": "10-yard sprints, full rest",
+      "coach_reviewed": true,
+      "instructions": "Start from a two-point or falling start. On the coach's call, sprint only 10 yards — strong first steps, quick arms, clean body angle. After 10 yards, slow down safely, walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes with slow first steps or who pop straight up too soon. Use wall drive drills first if form is poor. Full rest between reps; stop if form gets sloppy.",
+      "statistic": "Acceleration is a separate skill from top-speed sprinting. Short 10-yard reps let the athlete focus only on starting well without getting tired.",
+      "safety": "Full rest between reps. Stop if form gets sloppy."
+    },
+    {
+      "name": "20-Yard Build-Up",
+      "primary_skill": "Speed",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "20 yards build, walk back",
+      "coach_reviewed": true,
+      "instructions": "Start at an easy jog. Over 20 yards, slowly build speed until you are running fast but still controlled by the end. Slow down safely, walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who sprint too tense, start too fast, or cannot build speed smoothly. Use 15 yards if the athlete cannot control the build. Fast but controlled — do not run all-out.",
+      "statistic": "Speed should build with rhythm and control. Build-ups teach fast running without the pressure of a max sprint.",
+      "safety": "Fast but controlled. Do not run all-out."
+    },
+    {
+      "name": "Stride-Out 60",
+      "primary_skill": "Speed",
+      "secondary_skills": [
+        "Running Form"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "60m @ 70–80%, walk back",
+      "coach_reviewed": true,
+      "instructions": "Run 60 meters at about 70–80% effort. Start smooth, build into a relaxed fast pace, then finish under control. Walk back after each rep. You should feel fast but not tight.",
+      "coaching_notes": "Best for athletes who run tense or need controlled speed work. Use 40 meters for younger or less conditioned athletes. Not a race — keep it controlled.",
+      "statistic": "Stride-outs build speed rhythm without the stress of max sprinting. They help athletes learn how fast-but-relaxed should feel.",
+      "safety": "Not a race. Keep it controlled."
+    },
+    {
+      "name": "Walk-Jog Intervals",
+      "primary_skill": "Endurance",
+      "secondary_skills": [
+        "Pacing"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "jog 30s / walk 60s x 6–10",
+      "coach_reviewed": true,
+      "instructions": "Jog for 30 seconds, then walk for 60 seconds. Once recovered, repeat for 6–10 rounds. The jog should be easy and controlled — you should be able to breathe and keep good posture.",
+      "coaching_notes": "Best for athletes who cannot jog continuously without form breaking down. Use shorter jogs or longer walks if the athlete gets too tired. Keep the pace easy; stop with dizziness, chest tightness, or sharp pain.",
+      "statistic": "ACSM and youth training models support gradual progression for conditioning. Walk-jog intervals build aerobic base while reducing the risk of doing too much too soon.",
+      "safety": "Keep the pace easy. Stop if athlete feels dizzy, chest tightness, or sharp pain."
+    },
+    {
+      "name": "Easy 400 Control Run",
+      "primary_skill": "Pacing",
+      "secondary_skills": [
+        "Endurance"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "1 lap easy, walk/rest 1 lap",
+      "coach_reviewed": true,
+      "instructions": "Run one 400-meter lap at easy effort. Start controlled, keep breathing steady, and finish with the same posture you started with. Walk one lap or rest after. Coach checks if the athlete ran too fast early.",
+      "coaching_notes": "Best for athletes who sprint early and fade badly. Use 200 meters if 400 is too much. Easy effort only — do not turn this into a time trial.",
+      "statistic": "Pacing is a skill. New runners start too fast because they do not understand effort yet. One controlled lap teaches patience and body awareness.",
+      "safety": "Easy effort only. Do not turn this into a time trial."
+    },
+    {
+      "name": "Standing Long Jump",
+      "primary_skill": "Jumps",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "jump for distance, stick landing, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand with feet about shoulder-width apart. Bend the knees, swing the arms back, then swing them forward and jump as far as you can with control. On landing, bend the knees, keep the chest up, and stick it. Walk back, reset, repeat.",
+      "coaching_notes": "Best for athletes who land stiff, fall backward, or cannot coordinate arms and legs. Use small jumps first if landing control is poor. Land soft; do not use slippery surfaces.",
+      "statistic": "Standing long jump is commonly used to assess lower-body power and coordination in youth athletes, and teaches takeoff and landing before runway jumps.",
+      "safety": "Land soft. Do not use slippery surfaces."
+    },
+    {
+      "name": "Stick Landing Drill",
+      "primary_skill": "Jumps",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "5 clean reps, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Do a small two-foot jump forward or upward. On landing, freeze for two seconds — knees bend, chest stays up, feet stay under control. If you wobble, the rep does not count. Do 5 clean reps, rest, repeat.",
+      "coaching_notes": "Best for athletes who land loud, whose knees cave in, or who fall forward/backward. Use smaller jumps if the athlete cannot stick the landing. No high jumps until small jumps land safely.",
+      "statistic": "The NSCA emphasizes landing mechanics before high-intensity plyometrics. Beginners need to prove they can land before harder jumping drills.",
+      "safety": "No high jumps until the athlete lands small jumps safely."
+    },
+    {
+      "name": "Low Hurdle Walkover",
+      "primary_skill": "Hurdles",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "hurdles",
+        "cones"
+      ],
+      "reps_target": "4–6 hurdles, walk back",
+      "coach_reviewed": true,
+      "instructions": "Set up low hurdles, mini hurdles, or cones. Walk forward and step over one hurdle at a time — chest tall, lift the knee, clear the hurdle, place the foot down under control. Go through 4–6 hurdles, walk back, repeat.",
+      "coaching_notes": "Best for athletes who clip low hurdles, twist the body, or cannot step over smoothly. Use cones instead of hurdles if the athlete is nervous. Use low obstacles only; no sprint hurdling yet.",
+      "statistic": "Hurdle mobility drills build hip control, balance, and posture. For beginners, walking over low hurdles is safer than running over them.",
+      "safety": "Use low obstacles only. No sprint hurdling yet."
+    },
+    {
+      "name": "Medicine Ball Chest Pass",
+      "primary_skill": "Throws",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "med_ball"
+      ],
+      "reps_target": "4–6 reps, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand with feet about shoulder-width apart, holding a light medicine ball at the chest. Bend the knees slightly, keep the chest tall, and push the ball forward with both hands. Reset and wait until the area is clear before the next rep. Do 4–6 reps, rest, repeat.",
+      "coaching_notes": "Best for athletes who struggle to coordinate legs, core, and arms during throwing. Use a lighter ball if form breaks down. Clear the area before every throw; use a light ball.",
+      "statistic": "Medicine ball throws teach force production simply. For beginners, chest passes are safer and easier than advanced rotational throws.",
+      "safety": "Clear the area before every throw. Use a light ball."
+    },
+    {
+      "name": "Toe-Up Walk",
+      "primary_skill": "Running Form",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, walk back",
+      "coach_reviewed": true,
+      "instructions": "Stand tall and walk forward slowly. On each step, lift the knee slightly and pull the toe up toward the shin. When the foot comes down, it lands under the body, not way out in front. Keep the arms relaxed and posture tall. Go 10–15 yards, walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who run flat-footed, trip often, or drag the toes. Do it in place first if balance is poor. Keep it slow and controlled; do not rush the steps.",
+      "statistic": "Good running mechanics start with foot position and posture. A toe-up position prepares for cleaner ground contact and better sprint rhythm.",
+      "safety": "Keep it slow and controlled. Do not rush the steps."
+    },
+    {
+      "name": "Heel Walk",
+      "primary_skill": "Running Form",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10 yards, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand tall and lift the toes off the ground so you are walking on the heels. Take small steps forward keeping the toes pulled up, the body tall, and the arms moving naturally. Go 10 yards, rest, repeat.",
+      "coaching_notes": "Best for athletes who cannot keep the toes up or catch the foot while running. Avoid if shin pain is present. Short distance only; stop if shin pain appears.",
+      "statistic": "Foot and ankle control help running mechanics. Heel walks build awareness in the lower leg before faster drills.",
+      "safety": "Short distance only. Stop if shin pain appears."
+    },
+    {
+      "name": "Toe Walk",
+      "primary_skill": "Running Form",
+      "secondary_skills": [
+        "Jumps"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10 yards, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand tall and rise up onto the balls of the feet. Walk forward with small controlled steps while staying tall, keeping the heels off the ground the whole time. Go 10 yards, rest, repeat.",
+      "coaching_notes": "Best for athletes who collapse into the ground, run heavy, or struggle with light foot contacts. Avoid with Achilles, calf, or foot pain. Keep reps short; stop if calf or Achilles pain appears.",
+      "statistic": "Running and jumping both need the foot and ankle to handle force. Toe walks build foot strength and control before harder plyometric drills.",
+      "safety": "Keep reps short. Stop if calf or Achilles pain appears."
+    },
+    {
+      "name": "March to Jog Transition",
+      "primary_skill": "Running Form",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10 yards march into 10 yards jog",
+      "coach_reviewed": true,
+      "instructions": "Start with a tall posture march for 10 yards. Once you have rhythm, slowly turn the march into a light jog for another 10 yards. Keep the arms moving, feet landing under the body, and posture tall. Walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who look good marching but fall apart during easy running. Keep the jog very short if form breaks. Easy pace only — do not turn it into a sprint.",
+      "statistic": "Drills only matter if the athlete can carry the movement into running. This bridges a slow form drill into a real jog.",
+      "safety": "Easy pace only. Do not turn it into a sprint."
+    },
+    {
+      "name": "Skip for Height",
+      "primary_skill": "Jumps",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, walk back",
+      "coach_reviewed": true,
+      "instructions": "Skip forward, trying to get a little height on each skip. Drive one knee up, swing the opposite arm, and push through the ground. Land softly, reset into the next skip, and keep moving forward. Go 10–15 yards, walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who struggle to coordinate arms and legs during skipping or jumping. Use smaller skips if landing control is poor. Land softly; keep it controlled.",
+      "statistic": "Skipping builds rhythm and coordination and introduces the push-off action used in sprinting and jumping.",
+      "safety": "Land softly. Keep it controlled."
+    },
+    {
+      "name": "Skip for Distance",
+      "primary_skill": "Jumps",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "10–15 yards, walk back",
+      "coach_reviewed": true,
+      "instructions": "Skip forward, now covering a little more ground with each skip. Drive the knee up, swing the arms, push forward, and land under control. Go 10–15 yards, walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes with little forward drive or weak push-off. Use skip for height first if rhythm is poor. Do not overreach; land with control.",
+      "statistic": "Sprinting and long jumping both need forward force. Skip for distance teaches applying force forward while keeping rhythm and control.",
+      "safety": "Do not overreach. Land with control."
+    },
+    {
+      "name": "Line Hops Forward and Back",
+      "primary_skill": "Jumps",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track",
+        "cones"
+      ],
+      "reps_target": "10–15 seconds, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand with both feet behind a line. Hop forward over the line, then backward over it. Keep the knees soft, feet quick, and body balanced. Do 10–15 seconds, rest, repeat.",
+      "coaching_notes": "Best for athletes who land heavy, lose balance, or cannot hop rhythmically. Use slower hops or step-overs if the athlete cannot land safely. Low volume only; stop with ankle, knee, shin, or foot pain.",
+      "statistic": "Quick ground contact matters in sprinting and jumping. Simple line hops build low-level plyometric ability before harder bounding.",
+      "safety": "Low volume only. Stop with ankle, knee, shin, or foot pain."
+    },
+    {
+      "name": "Line Hops Side to Side",
+      "primary_skill": "Jumps",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track",
+        "cones"
+      ],
+      "reps_target": "10–15 seconds, rest, repeat",
+      "coach_reviewed": true,
+      "instructions": "Stand next to a line with both feet together. Hop side to side over the line with small quick contacts. Keep the knees soft, chest tall, and try not to drift forward or backward. Go 10–15 seconds, rest, repeat.",
+      "coaching_notes": "Best for athletes who cannot land softly or control side-to-side movement. Use side steps instead of hops if landing control is poor. Keep hops small; stop if ankle or knee pain appears.",
+      "statistic": "Track athletes need side-to-side control for warm-ups, drills, and injury-risk reduction. Low-level lateral hops build foot and ankle control safely at low volume.",
+      "safety": "Keep hops small. Stop if ankle or knee pain appears."
+    },
+    {
+      "name": "Mini Hurdle Quick Steps",
+      "primary_skill": "Sprint Mechanics",
+      "secondary_skills": [
+        "Hurdles"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "hurdles",
+        "cones"
+      ],
+      "reps_target": "4–6 hurdles, walk back",
+      "coach_reviewed": true,
+      "instructions": "Set 4–6 mini hurdles or small cones in a line. Step quickly between each hurdle with one or two feet per space, depending on the setup. Keep the chest tall, arms moving, and feet quick. After the last hurdle, slow down, walk back, repeat.",
+      "coaching_notes": "Best for athletes who struggle with quick contacts or lose posture in fast foot drills. Use cones or flat markers if hurdles are too challenging. Use low hurdles only; do not rush if the athlete clips hurdles.",
+      "statistic": "Mini hurdle drills help beginners feel quicker foot rhythm without sprinting full speed, and give a simple spacing target.",
+      "safety": "Use low hurdles only. Do not rush if athlete clips hurdles."
+    },
+    {
+      "name": "Mini Hurdle Step-Overs",
+      "primary_skill": "Hurdles",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "hurdles",
+        "cones"
+      ],
+      "reps_target": "4–6 hurdles, walk through",
+      "coach_reviewed": true,
+      "instructions": "Set 4–6 mini hurdles in a line. Walk forward and step over each hurdle one leg at a time — knee up, foot clears the hurdle, place the foot down under control. Keep the body tall and do not twist side to side. Walk through, reset, repeat.",
+      "coaching_notes": "Best for athletes who clip low hurdles, drop posture, or swing the leg around instead of stepping over. Use cones if hurdles make the athlete nervous. Walk only; no racing through.",
+      "statistic": "Before running over hurdles, athletes need to step over obstacles with control. This teaches the mobility and balance needed for hurdle work.",
+      "safety": "Walk only. No racing through the hurdles."
+    },
+    {
+      "name": "Lead Leg Walkover",
+      "primary_skill": "Hurdles",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "hurdles",
+        "cones"
+      ],
+      "reps_target": "5 reps per leg",
+      "coach_reviewed": true,
+      "instructions": "Set one low hurdle or cone. Walk toward it using the same lead leg each rep — the lead knee comes up, the lower leg clears the hurdle, and the foot steps down on the other side. Reset and do 5 reps on one leg, then switch.",
+      "coaching_notes": "Best for athletes who want to hurdle but cannot clear a low obstacle with control. Use a cone instead of a hurdle first. Use low obstacles only; no sprinting into the hurdle.",
+      "statistic": "Hurdling should start with simple lead-leg control before speed. Walking reps teach the shape without fear or rushing.",
+      "safety": "Use low obstacles only. No sprinting into the hurdle."
+    },
+    {
+      "name": "Trail Leg Walkover",
+      "primary_skill": "Hurdles",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "hurdles",
+        "cones"
+      ],
+      "reps_target": "slow reps per side",
+      "coach_reviewed": true,
+      "instructions": "Set one low hurdle or cone. Step the lead leg over first, then bring the trail leg through to the side and over the obstacle. Keep the chest tall and place the trail foot down under control. Do slow reps on one side, then switch.",
+      "coaching_notes": "Best for athletes who drag the trail leg, turn the whole body, or lose balance. Do hurdle walkovers without trail-leg focus first. Slow and controlled; no high hurdles.",
+      "statistic": "Trail-leg control is a key part of hurdling. Beginners often twist the body or swing the leg too wide; slow walkovers teach the movement before speed.",
+      "safety": "Slow and controlled. No high hurdles."
+    },
+    {
+      "name": "Sprint-Float-Sprint 30",
+      "primary_skill": "Speed",
+      "secondary_skills": [
+        "Sprint Mechanics"
+      ],
+      "difficulty": 3,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track",
+        "cones"
+      ],
+      "reps_target": "30 yards: 10 fast / 10 float / 10 fast",
+      "coach_reviewed": true,
+      "instructions": "Run 30 yards. The first 10 are fast, the middle 10 are relaxed and smooth, the last 10 are fast again. Do not stop in the middle. Walk back and rest after the rep.",
+      "coaching_notes": "Best for athletes who cannot relax while running fast or lose form when changing speed. Use jog-float-jog for younger beginners. Not max effort for beginners — keep the sprint sections controlled.",
+      "statistic": "Speed changes teach body control. Sprint-float-sprint drills help athletes learn relaxed speed instead of forcing every step.",
+      "safety": "Not max effort for beginners. Keep the sprint sections controlled."
+    },
+    {
+      "name": "Cone Acceleration Steps",
+      "primary_skill": "Acceleration",
+      "secondary_skills": [
+        "Starts"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track",
+        "cones"
+      ],
+      "reps_target": "4–6 cones increasing spacing",
+      "coach_reviewed": true,
+      "instructions": "Set 4–6 cones with gradually increasing spacing. Start from a two-point start and accelerate through the cones, placing each early step near the target spacing. Drive the arms, push hard, stay controlled. Walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who pop up early or take tiny steps out of the start. Use fewer cones if the athlete gets confused. Spacing must fit the athlete; do not force overstriding.",
+      "statistic": "Acceleration has a rhythm. Cone spacing gives beginners a visual guide for pushing out instead of standing up and spinning the feet.",
+      "safety": "Spacing must fit the athlete. Do not force overstriding."
+    },
+    {
+      "name": "Relaxed 100 Stride",
+      "primary_skill": "Speed",
+      "secondary_skills": [
+        "Running Form"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "100m @ 65–75%, walk back",
+      "coach_reviewed": true,
+      "instructions": "Run 100 meters at a controlled pace, around 65–75% effort. Start smooth, keep the arms relaxed, hold tall posture, and finish without straining. Walk back and rest after the rep.",
+      "coaching_notes": "Best for athletes who turn every rep into a race or get tight when running fast. Use 60 meters if 100 is too long. Controlled effort only — not a time trial.",
+      "statistic": "Strides build relaxed running form and let athletes practice speed rhythm without the stress of max sprinting.",
+      "safety": "Controlled effort only. Not a time trial."
+    },
+    {
+      "name": "Easy 200 Pace Run",
+      "primary_skill": "Endurance",
+      "secondary_skills": [
+        "Pacing"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "200m easy, walk 100–200m",
+      "coach_reviewed": true,
+      "instructions": "Run 200 meters at an easy, controlled pace. Start smooth, breathe steady, and finish with good posture. Walk 100–200 meters to recover. Repeat only if form still looks good.",
+      "coaching_notes": "Best for athletes who start too fast and slow badly even in short runs. Use 100 meters if 200 is too much. Easy effort only; stop with sharp pain or dizziness.",
+      "statistic": "Pacing is easier to learn in short controlled reps. Easy 200s teach running steady without treating every run like a sprint.",
+      "safety": "Easy effort only. Stop if athlete has sharp pain or dizziness."
+    },
+    {
+      "name": "Run-Walk 800 Build",
+      "primary_skill": "Endurance",
+      "secondary_skills": [
+        "Pacing"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "jog 100m / walk 100m to 800m total",
+      "coach_reviewed": true,
+      "instructions": "Complete two laps (800 meters). Jog 100 meters, then walk 100 meters, and repeat the pattern until the 800 is finished. The jogs should feel easy. Focus on posture, breathing, and finishing the full distance under control.",
+      "coaching_notes": "Best for athletes who cannot jog 800 continuously with safe form. Use 400 total if 800 is too much. Keep jogs easy; stop with dizziness, chest tightness, or sharp pain.",
+      "statistic": "Gradual run-walk progressions build aerobic fitness while keeping fatigue manageable, letting the athlete complete distance without form breaking down.",
+      "safety": "Keep jogs easy. Stop with dizziness, chest tightness, or sharp pain."
+    },
+    {
+      "name": "Standing Triple Jump Pattern",
+      "primary_skill": "Jumps",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "small hop-step-jump, reset",
+      "coach_reviewed": true,
+      "instructions": "Start standing still. Do a small hop on one foot, then step onto the other foot, then jump and land on two feet. Keep the distance small at first and say 'hop, step, jump' while doing it. Reset after each rep.",
+      "coaching_notes": "Best for athletes interested in triple jump who cannot control the hop-step-jump order. Use a walking hop-step-jump pattern if landing control is poor. Small jumps only; stop with knee, ankle, or shin pain.",
+      "statistic": "Triple jump is a rhythm event. Beginners need the order and balance before speed or distance is added; standing patterns teach the rhythm safely.",
+      "safety": "Small jumps only. Stop if knee, ankle, or shin pain appears."
+    },
+    {
+      "name": "Walking Long Jump Approach",
+      "primary_skill": "Jumps",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track",
+        "cones"
+      ],
+      "reps_target": "walk approach + small jump, reset",
+      "coach_reviewed": true,
+      "instructions": "Start several steps from a takeoff mark or cone. Walk toward the mark with tall posture and steady rhythm. On the last step, plant the takeoff foot and do a small jump into the sand or onto a safe surface. Reset and repeat.",
+      "coaching_notes": "Best for athletes who jump from random spots or cannot find the takeoff step. Practice walking to the mark without jumping first. Use a safe landing surface; keep the jump small.",
+      "statistic": "Long jump starts with a consistent approach. Beginners often forget the run-up; this teaches controlling the approach first.",
+      "safety": "Use safe landing surface. Keep jump small."
+    },
+    {
+      "name": "Pop-Up Long Jump Takeoff",
+      "primary_skill": "Jumps",
+      "secondary_skills": [
+        "Acceleration"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "2–4 step approach + pop-up, walk back",
+      "coach_reviewed": true,
+      "instructions": "Take 2–4 easy steps toward a takeoff mark. On the last step, plant one foot and pop up into the air with the opposite knee driving forward. Land safely in the sand or on grass. Walk back, rest, repeat.",
+      "coaching_notes": "Best for athletes who run through the takeoff or jump flat with no lift. Use standing jumps first if single-leg takeoff is poor. Keep the approach short; land safely.",
+      "statistic": "Long jump takeoff needs speed, posture, and a strong pop off the board. Short-approach pop-ups teach the takeoff action without a full runway.",
+      "safety": "Keep approach short. Land safely."
+    },
+    {
+      "name": "Sand Pit Landing Practice",
+      "primary_skill": "Jumps",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "small jumps into pit, reset",
+      "coach_reviewed": true,
+      "instructions": "Start at the edge of the sand pit or from a short standing position. Jump lightly into the pit, bring the feet forward, land with bent knees, and reach the arms forward. Walk out of the pit and reset. Keep the jumps small at first.",
+      "coaching_notes": "Best for athletes who land stiff, drop the hands behind the body, or lose balance in the sand. Use a standing two-foot landing before adding approach. Check the pit first — sand should be raked and safe.",
+      "statistic": "Long jump distance can be lost in the landing. Beginners need to learn to land safely and avoid falling backward before adding speed.",
+      "safety": "Check the pit first. Sand should be raked and safe."
+    },
+    {
+      "name": "Standing High Jump Scissor Kick",
+      "primary_skill": "Jumps",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track"
+      ],
+      "reps_target": "very low bar, soft landing",
+      "coach_reviewed": true,
+      "instructions": "Set a very low bar, rope, or soft marker. Stand next to it, step off one foot, lift the lead leg over first, then let the trail leg follow. Land softly on a mat or safe surface. Keep the height very low and focus on coordination.",
+      "coaching_notes": "Best for athletes new to high jump who need a safe first movement pattern. Use a step-over only if jumping is too much. Very low height only; use a safe landing area.",
+      "statistic": "Scissor drills teach high jump basics before advanced styles. The goal is safe takeoff, leg lift, and landing, not height.",
+      "safety": "Very low height only. Use safe landing area."
+    },
+    {
+      "name": "High Jump Curve Walk",
+      "primary_skill": "Jumps",
+      "secondary_skills": [
+        "Running Form"
+      ],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "track",
+        "cones"
+      ],
+      "reps_target": "walk the curve, reset",
+      "coach_reviewed": true,
+      "instructions": "Set cones in a gentle curve. Walk along the curve with tall posture, keeping the inside shoulder slightly lower and following the path without cutting across it. After walking the curve, reset and repeat.",
+      "coaching_notes": "Best for athletes who run straight at the bar or cannot follow a curved approach. Walk first before jogging the curve. Walking only at first; no jumping unless the landing area is ready.",
+      "statistic": "High jump approach is not just running at the bar — the curve sets up takeoff. Beginners need to understand the path before adding speed.",
+      "safety": "Walking only at first. No jumping unless landing area is ready."
+    },
+    {
+      "name": "Medicine Ball Overhead Throw",
+      "primary_skill": "Throws",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "med_ball"
+      ],
+      "reps_target": "4–6 reps",
+      "coach_reviewed": true,
+      "instructions": "Stand with feet about shoulder-width apart and hold a light medicine ball overhead. Bend slightly through the knees, then throw the ball forward with both hands. Stay balanced after the throw and wait for the coach before retrieving the ball. Do 4–6 reps.",
+      "coaching_notes": "Best for athletes who throw with only the arms or cannot coordinate legs and upper body. Use a lighter ball if the athlete arches the back or loses balance. Clear the area; use a light ball; no max-effort heavy throws.",
+      "statistic": "Medicine ball throws teach full-body power in a controlled way. Overhead throws are simple enough for beginners when the ball is light.",
+      "safety": "Clear the area. Use a light ball. No max-effort heavy throws."
+    },
+    {
+      "name": "Medicine Ball Scoop Toss",
+      "primary_skill": "Throws",
+      "secondary_skills": [],
+      "difficulty": 2,
+      "age_band": "all",
+      "space_needed": "open",
+      "equipment": [
+        "med_ball"
+      ],
+      "reps_target": "4–6 reps",
+      "coach_reviewed": true,
+      "instructions": "Hold a light medicine ball with both hands between the legs. Bend the knees slightly, keep the chest up, then drive through the legs and toss the ball forward. Stay balanced after the throw. Reset, wait until the area is clear, then repeat for 4–6 reps.",
+      "coaching_notes": "Best for athletes who throw with only the arms or do not use the legs. Use a lighter ball or smaller throw if the athlete loses posture. Clear space before every throw; keep the ball light.",
+      "statistic": "Track and field power usually starts from the ground. Scoop tosses teach using the legs and hips before the arms finish the throw.",
+      "safety": "Clear space before every throw. Keep the ball light."
+    }
+  ]
+}

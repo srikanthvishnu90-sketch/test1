@@ -24,7 +24,7 @@ function freshData() {
     // secondary-sport profile (only used when two sports are selected)
     position2: '', skillLevel2: '', experienceYears2: '', mainGoal2: '', weaknesses2: [], strengths2: [],
     equipment: [], space: '', environment: '', availability: '', sessionMinutes: '',
-    competitionLevel: '', injuryHistory: '', goalDuration: '',
+    competitionLevel: '', injuryHistory: '', growthSpurt: 'unknown', goalDuration: '',
     // baseline fitness test inputs (optional) — drive objective weakness detection
     bl_sprint: '', bl_agility: '', bl_vertical: '', bl_broad: '', bl_run: '',
     bl_pushups: '', bl_plank: '', bl_balance: '', bl_sitreach: '', bl_skill: '',
@@ -603,7 +603,8 @@ const FLOWS = {
       body: () => field('Days available per week', chipGroup('availability', ['1-2 days', '3-4 days', '5-6 days', 'Daily']), { errKey: 'availability' })
         + field('Minutes per session', chipGroup('sessionMinutes', ['20 min', '30-40 min', '45-60 min', '60+ min']), { errKey: 'sessionMinutes' })
         + field('Competition level', chipGroup('competitionLevel', ['Recreational', 'School team', 'Club / travel', 'Elite']), { opt: '(optional)' })
-        + field('Injury history', chipGroup('injuryHistory', ['None', 'Minor / past', 'Recurring', 'Currently recovering']), { errKey: 'injuryHistory' }),
+        + field('Injury history', chipGroup('injuryHistory', ['None', 'Minor / past', 'Recurring', 'Currently recovering']), { errKey: 'injuryHistory' })
+        + field('Currently going through a rapid growth spurt?', chipGroup('growthSpurt', [{ v: 'unknown', l: 'Not sure' }, { v: 'pre', l: 'Not yet' }, { v: 'during', l: 'Yes, right now' }, { v: 'post', l: 'Already past it' }]), { opt: '(optional — keeps high-impact work age-safe)' }),
       validate: () => {
         let ok = true;
         if (!data().availability) { setError('availability', 'Pick your training days.'); ok = false; }
