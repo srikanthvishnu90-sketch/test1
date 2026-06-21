@@ -5,6 +5,8 @@ import 'app.dart';
 
 import 'package:provider/provider.dart';
 import 'core/config/env.dart';
+import 'core/auth/auth_service.dart';
+import 'core/auth/supabase_auth_service.dart';
 import 'core/data/app_repository.dart';
 import 'core/data/mock_repository.dart';
 import 'presentation/onboarding/controllers/onboarding_controller.dart';
@@ -28,9 +30,14 @@ void main() async {
   // line to `SupabaseRepository()` — nothing else in the app changes.
   final AppRepository repo = const MockRepository();
 
+  // AUTH SWAP POINT (#18): the app's single auth source. The UI only ever talks
+  // to AuthService (via AuthProvider); the Supabase SDK never leaks past it.
+  final AuthService authService = SupabaseAuthService();
+
   runApp(
     MultiProvider(
       providers: [
+        Provider<AuthService>.value(value: authService),
         ChangeNotifierProvider(create: (_) => OnboardingProvider(repo)),
         ChangeNotifierProvider(create: (_) => HomeProvider(repo)),
         ChangeNotifierProvider(create: (_) => ProviderController(repo)),
