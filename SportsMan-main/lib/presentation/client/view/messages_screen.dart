@@ -206,7 +206,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           children: [
             Center(
               child: Text(
-                'No direct messages yet',
+                'No messages yet',
                 style: AppTypography.font(color: AppColors.textSecondary, fontSize: 14),
               ),
             ),
@@ -258,7 +258,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           children: [
             Center(
               child: Text(
-                'No program messages yet',
+                'No messages yet',
                 style: AppTypography.font(color: AppColors.textSecondary, fontSize: 14),
               ),
             ),

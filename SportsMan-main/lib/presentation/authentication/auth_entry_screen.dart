@@ -58,8 +58,8 @@ class AuthEntryScreen extends StatelessWidget {
                     children: [
                       Text(
                         isServiceProvider
-                            ? 'SERVICE PROVIDER PORTAL'
-                            : 'ATHLETE & FAMILY PORTAL',
+                            ? 'Coach or program'
+                            : 'Athlete & family',
                         style: AppTypography.font(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
@@ -73,7 +73,7 @@ class AuthEntryScreen extends StatelessWidget {
                           context.read<OnboardingProvider>().setServiceProvider(!isServiceProvider);
                         },
                         child: Text(
-                          'SWITCH',
+                          'Switch',
                           style: AppTypography.font(
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
@@ -111,7 +111,7 @@ class AuthEntryScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 14),
                 SporveButton(
-                  'Get Started',
+                  'Continue with email',
                   icon: Icons.arrow_forward,
                   onPressed: () => Get.toNamed(AppRoutes.onboarding),
                   variant: SporveButtonVariant.secondary,

@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Find session near you',
+                    'Find a session near you.',
                     style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   Text(

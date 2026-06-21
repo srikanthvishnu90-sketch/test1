@@ -63,7 +63,7 @@ class OnboardingSelectionScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               _buildOptionCard(
-                title: 'Service Provider',
+                title: 'Coach or program',
                 subtitle: 'Manage your program — bookings, athletes, payments, and more.',
                 icon: Icons.person_search,
                 accent: AppColors.blueText,
