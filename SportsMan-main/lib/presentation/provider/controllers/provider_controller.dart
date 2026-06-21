@@ -263,6 +263,21 @@ class ProviderController with ChangeNotifier {
   List<ProviderListing> get listings => _listings;
   bool get listingsLoaded => _listingsLoaded;
 
+  // Provider profile (incl. Stripe payouts status) — loaded from the data layer.
+  Map<String, dynamic> _providerProfile = {};
+  Map<String, dynamic> get providerProfile => _providerProfile;
+  String? get stripeAccountId => _providerProfile['stripeAccountId'] as String?;
+  bool get stripeChargesEnabled => _providerProfile['stripeChargesEnabled'] == true;
+
+  /// Re-fetch the provider so the payouts status reflects stripe_charges_enabled
+  /// (the #20c webhook keeps this fresh automatically once it lands).
+  Future<void> fetchProviderProfile() async {
+    try {
+      _providerProfile = await _repo.getProviderProfile();
+    } catch (_) {/* leave prior value; UI shows setup state */}
+    notifyListeners();
+  }
+
   /// Fetches the authenticated provider's programs from the server.
   /// After building the basic list from the /provider/me endpoint,
   /// it calls GET /programs/:id for every listing to hydrate the

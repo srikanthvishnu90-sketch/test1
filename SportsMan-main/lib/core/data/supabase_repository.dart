@@ -192,6 +192,7 @@ class SupabaseRepository implements AppRepository {
         'onboardingCompleted': row['onboarding_completed'] ?? false,
         'verificationStatus': row['verification_status'],
         'stripeAccountId': row['stripe_account_id'],
+        'stripeChargesEnabled': row['stripe_charges_enabled'] ?? false,
       };
 
   // ── Programs & sessions ───────────────────────────────────────────────────

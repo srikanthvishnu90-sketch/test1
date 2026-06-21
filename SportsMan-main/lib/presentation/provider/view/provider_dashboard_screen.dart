@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../../core/theme/app_typography.dart';
@@ -29,6 +31,8 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
       final controller = context.read<ProviderController>();
       controller.fetchMyPrograms();
       controller.fetchProviderBookings();
+      // Re-fetch so the Payouts status reflects stripe_charges_enabled.
+      controller.fetchProviderProfile();
     });
   }
 
@@ -38,6 +42,107 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => const CreateListingBottomSheet(),
+    );
+  }
+
+  /// Starts Stripe Connect onboarding via the `stripe-connect-onboarding` Edge
+  /// Function (invoke auto-attaches the signed-in user's JWT), then opens the
+  /// returned onboarding URL — or reflects an already-active account.
+  Future<void> _handleSetupPayouts(BuildContext context) async {
+    final controller = context.read<ProviderController>();
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final res = await Supabase.instance.client.functions.invoke(
+        'stripe-connect-onboarding',
+        body: {'returnUrl': Uri.base.origin},
+      );
+      final data = res.data;
+      if (data is Map && data['error'] != null) {
+        _payoutsSnack(messenger, data['error'].toString(), ok: false);
+        return;
+      }
+      final onboardingUrl = data is Map ? data['onboardingUrl'] as String? : null;
+      final chargesEnabled = data is Map && data['chargesEnabled'] == true;
+      if (onboardingUrl != null && onboardingUrl.isNotEmpty) {
+        await launchUrl(Uri.parse(onboardingUrl), webOnlyWindowName: '_self');
+      } else if (chargesEnabled) {
+        _payoutsSnack(messenger, 'Payouts active', ok: true);
+        await controller.fetchProviderProfile();
+      } else {
+        _payoutsSnack(messenger,
+            'Could not start payouts setup. Please try again.', ok: false);
+      }
+    } catch (_) {
+      _payoutsSnack(messenger, 'Payouts setup failed. Please try again.', ok: false);
+    }
+  }
+
+  void _payoutsSnack(ScaffoldMessengerState messenger, String msg,
+      {required bool ok}) {
+    messenger.showSnackBar(SnackBar(
+      content: Text(msg),
+      backgroundColor: ok ? AppColors.positive : AppColors.negative,
+    ));
+  }
+
+  /// Payouts status row: active (slate check) or a "Set up payouts" button.
+  Widget _buildPayoutsCard(BuildContext context, ProviderController controller) {
+    final active = controller.stripeChargesEnabled;
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        border: Border.all(color: AppColors.hairline),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'PAYOUTS',
+            style: AppTypography.font(
+              color: AppColors.textSecondary,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+            ),
+          ),
+          const SizedBox(height: 12),
+          if (active)
+            Row(
+              children: [
+                const Icon(Icons.check_circle, color: AppColors.positive, size: 20),
+                const SizedBox(width: 8),
+                Text(
+                  'Payouts active',
+                  style: AppTypography.font(
+                    color: AppColors.textPrimary,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            )
+          else ...[
+            Text(
+              'Connect a Stripe account to receive payouts from your bookings.',
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            SporveButton(
+              'Set up payouts',
+              onPressed: () => _handleSetupPayouts(context),
+              variant: SporveButtonVariant.primary,
+            ),
+          ],
+        ],
+      ),
     );
   }
 
@@ -55,6 +160,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
           onRefresh: () => Future.wait([
             providerController.fetchMyPrograms(),
             providerController.fetchProviderBookings(),
+            providerController.fetchProviderProfile(),
           ]),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -137,6 +243,9 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
 
               if (!onboardingProvider.profileCompleted)
                 _buildFinishProfileCard(context, onboardingProvider),
+
+              // Payouts (Stripe Connect) status / setup
+              _buildPayoutsCard(context, providerController),
 
               // Summary Cards
               Row(
