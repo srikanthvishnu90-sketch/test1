@@ -1,61 +1,133 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../core/routes/app_routes.dart';
-import '../../../core/auth/auth_controller.dart';
-import '../../../core/data/app_repository.dart';
+import '../../../core/auth/app_user.dart';
+import '../../../core/auth/auth_service.dart';
 
+/// The SINGLE owner of auth state (#18). Wraps [AuthService] (Supabase behind
+/// it), exposes plain state to the UI, and stays in sync via the auth stream —
+/// including external sign-outs. GetX is used ONLY for routing here.
 class AuthProvider extends ChangeNotifier {
-  final AppRepository _repo;
-  AuthProvider(this._repo);
+  final AuthService _auth;
+  StreamSubscription<AppUser?>? _sub;
 
-  // State fields
+  AuthProvider(this._auth) {
+    _currentUser = _auth.currentUser;
+    _sub = _auth.authStateChanges.listen((user) {
+      _currentUser = user;
+      notifyListeners();
+    });
+  }
+
+  AppUser? _currentUser;
   bool _isLoading = false;
   String? _errorMessage;
-  String? _registrationEmail; 
+  String? _registrationEmail;
 
-  // Getters
+  AppUser? get currentUser => _currentUser;
+  bool get isLoggedIn => _currentUser != null;
+  String? get role => _currentUser?.role;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   String? get registrationEmail => _registrationEmail;
 
-  void _setLoading(bool value) {
-    _isLoading = value;
+  void _setLoading(bool v) {
+    _isLoading = v;
     notifyListeners();
   }
 
-  void _setError(String? message) {
-    _errorMessage = message;
+  void _setError(String? m) {
+    _errorMessage = m;
     notifyListeners();
   }
 
   void setRegistrationEmail(String email) {
-    _registrationEmail = email;
+    _registrationEmail = email.trim();
     notifyListeners();
   }
 
-  Future<bool> login(String email, String password) async {
+  /// Home route for a role. Role source is user_metadata for now.
+  // TODO(#19): read role from the `profiles` table once real data lands.
+  String routeForRole(String? role) =>
+      role == 'provider' ? AppRoutes.providerMainNav : AppRoutes.mainNav;
+
+  Future<String> determineNextRoute() async => routeForRole(role);
+
+  // ── New API (screens use these after Stage 4) ─────────────────────────────
+  Future<AuthResult> signIn(String email, String password,
+      {String? captchaToken}) async {
     _setError(null);
     _setLoading(true);
+    final res = await _auth.signIn(
+        email: email.trim(), password: password, captchaToken: captchaToken);
+    if (res.status == AuthStatus.error) _setError(res.message);
+    _setLoading(false);
+    return res;
+  }
 
-    await Future.delayed(const Duration(milliseconds: 600));
+  Future<AuthResult> signUp({
+    required String name,
+    required String email,
+    required String password,
+    required String role,
+    String? captchaToken,
+  }) async {
+    _setError(null);
+    _setLoading(true);
+    _registrationEmail = email.trim();
+    final res = await _auth.signUp(
+      email: email.trim(),
+      password: password,
+      role: role,
+      name: name,
+      captchaToken: captchaToken,
+    );
+    if (res.status == AuthStatus.error) _setError(res.message);
+    _setLoading(false);
+    return res;
+  }
 
-    try {
-      final role = 'searcher';
-      await AuthController.saveUserToken('mock_access_token');
-      await AuthController.saveRefreshToken('mock_refresh_token');
-      await AuthController.saveActiveRole(role);
-      await AuthController.saveUserId('user_123');
+  Future<void> signOut() async {
+    await _auth.signOut();
+    // The authStateChanges listener clears _currentUser and notifies.
+  }
 
-      final prof = await _repo.getUserProfile();
-      prof['role'] = role;
-      await _repo.saveUserProfile(prof);
-      
-      _setLoading(false);
-      return true;
-    } catch (e) {
-      _setLoading(false);
-      _setError(e.toString());
-      return false;
-    }
+  /// Sign out + return to the auth entry screen (used by profile screens).
+  Future<void> logout() async {
+    await signOut();
+    Get.offAllNamed(AppRoutes.authEntry);
+  }
+
+  // ── Password reset (#18 "email/pw + reset") ──────────────────────────────
+  Future<bool> forgotPassword(String email) async {
+    _setError(null);
+    _setLoading(true);
+    _registrationEmail = email.trim();
+    final ok = await _auth.sendPasswordReset(email.trim());
+    if (!ok) _setError('Could not send the reset email. Please try again.');
+    _setLoading(false);
+    return ok;
+  }
+
+  Future<bool> resetPassword(String token, String newPassword) async {
+    _setError(null);
+    _setLoading(true);
+    final ok = await _auth.resetPassword(
+      email: _registrationEmail ?? '',
+      token: token,
+      newPassword: newPassword,
+    );
+    if (!ok) _setError('Reset failed. Check the code and try again.');
+    _setLoading(false);
+    return ok;
+  }
+
+  // ── Legacy compat shims — screens still call these until Stage 4 rewires
+  //    them to signIn/signUp + the three-outcome handling. Wired to real auth.
+  Future<bool> login(String email, String password) async {
+    final res = await signIn(email, password);
+    return res.status == AuthStatus.signedIn;
   }
 
   Future<bool> signup({
@@ -65,129 +137,23 @@ class AuthProvider extends ChangeNotifier {
     required String password,
     String role = 'searcher',
   }) async {
-    _setError(null);
-    _setLoading(true);
-
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    try {
-      setRegistrationEmail(email.trim());
-      _setLoading(false);
-      return true;
-    } catch (e) {
-      _setLoading(false);
-      _setError(e.toString());
-      return false;
-    }
+    final name = '$firstName $lastName'.trim();
+    final res =
+        await signUp(name: name, email: email, password: password, role: role);
+    return res.status != AuthStatus.error;
   }
 
+  /// Legacy OTP entry. Supabase confirmation is link-based now, so the verify
+  /// screen is replaced with a "check your email" state in Stage 4; this shim
+  /// only exists to keep that screen compiling until then.
   Future<bool> verifyEmailOtp(String otp) async {
-    if (_registrationEmail == null) {
-      _setError('Registration context is missing. Please sign up again.');
-      return false;
-    }
-
-    _setError(null);
-    _setLoading(true);
-
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    try {
-      await AuthController.saveUserToken('mock_access_token');
-      await AuthController.saveRefreshToken('mock_refresh_token');
-      await AuthController.saveActiveRole('searcher');
-      await AuthController.saveUserId('user_123');
-      _setLoading(false);
-      return true;
-    } catch (e) {
-      _setLoading(false);
-      _setError(e.toString());
-      return false;
-    }
+    _setError('Please confirm your email from the link we sent you, then log in.');
+    return false;
   }
 
-  Future<bool> googleAuth(String idToken, {String role = 'searcher'}) async {
-    _setError(null);
-    _setLoading(true);
-
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    try {
-      await AuthController.saveUserToken('mock_access_token');
-      await AuthController.saveRefreshToken('mock_refresh_token');
-      await AuthController.saveActiveRole(role);
-      await AuthController.saveUserId('user_123');
-
-      final prof = await _repo.getUserProfile();
-      prof['role'] = role;
-      await _repo.saveUserProfile(prof);
-      
-      _setLoading(false);
-      return true;
-    } catch (e) {
-      _setLoading(false);
-      _setError(e.toString());
-      return false;
-    }
-  }
-
-  Future<bool> appleAuth(String idToken, {String role = 'searcher'}) async {
-    return await googleAuth(idToken, role: role);
-  }
-
-  Future<bool> forgotPassword(String email) async {
-    _setError(null);
-    _setLoading(true);
-
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    _setLoading(false);
-    return true;
-  }
-
-  Future<bool> resetPassword(String token, String newPassword) async {
-    _setError(null);
-    _setLoading(true);
-
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    _setLoading(false);
-    return true;
-  }
-
-  Future<bool> submitProviderApplication(Map<String, dynamic> data) async {
-    _setError(null);
-    _setLoading(true);
-
-    await Future.delayed(const Duration(milliseconds: 600));
-    _setLoading(false);
-    return true;
-  }
-
-  Future<bool> logout() async {
-    _setError(null);
-    _setLoading(true);
-
-    await Future.delayed(const Duration(milliseconds: 600));
-    await AuthController.forceLogout();
-    _setLoading(false);
-    return true;
-  }
-
-  Future<String> determineNextRoute() async {
-    final role = AuthController.activeRole;
-    if (role == 'provider') {
-      return AppRoutes.providerMainNav;
-    }
-
-    if ((await _repo.getAthletes()).isNotEmpty) {
-      return AppRoutes.mainNav;
-    }
-
-    if ((await _repo.getProviderProfile()).isNotEmpty) {
-      return AppRoutes.providerMainNav;
-    }
-
-    return AppRoutes.onboarding;
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
   }
 }

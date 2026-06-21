@@ -6,7 +6,6 @@ import 'package:animate_do/animate_do.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/constants/app_assets.dart';
-import '../../core/auth/auth_controller.dart';
 import 'package:provider/provider.dart';
 import '../authentication/controllers/auth_provider.dart';
 
@@ -26,19 +25,16 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _navigateToNext() async {
     await Future.delayed(const Duration(seconds: 3));
-    final token = AuthController.accessToken;
+    if (!mounted) return;
 
-    if (token != null && token.isNotEmpty) {
-      // Token exists — navigate directly to the correct screen.
-      // If it's expired, the NetworkCaller interceptor will silently call
-      // POST /auth/refresh-token (with the cookie) and retry automatically.
-      if (mounted) {
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        final nextRoute = await authProvider.determineNextRoute();
-        Get.offAllNamed(nextRoute);
-      }
+    // Route guard (#18): Supabase persists the session, so a returning user is
+    // already logged in here. Send them to their role's home; otherwise to the
+    // auth entry screen.
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    if (authProvider.isLoggedIn) {
+      final nextRoute = await authProvider.determineNextRoute();
+      Get.offAllNamed(nextRoute);
     } else {
-      // No stored session — go to login
       Get.offAllNamed(AppRoutes.authEntry);
     }
   }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../core/data/app_repository.dart';
-import '../../../core/auth/auth_controller.dart';
+import '../../../core/auth/auth_service.dart';
 
 class ChatProvider with ChangeNotifier {
   final AppRepository _repo;
+  final AuthService _auth;
   List<dynamic> _conversations = [];
   List<dynamic> _messages = [];
   bool _isLoadingConversations = false;
@@ -16,17 +17,16 @@ class ChatProvider with ChangeNotifier {
   bool get isLoadingMessages => _isLoadingMessages;
   String? get currentUserId => _currentUserId;
 
-  ChatProvider(this._repo) {
+  ChatProvider(this._repo, this._auth) {
     _fetchCurrentUserId();
   }
 
   Future<void> _fetchCurrentUserId() async {
-    _currentUserId = AuthController.userId;
+    _currentUserId = _auth.currentUser?.id;
     if (_currentUserId == null) {
       final prof = await _repo.getUserProfile();
       if (prof.isNotEmpty && prof['_id'] != null) {
         _currentUserId = prof['_id'];
-        await AuthController.saveUserId(_currentUserId!);
       }
     }
   }
@@ -52,7 +52,7 @@ class ChatProvider with ChangeNotifier {
           "_id": _currentUserId,
           "firstName": "You",
           "lastName": "",
-          "role": AuthController.activeRole ?? "searcher"
+          "role": _auth.currentUser?.role ?? "searcher"
         },
         {
           "_id": recipientId,
@@ -100,7 +100,7 @@ class ChatProvider with ChangeNotifier {
       '_id': tempId,
       'conversationId': conversationId,
       'text': text,
-      'senderId': _currentUserId ?? AuthController.userId ?? '',
+      'senderId': _currentUserId ?? _auth.currentUser?.id ?? '',
       'createdAt': DateTime.now().toIso8601String(),
     };
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../core/data/app_repository.dart';
-import '../../../core/auth/auth_controller.dart';
 
 class OnboardingProvider with ChangeNotifier {
   final AppRepository _repo;
@@ -362,9 +361,8 @@ class OnboardingProvider with ChangeNotifier {
       };
       prof['status'] = 'approved';
       await _repo.saveProviderProfile(prof);
-      
-      await AuthController.saveActiveRole('provider');
-      
+      // Role is set at signup via user_metadata (#18); no separate store needed.
+
       _setLoading(false);
       _submitError = null;
       notifyListeners();

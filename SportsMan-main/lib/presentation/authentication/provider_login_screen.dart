@@ -7,7 +7,6 @@ import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../core/constants/app_assets.dart';
-import '../../core/auth/auth_controller.dart';
 import '../widgets/sporve_button.dart';
 import 'controllers/auth_provider.dart';
 
