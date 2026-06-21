@@ -1,0 +1,549 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_structure/core/theme/app_typography.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:get/get.dart';
+import '../controllers/home_controller.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_radii.dart';
+import '../../../core/theme/sport_colors.dart';
+import '../../../core/routes/app_routes.dart';
+import '../../widgets/common_widgets.dart';
+import '../../widgets/sporve_button.dart';
+import '../../widgets/sporve_image.dart';
+import '../../../core/utils/session_time.dart';
+import 'search_screen.dart'; // To access Opportunity model
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeProvider>().fetchAllAthleteData();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final homeProvider = context.watch<HomeProvider>();
+    final categories = ['All', 'Facilities', 'Training', 'Camps', 'Programs'];
+
+    return GradientScaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Top Section with Padding
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ClipOval(
+                            child: SizedBox(
+                              width: 48,
+                              height: 48,
+                              child: SporveImage(
+                                (homeProvider.userProfile != null && homeProvider.userProfile!['profileImage'] != null)
+                                    ? homeProvider.userProfile!['profileImage']
+                                    : 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60',
+                                width: 48,
+                                height: 48,
+                                fit: BoxFit.cover,
+                                fallbackIcon: Icons.person,
+                              ),
+                            ),
+                          ),
+                          SporveIconButton(
+                            Icons.notifications_outlined,
+                            onTap: () {},
+                            iconSize: 22,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        'Hello!',
+                        style: AppTypography.font(color: AppColors.textGrey, fontSize: 14),
+                      ),
+                      Text(
+                        (homeProvider.userProfile != null)
+                            ? '${homeProvider.userProfile!['firstName']} ${homeProvider.userProfile!['lastName']}'
+                            : 'Athlete',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTypography.font(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.8,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      CustomSearchField(
+                        onTap: () => Get.toNamed(AppRoutes.search),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Horizontal Categories (Full Width Scroll)
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: categories.map((cat) => Padding(
+                      padding: const EdgeInsets.only(right: 12.0),
+                      child: CategoryChip(
+                        label: cat, 
+                        isSelected: homeProvider.selectedCategory == cat, 
+                        onTap: () => homeProvider.setCategory(cat)
+                      ),
+                    )).toList(),
+                  ),
+                ),
+
+                // Middle Banner & Cards with Padding
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildBanner(),
+                      const SizedBox(height: 32),
+                      if (_nextUpcomingBooking(homeProvider.bookings) != null) ...[
+                        _buildComingUpCard(_nextUpcomingBooking(homeProvider.bookings)!, homeProvider.programs),
+                        const SizedBox(height: 32),
+                      ],
+                      _buildBookAgainCard(),
+                      const SizedBox(height: 24),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: _buildStatCard('${homeProvider.stats['sessions']}', 'SESSIONS', Icons.calendar_today, AppColors.slateText)),
+                          const SizedBox(width: 12),
+                          Expanded(child: _buildStatCard('${homeProvider.stats['reviews']}', 'REVIEWS', Icons.star, AppColors.warning)),
+                          const SizedBox(width: 12),
+                          Expanded(child: _buildStatCard('${homeProvider.stats['saved']}', 'SAVED', Icons.favorite, AppColors.slateText)),
+                        ],
+                      ),
+                      // "Near You" rail only when there are programs to show.
+                      if (homeProvider.programs.isNotEmpty) ...[
+                        const SizedBox(height: 32),
+                        Text(
+                          'NEAR YOU',
+                          style: AppTypography.font(color: AppColors.textGrey, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+
+                // Horizontal Near You Cards (Full Width Scroll) — hidden when empty.
+                if (homeProvider.programs.isNotEmpty)
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Row(
+                      children: homeProvider.programs.take(3).map((program) {
+                      final gallery = program['gallery'];
+                      final image = (gallery != null && (gallery as List).isNotEmpty)
+                          ? gallery[0].toString()
+                          : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+                      
+                      final opp = Opportunity(
+                        id: 0, // Mock ID or use actual if available
+                        title: program['title'] ?? 'Program',
+                        coach: program['providerId']?['businessName'] ?? 'Academy',
+                        price: '\$${program['price'] ?? 0}',
+                        rating: program['averageRating']?.toString() ?? '5.0',
+                        image: image,
+                        spotsLeft: 'AVAILABLE',
+                        isVerified: true,
+                        bookingTrend: 'Trending now',
+                        top: 0,
+                        team: program['providerId']?['businessName'] ?? 'Academy',
+                        rawData: program,
+                      );
+
+                      return NearYouCard(
+                        title: opp.title,
+                        subtitle: opp.coach,
+                        price: opp.price,
+                        rating: opp.rating,
+                        image: opp.image,
+                        sport: program['sportType']?.toString(),
+                        onTap: () => Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
+                      );
+                    }).toList(),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${homeProvider.programs.length} Programs Available',
+                            style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          Row(
+                            children: [
+                              const Icon(Icons.location_on_outlined, color: AppColors.textGrey, size: 16),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Map',
+                                style: AppTypography.font(color: AppColors.textGrey, fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      if (homeProvider.isLoadingPrograms)
+                        const Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 24.0),
+                            child: CircularProgressIndicator(color: AppColors.slateText),
+                          ),
+                        )
+                      else if (homeProvider.programs.isEmpty)
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 32.0),
+                            child: Column(
+                              children: [
+                                const Icon(Icons.sports_soccer_outlined, color: AppColors.textGrey, size: 48),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'No programs near you yet.',
+                                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      else
+                        ...homeProvider.programs.map((program) {
+                          final gallery = program['gallery'];
+                          final image = (gallery != null && (gallery as List).isNotEmpty)
+                              ? gallery[0].toString()
+                              : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+                          
+                          final opp = Opportunity(
+                            id: 0,
+                            title: program['title'] ?? 'Program',
+                            coach: program['providerId']?['businessName'] ?? 'Academy',
+                            price: '\$${program['price'] ?? 0}',
+                            rating: program['averageRating']?.toString() ?? '0.0',
+                            image: image,
+                            spotsLeft: 'AVAILABLE',
+                            isVerified: true,
+                            bookingTrend: 'Trending now',
+                            top: 0,
+                            team: program['providerId']?['businessName'] ?? 'Academy',
+                            rawData: program,
+                          );
+
+                          return ProgramListItem(
+                            title: opp.title,
+                            subtitle: program['sportType']?.toString() ?? 'General',
+                            price: opp.price,
+                            rating: opp.rating,
+                            schedule: program['sportType'] ?? 'General',
+                            image: opp.image,
+                            sport: program['sportType']?.toString(),
+                            onTap: () => Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
+                          );
+                        }).toList(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+  }
+
+  Widget _buildBanner() {
+    return GestureDetector(
+      onTap: () => Get.toNamed(AppRoutes.nearbySession),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          border: Border.all(color: AppColors.hairline),
+        ),
+        child: Row(
+          children: [
+            Image.asset(
+              'assets/images/marketeq_goal.png',
+              width: 32,
+              height: 32,
+              errorBuilder: (context, error, stackTrace) => const Icon(Icons.gps_fixed, color: AppColors.slateText, size: 28),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Find session near you',
+                    style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  Text(
+                    'PERSONALIZED FOR YOU',
+                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, letterSpacing: 1),
+                  ),
+                ],
+              ),
+            ),
+            SlateCircleButton(
+              onTap: () => Get.toNamed(AppRoutes.nearbySession),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static const List<String> _weekdayNames = [
+    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+  ];
+  static const List<String> _monthShort = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ];
+
+  /// The soonest booking whose session starts today or later (not the most
+  /// recently created). Returns null when there are no upcoming bookings.
+  Map<String, dynamic>? _nextUpcomingBooking(List bookings) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    Map<String, dynamic>? best;
+    DateTime? bestStart;
+    for (final b in bookings) {
+      if (b is! Map) continue;
+      final session = b['sessionId'] is Map ? b['sessionId'] : null;
+      final start = parseSessionStart(session);
+      final startDay = DateTime(start.year, start.month, start.day);
+      if (startDay.isBefore(today)) continue; // skip past sessions
+      if (bestStart == null || start.isBefore(bestStart)) {
+        bestStart = start;
+        best = Map<String, dynamic>.from(b);
+      }
+    }
+    return best;
+  }
+
+  /// A human relative-day label: Today / Tomorrow / weekday (this week) / date.
+  String _relativeDay(DateTime start) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final day = DateTime(start.year, start.month, start.day);
+    final diff = day.difference(today).inDays;
+    if (diff == 0) return 'Today';
+    if (diff == 1) return 'Tomorrow';
+    if (diff > 1 && diff < 7) return _weekdayNames[start.weekday - 1];
+    return '${_monthShort[start.month - 1]} ${start.day}';
+  }
+
+  Widget _buildComingUpCard(dynamic nextBooking, List programs) {
+    final session = nextBooking['sessionId'] is Map ? nextBooking['sessionId'] : null;
+
+    // programId may be a full object OR just an id string (mock data is inconsistent).
+    // Resolve the full program from the loaded list so we get sport + provider,
+    // and never index a String with a map key (that was the crash).
+    final rawBookingProgram = nextBooking['programId'];
+    final rawSessionProgram = session?['programId'];
+    String? programId;
+    if (rawBookingProgram is Map) {
+      programId = rawBookingProgram['_id']?.toString();
+    } else if (rawBookingProgram is String) {
+      programId = rawBookingProgram;
+    } else if (rawSessionProgram is Map) {
+      programId = rawSessionProgram['_id']?.toString();
+    } else if (rawSessionProgram is String) {
+      programId = rawSessionProgram;
+    }
+
+    Map? program;
+    if (programId != null) {
+      for (final p in programs) {
+        if (p is Map && p['_id']?.toString() == programId) {
+          program = p;
+          break;
+        }
+      }
+    }
+    program ??= rawBookingProgram is Map
+        ? rawBookingProgram
+        : (rawSessionProgram is Map ? rawSessionProgram : null);
+
+    final startTime = parseSessionStart(session);
+    final sport = program?['sportType']?.toString() ?? 'Soccer';
+    final sportColor = SportColors.of(sport);
+
+    // Card with a 3px sport bar down the left edge + a sport-tint header wash.
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppRadii.card),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          border: Border.all(color: AppColors.hairline),
+        ),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(width: 3, color: sportColor),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [SportColors.washOf(sport), Colors.transparent],
+                      stops: const [0.0, 0.75],
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'COMING UP NEXT',
+                            style: AppTypography.font(
+                              color: sportColor,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                          Text(
+                            '${_relativeDay(startTime)}, ${formatTime12h(startTime)}',
+                            style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          SportIconTile(sport, size: 48),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  program?['title']?.toString() ?? 'Training Session',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                                ),
+                                Text(
+                                  (program?['providerId'] is Map)
+                                      ? (program!['providerId']['businessName']?.toString() ?? 'Academy')
+                                      : 'Elite Academy',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ),
+                          OutlinePill('VIEW', color: sportColor),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBookAgainCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        border: Border.all(color: AppColors.hairline),
+      ),
+      child: Row(
+        children: [
+          SporveImage('https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=60', width: 60, height: 60, fit: BoxFit.cover, radius: AppRadii.tile),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Book again with Coach Marcus', style: AppTypography.font(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.textPrimary)),
+                Text('Basketball • Last session Feb 18', style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11)),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          SporveButton(
+            'Rebook',
+            onPressed: () {},
+            variant: SporveButtonVariant.primary,
+            size: SporveButtonSize.compact,
+            fullWidth: false,
+            color: SportColors.of('Basketball'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard(String value, String label, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        border: Border.all(color: AppColors.hairline),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Icon(icon, color: color, size: 16),
+          ),
+          const SizedBox(height: 12),
+          Text(value, style: AppTypography.font(color: AppColors.textPrimary, fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(label, style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold)),
+        ],
+      ),
+    );
+  }
+}
+

@@ -1,0 +1,658 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_radii.dart';
+import '../../core/theme/app_typography.dart';
+import '../../core/theme/sport_colors.dart';
+import 'sporve_image.dart';
+
+/// Product-layer scaffold — solid black canvas. Use on every in-app screen.
+///
+/// (Named `GradientScaffold` for backward compatibility with the ~22 screens
+/// that already use it; it no longer paints the old navy gradient.)
+class GradientScaffold extends StatelessWidget {
+  final Widget body;
+  final PreferredSizeWidget? appBar;
+  final Widget? bottomNavigationBar;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final Widget? bottomSheet;
+  final bool resizeToAvoidBottomInset;
+  final bool extendBody;
+  final bool extendBodyBehindAppBar;
+
+  const GradientScaffold({
+    super.key,
+    required this.body,
+    this.appBar,
+    this.bottomNavigationBar,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.bottomSheet,
+    this.resizeToAvoidBottomInset = true,
+    this.extendBody = false,
+    this.extendBodyBehindAppBar = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.ink,
+      appBar: appBar,
+      bottomNavigationBar: bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
+      bottomSheet: bottomSheet,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      extendBody: extendBody,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      body: body,
+    );
+  }
+}
+
+/// Clearer alias for new code. Identical to [GradientScaffold] (black canvas).
+class AppScaffold extends GradientScaffold {
+  const AppScaffold({
+    super.key,
+    required super.body,
+    super.appBar,
+    super.bottomNavigationBar,
+    super.floatingActionButton,
+    super.floatingActionButtonLocation,
+    super.bottomSheet,
+    super.resizeToAvoidBottomInset,
+    super.extendBody,
+    super.extendBodyBehindAppBar,
+  });
+}
+
+/// Entry-layer scaffold — the slate wall. Use ONLY on splash + auth/get-started.
+class SlateScaffold extends StatelessWidget {
+  final Widget body;
+  final bool resizeToAvoidBottomInset;
+  const SlateScaffold({
+    super.key,
+    required this.body,
+    this.resizeToAvoidBottomInset = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(gradient: AppColors.slateWall),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+        body: body,
+      ),
+    );
+  }
+}
+
+/// Dark search field — `surface` fill, hairline border, slate focus ring.
+/// Replaces the old light `#F1F5F9` box (a light box on black reads childish).
+class CustomSearchField extends StatelessWidget {
+  final String hint;
+  final VoidCallback? onTap;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  const CustomSearchField({
+    super.key,
+    this.hint = 'Search programs...',
+    this.onTap,
+    this.controller,
+    this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadii.tile),
+          border: Border.all(color: AppColors.hairline),
+        ),
+        child: TextField(
+          controller: controller,
+          enabled: onTap == null,
+          readOnly: onTap != null,
+          onTap: onTap,
+          onChanged: onChanged,
+          style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+          cursorColor: AppColors.slateText,
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 14),
+            prefixIcon: const Icon(Icons.search, color: AppColors.textTertiary, size: 20),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadii.tile),
+              borderSide: const BorderSide(color: AppColors.slateBorder, width: 1.5),
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Category selector rendered as a text + slate-underline tab (Kalshi style),
+/// not a filled bubble. Active = white label + 2px slate underline.
+class CategoryChip extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const CategoryChip({
+    super.key,
+    required this.label,
+    this.isSelected = false,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+        margin: const EdgeInsets.only(right: 20),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: isSelected ? AppColors.slateText : Colors.transparent,
+              width: 2,
+            ),
+          ),
+        ),
+        child: Text(
+          label,
+          style: AppTypography.font(
+            color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
+            fontSize: 14,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            letterSpacing: -0.2,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A 1px hairline divider.
+class Hairline extends StatelessWidget {
+  final double indent;
+  final double endIndent;
+  const Hairline({super.key, this.indent = 0, this.endIndent = 0});
+  @override
+  Widget build(BuildContext context) => Divider(
+        height: 0.5,
+        thickness: 0.5,
+        indent: indent,
+        endIndent: endIndent,
+        color: AppColors.hairline,
+      );
+}
+
+/// Slate outline pill — the Kalshi leverage-pill pattern (NEW, LIVE, U12, VIEW…).
+/// Use liberally for status/level. This is a primary way slate recurs.
+class OutlinePill extends StatelessWidget {
+  final String label;
+  final Color color;
+  const OutlinePill(this.label, {super.key, this.color = AppColors.slateText});
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppRadii.chip),
+          border: Border.all(color: color == AppColors.slateText ? AppColors.slateBorder : color),
+        ),
+        child: Text(
+          label.toUpperCase(),
+          style: AppTypography.font(
+            color: color,
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.6,
+          ),
+        ),
+      );
+}
+
+/// Sport tag — tint background + sport-color text. The canonical metadata chip.
+class SportTag extends StatelessWidget {
+  final String sport;
+  const SportTag(this.sport, {super.key});
+  @override
+  Widget build(BuildContext context) {
+    final c = SportColors.of(sport);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+      decoration: BoxDecoration(
+        color: SportColors.tintOf(sport),
+        borderRadius: BorderRadius.circular(AppRadii.chip),
+      ),
+      child: Text(
+        sport,
+        style: AppTypography.font(color: c, fontSize: 11, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+}
+
+/// AI badge — the only blue-bordered pill. Marks AI features / suggestions.
+class AIBadge extends StatelessWidget {
+  final String label;
+  const AIBadge({super.key, this.label = 'AI'});
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        decoration: BoxDecoration(
+          color: AppColors.blueTint,
+          borderRadius: BorderRadius.circular(AppRadii.chip),
+          border: Border.all(color: AppColors.blue.withOpacity(0.5)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.auto_awesome, color: AppColors.blueText, size: 11),
+            const SizedBox(width: 4),
+            Text(
+              label.toUpperCase(),
+              style: AppTypography.font(
+                color: AppColors.blueText,
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.6,
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
+/// Sport icon tile — tint base + sport-color glyph. Replaces colored "bubbles".
+class SportIconTile extends StatelessWidget {
+  final String sport;
+  final double size;
+  const SportIconTile(this.sport, {super.key, this.size = 40});
+  @override
+  Widget build(BuildContext context) {
+    final c = SportColors.of(sport);
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: SportColors.tileTintOf(sport),
+        borderRadius: BorderRadius.circular(AppRadii.tile),
+      ),
+      child: Icon(SportColors.iconOf(sport), color: c, size: size * 0.52),
+    );
+  }
+}
+
+/// "See all ›" — slate label + slate chevron, for every section header.
+class SeeAll extends StatelessWidget {
+  final VoidCallback? onTap;
+  final String label;
+  const SeeAll({super.key, this.onTap, this.label = 'See all'});
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: AppTypography.font(
+                color: AppColors.slateText,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: AppColors.slateText, size: 16),
+          ],
+        ),
+      );
+}
+
+/// A solid slate circle with a dark forward icon — the confident affordance on
+/// featured banners ("Find a session near you").
+class SlateCircleButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final IconData icon;
+  final double size;
+  const SlateCircleButton({
+    super.key,
+    this.onTap,
+    this.icon = Icons.arrow_forward,
+    this.size = 38,
+  });
+  @override
+  Widget build(BuildContext context) => Material(
+        color: AppColors.slate,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onTap,
+          child: SizedBox(
+            width: size,
+            height: size,
+            child: Icon(icon, color: AppColors.onSlate, size: size * 0.45),
+          ),
+        ),
+      );
+}
+
+/// Featured / horizontal program card. Tight 10px radius, hairline border,
+/// one sport color (3px accent bar + tag), mono price, gold rating star.
+class NearYouCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String price;
+  final String rating;
+  final String image;
+  final String? sport;
+  final VoidCallback? onTap;
+
+  const NearYouCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.price,
+    required this.rating,
+    required this.image,
+    this.sport,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final sportColor = SportColors.of(sport);
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 240,
+        margin: const EdgeInsets.only(right: 12),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          border: Border.all(color: AppColors.hairline),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                SporveImage(image, height: 130, width: double.infinity, fit: BoxFit.cover),
+                Positioned(left: 0, top: 0, bottom: 0, child: Container(width: 3, color: sportColor)),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.all(13.0),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [SportColors.washOf(sport), Colors.transparent],
+                  stops: const [0.0, 0.7],
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (sport != null) ...[SportTag(sport!), const SizedBox(height: 8)],
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 12),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(price, style: AppTypography.mono(size: 14, weight: FontWeight.w600, color: AppColors.textPrimary)),
+                      Row(
+                        children: [
+                          const Icon(Icons.star, color: AppColors.warning, size: 14),
+                          const SizedBox(width: 4),
+                          Text(rating, style: AppTypography.mono(size: 12, color: AppColors.textPrimary)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A program list item rendered as a hairline row (not a filled card):
+/// sport icon-tile · title + metadata · mono price · slate chevron.
+class ProgramListItem extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String price;
+  final String rating;
+  final String image; // kept for API compat; row uses a sport icon-tile
+  final String schedule;
+  final String? sport;
+  final VoidCallback? onTap;
+
+  const ProgramListItem({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.price,
+    required this.rating,
+    required this.image,
+    required this.schedule,
+    this.sport,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final s = sport ?? subtitle;
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            SportIconTile(s, size: 44),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      letterSpacing: -0.2,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          subtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTypography.font(color: AppColors.textSecondary, fontSize: 12),
+                        ),
+                      ),
+                      _dot(),
+                      const Icon(Icons.star, color: AppColors.warning, size: 12),
+                      const SizedBox(width: 3),
+                      Text(rating, style: AppTypography.mono(size: 11, color: AppColors.textSecondary)),
+                      _dot(),
+                      Text(price, style: AppTypography.mono(size: 11, weight: FontWeight.w600, color: AppColors.textPrimary)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(Icons.chevron_right, color: AppColors.textTertiary, size: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _dot() => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 7),
+        child: Icon(Icons.circle, color: AppColors.textTertiary, size: 3),
+      );
+}
+
+/// Consistent icon-only button — a tight rounded-square (radius 8) on a subtle
+/// surface, with a press-scale. Use for back/share/camera/edit/remove/add etc.
+/// `filled:true` makes it a solid deep-slate primary affordance (white icon).
+class SporveIconButton extends StatefulWidget {
+  final IconData icon;
+  final VoidCallback? onTap;
+  final double size;
+  final double iconSize;
+  final Color? color; // icon color (ignored when filled)
+  final bool filled; // solid slate primary
+  final bool border; // hairline border (when not filled)
+  final bool circle; // round instead of rounded-square
+  const SporveIconButton(
+    this.icon, {
+    super.key,
+    this.onTap,
+    this.size = 38,
+    this.iconSize = 18,
+    this.color,
+    this.filled = false,
+    this.border = true,
+    this.circle = false,
+  });
+
+  @override
+  State<SporveIconButton> createState() => _SporveIconButtonState();
+}
+
+class _SporveIconButtonState extends State<SporveIconButton> {
+  bool _pressed = false;
+  @override
+  Widget build(BuildContext context) {
+    final bg = widget.filled ? AppColors.slate : AppColors.surface;
+    final fg = widget.filled ? AppColors.onSlate : (widget.color ?? AppColors.textPrimary);
+    return Listener(
+      onPointerDown: widget.onTap == null ? null : (_) => setState(() => _pressed = true),
+      onPointerUp: widget.onTap == null ? null : (_) => setState(() => _pressed = false),
+      onPointerCancel: widget.onTap == null ? null : (_) => setState(() => _pressed = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedScale(
+          scale: _pressed ? 0.92 : 1.0,
+          duration: const Duration(milliseconds: 90),
+          curve: Curves.easeOut,
+          child: Container(
+            width: widget.size,
+            height: widget.size,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: bg,
+              shape: widget.circle ? BoxShape.circle : BoxShape.rectangle,
+              borderRadius: widget.circle ? null : BorderRadius.circular(AppRadii.tile),
+              border: (widget.border && !widget.filled)
+                  ? Border.all(color: AppColors.hairline)
+                  : null,
+            ),
+            child: Icon(widget.icon, size: widget.iconSize, color: fg),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Consistent segmented control (e.g. MONTH/WEEK/DAY, DIRECT/PROGRAMS) — a
+/// surface track with the active segment as a deep-slate pill (white label),
+/// inactive labels in secondary gray. Flat, tight, Kalshi/Uber register.
+class SporveSegmented extends StatelessWidget {
+  final List<String> segments;
+  final int selected;
+  final ValueChanged<int> onChanged;
+  const SporveSegmented({
+    super.key,
+    required this.segments,
+    required this.selected,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.tile),
+        border: Border.all(color: AppColors.hairline),
+      ),
+      child: Row(
+        children: List.generate(segments.length, (i) {
+          final on = i == selected;
+          return Expanded(
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => onChanged(i),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                curve: Curves.easeOut,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: on ? AppColors.slate : Colors.transparent,
+                  borderRadius: BorderRadius.circular(AppRadii.tile - 2),
+                ),
+                child: Text(
+                  segments[i],
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.font(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.1,
+                    color: on ? AppColors.onSlate : AppColors.textSecondary,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
