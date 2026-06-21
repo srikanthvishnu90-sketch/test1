@@ -8,7 +8,8 @@ import 'core/config/env.dart';
 import 'core/auth/auth_service.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'core/data/app_repository.dart';
-import 'core/data/mock_repository.dart';
+import 'core/data/mock_repository.dart'; // kept for one-line rollback (see below)
+import 'core/data/supabase_repository.dart';
 import 'presentation/onboarding/controllers/onboarding_controller.dart';
 import 'presentation/client/controllers/home_controller.dart';
 import 'presentation/provider/controllers/provider_controller.dart';
@@ -26,9 +27,10 @@ void main() async {
     anonKey: Env.supabaseAnonKey,
   );
 
-  // THE SWAP POINT (#16): the app's single data source. #19 changes this one
-  // line to `SupabaseRepository()` — nothing else in the app changes.
-  final AppRepository repo = const MockRepository();
+  // THE SWAP POINT (#16/#19): the app's single data source. Now bound to the
+  // real backend. ROLLBACK is one line — swap this back to:
+  //   final AppRepository repo = const MockRepository();
+  final AppRepository repo = SupabaseRepository();
 
   // AUTH SWAP POINT (#18): the app's single auth source. The UI only ever talks
   // to AuthService (via AuthProvider); the Supabase SDK never leaks past it.
