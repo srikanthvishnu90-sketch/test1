@@ -23,7 +23,9 @@ abstract class ProgramRepository {
 abstract class BookingRepository {
   Future<List<dynamic>> getBookings();
   Future<void> saveBookings(List<dynamic> bookings);
-  Future<void> addBooking(Map<String, dynamic> booking);
+
+  /// Persists a booking and returns its new id (null if it couldn't be created).
+  Future<String?> addBooking(Map<String, dynamic> booking);
 }
 
 /// User + provider profiles.

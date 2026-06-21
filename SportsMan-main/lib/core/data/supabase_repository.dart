@@ -152,6 +152,7 @@ class SupabaseRepository implements AppRepository {
       'currency': row['currency'],
       'status': row['status'],
       'paymentStatus': row['payment_status'],
+      'stripeCheckoutSessionId': row['stripe_checkout_session_id'],
       'createdAt': row['created_at'],
     };
   }
@@ -264,10 +265,10 @@ class SupabaseRepository implements AppRepository {
   }
 
   @override
-  Future<void> addBooking(Map<String, dynamic> booking) async {
+  Future<String?> addBooking(Map<String, dynamic> booking) async {
     try {
       final uid = _uid;
-      if (uid == null) return;
+      if (uid == null) return null;
       final programId = _extractId(booking['programId']);
       var sessionId = _extractId(booking['sessionId']);
       // The demo flow invents a synthetic session id; resolve a REAL session for
@@ -283,8 +284,8 @@ class SupabaseRepository implements AppRepository {
           sessionId = (rows.first as Map)['id']?.toString();
         }
       }
-      if (!_isUuid(sessionId)) return; // nothing valid to attach to
-      await _db.from('bookings').insert({
+      if (!_isUuid(sessionId)) return null; // nothing valid to attach to
+      final inserted = await _db.from('bookings').insert({
         'searcher_id': uid,
         'session_id': sessionId,
         if (_isUuid(programId)) 'program_id': programId,
@@ -294,8 +295,11 @@ class SupabaseRepository implements AppRepository {
         'currency': booking['currency'] ?? 'USD',
         'status': booking['status'] ?? 'pending',
         'payment_status': booking['paymentStatus'] ?? 'unpaid',
-      });
-    } catch (_) {/* never crash the booking UI */}
+      }).select('id').single();
+      return (inserted as Map)['id']?.toString();
+    } catch (_) {
+      return null; // never crash the booking UI
+    }
   }
 
   // ── Profiles ──────────────────────────────────────────────────────────────

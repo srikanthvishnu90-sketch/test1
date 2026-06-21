@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
@@ -29,6 +30,12 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   ];
   int _selectedCardIndex = 0;
   bool _bookingSaved = false; // guard against double-persist
+
+  // Real booking id + payment status (#20b). The booking is created UNPAID; the
+  // confirmation step shows a "Pay now" button that drives Stripe Checkout.
+  String? _realBookingId;
+  String _paymentStatus = 'unpaid';
+  bool _payNowLoading = false;
 
   // Calendar shows the real current month.
   late int _calYear;
@@ -331,7 +338,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
   // Build a booking from the user's selections and persist it so it appears on
   // Home "Coming Up" and the Schedule calendar.
-  void _persistBooking() {
+  Future<void> _persistBooking() async {
     if (_bookingSaved) return;
     _bookingSaved = true;
 
@@ -359,11 +366,69 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       'finalPrice': _total,
       'currency': 'USD',
       'status': 'confirmed',
-      'paymentStatus': 'paid',
+      // Real payment happens via Stripe Checkout (#20b) — start unpaid.
+      'paymentStatus': 'unpaid',
       'createdAt': now.toIso8601String(),
     };
 
-    context.read<HomeProvider>().addBooking(booking);
+    final homeProvider = context.read<HomeProvider>();
+    final id = await homeProvider.addBooking(booking);
+    if (!mounted) return;
+    // Re-read the persisted booking so paymentStatus reflects the backend.
+    final saved = homeProvider.bookingById(id);
+    setState(() {
+      _realBookingId = id;
+      _paymentStatus = (saved?['paymentStatus'] ?? 'unpaid').toString();
+    });
+  }
+
+  /// "Pay now" → Stripe Checkout via the `stripe-create-checkout` Edge Function
+  /// (invoke auto-attaches the signed-in user's JWT), then redirects this tab.
+  Future<void> _handlePayNow() async {
+    final messenger = ScaffoldMessenger.of(context);
+    final id = _realBookingId;
+    if (id == null) {
+      messenger.showSnackBar(const SnackBar(
+        content: Text('Booking not ready yet. Please try again in a moment.'),
+        backgroundColor: AppColors.negative,
+      ));
+      return;
+    }
+    setState(() => _payNowLoading = true);
+    try {
+      final res = await Supabase.instance.client.functions.invoke(
+        'stripe-create-checkout',
+        body: {
+          'bookingId': id,
+          'successUrl': Uri.base.origin,
+          'cancelUrl': Uri.base.origin,
+        },
+      );
+      final data = res.data;
+      if (data is Map && data['error'] != null) {
+        messenger.showSnackBar(SnackBar(
+          content: Text(data['error'].toString()),
+          backgroundColor: AppColors.negative,
+        ));
+        return;
+      }
+      final checkoutUrl = data is Map ? data['checkoutUrl'] as String? : null;
+      if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
+        await launchUrl(Uri.parse(checkoutUrl), webOnlyWindowName: '_self');
+      } else {
+        messenger.showSnackBar(const SnackBar(
+          content: Text('Could not start checkout. Please try again.'),
+          backgroundColor: AppColors.negative,
+        ));
+      }
+    } catch (_) {
+      messenger.showSnackBar(const SnackBar(
+        content: Text('Payment could not be started. Please try again.'),
+        backgroundColor: AppColors.negative,
+      ));
+    } finally {
+      if (mounted) setState(() => _payNowLoading = false);
+    }
   }
 
   final List<String> _timeSlots = [
@@ -1042,8 +1107,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
               variant: SporveButtonVariant.primary,
               color: _sportColor,
               icon: Icons.lock_outline,
-              onPressed: () {
-                _persistBooking();
+              onPressed: () async {
+                await _persistBooking();
+                if (!mounted) return;
                 setState(() {
                   _currentStep = 3;
                 });
@@ -1197,22 +1263,36 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
           ),
           const SizedBox(height: 12),
 
-          // Charged Card Info
-          Text(
-            '${_money(_total)} charged to •••• ${_cards[_selectedCardIndex]['last4']}',
-            style: AppTypography.font(
-              color: AppColors.slateText,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
+          // Payment status line — only claim "charged" once actually paid.
+          if (_paymentStatus == 'paid')
+            Text(
+              '${_money(_total)} paid',
+              style: AppTypography.font(
+                color: AppColors.slateText,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
 
           const Spacer(),
+
+          // Pay now (real Stripe Checkout) — shown until the booking is paid.
+          if (_paymentStatus != 'paid') ...[
+            SporveButton(
+              'Pay now',
+              variant: SporveButtonVariant.primary,
+              loading: _payNowLoading,
+              onPressed: _payNowLoading ? null : _handlePayNow,
+            ),
+            const SizedBox(height: 12),
+          ],
 
           // Confirmed Page Buttons
           SporveButton(
             'Back to Home',
-            variant: SporveButtonVariant.primary,
+            variant: _paymentStatus == 'paid'
+                ? SporveButtonVariant.primary
+                : SporveButtonVariant.secondary,
             onPressed: () => Get.offAllNamed(AppRoutes.mainNav),
           ),
           const SizedBox(height: 12),

@@ -26,7 +26,10 @@ class MockRepository implements AppRepository {
   @override
   Future<void> saveBookings(List<dynamic> bookings) async => MockData.bookings = bookings;
   @override
-  Future<void> addBooking(Map<String, dynamic> booking) async => MockData.addBooking(booking);
+  Future<String?> addBooking(Map<String, dynamic> booking) async {
+    MockData.addBooking(booking);
+    return booking['_id']?.toString();
+  }
 
   // ── Profiles ─────────────────────────────────────────────────────────────
   @override

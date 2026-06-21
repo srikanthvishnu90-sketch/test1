@@ -106,10 +106,23 @@ class HomeProvider with ChangeNotifier {
   }
 
   /// Persist a new booking and refresh derived state so Home + Schedule update.
-  Future<void> addBooking(Map<String, dynamic> booking) async {
-    await _repo.addBooking(booking);
+  /// Returns the new booking's id (null if it couldn't be created).
+  Future<String?> addBooking(Map<String, dynamic> booking) async {
+    final id = await _repo.addBooking(booking);
     _bookings = await _repo.getBookings();
     _calculateStats(); // also calls notifyListeners()
+    return id;
+  }
+
+  /// The booking with [id] from the latest fetched list, or null.
+  Map<String, dynamic>? bookingById(String? id) {
+    if (id == null) return null;
+    for (final b in _bookings) {
+      if (b is Map && b['_id']?.toString() == id) {
+        return Map<String, dynamic>.from(b);
+      }
+    }
+    return null;
   }
 
   String _selectedCategory = 'All';
