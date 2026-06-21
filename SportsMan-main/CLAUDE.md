@@ -29,6 +29,21 @@ Demo runs on mock data (`lib/core/mock/mock_data.dart`, via GetStorage).
 - **Typography:** serif **headers** (Fraunces, ≥18px) + sans **body/labels/numbers**
   (Geist). All styles go through `lib/core/theme/app_typography.dart`.
 
+## Config (public client keys — #17)
+- All PUBLIC client config lives in **`env.json`** (gitignored), surfaced to Dart
+  via `lib/core/config/env.dart` (`Env.supabaseUrl` / `Env.supabaseAnonKey` /
+  `Env.hcaptchaSiteKey`, each a `String.fromEnvironment`). Commit
+  `env.example.json` (placeholders) so others can copy it to `env.json`.
+- Run / build with the env file:
+  ```
+  flutter run -d chrome --dart-define-from-file=env.json
+  flutter build web --release --dart-define-from-file=env.json
+  ```
+- `SUPABASE_ANON_KEY` is the publishable/anon **client** key — public-safe; RLS
+  protects the data. The hCaptcha **secret** lives ONLY in Supabase Attack
+  Protection, and `service_role` is server-only — those (plus Stripe/Resend
+  secrets) NEVER go in `env.json`.
+
 ## Known cleanups
 - Auth state is split across `AuthController` (GetStorage tokens) and
   `AuthProvider` (mock `mock_access_token`); unify to a single owner during the
