@@ -241,7 +241,7 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(Icons.star, color: AppColors.warning, size: 12),
+                        const Icon(Icons.star, color: AppColors.textPrimary, size: 12),
                         const SizedBox(width: 4),
                         Text(
                           listing.rating,

@@ -995,7 +995,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           mainAxisSize: MainAxisSize.min,
           children: List.generate(
             5,
-            (index) => const Icon(Icons.star, color: AppColors.warning, size: 10),
+            (index) => const Icon(Icons.star, color: AppColors.textPrimary, size: 10),
           ),
         ),
       ],
@@ -1121,7 +1121,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                             padding: const EdgeInsets.only(right: 8),
                             child: Icon(
                               i < rating ? Icons.star : Icons.star_border,
-                              color: AppColors.warning,
+                              color: AppColors.textPrimary,
                               size: 36,
                             ),
                           ),

@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Expanded(child: _buildStatCard('${homeProvider.stats['sessions']}', 'SESSIONS', Icons.calendar_today, AppColors.slateText)),
                           const SizedBox(width: 12),
-                          Expanded(child: _buildStatCard('${homeProvider.stats['reviews']}', 'REVIEWS', Icons.star, AppColors.warning)),
+                          Expanded(child: _buildStatCard('${homeProvider.stats['reviews']}', 'REVIEWS', Icons.star, AppColors.textPrimary)),
                           const SizedBox(width: 12),
                           Expanded(child: _buildStatCard('${homeProvider.stats['saved']}', 'SAVED', Icons.favorite, AppColors.slateText)),
                         ],

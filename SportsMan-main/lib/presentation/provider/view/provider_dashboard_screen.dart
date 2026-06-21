@@ -494,7 +494,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(Icons.star, color: AppColors.warning, size: 12),
+                    const Icon(Icons.star, color: AppColors.textPrimary, size: 12),
                     const SizedBox(width: 4),
                     Text(
                       rating,

@@ -1074,7 +1074,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                 children: List.generate(5, (index) {
                   return Icon(
                     index < avgRating.round() ? Icons.star : Icons.star_border,
-                    color: AppColors.warning,
+                    color: AppColors.textPrimary,
                     size: 16,
                   );
                 }),
@@ -1211,7 +1211,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                           children: List.generate(5, (index) {
                             return Icon(
                               Icons.star,
-                              color: index < rating ? AppColors.warning : AppColors.textTertiary,
+                              color: index < rating ? AppColors.textPrimary : AppColors.textTertiary,
                               size: 14,
                             );
                           }),

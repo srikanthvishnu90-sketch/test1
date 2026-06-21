@@ -430,7 +430,7 @@ class NearYouCard extends StatelessWidget {
                       Text(price, style: AppTypography.mono(size: 14, weight: FontWeight.w600, color: AppColors.textPrimary)),
                       Row(
                         children: [
-                          const Icon(Icons.star, color: AppColors.warning, size: 14),
+                          const Icon(Icons.star, color: AppColors.textPrimary, size: 14),
                           const SizedBox(width: 4),
                           Text(rating, style: AppTypography.mono(size: 12, color: AppColors.textPrimary)),
                         ],
@@ -509,7 +509,7 @@ class ProgramListItem extends StatelessWidget {
                         ),
                       ),
                       _dot(),
-                      const Icon(Icons.star, color: AppColors.warning, size: 12),
+                      const Icon(Icons.star, color: AppColors.textPrimary, size: 12),
                       const SizedBox(width: 3),
                       Text(rating, style: AppTypography.mono(size: 11, color: AppColors.textSecondary)),
                       _dot(),

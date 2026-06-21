@@ -102,8 +102,9 @@ class _SporveButtonState extends State<SporveButton> {
         fg = AppColors.inkOnSlate;
         break;
       case SporveButtonVariant.destructive:
+        // Destructive (Sign out / Delete / Remove) is the ONLY red in the app.
         bg = Colors.transparent;
-        fg = AppColors.negative;
+        fg = AppColors.destructiveRed;
         break;
       case SporveButtonVariant.secondary:
         bg = widget.onDark

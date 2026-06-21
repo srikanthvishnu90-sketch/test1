@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: [
-                                        const Icon(Icons.star, color: AppColors.warning, size: 11),
+                                        const Icon(Icons.star, color: AppColors.textPrimary, size: 11),
                                         const SizedBox(width: 4),
                                         Text(
                                           '4.8',

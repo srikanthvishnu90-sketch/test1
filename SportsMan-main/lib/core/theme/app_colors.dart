@@ -33,16 +33,21 @@ class AppColors {
   static const Color slateBorder = Color(0x80536878); // ~50% slate border
   static const Color slateBrand = Color(0xFF536878); // folded into slate (splash is flat slate)
   static const Color onSlate = Color(0xFFFFFFFF); // text/icons ON a slate fill
-  static const Color blue = Color(0xFF2E7BFF); // secondary: AI / social only
-  static const Color blueText = Color(0xFF6AA6FF); // blue text/link on black
-  static const Color blueTint = Color(0x292E7BFF); // ~0.16 blue fill
+  // AI / social were a distinct blue; folded into slate (single accent).
+  static const Color blue = Color(0xFF536878);
+  static const Color blueText = Color(0xFF536878);
+  static const Color blueTint = Color(0x2E536878); // ~18% slate fill
 
-  // ── Semantic (rare, always icon-paired) ─────────────────────────────────
-  static const Color positive = slateText; // up / confirmed (legible on dark)
-  static const Color negative = Color(0xFFD2645C); // down / error (muted red)
-  static const Color warning = Color(0xFFE8A33A);
-  static const Color warningTint = Color(0x24E8A33A); // ~14% amber fill
-  static const Color negativeTint = Color(0x24D2645C); // ~14% muted-red fill
+  // ── Semantic ─────────────────────────────────────────────────────────────
+  static const Color positive = slateText; // up / confirmed (slate, no green)
+  // Non-destructive "negative" (down/error states) is MUTED — never red.
+  static const Color negative = Color(0xFF647079);
+  static const Color negativeTint = Color(0x24647079); // ~14% muted fill
+  // Folded into slate (status pills); rating stars use textPrimary instead.
+  static const Color warning = Color(0xFF536878);
+  static const Color warningTint = Color(0x2E536878);
+  // RED IS DESTRUCTIVE ONLY (Sign out, Delete).
+  static const Color destructiveRed = Color(0xFFEF4444);
 
   /// Off-canvas letterbox behind the phone frame on desktop web.
   static const Color frame = Color(0xFF05080F);

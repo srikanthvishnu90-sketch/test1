@@ -539,7 +539,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.star, color: AppColors.warning, size: 10),
+                          const Icon(Icons.star, color: AppColors.textPrimary, size: 10),
                           const SizedBox(width: 2),
                           Text(
                             opp.rating.split(' ')[0],
@@ -775,7 +775,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.star, color: AppColors.warning, size: 16),
+                          const Icon(Icons.star, color: AppColors.textPrimary, size: 16),
                           const SizedBox(width: 4),
                           Text(
                             opp.rating,
