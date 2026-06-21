@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_structure/core/theme/app_typography.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
@@ -58,16 +56,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     BlendMode.srcIn,
                   ),
                   child: Image.asset(AppAssets.appLogo, width: 72, height: 72),
-                ),
-                const SizedBox(height: 18),
-                Text(
-                  'SPORVE',
-                  style: AppTypography.font(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 4,
-                  ),
                 ),
                 const SizedBox(height: 28),
                 SizedBox(
