@@ -778,7 +778,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       color: AppColors.textSecondary,
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      fontStyle: FontStyle.italic,
                     ),
                   ),
                 ],

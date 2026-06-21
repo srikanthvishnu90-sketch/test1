@@ -29,23 +29,40 @@ class AppTypography {
         color: color,
       );
 
-  // ── Display & headlines: tight tracking, restrained weight ───────────────
+  // HEADERS use Hanken Grotesque (family only — sizes/weights/tracking match
+  // the Geist scale they replaced). Body/labels stay Geist.
+  static TextStyle _hanken({
+    required double size,
+    required FontWeight weight,
+    required double tracking,
+    double height = 1.3,
+    Color? color,
+  }) =>
+      GoogleFonts.hankenGrotesk(
+        fontSize: size,
+        fontWeight: weight,
+        letterSpacing: tracking,
+        height: height,
+        color: color,
+      );
+
+  // ── Display & headlines (Hanken Grotesque) ───────────────────────────────
   /// Splash / brand-scale numbers.
   static TextStyle get displayLarge =>
-      _geist(size: 30, weight: FontWeight.w600, tracking: -0.6, height: 1.05);
+      _hanken(size: 30, weight: FontWeight.w600, tracking: -0.6, height: 1.05);
 
   /// Big screen headers / auth hero.
   static TextStyle get display =>
-      _geist(size: 26, weight: FontWeight.w600, tracking: -0.5, height: 1.1);
+      _hanken(size: 26, weight: FontWeight.w600, tracking: -0.5, height: 1.1);
 
   /// Screen titles, the user's name on Home.
   static TextStyle get h1 =>
-      _geist(size: 22, weight: FontWeight.w600, tracking: -0.4, height: 1.15);
+      _hanken(size: 22, weight: FontWeight.w600, tracking: -0.4, height: 1.15);
   static TextStyle get heading => h1; // backwards-compatible alias
 
   /// Card titles / section headers that need weight.
   static TextStyle get h2 =>
-      _geist(size: 18, weight: FontWeight.w600, tracking: -0.3, height: 1.2);
+      _hanken(size: 18, weight: FontWeight.w600, tracking: -0.3, height: 1.2);
 
   // ── Body: regular weight does the work ───────────────────────────────────
   /// List-item titles / emphasised body.
@@ -105,6 +122,24 @@ class AppTypography {
     } else {
       ls = _track(letterSpacing); // collapse airy caps elsewhere
     }
+    // Headers (≥18px) render in Hanken Grotesque; body/labels stay Geist.
+    if (size != null && size >= 18) {
+      return GoogleFonts.hankenGrotesk(
+        fontSize: size,
+        fontWeight: w,
+        letterSpacing: ls,
+        height: height,
+        color: color,
+        fontStyle: fontStyle,
+        decoration: decoration,
+        decorationColor: decorationColor,
+        decorationStyle: decorationStyle,
+        wordSpacing: wordSpacing,
+        backgroundColor: backgroundColor,
+        textBaseline: textBaseline,
+        shadows: shadows,
+      );
+    }
     return TextStyle(
       fontFamily: fontFamily,
       fontSize: size,
@@ -131,16 +166,19 @@ class AppTypography {
   /// Tracking diet: collapse airy caps spacing to a whisper.
   static double? _track(double? ls) => (ls != null && ls > 0.6) ? 0.4 : ls;
 
-  // ── Numeric / mono: a precise "financial terminal" tick ──────────────────
+  // Numbers stay in the BODY font (Geist) — no mono/JetBrains anywhere.
+  // (Kept the `mono` name so existing number call-sites need no change.)
   static TextStyle mono({
     double size = 13,
     FontWeight weight = FontWeight.w500,
     Color? color,
     double height = 1.2,
   }) =>
-      GoogleFonts.jetBrainsMono(
+      TextStyle(
+        fontFamily: fontFamily,
         fontSize: size,
         fontWeight: weight,
+        fontVariations: [FontVariation('wght', weight.value.toDouble())],
         color: color,
         height: height,
         letterSpacing: 0,
