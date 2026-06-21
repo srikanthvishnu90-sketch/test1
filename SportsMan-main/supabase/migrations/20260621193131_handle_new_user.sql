@@ -19,7 +19,9 @@ create or replace function public.handle_new_user()
   set search_path = public
 as $$
 declare
-  full_name text := coalesce(new.raw_user_meta_data ->> 'name', '');
+  full_name  text := coalesce(new.raw_user_meta_data ->> 'name', '');
+  first_tok  text := split_part(full_name, ' ', 1);
+  rest_tok   text := btrim(substr(full_name, length(split_part(full_name, ' ', 1)) + 1));
 begin
   insert into public.profiles (id, role, first_name, last_name, email)
   values (
@@ -30,14 +32,20 @@ begin
         then new.raw_user_meta_data ->> 'role'
       else 'searcher'
     end,
-    -- first token of the name (profiles.first_name is NOT NULL).
-    coalesce(nullif(split_part(full_name, ' ', 1), ''), 'Member'),
-    -- everything after the first token, or null.
-    nullif(trim(substring(full_name from position(' ' in full_name))), ''),
+    -- first token of the name (profiles.first_name is NOT NULL); fall back to
+    -- the email local-part, then a constant, so this is never null.
+    coalesce(nullif(first_tok, ''), split_part(coalesce(new.email, 'member'), '@', 1), 'Member'),
+    nullif(rest_tok, ''),
     new.email
   )
   on conflict (id) do nothing;
   return new;
+exception
+  -- Never let profile creation block authentication; surface the real cause in
+  -- the Postgres logs so it can be fixed without breaking signup.
+  when others then
+    raise log 'handle_new_user failed for %: %', new.id, sqlerrm;
+    return new;
 end;
 $$;
 
