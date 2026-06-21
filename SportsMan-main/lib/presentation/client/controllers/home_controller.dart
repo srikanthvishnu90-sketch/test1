@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../view/search_screen.dart'; // To access Opportunity model
-import '../../../core/mock/mock_data.dart';
+import '../../../core/data/app_repository.dart';
 
 class HomeProvider with ChangeNotifier {
+  final AppRepository _repo;
+  HomeProvider(this._repo);
 
   // User Profile State
   Map<String, dynamic>? _userProfile;
@@ -65,7 +67,7 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 200)); // Simulate UI loading state
     try {
-      _userProfile = MockData.userProfile;
+      _userProfile = await _repo.getUserProfile();
     } catch (e) {
       debugPrint('Error fetching profile: $e');
     } finally {
@@ -80,7 +82,7 @@ class HomeProvider with ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 200));
 
     try {
-      _programs = MockData.programs;
+      _programs = await _repo.getPrograms();
     } catch (e) {
       debugPrint('Error fetching programs: $e');
     } finally {
@@ -94,7 +96,7 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 200));
     try {
-      _bookings = MockData.bookings;
+      _bookings = await _repo.getBookings();
     } catch (e) {
       debugPrint('Error fetching bookings: $e');
     } finally {
@@ -104,9 +106,9 @@ class HomeProvider with ChangeNotifier {
   }
 
   /// Persist a new booking and refresh derived state so Home + Schedule update.
-  void addBooking(Map<String, dynamic> booking) {
-    MockData.addBooking(booking);
-    _bookings = MockData.bookings;
+  Future<void> addBooking(Map<String, dynamic> booking) async {
+    await _repo.addBooking(booking);
+    _bookings = await _repo.getBookings();
     _calculateStats(); // also calls notifyListeners()
   }
 

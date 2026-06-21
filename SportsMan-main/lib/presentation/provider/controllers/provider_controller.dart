@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/mock/mock_data.dart';
+import '../../../core/data/app_repository.dart';
 import '../../../core/theme/app_colors.dart';
 
 
@@ -245,6 +245,8 @@ class CoachTeam {
 }
 
 class ProviderController with ChangeNotifier {
+  final AppRepository _repo;
+  ProviderController(this._repo);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -269,7 +271,7 @@ class ProviderController with ChangeNotifier {
     _setLoading(true);
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      final data = MockData.programs;
+      final data = await _repo.getPrograms();
       _listings.clear();
       for (final item in data) {
         try {
@@ -334,9 +336,9 @@ class ProviderController with ChangeNotifier {
     listing.id = 'prog_${DateTime.now().millisecondsSinceEpoch}';
     _listings.insert(0, listing);
 
-    final progs = List<dynamic>.from(MockData.programs);
+    final progs = List<dynamic>.from(await _repo.getPrograms());
     progs.insert(0, listing.toJson());
-    MockData.programs = progs;
+    await _repo.savePrograms(progs);
 
     _setLoading(false);
     notifyListeners();
@@ -344,16 +346,16 @@ class ProviderController with ChangeNotifier {
   }
 
   /// Insert or update a program in persistent storage, matched by `_id`.
-  void _syncProgramToMock(ProviderListing listing) {
+  Future<void> _syncProgramToMock(ProviderListing listing) async {
     if (listing.id.isEmpty) return;
-    final progs = List<dynamic>.from(MockData.programs);
+    final progs = List<dynamic>.from(await _repo.getPrograms());
     final idx = progs.indexWhere((p) => p is Map && p['_id']?.toString() == listing.id);
     if (idx >= 0) {
       progs[idx] = listing.toJson();
     } else {
       progs.insert(0, listing.toJson());
     }
-    MockData.programs = progs;
+    await _repo.savePrograms(progs);
   }
 
   void addListing(ProviderListing listing) {
@@ -370,7 +372,7 @@ class ProviderController with ChangeNotifier {
     // Preserve the original id so the edit updates the right stored program.
     if (listing.id.isEmpty) listing.id = _listings[index].id;
     _listings[index] = listing;
-    _syncProgramToMock(listing);
+    await _syncProgramToMock(listing);
     _setLoading(false);
     notifyListeners();
     return true;
@@ -383,15 +385,15 @@ class ProviderController with ChangeNotifier {
     }
   }
 
-  void deleteListing(int index) {
+  Future<void> deleteListing(int index) async {
     if (index >= 0 && index < _listings.length) {
       final id = _listings[index].id;
       _listings.removeAt(index);
       // Remove from persistent storage too so it doesn't reappear on refresh.
       if (id.isNotEmpty) {
-        final progs = List<dynamic>.from(MockData.programs);
+        final progs = List<dynamic>.from(await _repo.getPrograms());
         progs.removeWhere((p) => p is Map && p['_id']?.toString() == id);
-        MockData.programs = progs;
+        await _repo.savePrograms(progs);
       }
       notifyListeners();
     }
@@ -471,7 +473,7 @@ class ProviderController with ChangeNotifier {
     _setLoading(true);
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      final data = MockData.bookings;
+      final data = await _repo.getBookings();
       _sessions.clear();
       for (final booking in data) {
         try {
@@ -546,7 +548,7 @@ class ProviderController with ChangeNotifier {
     _setLoading(true);
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      final data = MockData.teams;
+      final data = await _repo.getTeams();
       _rosterTeams.clear();
       _rosterAthletes.clear();
       _rosterTeams.add(const CoachTeam(id: 'unassigned', name: 'Unassigned Athletes'));
@@ -626,7 +628,7 @@ class ProviderController with ChangeNotifier {
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      final data = MockData.sessions;
+      final data = await _repo.getSessions();
       _programSessions.clear();
       _programSessions.addAll(data);
     } finally {
@@ -643,9 +645,9 @@ class ProviderController with ChangeNotifier {
       ...body,
       '_id': body['_id']?.toString() ?? 'sess_${DateTime.now().millisecondsSinceEpoch}',
     };
-    final sessions = List<dynamic>.from(MockData.sessions);
+    final sessions = List<dynamic>.from(await _repo.getSessions());
     sessions.add(entry);
-    MockData.sessions = sessions;
+    await _repo.saveSessions(sessions);
     _programSessions.add(entry);
     _sessionsLoading = false;
     notifyListeners();
@@ -656,11 +658,11 @@ class ProviderController with ChangeNotifier {
     _sessionsLoading = true;
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 300));
-    final sessions = List<dynamic>.from(MockData.sessions);
+    final sessions = List<dynamic>.from(await _repo.getSessions());
     final idx = sessions.indexWhere((s) => s is Map && s['_id']?.toString() == sessionId);
     if (idx >= 0) {
       sessions[idx] = {...(sessions[idx] as Map), ...body, '_id': sessionId};
-      MockData.sessions = sessions;
+      await _repo.saveSessions(sessions);
     }
     final pidx = _programSessions.indexWhere((s) => s is Map && s['_id']?.toString() == sessionId);
     if (pidx >= 0) {

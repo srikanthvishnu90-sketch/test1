@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../core/mock/mock_data.dart';
+import '../../../core/data/app_repository.dart';
 import '../../../core/auth/auth_controller.dart';
 
 class OnboardingProvider with ChangeNotifier {
+  final AppRepository _repo;
+  OnboardingProvider(this._repo);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -297,7 +299,7 @@ class OnboardingProvider with ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 600));
 
     try {
-      final athletes = MockData.athletes;
+      final athletes = await _repo.getAthletes();
       athletes.add({
         '_id': 'athlete_${DateTime.now().millisecondsSinceEpoch}',
         'fullName': _fullName,
@@ -312,7 +314,7 @@ class OnboardingProvider with ChangeNotifier {
           'relationship': 'Parent'
         }
       });
-      MockData.athletes = athletes;
+      await _repo.saveAthletes(athletes);
       _setLoading(false);
       return true;
     } catch (e) {
@@ -329,7 +331,7 @@ class OnboardingProvider with ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 600));
 
     try {
-      final prof = MockData.providerProfile;
+      final prof = await _repo.getProviderProfile();
       prof['businessName'] = _institutionName;
       prof['supportedSports'] = _selectedSports;
       prof['maxCapacity'] = _maxAthletes;
@@ -359,7 +361,7 @@ class OnboardingProvider with ChangeNotifier {
         'videoUrl': _videoUrl,
       };
       prof['status'] = 'approved';
-      MockData.providerProfile = prof;
+      await _repo.saveProviderProfile(prof);
       
       await AuthController.saveActiveRole('provider');
       

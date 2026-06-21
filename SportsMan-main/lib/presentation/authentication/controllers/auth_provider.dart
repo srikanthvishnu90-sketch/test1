@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/auth/auth_controller.dart';
-import '../../../core/mock/mock_data.dart';
+import '../../../core/data/app_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
+  final AppRepository _repo;
+  AuthProvider(this._repo);
 
   // State fields
   bool _isLoading = false;
@@ -43,9 +45,9 @@ class AuthProvider extends ChangeNotifier {
       await AuthController.saveActiveRole(role);
       await AuthController.saveUserId('user_123');
 
-      final prof = MockData.userProfile;
+      final prof = await _repo.getUserProfile();
       prof['role'] = role;
-      MockData.userProfile = prof;
+      await _repo.saveUserProfile(prof);
       
       _setLoading(false);
       return true;
@@ -116,9 +118,9 @@ class AuthProvider extends ChangeNotifier {
       await AuthController.saveActiveRole(role);
       await AuthController.saveUserId('user_123');
 
-      final prof = MockData.userProfile;
+      final prof = await _repo.getUserProfile();
       prof['role'] = role;
-      MockData.userProfile = prof;
+      await _repo.saveUserProfile(prof);
       
       _setLoading(false);
       return true;
@@ -178,11 +180,11 @@ class AuthProvider extends ChangeNotifier {
       return AppRoutes.providerMainNav;
     }
 
-    if (MockData.athletes.isNotEmpty) {
+    if ((await _repo.getAthletes()).isNotEmpty) {
       return AppRoutes.mainNav;
     }
-    
-    if (MockData.providerProfile.isNotEmpty) {
+
+    if ((await _repo.getProviderProfile()).isNotEmpty) {
       return AppRoutes.providerMainNav;
     }
 

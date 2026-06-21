@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../core/mock/mock_data.dart';
+import '../../../core/data/app_repository.dart';
 import '../../../core/auth/auth_controller.dart';
 
 class ChatProvider with ChangeNotifier {
+  final AppRepository _repo;
   List<dynamic> _conversations = [];
   List<dynamic> _messages = [];
   bool _isLoadingConversations = false;
@@ -15,14 +16,14 @@ class ChatProvider with ChangeNotifier {
   bool get isLoadingMessages => _isLoadingMessages;
   String? get currentUserId => _currentUserId;
 
-  ChatProvider() {
+  ChatProvider(this._repo) {
     _fetchCurrentUserId();
   }
 
   Future<void> _fetchCurrentUserId() async {
     _currentUserId = AuthController.userId;
     if (_currentUserId == null) {
-      final prof = MockData.userProfile;
+      final prof = await _repo.getUserProfile();
       if (prof.isNotEmpty && prof['_id'] != null) {
         _currentUserId = prof['_id'];
         await AuthController.saveUserId(_currentUserId!);
@@ -37,7 +38,7 @@ class ChatProvider with ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 300));
     await _fetchCurrentUserId();
 
-    _conversations = MockData.conversations;
+    _conversations = await _repo.getConversations();
     _isLoadingConversations = false;
     notifyListeners();
   }
@@ -64,9 +65,9 @@ class ChatProvider with ChangeNotifier {
       "lastMessage": null
     };
 
-    final convs = MockData.conversations;
+    final convs = await _repo.getConversations();
     convs.insert(0, newConv);
-    MockData.conversations = convs;
+    await _repo.saveConversations(convs);
 
     await loadConversations();
     return newConv;
@@ -79,7 +80,7 @@ class ChatProvider with ChangeNotifier {
 
     await Future.delayed(const Duration(milliseconds: 300));
 
-    final msgs = MockData.getMessages(conversationId);
+    final msgs = await _repo.getMessages(conversationId);
     _messages = List.from(msgs);
     _messages.sort((a, b) {
       final aTime = DateTime.tryParse(a['createdAt'] ?? '') ?? DateTime.fromMillisecondsSinceEpoch(0);
@@ -106,24 +107,24 @@ class ChatProvider with ChangeNotifier {
     _messages.add(newMsg);
     notifyListeners();
 
-    // Persist to mock data
-    MockData.saveMessages(conversationId, _messages);
+    // Persist via repository
+    await _repo.saveMessages(conversationId, _messages);
 
     // Update lastMessage in local conversations list
-    final convs = MockData.conversations;
+    final convs = await _repo.getConversations();
     final convIndex = convs.indexWhere((c) => c['_id'] == conversationId);
     if (convIndex != -1) {
       convs[convIndex]['lastMessage'] = newMsg;
       final conv = convs.removeAt(convIndex);
       convs.insert(0, conv);
-      MockData.conversations = convs;
+      await _repo.saveConversations(convs);
       _conversations = convs;
     }
-    
+
     notifyListeners();
 
     // Simulate an offline auto-reply
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () async {
       final replyId = DateTime.now().millisecondsSinceEpoch.toString();
       final replyMsg = {
         '_id': replyId,
@@ -133,13 +134,13 @@ class ChatProvider with ChangeNotifier {
         'createdAt': DateTime.now().toIso8601String(),
       };
       _messages.add(replyMsg);
-      MockData.saveMessages(conversationId, _messages);
-      
-      final currentConvs = MockData.conversations;
+      await _repo.saveMessages(conversationId, _messages);
+
+      final currentConvs = await _repo.getConversations();
       final cIdx = currentConvs.indexWhere((c) => c['_id'] == conversationId);
       if (cIdx != -1) {
         currentConvs[cIdx]['lastMessage'] = replyMsg;
-        MockData.conversations = currentConvs;
+        await _repo.saveConversations(currentConvs);
         _conversations = currentConvs;
       }
       notifyListeners();
