@@ -1,72 +1,76 @@
 import 'package:flutter/material.dart';
+import 'app_colors.dart';
 
-/// Sport-identity layer (Layer 3) — per-sport color answers "what sport?" at a
-/// glance and does nothing else. It is metadata, never chrome. Containment is
-/// strict: a glyph color, a ~16% tint behind that glyph, a small tag/pill, a 3px
-/// accent bar, or a category dot — nothing larger, one sport color per card max.
-///
-/// Cool colors belong to the brand (slate/blue), so sports skew warm + green +
-/// jewel on purpose. Color is never the sole carrier of meaning — always paired
-/// with the sport icon and/or label.
+/// Sport-identity layer (Layer 3) — the per-sport color answers "what sport?"
+/// at a glance and does nothing else. It is the ONLY chromatic color in the
+/// app (everything else is black / white / slate). Used accent-only: sport tag,
+/// icon-tile glyph, the in-context action button, a sport status pill, and
+/// calendar session dots — never on chrome, never a card background.
+/// Always paired with the sport icon and/or label. Unmapped sport → slate.
 class SportColors {
-  // Tier-1 curated, perceptually distinct, tuned to sit on black.
+  // Authoritative sport → color map (single source of truth).
   static const Map<String, Color> _core = {
-    'basketball': Color(0xFFF2824F), // warm burnt orange
-    'soccer': Color(0xFF3FC585), // clean emerald
-    'football (soccer)': Color(0xFF3FC585),
-    'golf': Color(0xFFA6C46F), // sage / olive (yellower than soccer)
-    'tennis': Color(0xFFC2DE4A), // volt / chartreuse
-    'baseball': Color(0xFFE06A6A), // brick red
-    'softball': Color(0xFFE06A6A),
-    'swimming': Color(0xFF5BAAD0), // muted cerulean
-    'diving': Color(0xFF5BAAD0),
-    'football': Color(0xFFD29A66), // pigskin bronze/tan (American)
-    'track': Color(0xFFE8A33A), // amber gold
-    'track & field': Color(0xFFE8A33A),
-    'running': Color(0xFFE8A33A),
-    'volleyball': Color(0xFFE8B86A), // warm sand-gold
-    'hockey': Color(0xFF8FB8D9), // steel / ice slate
-    'ice hockey': Color(0xFF8FB8D9),
-    'lacrosse': Color(0xFFC76B98), // rose
-    'wrestling': Color(0xFFC25A4D), // rust
+    'basketball': Color(0xFFFF7A30),
+    'baseball': Color(0xFF2F6FE0),
+    'tennis': Color(0xFFE0DF2E),
+    'rowing': Color(0xFF2C56B0),
+    'rowing / crew': Color(0xFF2C56B0),
+    'crew': Color(0xFF2C56B0),
+    'soccer': Color(0xFF34C759),
+    'football (soccer)': Color(0xFF34C759),
+    'badminton': Color(0xFF5FA8E6),
+    'boxing': Color(0xFFA0263A),
+    'football': Color(0xFFC56A2E), // American football
+    'football (am.)': Color(0xFFC56A2E),
+    'swimming': Color(0xFF15C7D6),
+    'diving': Color(0xFF15C7D6),
+    'track & field': Color(0xFF8B5CF0),
+    'track and field': Color(0xFF8B5CF0),
+    'track': Color(0xFF8B5CF0),
+    'running': Color(0xFF8B5CF0),
+    'cross country': Color(0xFF8B5CF0),
+    'triathlon': Color(0xFF8B5CF0),
+    'water polo': Color(0xFF0F9FBF),
+    'surfing': Color(0xFF0F9FBF),
+    'gymnastics': Color(0xFFA656E0),
+    'ice hockey': Color(0xFF4FB0E6),
+    'hockey': Color(0xFF4FB0E6),
+    'martial arts': Color(0xFF6A5BE0),
+    'mma': Color(0xFF6A5BE0),
+    'karate': Color(0xFF6A5BE0),
+    'judo': Color(0xFF6A5BE0),
+    'taekwondo': Color(0xFF6A5BE0),
+    'ski / snowboard': Color(0xFF7FD0E8),
+    'skiing': Color(0xFF7FD0E8),
+    'snowboarding': Color(0xFF7FD0E8),
+    'figure skating': Color(0xFF7FD0E8),
+    'skating': Color(0xFF7FD0E8),
+    'fencing': Color(0xFF8E86E6),
+    'golf': Color(0xFF0E8A5F),
+    'volleyball': Color(0xFFFF5C7A),
+    'lacrosse': Color(0xFF1FB58A),
+    'dance': Color(0xFFFF4FA3),
+    'cricket': Color(0xFF1E7A5E),
+    'cheer': Color(0xFFE64FC0),
+    'cheerleading': Color(0xFFE64FC0),
+    'cycling': Color(0xFFB6D636),
+    'softball': Color(0xFFE6A92E),
+    'climbing': Color(0xFFC2693E),
+    'wrestling': Color(0xFFC13A4E),
+    // racket family → tennis hue
+    'pickleball': Color(0xFFE0DF2E),
+    'squash': Color(0xFFE0DF2E),
+    'table tennis': Color(0xFFE0DF2E),
+    // water family
+    'sailing': Color(0xFF2C56B0),
   };
 
-  // Tier-2 family fallbacks — color carried by family, icon+label disambiguate.
-  static const Map<String, String> _toFamily = {
-    'pickleball': 'racket', 'badminton': 'racket', 'table tennis': 'racket',
-    'squash': 'racket',
-    'boxing': 'combat', 'mma': 'combat', 'karate': 'combat', 'judo': 'combat',
-    'fencing': 'combat', 'taekwondo': 'combat',
-    'skiing': 'winter', 'snowboarding': 'winter', 'figure skating': 'winter',
-    'skating': 'winter',
-    'water polo': 'water', 'surfing': 'water', 'rowing': 'water',
-    'sailing': 'water',
-    'gymnastics': 'movement', 'cheer': 'movement', 'cheerleading': 'movement',
-    'dance': 'movement',
-    'cross country': 'endurance', 'triathlon': 'endurance', 'cycling': 'endurance',
-  };
-
-  static const Map<String, Color> _family = {
-    'racket': Color(0xFFC2DE4A),
-    'combat': Color(0xFFC25A4D),
-    'winter': Color(0xFF8FB8D9),
-    'water': Color(0xFF5BAAD0),
-    'movement': Color(0xFFC76B98),
-    'endurance': Color(0xFFE8A33A),
-  };
-
-  static const Color fallback = Color(0xFF9A9AA1); // neutral when unmapped
+  static const Color fallback = AppColors.slate; // unmapped sport → brand slate
 
   static String _key(String? sport) => (sport ?? '').toLowerCase().trim();
 
-  /// The full-saturation sport color (glyph / text / 3px bar only).
-  static Color of(String? sport) {
-    final k = _key(sport);
-    if (_core.containsKey(k)) return _core[k]!;
-    final fam = _toFamily[k];
-    if (fam != null) return _family[fam]!;
-    return fallback;
-  }
+  /// The full sport color (glyph / text / 3px bar / in-context action only).
+  static Color of(String? sport) => _core[_key(sport)] ?? fallback;
 
   /// Low-opacity tint for sport tags (~20%).
   static Color tintOf(String? sport) => of(sport).withOpacity(0.20);
