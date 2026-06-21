@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Sporve type system — **Geist** (a neutral grotesque), tuned to the
-/// Kalshi/Linear register: restrained weights, tight tracking on anything
-/// large, small text used confidently. Hierarchy comes from size + the gray
-/// ramp + ONE weight step — not from making everything bold (which reads
-/// "bubbly"). Bold (700) is reserved for the single key number/value.
+/// Sporve type system — **serif headers (Fraunces) + sans body (Geist)**.
+/// Headers/display/titles (≥18px) render in Fraunces for editorial warmth;
+/// body, labels, and numbers stay in Geist. Hierarchy comes from size + the
+/// gray ramp + ONE weight step, not from making everything bold.
 ///
 /// Geist is a bundled variable font; we drive its weight axis with
-/// [FontVariation] so the exact weight renders on every platform (incl. web).
+/// [FontVariation]. Fraunces is loaded via google_fonts.
 class AppTypography {
   static const String fontFamily = 'Geist';
 
@@ -29,16 +28,16 @@ class AppTypography {
         color: color,
       );
 
-  // HEADERS use Hanken Grotesque (family only — sizes/weights/tracking match
-  // the Geist scale they replaced). Body/labels stay Geist.
-  static TextStyle _hanken({
+  // HEADERS use Fraunces (a serif) — family only; sizes/weights/tracking match
+  // the scale they replaced. Body / labels / numbers stay Geist (sans).
+  static TextStyle _serifHeader({
     required double size,
     required FontWeight weight,
     required double tracking,
     double height = 1.3,
     Color? color,
   }) =>
-      GoogleFonts.hankenGrotesk(
+      GoogleFonts.fraunces(
         fontSize: size,
         fontWeight: weight,
         letterSpacing: tracking,
@@ -46,23 +45,23 @@ class AppTypography {
         color: color,
       );
 
-  // ── Display & headlines (Hanken Grotesque) ───────────────────────────────
+  // ── Display & headlines (serif: Fraunces) ────────────────────────────────
   /// Splash / brand-scale numbers.
   static TextStyle get displayLarge =>
-      _hanken(size: 30, weight: FontWeight.w600, tracking: -0.6, height: 1.05);
+      _serifHeader(size: 30, weight: FontWeight.w600, tracking: -0.6, height: 1.05);
 
   /// Big screen headers / auth hero.
   static TextStyle get display =>
-      _hanken(size: 26, weight: FontWeight.w600, tracking: -0.5, height: 1.1);
+      _serifHeader(size: 26, weight: FontWeight.w600, tracking: -0.5, height: 1.1);
 
   /// Screen titles, the user's name on Home.
   static TextStyle get h1 =>
-      _hanken(size: 22, weight: FontWeight.w600, tracking: -0.4, height: 1.15);
+      _serifHeader(size: 22, weight: FontWeight.w600, tracking: -0.4, height: 1.15);
   static TextStyle get heading => h1; // backwards-compatible alias
 
   /// Card titles / section headers that need weight.
   static TextStyle get h2 =>
-      _hanken(size: 18, weight: FontWeight.w600, tracking: -0.3, height: 1.2);
+      _serifHeader(size: 18, weight: FontWeight.w600, tracking: -0.3, height: 1.2);
 
   // ── Body: regular weight does the work ───────────────────────────────────
   /// List-item titles / emphasised body.
@@ -122,9 +121,9 @@ class AppTypography {
     } else {
       ls = _track(letterSpacing); // collapse airy caps elsewhere
     }
-    // Headers (≥18px) render in Hanken Grotesque; body/labels stay Geist.
+    // Headers (≥18px) render in the serif (Fraunces); body/labels stay Geist.
     if (size != null && size >= 18) {
-      return GoogleFonts.hankenGrotesk(
+      return GoogleFonts.fraunces(
         fontSize: size,
         fontWeight: w,
         letterSpacing: ls,
