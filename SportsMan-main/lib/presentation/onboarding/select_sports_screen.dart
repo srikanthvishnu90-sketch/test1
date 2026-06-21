@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
+import '../../core/theme/sport_colors.dart';
 import './controllers/onboarding_controller.dart';
 import '../widgets/sporve_button.dart';
 import '../widgets/sport_glyph.dart';
@@ -156,26 +157,26 @@ class SelectSportsScreen extends StatelessWidget {
       duration: const Duration(milliseconds: 160),
       curve: Curves.easeOut,
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.slateTint : AppColors.surface,
+        color: isSelected ? SportColors.of(name) : AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadii.tile),
         border: Border.all(
-          color: isSelected ? AppColors.slateBorder : AppColors.hairline,
+          color: isSelected ? SportColors.of(name) : AppColors.hairline,
           width: 1.5,
         ),
       ),
       child: Stack(
         children: [
           if (isSelected)
-            const Positioned(
+            Positioned(
               top: 8,
               right: 8,
-              child: Icon(Icons.check_circle, color: AppColors.slateText, size: 16),
+              child: Icon(Icons.check_circle, color: SportColors.onColorOf(name), size: 16),
             ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SportGlyph(icon, size: 26, color: isSelected ? AppColors.slateText : AppColors.textSecondary),
+                SportGlyph(icon, size: 26, color: isSelected ? SportColors.onColorOf(name) : SportColors.of(name)),
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -189,7 +190,7 @@ class SelectSportsScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       height: 1.15,
                       letterSpacing: 0.2,
-                      color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
+                      color: isSelected ? SportColors.onColorOf(name) : AppColors.textSecondary,
                     ),
                   ),
                 ),

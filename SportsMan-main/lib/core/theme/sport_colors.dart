@@ -72,6 +72,11 @@ class SportColors {
   /// The full sport color (glyph / text / 3px bar / in-context action only).
   static Color of(String? sport) => _core[_key(sport)] ?? fallback;
 
+  /// Legible text/glyph color to place ON a sport-color fill — a dark shade for
+  /// light sports, near-white for the few dark ones (boxing, baseball, etc.).
+  static Color onColorOf(String? sport) =>
+      of(sport).computeLuminance() < 0.45 ? const Color(0xFFF3F6F8) : const Color(0xFF0B0F14);
+
   /// Low-opacity tint for sport tags (~20%).
   static Color tintOf(String? sport) => of(sport).withOpacity(0.20);
 

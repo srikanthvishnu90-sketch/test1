@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
+import '../../../core/theme/sport_colors.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/sport_glyph.dart';
@@ -374,6 +375,17 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     );
   }
 
+  // Calendar session dot inherits the sport color of that day's session
+  // (first match); falls back to slate when the sport is unmapped/none.
+  Color _sportDotColor(DateTime date) {
+    for (final s in _allSessions) {
+      if (s.date.year == date.year && s.date.month == date.month && s.date.day == date.day) {
+        return SportColors.of(s.program?['sportType']?.toString() ?? s.emoji);
+      }
+    }
+    return AppColors.slateText;
+  }
+
   // 1. Month Calendar Component (matches Provider's schedule layout)
   Widget _buildMonthCalendar() {
     int daysInMonth = _getDaysInMonth(_currentMonth.year, _currentMonth.month);
@@ -497,7 +509,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         width: 4,
                         height: 4,
                         decoration: BoxDecoration(
-                          color: isSelected ? AppColors.onSlate : AppColors.slateText,
+                          color: isSelected ? AppColors.onSlate : _sportDotColor(cellDate),
                           shape: BoxShape.circle,
                         ),
                       )
@@ -588,7 +600,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           width: 4,
                           height: 4,
                           decoration: BoxDecoration(
-                            color: isSelected ? AppColors.onSlate : AppColors.slateText,
+                            color: isSelected ? AppColors.onSlate : _sportDotColor(date),
                             shape: BoxShape.circle,
                           ),
                         )
