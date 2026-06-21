@@ -123,34 +123,6 @@ class AuthProvider extends ChangeNotifier {
     return ok;
   }
 
-  // ── Legacy compat shims — screens still call these until Stage 4 rewires
-  //    them to signIn/signUp + the three-outcome handling. Wired to real auth.
-  Future<bool> login(String email, String password) async {
-    final res = await signIn(email, password);
-    return res.status == AuthStatus.signedIn;
-  }
-
-  Future<bool> signup({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    String role = 'searcher',
-  }) async {
-    final name = '$firstName $lastName'.trim();
-    final res =
-        await signUp(name: name, email: email, password: password, role: role);
-    return res.status != AuthStatus.error;
-  }
-
-  /// Legacy OTP entry. Supabase confirmation is link-based now, so the verify
-  /// screen is replaced with a "check your email" state in Stage 4; this shim
-  /// only exists to keep that screen compiling until then.
-  Future<bool> verifyEmailOtp(String otp) async {
-    _setError('Please confirm your email from the link we sent you, then log in.');
-    return false;
-  }
-
   @override
   void dispose() {
     _sub?.cancel();

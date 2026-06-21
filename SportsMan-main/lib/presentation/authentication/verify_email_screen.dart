@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:pinput/pinput.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
@@ -11,72 +9,18 @@ import '../onboarding/controllers/onboarding_controller.dart';
 import '../widgets/sporve_button.dart';
 import 'controllers/auth_provider.dart';
 
-class VerifyEmailScreen extends StatefulWidget {
+/// Shown after sign-up when the Supabase project has email confirmation ON.
+/// Confirmation is link-based (the user taps the link in their inbox), so this
+/// is a "check your email" state rather than an OTP entry screen.
+class VerifyEmailScreen extends StatelessWidget {
   const VerifyEmailScreen({super.key});
-
-  @override
-  State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
-}
-
-class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
-  final TextEditingController _pinController = TextEditingController();
-
-  @override
-  void dispose() {
-    _pinController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _handleVerification() async {
-    final otp = _pinController.text.trim();
-    if (otp.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter the full 6-digit OTP code.'),
-          backgroundColor: AppColors.negative,
-        ),
-      );
-      return;
-    }
-
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final success = await authProvider.verifyEmailOtp(otp);
-
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Email verified successfully! Please log in.'),
-          backgroundColor: AppColors.positive,
-        ),
-      );
-      
-      final isServiceProvider = Provider.of<OnboardingProvider>(context, listen: false).isServiceProvider;
-      Get.offAllNamed(isServiceProvider ? AppRoutes.providerLogin : AppRoutes.login);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(authProvider.errorMessage ?? 'Verification failed'),
-          backgroundColor: AppColors.negative,
-        ),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final displayEmail = authProvider.registrationEmail ?? 'your email';
-
-    final defaultPinTheme = PinTheme(
-      width: 48,
-      height: 60,
-      textStyle: AppTypography.font(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
-      decoration: BoxDecoration(
-        color: AppColors.surface2,
-        borderRadius: BorderRadius.circular(AppRadii.tile),
-        border: Border.all(color: AppColors.hairline),
-      ),
-    );
+    final isServiceProvider =
+        Provider.of<OnboardingProvider>(context, listen: false).isServiceProvider;
 
     return Scaffold(
       backgroundColor: AppColors.navyDark,
@@ -100,10 +44,11 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-                const Icon(Icons.smartphone, color: AppColors.slateText, size: 32),
+                const Icon(Icons.mark_email_unread_outlined,
+                    color: AppColors.slateText, size: 32),
                 const SizedBox(height: 28),
                 Text(
-                  'Verify Email',
+                  'Check your email',
                   style: AppTypography.font(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -113,14 +58,20 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 const SizedBox(height: 8),
                 RichText(
                   text: TextSpan(
-                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 14, height: 1.5),
+                    style: AppTypography.font(
+                        color: AppColors.textSecondary, fontSize: 14, height: 1.5),
                     children: [
-                      const TextSpan(text: 'We sent a 6-digit code to '),
+                      const TextSpan(text: 'We sent a confirmation link to '),
                       TextSpan(
                         text: displayEmail,
-                        style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold),
+                        style: AppTypography.font(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.bold),
                       ),
-                      const TextSpan(text: ' Enter it below.'),
+                      const TextSpan(
+                        text:
+                            '. Tap it to activate your account, then come back and log in.',
+                      ),
                     ],
                   ),
                 ),
@@ -143,59 +94,20 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 30),
-                  Pinput(
-                    length: 6,
-                    controller: _pinController,
-                    defaultPinTheme: defaultPinTheme,
-                    focusedPinTheme: defaultPinTheme.copyWith(
-                      decoration: defaultPinTheme.decoration!.copyWith(
-                        border: Border.all(color: AppColors.slateBorder, width: 1.5),
-                      ),
-                    ),
-                    onCompleted: (pin) => _handleVerification(),
-                  ),
-                  const SizedBox(height: 40),
                   SporveButton(
-                    'Verify & continue',
-                    onPressed: authProvider.isLoading ? null : _handleVerification,
-                    loading: authProvider.isLoading,
+                    'Back to log in',
+                    onPressed: () => Get.offAllNamed(
+                        isServiceProvider ? AppRoutes.providerLogin : AppRoutes.login),
                     variant: SporveButtonVariant.primary,
                   ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Didn't receive code? ",
-                        style: AppTypography.font(
-                          color: AppColors.textSecondary,
-                          fontSize: 14,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('OTP code resent successfully!'),
-                              backgroundColor: AppColors.slateText,
-                            ),
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          minimumSize: Size.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        child: Text(
-                          'Resend',
-                          style: AppTypography.font(
-                            color: AppColors.slateText,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ],
+                  const SizedBox(height: 16),
+                  Text(
+                    "Didn't get the email? Check your spam folder.",
+                    textAlign: TextAlign.center,
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),

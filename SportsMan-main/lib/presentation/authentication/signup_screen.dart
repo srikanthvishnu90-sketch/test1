@@ -7,6 +7,7 @@ import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/auth/auth_service.dart';
 import '../onboarding/controllers/onboarding_controller.dart';
 import '../widgets/sporve_button.dart';
 import 'controllers/auth_provider.dart';
@@ -65,30 +66,37 @@ class _SignupScreenState extends State<SignupScreen> {
     final String role = onboardingProvider.isServiceProvider ? 'provider' : 'searcher';
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final success = await authProvider.signup(
-      firstName: firstName,
-      lastName: lastName,
+    final result = await authProvider.signUp(
+      name: '$firstName $lastName'.trim(),
       email: email,
       password: password,
       role: role,
     );
+    if (!mounted) return;
 
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Verification OTP code sent to your email!'),
-          backgroundColor: AppColors.positive,
-        ),
-      );
-      // After signup, verify email, then login will take them to onboarding
-      Get.toNamed(AppRoutes.verifyEmail);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(authProvider.errorMessage ?? 'Registration failed'),
-          backgroundColor: AppColors.negative,
-        ),
-      );
+    switch (result.status) {
+      case AuthStatus.signedIn:
+        // Email confirmation is OFF — the account is active immediately.
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account created!'),
+            backgroundColor: AppColors.positive,
+          ),
+        );
+        Get.offAllNamed(authProvider.routeForRole(result.user?.role));
+        break;
+      case AuthStatus.emailConfirmationRequired:
+        // Email confirmation is ON — send them to the "check your email" screen.
+        Get.toNamed(AppRoutes.verifyEmail);
+        break;
+      case AuthStatus.error:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.errorMessage ?? 'Registration failed'),
+            backgroundColor: AppColors.negative,
+          ),
+        );
+        break;
     }
   }
 

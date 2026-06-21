@@ -7,6 +7,7 @@ import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../core/constants/app_assets.dart';
+import '../../core/auth/auth_service.dart';
 import '../widgets/sporve_button.dart';
 import 'controllers/auth_provider.dart';
 
@@ -44,24 +45,35 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final success = await authProvider.login(email, password);
+    final result = await authProvider.signIn(email, password);
+    if (!mounted) return;
 
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Login successful!'),
-          backgroundColor: AppColors.positive,
-        ),
-      );
-      final nextRoute = await authProvider.determineNextRoute();
-      Get.offAllNamed(nextRoute);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(authProvider.errorMessage ?? 'Login failed'),
-          backgroundColor: AppColors.negative,
-        ),
-      );
+    switch (result.status) {
+      case AuthStatus.signedIn:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Login successful!'),
+            backgroundColor: AppColors.positive,
+          ),
+        );
+        Get.offAllNamed(authProvider.routeForRole(result.user?.role));
+        break;
+      case AuthStatus.emailConfirmationRequired:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please confirm your email from the link we sent, then log in.'),
+            backgroundColor: AppColors.negative,
+          ),
+        );
+        break;
+      case AuthStatus.error:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authProvider.errorMessage ?? 'Login failed'),
+            backgroundColor: AppColors.negative,
+          ),
+        );
+        break;
     }
   }
 
