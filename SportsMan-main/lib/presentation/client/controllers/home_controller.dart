@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../view/search_screen.dart'; // To access Opportunity model
 import '../../../core/data/app_repository.dart';
+import '../../../core/utils/session_time.dart';
 
 class HomeProvider with ChangeNotifier {
   final AppRepository _repo;
@@ -12,10 +13,10 @@ class HomeProvider with ChangeNotifier {
   bool _isLoadingProfile = false;
   bool get isLoadingProfile => _isLoadingProfile;
 
-  // Stats State (Dynamic if possible, otherwise empty for now)
+  // Stats State — all derived from real data (see _calculateStats).
   Map<String, dynamic> _stats = {
     'sessions': 0,
-    'reviews': 0,
+    'upcoming': 0,
     'saved': 0,
   };
   Map<String, dynamic> get stats => _stats;
@@ -49,15 +50,31 @@ class HomeProvider with ChangeNotifier {
       fetchUserProfile(),
       fetchPrograms(),
       fetchBookings(),
+      fetchFavorites(),
     ]);
     _calculateStats();
   }
 
+  /// Count of bookings whose session starts today or later.
+  int get _upcomingCount {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    var n = 0;
+    for (final b in _bookings) {
+      if (b is! Map) continue;
+      final session = b['sessionId'] is Map ? b['sessionId'] : null;
+      final start = parseSessionStart(session);
+      final day = DateTime(start.year, start.month, start.day);
+      if (!day.isBefore(today)) n++;
+    }
+    return n;
+  }
+
   void _calculateStats() {
     _stats = {
-      'sessions': _bookings.length,
-      'reviews': 0, 
-      'saved': 0, 
+      'sessions': _bookings.length,   // total bookings made
+      'upcoming': _upcomingCount,     // bookings still in the future
+      'saved': _favoriteIds.length,   // favorited programs
     };
     notifyListeners();
   }
@@ -128,8 +145,9 @@ class HomeProvider with ChangeNotifier {
   String _selectedCategory = 'All';
   String get selectedCategory => _selectedCategory;
 
-  final Set<int> _favoritedOpportunityIds = {};
-  Set<int> get favoritedOpportunityIds => _favoritedOpportunityIds;
+  // Favorites are keyed by the REAL program id and persisted via the repository.
+  Set<String> _favoriteIds = {};
+  Set<String> get favoriteIds => _favoriteIds;
 
   final String _athleteTeam = 'ScoreNow Elite';
   String get athleteTeam => _athleteTeam;
@@ -139,17 +157,26 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool isOpportunityFavorited(int id) {
-    return _favoritedOpportunityIds.contains(id);
+  Future<void> fetchFavorites() async {
+    try {
+      _favoriteIds = (await _repo.getFavorites()).toSet();
+    } catch (e) {
+      debugPrint('Error fetching favorites: $e');
+    }
   }
 
-  void toggleFavorite(int id) {
-    if (_favoritedOpportunityIds.contains(id)) {
-      _favoritedOpportunityIds.remove(id);
+  bool isFavorite(String? programId) =>
+      programId != null && programId.isNotEmpty && _favoriteIds.contains(programId);
+
+  Future<void> toggleFavorite(String? programId) async {
+    if (programId == null || programId.isEmpty) return;
+    if (_favoriteIds.contains(programId)) {
+      _favoriteIds.remove(programId);
     } else {
-      _favoritedOpportunityIds.add(id);
+      _favoriteIds.add(programId);
     }
-    notifyListeners();
+    await _repo.saveFavorites(_favoriteIds.toList());
+    _calculateStats(); // refresh "saved" + notifyListeners()
   }
 
   // Clear search history

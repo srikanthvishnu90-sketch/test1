@@ -13,6 +13,9 @@ import '../../widgets/sporve_image.dart';
 
 class Opportunity {
   final int id;
+  /// The REAL program id (Supabase uuid) this card represents. Used for
+  /// favorites + carried into the booking flow. Null only for non-program cards.
+  final String? programId;
   final String title;
   final String coach;
   final String price;
@@ -30,6 +33,7 @@ class Opportunity {
 
   const Opportunity({
     required this.id,
+    this.programId,
     required this.title,
     required this.coach,
     required this.price,
@@ -58,66 +62,6 @@ class _SearchScreenState extends State<SearchScreen> {
   int? _selectedOpportunityIndex;
   final TextEditingController _searchController = TextEditingController();
 
-  final List<Opportunity> _opportunities = const [
-    Opportunity(
-      id: 0,
-      title: 'Elite Point Guard Training',
-      coach: 'Coach Marcus Johnson',
-      price: '\$75',
-      rating: '4.9 (124)',
-      image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60',
-      spotsLeft: '2 SPOTS LEFT',
-      isVerified: true,
-      bookingTrend: 'Booked 3+ today',
-      top: 200,
-      left: 100,
-      team: 'ScoreNow Elite',
-    ),
-    Opportunity(
-      id: 1,
-      title: 'Soccer Skills Development',
-      coach: 'Coach Diego Silva',
-      price: '\$1,200/season',
-      rating: '4.8 (98)',
-      image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=500&auto=format&fit=crop&q=60',
-      spotsLeft: 'FILLS FAST',
-      isVerified: true,
-      bookingTrend: 'Trending #1 near you',
-      top: 350,
-      right: 80,
-      team: 'ScoreNow Elite',
-    ),
-    Opportunity(
-      id: 2,
-      title: 'Tennis Masters Session',
-      coach: 'Coach Serena Vance',
-      price: '\$75',
-      rating: '4.7 (82)',
-      image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=500&auto=format&fit=crop&q=60',
-      spotsLeft: '1 SPOT LEFT',
-      isVerified: false,
-      bookingTrend: 'High demand',
-      top: 450,
-      left: 50,
-      team: 'Tennis Masters Club',
-    ),
-    Opportunity(
-      id: 3,
-      title: 'Youth Basketball Camp',
-      coach: 'Apex Performance Academy',
-      price: '\$1,200/season',
-      rating: '5.0 (64)',
-      image: 'https://images.unsplash.com/photo-1505666287802-931dc83948e9?w=500&auto=format&fit=crop&q=60',
-      spotsLeft: '5 SPOTS LEFT',
-      isVerified: true,
-      bookingTrend: 'Booked 5+ today',
-      top: 480,
-      bottom: 260,
-      right: 120,
-      team: 'Apex Academy',
-    ),
-  ];
-
   @override
   void dispose() {
     _searchController.dispose();
@@ -140,15 +84,16 @@ class _SearchScreenState extends State<SearchScreen> {
 
       return Opportunity(
         id: index,
+        programId: program['_id']?.toString(),
         title: program['title'] ?? 'Program',
         coach: program['providerId']?['businessName'] ?? 'Academy',
         price: '\$${program['price'] ?? 0}',
         rating: '${program['averageRating']?.toString() ?? '5.0'} (0)',
         image: image,
         spotsLeft: 'AVAILABLE',
-        isVerified: true,
+        isVerified: program['providerId']?['verificationStatus'] == 'verified',
         bookingTrend: 'Trending now',
-        top: 200.0 + (index * 100), // Mock positions for pins
+        top: 200.0 + (index * 100), // map pin layout positions
         left: index % 2 == 0 ? 100.0 : null,
         right: index % 2 != 0 ? 80.0 : null,
         team: program['providerId']?['businessName'] ?? 'Academy',
@@ -172,8 +117,8 @@ class _SearchScreenState extends State<SearchScreen> {
     return GradientScaffold(
       body: Stack(
         children: [
-          // Simulated Map Background
-          _buildSimulatedMap(),
+          // Simulated Map Background (markers from real programs)
+          _buildSimulatedMap(filteredOpportunities),
 
           // Floating Top Search Bar & Recent Searches row
           SafeArea(
@@ -334,7 +279,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 child: Consumer<HomeProvider>(
                   builder: (context, homeProvider, child) {
-                    final recommendations = homeProvider.getRecommendations(_opportunities);
+                    final recommendations = homeProvider.getRecommendations(dynamicOpportunities);
                     final hasQuery = _searchController.text.trim().isNotEmpty;
 
                     return ListView(
@@ -626,13 +571,13 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildSimulatedMap() {
+  Widget _buildSimulatedMap(List<Opportunity> opps) {
     return Container(
       width: double.infinity,
       height: double.infinity,
       color: AppColors.ink,
       child: Stack(
-        children: _opportunities.map((opp) {
+        children: opps.map((opp) {
           return Positioned(
             top: opp.top,
             left: opp.left,
@@ -738,10 +683,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   right: 16,
                   child: Consumer<HomeProvider>(
                     builder: (context, homeProvider, child) {
-                      final isFav = homeProvider.isOpportunityFavorited(opp.id);
+                      final isFav = homeProvider.isFavorite(opp.programId);
                       return GestureDetector(
                         onTap: () {
-                          homeProvider.toggleFavorite(opp.id);
+                          homeProvider.toggleFavorite(opp.programId);
                         },
                         child: Container(
                           padding: const EdgeInsets.all(6),

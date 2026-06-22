@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           SporveIconButton(
                             Icons.notifications_outlined,
-                            onTap: () {},
+                            onTap: () => Get.toNamed(AppRoutes.notificationSettings),
                             iconSize: 22,
                           ),
                         ],
@@ -126,14 +126,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         _buildComingUpCard(_nextUpcomingBooking(homeProvider.bookings)!, homeProvider.programs),
                         const SizedBox(height: 32),
                       ],
-                      _buildBookAgainCard(),
-                      const SizedBox(height: 24),
+                      if (homeProvider.bookings.isNotEmpty) ...[
+                        _buildBookAgainCard(homeProvider),
+                        const SizedBox(height: 24),
+                      ],
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(child: _buildStatCard('${homeProvider.stats['sessions']}', 'SESSIONS', Icons.calendar_today, AppColors.slateText)),
                           const SizedBox(width: 12),
-                          Expanded(child: _buildStatCard('${homeProvider.stats['reviews']}', 'REVIEWS', Icons.star, AppColors.textPrimary)),
+                          Expanded(child: _buildStatCard('${homeProvider.stats['upcoming']}', 'UPCOMING', Icons.schedule, AppColors.textPrimary)),
                           const SizedBox(width: 12),
                           Expanded(child: _buildStatCard('${homeProvider.stats['saved']}', 'SAVED', Icons.favorite, AppColors.slateText)),
                         ],
@@ -163,7 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
                       
                       final opp = Opportunity(
-                        id: 0, // Mock ID or use actual if available
+                        id: 0,
+                        programId: program['_id']?.toString(),
                         title: program['title'] ?? 'Program',
                         coach: program['providerId']?['businessName'] ?? 'Academy',
                         price: '\$${program['price'] ?? 0}',
@@ -247,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           
                           final opp = Opportunity(
                             id: 0,
+                            programId: program['_id']?.toString(),
                             title: program['title'] ?? 'Program',
                             coach: program['providerId']?['businessName'] ?? 'Academy',
                             price: '\$${program['price'] ?? 0}',
@@ -488,7 +492,67 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildBookAgainCard() {
+  /// "Book again" from the user's REAL most-recent booking. Only called when
+  /// there is at least one booking; resolves the program from the loaded list.
+  Widget _buildBookAgainCard(HomeProvider homeProvider) {
+    // Most recent booking by createdAt (falls back to list order).
+    Map<String, dynamic>? last;
+    DateTime? lastTs;
+    for (final b in homeProvider.bookings) {
+      if (b is! Map) continue;
+      final ts = DateTime.tryParse(b['createdAt']?.toString() ?? '');
+      if (last == null || (ts != null && (lastTs == null || ts.isAfter(lastTs)))) {
+        last = Map<String, dynamic>.from(b);
+        lastTs = ts;
+      }
+    }
+    if (last == null) return const SizedBox.shrink();
+
+    // Resolve the booking's program from the loaded programs list.
+    final session = last['sessionId'] is Map ? last['sessionId'] : null;
+    final rawProg = last['programId'];
+    String? pid;
+    if (rawProg is Map) {
+      pid = rawProg['_id']?.toString();
+    } else if (rawProg is String) {
+      pid = rawProg;
+    } else if (session?['programId'] is String) {
+      pid = session!['programId'] as String;
+    }
+    Map? program;
+    for (final p in homeProvider.programs) {
+      if (p is Map && p['_id']?.toString() == pid) {
+        program = p;
+        break;
+      }
+    }
+    program ??= rawProg is Map ? rawProg : null;
+    if (program == null) return const SizedBox.shrink();
+
+    final sport = program['sportType']?.toString() ?? 'Soccer';
+    final title = program['title']?.toString() ?? 'Training Session';
+    final coach = (program['providerId'] is Map)
+        ? (program['providerId']['businessName']?.toString() ?? 'Academy')
+        : 'Academy';
+    final gallery = program['gallery'];
+    final image = (gallery is List && gallery.isNotEmpty) ? gallery[0].toString() : '';
+
+    final opp = Opportunity(
+      id: 0,
+      programId: program['_id']?.toString(),
+      title: title,
+      coach: coach,
+      price: '\$${program['price'] ?? 0}',
+      rating: program['averageRating']?.toString() ?? '0.0',
+      image: image,
+      spotsLeft: 'AVAILABLE',
+      isVerified: true,
+      bookingTrend: 'Book again',
+      top: 0,
+      team: coach,
+      rawData: Map<String, dynamic>.from(program),
+    );
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -499,25 +563,36 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: [
-          SporveImage('https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=500&auto=format&fit=crop&q=60', width: 60, height: 60, fit: BoxFit.cover, radius: AppRadii.tile),
+          SporveImage(image,
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
+              radius: AppRadii.tile,
+              fallbackIcon: Icons.sports),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Book again with Coach Marcus', style: AppTypography.font(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.textPrimary)),
-                Text('Basketball • Last session Feb 18', style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11)),
+                Text('Book again: $title',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.font(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.textPrimary)),
+                Text('$sport • $coach',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11)),
               ],
             ),
           ),
           const SizedBox(width: 8),
           SporveButton(
             'Rebook',
-            onPressed: () {},
+            onPressed: () => Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
             variant: SporveButtonVariant.primary,
             size: SporveButtonSize.compact,
             fullWidth: false,
-            color: SportColors.of('Basketball'),
+            color: SportColors.of(sport),
           ),
         ],
       ),

@@ -235,12 +235,10 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                         Consumer<HomeProvider>(
                           builder: (context, homeProvider, child) {
                             if (opportunity == null) return const SizedBox.shrink();
-                            final isFav = homeProvider.isOpportunityFavorited(opportunity.id);
+                            final isFav = homeProvider.isFavorite(opportunity.programId);
                             return GestureDetector(
                               onTap: () {
-                                if (opportunity != null) {
-                                  homeProvider.toggleFavorite(opportunity.id);
-                                }
+                                homeProvider.toggleFavorite(opportunity?.programId);
                               },
                               child: Container(
                                 height: 44,
