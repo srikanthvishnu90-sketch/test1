@@ -24,18 +24,13 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   int _currentStep = 1; // Step 1: Book Slot, Step 2: Review & Pay, Step 3: Getting Ready, Step 4: Confirmed
   int _selectedDay = 4;
   String _selectedTime = '10:30 AM';
-  // Demo payment methods (local screen state only — no real Stripe).
-  final List<Map<String, String>> _cards = [
-    {'brand': 'Visa', 'last4': '4242'},
-  ];
-  int _selectedCardIndex = 0;
   bool _bookingSaved = false; // guard against double-persist
 
-  // Real booking id + payment status (#20b). The booking is created UNPAID; the
-  // confirmation step shows a "Pay now" button that drives Stripe Checkout.
+  // Real booking id + payment status. The booking is created UNPAID, then the
+  // existing "Confirm & Pay" button drives Stripe hosted Checkout (#20b).
   String? _realBookingId;
   String _paymentStatus = 'unpaid';
-  bool _payNowLoading = false;
+  bool _checkoutLoading = false;
 
   // Calendar shows the real current month.
   late int _calYear;
@@ -119,8 +114,10 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
   // Pricing — provider-set price from the selected tier (falls back to 75).
   late double _sessionPrice;
-  double get _serviceFee => _sessionPrice * 0.05;
-  double get _total => _sessionPrice + _serviceFee;
+  // Price integrity: the parent pays EXACTLY the session price shown here, which
+  // is also what stripe-create-checkout charges. The platform fee is taken from
+  // the coach's payout server-side — never added to the parent's total.
+  double get _total => _sessionPrice;
   String _money(double v) => '\$${v.toStringAsFixed(2)}';
 
   // The booked start as a real DateTime (selected date + parsed 12h time).
@@ -164,155 +161,6 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     await launchUrl(url, mode: LaunchMode.externalApplication);
   }
 
-  // Styled input matching the Step 1 notes field (surface2 fill inside the sheet).
-  Widget _cardField({
-    required TextEditingController controller,
-    required String hint,
-    TextInputType keyboardType = TextInputType.text,
-    bool obscure = false,
-    void Function(String)? onChanged,
-  }) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscure,
-      onChanged: onChanged,
-      style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
-      cursorColor: AppColors.slateText,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 14),
-        filled: true,
-        fillColor: AppColors.surface2,
-        contentPadding: const EdgeInsets.all(14),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadii.tile),
-          borderSide: const BorderSide(color: AppColors.hairline, width: 1.5),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadii.tile),
-          borderSide: const BorderSide(color: AppColors.hairline, width: 1.5),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppRadii.tile),
-          borderSide: const BorderSide(color: AppColors.slateBorder, width: 1.5),
-        ),
-      ),
-    );
-  }
-
-  // Demo "add card" sheet — collects a number/expiry/CVC, stores a masked card.
-  // No Stripe, no real validation (expiry/CVC are cosmetic).
-  Future<void> _openAddCardSheet() async {
-    final numberCtrl = TextEditingController();
-    final expiryCtrl = TextEditingController();
-    final cvcCtrl = TextEditingController();
-    await showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (sheetCtx) {
-        return StatefulBuilder(
-          builder: (sheetCtx, setSheet) {
-            final digits = numberCtrl.text.replaceAll(RegExp(r'\D'), '');
-            final canAdd = digits.length >= 4;
-            return Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(sheetCtx).viewInsets.bottom),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(24, 12, 24, 28),
-                decoration: const BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                  border: Border(top: BorderSide(color: AppColors.hairline)),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Container(
-                        width: 40,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: AppColors.hairline,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Add card',
-                      style: AppTypography.font(
-                        color: AppColors.textPrimary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    _cardField(
-                      controller: numberCtrl,
-                      hint: 'Card number',
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => setSheet(() {}),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _cardField(
-                            controller: expiryCtrl,
-                            hint: 'MM/YY',
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _cardField(
-                            controller: cvcCtrl,
-                            hint: 'CVC',
-                            keyboardType: TextInputType.number,
-                            obscure: true,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    SporveButton(
-                      'Add card',
-                      onPressed: canAdd
-                          ? () {
-                              final d = numberCtrl.text.replaceAll(RegExp(r'\D'), '');
-                              final last4 = d.length >= 4 ? d.substring(d.length - 4) : d;
-                              final brand = d.isEmpty
-                                  ? 'Card'
-                                  : d[0] == '4'
-                                      ? 'Visa'
-                                      : d[0] == '5'
-                                          ? 'Mastercard'
-                                          : d[0] == '3'
-                                              ? 'Amex'
-                                              : 'Card';
-                              setState(() {
-                                _cards.add({'brand': brand, 'last4': last4});
-                                _selectedCardIndex = _cards.length - 1;
-                              });
-                              Navigator.pop(sheetCtx);
-                            }
-                          : null,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-    numberCtrl.dispose();
-    expiryCtrl.dispose();
-    cvcCtrl.dispose();
-  }
 
   @override
   void initState() {
@@ -384,18 +232,23 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
   /// "Pay now" → Stripe Checkout via the `stripe-create-checkout` Edge Function
   /// (invoke auto-attaches the signed-in user's JWT), then redirects this tab.
-  Future<void> _handlePayNow() async {
+  /// THE payment moment ("Confirm & Pay"): create the UNPAID booking, then open
+  /// Stripe hosted Checkout via the `stripe-create-checkout` Edge Function
+  /// (invoke attaches the user's JWT). Non-2xx throws FunctionException — surface
+  /// the real reason from its details instead of failing silently.
+  Future<void> _handleConfirmAndPay() async {
     final messenger = ScaffoldMessenger.of(context);
-    final id = _realBookingId;
-    if (id == null) {
-      messenger.showSnackBar(const SnackBar(
-        content: Text('Booking not ready yet. Please try again in a moment.'),
-        backgroundColor: AppColors.negative,
-      ));
-      return;
-    }
-    setState(() => _payNowLoading = true);
+    setState(() => _checkoutLoading = true);
     try {
+      await _persistBooking();
+      final id = _realBookingId;
+      if (id == null) {
+        messenger.showSnackBar(const SnackBar(
+          content: Text('Could not create the booking. Please try again.'),
+          backgroundColor: AppColors.negative,
+        ));
+        return;
+      }
       final res = await Supabase.instance.client.functions.invoke(
         'stripe-create-checkout',
         body: {
@@ -404,15 +257,16 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
           'cancelUrl': Uri.base.origin,
         },
       );
-      final data = res.data;
-      if (data is Map && data['error'] != null) {
+      final data = (res.data as Map?) ?? {};
+      if (data['error'] != null) {
+        debugPrint('stripe-create-checkout ${data['error']}');
         messenger.showSnackBar(SnackBar(
           content: Text(data['error'].toString()),
           backgroundColor: AppColors.negative,
         ));
         return;
       }
-      final checkoutUrl = data is Map ? data['checkoutUrl'] as String? : null;
+      final checkoutUrl = data['checkoutUrl'] as String?;
       if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
         await launchUrl(Uri.parse(checkoutUrl), webOnlyWindowName: '_self');
       } else {
@@ -421,13 +275,20 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
           backgroundColor: AppColors.negative,
         ));
       }
-    } catch (_) {
-      messenger.showSnackBar(const SnackBar(
-        content: Text('Payment could not be started. Please try again.'),
-        backgroundColor: AppColors.negative,
-      ));
+    } on FunctionException catch (e) {
+      final d = e.details;
+      final msg = (d is Map && d['error'] != null)
+          ? d['error'].toString()
+          : 'Payment error (status ${e.status})';
+      debugPrint('FN stripe-create-checkout -> ${e.status} ${e.details}');
+      messenger.showSnackBar(
+          SnackBar(content: Text(msg), backgroundColor: AppColors.negative));
+    } catch (e) {
+      debugPrint('FN stripe-create-checkout -> $e');
+      messenger.showSnackBar(
+          SnackBar(content: Text('$e'), backgroundColor: AppColors.negative));
     } finally {
-      if (mounted) setState(() => _payNowLoading = false);
+      if (mounted) setState(() => _checkoutLoading = false);
     }
   }
 
@@ -944,7 +805,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                 const SizedBox(height: 32),
                 
                 Text(
-                  'SELECT PAYMENT METHOD',
+                  'PAYMENT',
                   style: AppTypography.font(
                     color: AppColors.textTertiary,
                     fontSize: 11,
@@ -954,107 +815,45 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Saved cards (real list — tap to select)
-                ...List.generate(_cards.length, (i) {
-                  final card = _cards[i];
-                  final selected = _selectedCardIndex == i;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: GestureDetector(
-                      onTap: () => setState(() => _selectedCardIndex = i),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 150),
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface,
-                          borderRadius: BorderRadius.circular(AppRadii.card),
-                          border: Border.all(
-                            color: selected ? _sportColor : AppColors.hairline,
-                            width: 2,
-                          ),
-                        ),
-                        child: Row(
+                // Honest payment line: card entry happens on Stripe's hosted
+                // checkout page, so we never show a fake in-app saved card here.
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(18),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadii.card),
+                    border: Border.all(color: AppColors.hairline),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.lock_outline, color: AppColors.slateText, size: 22),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.credit_card, color: AppColors.slateText, size: 24),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '•••• ${card['last4']}',
-                                    style: AppTypography.font(
-                                      color: AppColors.textPrimary,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  Text(
-                                    card['brand'] ?? 'Card',
-                                    style: AppTypography.font(
-                                      color: AppColors.textTertiary,
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                ],
+                            Text(
+                              'Pay securely with Stripe',
+                              style: AppTypography.font(
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
                               ),
                             ),
-                            if (selected)
-                              Container(
-                                height: 18,
-                                width: 18,
-                                decoration: BoxDecoration(
-                                  color: _sportColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: const Icon(Icons.check, color: AppColors.onSlate, size: 10),
+                            const SizedBox(height: 2),
+                            Text(
+                              "You'll enter your card on Stripe's encrypted checkout page.",
+                              style: AppTypography.font(
+                                color: AppColors.textTertiary,
+                                fontSize: 12,
+                                height: 1.3,
                               ),
+                            ),
                           ],
                         ),
                       ),
-                    ),
-                  );
-                }),
-
-                // Add New Payment Option — opens the add-card sheet
-                GestureDetector(
-                  onTap: _openAddCardSheet,
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(18),
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(AppRadii.card),
-                      border: Border.all(color: AppColors.hairline, width: 2),
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 24,
-                          width: 24,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.hairline, width: 1.5),
-                            shape: BoxShape.circle,
-                          ),
-                          alignment: Alignment.center,
-                          child: const Icon(Icons.add, color: AppColors.textSecondary, size: 14),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Text(
-                            'Add new payment method',
-                            style: AppTypography.font(
-                              color: AppColors.textPrimary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                        const Icon(Icons.chevron_right, color: AppColors.textTertiary, size: 16),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
 
@@ -1107,21 +906,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
               variant: SporveButtonVariant.primary,
               color: _sportColor,
               icon: Icons.lock_outline,
-              onPressed: () async {
-                await _persistBooking();
-                if (!mounted) return;
-                setState(() {
-                  _currentStep = 3;
-                });
-                // Automatically transition to step 4 after 3 seconds for beautiful demo effect!
-                Future.delayed(const Duration(seconds: 3), () {
-                  if (mounted && _currentStep == 3) {
-                    setState(() {
-                      _currentStep = 4;
-                    });
-                  }
-                });
-              },
+              loading: _checkoutLoading,
+              onPressed: _checkoutLoading ? null : _handleConfirmAndPay,
             ),
           ),
         ),
@@ -1275,17 +1061,6 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
             ),
 
           const Spacer(),
-
-          // Pay now (real Stripe Checkout) — shown until the booking is paid.
-          if (_paymentStatus != 'paid') ...[
-            SporveButton(
-              'Pay now',
-              variant: SporveButtonVariant.primary,
-              loading: _payNowLoading,
-              onPressed: _payNowLoading ? null : _handlePayNow,
-            ),
-            const SizedBox(height: 12),
-          ],
 
           // Confirmed Page Buttons
           SporveButton(

@@ -56,13 +56,14 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
         'stripe-connect-onboarding',
         body: {'returnUrl': Uri.base.origin},
       );
-      final data = res.data;
-      if (data is Map && data['error'] != null) {
+      final data = (res.data as Map?) ?? {};
+      if (data['error'] != null) {
+        debugPrint('stripe-connect-onboarding ${data['error']}');
         _payoutsSnack(messenger, data['error'].toString(), ok: false);
         return;
       }
-      final onboardingUrl = data is Map ? data['onboardingUrl'] as String? : null;
-      final chargesEnabled = data is Map && data['chargesEnabled'] == true;
+      final onboardingUrl = data['onboardingUrl'] as String?;
+      final chargesEnabled = data['chargesEnabled'] == true;
       if (onboardingUrl != null && onboardingUrl.isNotEmpty) {
         await launchUrl(Uri.parse(onboardingUrl), webOnlyWindowName: '_self');
       } else if (chargesEnabled) {
@@ -72,8 +73,16 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
         _payoutsSnack(messenger,
             'Could not start payouts setup. Please try again.', ok: false);
       }
-    } catch (_) {
-      _payoutsSnack(messenger, 'Payouts setup failed. Please try again.', ok: false);
+    } on FunctionException catch (e) {
+      final d = e.details;
+      final msg = (d is Map && d['error'] != null)
+          ? d['error'].toString()
+          : 'Payout setup error (status ${e.status})';
+      debugPrint('FN stripe-connect-onboarding -> ${e.status} ${e.details}');
+      _payoutsSnack(messenger, msg, ok: false);
+    } catch (e) {
+      debugPrint('FN stripe-connect-onboarding -> $e');
+      _payoutsSnack(messenger, '$e', ok: false);
     }
   }
 
