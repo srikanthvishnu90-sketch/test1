@@ -220,7 +220,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                           ),
                           const SizedBox(width: 6),
                           Text(
-                            'Active • 2 sessions today',
+                            'Active • ${providerController.sessionsToday} sessions today',
                             style: AppTypography.font(
                               color: AppColors.slateText,
                               fontSize: 11,
@@ -256,32 +256,32 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
               // Payouts (Stripe Connect) status / setup
               _buildPayoutsCard(context, providerController),
 
-              // Summary Cards
+              // Summary Cards — computed from real bookings/listings.
               Row(
                 children: [
                   Expanded(
                     child: _buildSummaryCard(
-                      label: 'THIS WEEK',
-                      value: '\$8,420',
-                      trend: '+8%',
+                      label: 'REVENUE',
+                      value: '\$${providerController.revenue.toStringAsFixed(0)}',
+                      trend: 'PAID',
                       trendColor: AppColors.slateText,
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildSummaryCard(
-                      label: 'BOOKING RATE',
-                      value: '92%',
-                      trend: 'PEAK',
+                      label: 'BOOKINGS',
+                      value: '${providerController.bookingCount}',
+                      trend: 'TOTAL',
                       trendColor: AppColors.slateText,
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _buildSummaryCard(
-                      label: 'CONVERSION',
-                      value: '18%',
-                      trend: '+3%',
+                      label: 'LISTINGS',
+                      value: '${providerController.listingCount}',
+                      trend: 'LIVE',
                       trendColor: AppColors.slateText,
                     ),
                   ),

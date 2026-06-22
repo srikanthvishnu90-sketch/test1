@@ -484,16 +484,36 @@ class ProviderController with ChangeNotifier {
   bool _bookingsLoaded = false;
   bool get bookingsLoaded => _bookingsLoaded;
 
+  // Real dashboard metrics derived from the provider's bookings/listings.
+  double _revenue = 0; // sum of PAID bookings' final price
+  double get revenue => _revenue;
+  int get bookingCount => _sessions.where((s) => !s.isDeclined).length;
+  int get listingCount => _listings.length;
+  int get sessionsToday {
+    final now = DateTime.now();
+    return _sessions
+        .where((s) =>
+            !s.isDeclined &&
+            s.sessionDate.year == now.year &&
+            s.sessionDate.month == now.month &&
+            s.sessionDate.day == now.day)
+        .length;
+  }
+
   Future<void> fetchProviderBookings() async {
     _setLoading(true);
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       final data = await _repo.getBookings();
       _sessions.clear();
+      _revenue = 0;
       for (final booking in data) {
         try {
           final id = booking['_id']?.toString() ?? '';
           final status = booking['status']?.toString() ?? 'confirmed';
+          if ((booking['paymentStatus']?.toString() ?? '') == 'paid') {
+            _revenue += (booking['finalPrice'] as num?)?.toDouble() ?? 0;
+          }
           final athlete = booking['athleteId'] ?? {};
           final userName = athlete['fullName'] ?? 'Athlete';
           final userAvatar = athlete['profileImage'] ?? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100';
