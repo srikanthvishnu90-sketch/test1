@@ -160,7 +160,7 @@ class AppTypography {
 
   /// Weight diet: 700/800/900 → 600; lighter weights unchanged.
   static FontWeight _diet(FontWeight w) =>
-      w.index >= FontWeight.w700.index ? FontWeight.w600 : w;
+      w.value >= FontWeight.w700.value ? FontWeight.w600 : w;
 
   /// Tracking diet: collapse airy caps spacing to a whisper.
   static double? _track(double? ls) => (ls != null && ls > 0.6) ? 0.4 : ls;

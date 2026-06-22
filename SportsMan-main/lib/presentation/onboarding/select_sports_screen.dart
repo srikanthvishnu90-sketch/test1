@@ -12,7 +12,7 @@ import '../widgets/sport_glyph.dart';
 import 'package:provider/provider.dart';
 
 class SelectSportsScreen extends StatelessWidget {
-  SelectSportsScreen({super.key});
+  const SelectSportsScreen({super.key});
 
   final List<Map<String, String>> sports = const [
     {'name': 'BASKETBALL', 'icon': '🏀'},

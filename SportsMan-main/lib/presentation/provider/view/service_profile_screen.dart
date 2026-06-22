@@ -640,7 +640,7 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
         Switch(
           value: value,
           onChanged: onChanged,
-          activeColor: AppColors.slateText,
+          activeThumbColor: AppColors.slateText,
           activeTrackColor: AppColors.slateTint,
         ),
       ],

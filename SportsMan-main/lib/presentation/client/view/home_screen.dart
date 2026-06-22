@@ -273,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             sport: program['sportType']?.toString(),
                             onTap: () => Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
                           );
-                        }).toList(),
+                        }),
                     ],
                   ),
                 ),

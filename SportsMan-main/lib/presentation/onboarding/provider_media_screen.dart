@@ -439,7 +439,7 @@ class ProviderMediaScreen extends StatelessWidget {
                   trailing,
                   style: AppTypography.font(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textSecondary),
                 ),
-              if (trailingWidget != null) trailingWidget,
+              ?trailingWidget,
             ],
           ),
           const SizedBox(height: 20),

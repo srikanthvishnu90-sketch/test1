@@ -69,6 +69,7 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
                   SporveButton(
                     'Create listing',
                     onPressed: () {
+                      final controller = context.read<ProviderController>();
                       showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
@@ -76,7 +77,7 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
                         builder: (context) => const CreateListingBottomSheet(),
                       ).then((_) {
                         // Refresh after creating a listing
-                        if (mounted) context.read<ProviderController>().fetchMyPrograms();
+                        controller.fetchMyPrograms();
                       });
                     },
                     variant: SporveButtonVariant.primary,
@@ -369,14 +370,14 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
                     if (listing.id.isNotEmpty) {
                       await context.read<ProviderController>().fetchProgramDetails(listing.id);
                     }
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     final editIndex = await Navigator.push<int>(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProgramDetailScreen(listing: listing),
                       ),
                     );
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     if (editIndex != null && editIndex >= 0) {
                       showModalBottomSheet(
                         context: context,

@@ -256,12 +256,13 @@ class ProviderActivationScreen extends StatelessWidget {
                     onPressed: provider.isLoading
                         ? null
                         : () async {
+                            final messenger = ScaffoldMessenger.of(context);
                             final success = await provider.submitProviderProfile();
                             if (success) {
                               Get.offAllNamed(AppRoutes.providerTutorial);
                             } else {
                               final errorMsg = provider.submitError ?? 'Failed to launch profile. Please try again.';
-                              ScaffoldMessenger.of(context).showSnackBar(
+                              messenger.showSnackBar(
                                 SnackBar(
                                   content: Text(errorMsg),
                                   backgroundColor: AppColors.negative,

@@ -262,7 +262,7 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                                 );
                               }
                             }
-                            Navigator.pop(context);
+                            if (context.mounted) Navigator.pop(context);
                           },
                           borderRadius: BorderRadius.circular(AppRadii.tile),
                           child: Container(

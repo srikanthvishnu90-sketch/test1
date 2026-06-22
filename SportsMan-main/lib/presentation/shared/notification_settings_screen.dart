@@ -334,7 +334,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
             child: Switch(
               value: value,
               onChanged: onChanged,
-              activeColor: AppColors.slateText,
+              activeThumbColor: AppColors.slateText,
               activeTrackColor: AppColors.slateTint,
               inactiveThumbColor: AppColors.textTertiary,
               inactiveTrackColor: AppColors.surface2,

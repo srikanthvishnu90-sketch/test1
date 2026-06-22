@@ -9,7 +9,7 @@ import './controllers/onboarding_controller.dart';
 import '../widgets/sporve_button.dart';
 
 class AlmostDoneScreen extends StatelessWidget {
-  AlmostDoneScreen({super.key});
+  const AlmostDoneScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -134,11 +134,12 @@ class AlmostDoneScreen extends StatelessWidget {
               onPressed: provider.isLoading
                   ? null
                   : () async {
+                      final messenger = ScaffoldMessenger.of(context);
                       final success = await provider.submitAthleteProfile();
                       if (success) {
                         Get.offAllNamed(AppRoutes.mainNav);
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        messenger.showSnackBar(
                           const SnackBar(
                             content: Text('Failed to create profile. Please try again.'),
                             backgroundColor: AppColors.negative,

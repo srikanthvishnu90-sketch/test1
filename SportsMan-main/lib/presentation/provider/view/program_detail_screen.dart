@@ -809,7 +809,7 @@ class _GallerySection extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: gallery.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 10),
+            separatorBuilder: (_, _) => const SizedBox(width: 10),
             itemBuilder: (context, i) => SporveImage(gallery[i], width: 110, height: 110, fit: BoxFit.cover, radius: AppRadii.card),
           ),
         ),
@@ -944,7 +944,7 @@ class _SessionsCard extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: sessions.length,
-                  separatorBuilder: (_, __) => const Divider(color: AppColors.hairlineSoft, height: 24),
+                  separatorBuilder: (_, _) => const Divider(color: AppColors.hairlineSoft, height: 24),
                   itemBuilder: (context, index) {
                     final session = sessions[index];
                     final startDateStr = session['startDate'] ?? '';
@@ -1163,10 +1163,11 @@ void _showAddSessionBottomSheet(
       bool locationFetched = existingSession != null;
 
       Future<void> fetchCurrentLocation(void Function(void Function()) setModalState) async {
+        final messenger = ScaffoldMessenger.of(context);
         try {
           bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
           if (!serviceEnabled) {
-            ScaffoldMessenger.of(context).showSnackBar(
+            messenger.showSnackBar(
               const SnackBar(
                 content: Text('Location services are disabled on your device.'),
                 backgroundColor: AppColors.warning,
@@ -1179,7 +1180,7 @@ void _showAddSessionBottomSheet(
           if (permission == LocationPermission.denied) {
             permission = await Geolocator.requestPermission();
             if (permission == LocationPermission.denied) {
-              ScaffoldMessenger.of(context).showSnackBar(
+              messenger.showSnackBar(
                 const SnackBar(
                   content: Text('Location permission was denied.'),
                   backgroundColor: AppColors.negative,
@@ -1189,7 +1190,7 @@ void _showAddSessionBottomSheet(
             }
           }
           if (permission == LocationPermission.deniedForever) {
-            ScaffoldMessenger.of(context).showSnackBar(
+            messenger.showSnackBar(
               const SnackBar(
                 content: Text('Location permission is permanently denied.'),
                 backgroundColor: AppColors.negative,
@@ -1199,8 +1200,10 @@ void _showAddSessionBottomSheet(
           }
 
           final position = await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high,
-            timeLimit: const Duration(seconds: 7),
+            locationSettings: const LocationSettings(
+              accuracy: LocationAccuracy.high,
+              timeLimit: Duration(seconds: 7),
+            ),
           );
           setModalState(() {
             latController.text = position.latitude.toString();
@@ -1208,7 +1211,7 @@ void _showAddSessionBottomSheet(
           });
         } catch (e) {
           debugPrint("Error fetching location: $e");
-          ScaffoldMessenger.of(context).showSnackBar(
+          messenger.showSnackBar(
             SnackBar(
               content: Text('Could not fetch location: $e'),
               backgroundColor: AppColors.negative,
@@ -1472,7 +1475,7 @@ void _showAddSessionBottomSheet(
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
-                    value: selectedTimezone,
+                    initialValue: selectedTimezone,
                     dropdownColor: AppColors.surface2,
                     style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
                     iconEnabledColor: AppColors.textSecondary,
@@ -1654,7 +1657,7 @@ void _showAddSessionBottomSheet(
                       style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
                     ),
                     value: waitlistEnabled,
-                    activeColor: AppColors.slateText,
+                    activeThumbColor: AppColors.slateText,
                     contentPadding: EdgeInsets.zero,
                     onChanged: (val) {
                       setModalState(() {
@@ -1782,6 +1785,8 @@ void _showAddSessionBottomSheet(
                                   };
 
                                   debugPrint('📤 Sending payload: $body');
+                                  final navigator = Navigator.of(context);
+                                  final messenger = ScaffoldMessenger.of(context);
                                   final bool success;
                                   if (existingSession != null) {
                                     success = await controller.updateProgramSession(
@@ -1794,8 +1799,8 @@ void _showAddSessionBottomSheet(
                                   }
 
                                   if (success) {
-                                    Navigator.of(context).pop();
-                                    ScaffoldMessenger.of(context).showSnackBar(
+                                    navigator.pop();
+                                    messenger.showSnackBar(
                                       SnackBar(
                                         content: Text(existingSession != null
                                             ? 'Session updated successfully!'
@@ -1807,7 +1812,7 @@ void _showAddSessionBottomSheet(
                                     setModalState(() {
                                       isSubmitting = false;
                                     });
-                                    ScaffoldMessenger.of(context).showSnackBar(
+                                    messenger.showSnackBar(
                                       SnackBar(
                                         content: Text(existingSession != null
                                             ? 'Failed to update session. Please try again.'

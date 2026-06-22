@@ -11,7 +11,7 @@ import '../widgets/sporve_button.dart';
 import 'package:provider/provider.dart';
 
 class IdentityScreen extends StatelessWidget {
-  IdentityScreen({super.key});
+  const IdentityScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

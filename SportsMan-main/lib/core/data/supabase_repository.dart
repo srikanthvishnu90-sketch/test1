@@ -638,8 +638,7 @@ class SupabaseRepository implements AppRepository {
   }
 
   Map<String, dynamic> _sessionToRow(Map s) {
-    String? dateOnly(dynamic v) =>
-        v == null ? null : v.toString().substring(0, 10);
+    String? dateOnly(dynamic v) => v?.toString().substring(0, 10);
     return {
       if (_isUuid(s['_id'])) 'id': s['_id'],
       'program_id': _extractId(s['programId']),

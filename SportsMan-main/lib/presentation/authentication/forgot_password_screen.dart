@@ -44,10 +44,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     }
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final messenger = ScaffoldMessenger.of(context);
     final success = await authProvider.forgotPassword(email);
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         const SnackBar(
           content: Text('Reset token sent to your email!'),
           backgroundColor: AppColors.positive,
@@ -57,7 +58,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         _codeSent = true;
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(
           content: Text(authProvider.errorMessage ?? 'Request failed. Please try again.'),
           backgroundColor: AppColors.negative,
@@ -81,10 +82,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     }
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final messenger = ScaffoldMessenger.of(context);
     final success = await authProvider.resetPassword(token, newPassword);
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         const SnackBar(
           content: Text('Password reset successfully! Please log in.'),
           backgroundColor: AppColors.positive,
@@ -92,7 +94,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       );
       Get.offAllNamed(AppRoutes.login);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      messenger.showSnackBar(
         SnackBar(
           content: Text(authProvider.errorMessage ?? 'Reset failed. Please check your token.'),
           backgroundColor: AppColors.negative,

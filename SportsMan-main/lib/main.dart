@@ -25,7 +25,8 @@ void main() async {
   // env.json); never hardcoded. Supabase persists the session itself.
   await Supabase.initialize(
     url: Env.supabaseUrl,
-    anonKey: Env.supabaseAnonKey,
+    // Env.supabaseAnonKey holds the sb_publishable_… client key.
+    publishableKey: Env.supabaseAnonKey,
   );
 
   // THE SWAP POINT (#16/#19): the app's single data source. Now bound to the
