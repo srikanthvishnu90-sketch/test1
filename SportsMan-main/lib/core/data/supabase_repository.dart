@@ -277,13 +277,21 @@ class SupabaseRepository implements AppRepository {
     final programId = _extractId(booking['programId']);
     var sessionId = _extractId(booking['sessionId']);
     // The booking flow invents a synthetic session id; resolve a REAL session
-    // for the program so the session_id FK is satisfied.
+    // for the program so the session_id FK is satisfied. Only consider FUTURE
+    // (today-or-later) sessions so we never book one that already happened, and
+    // pick the soonest. start_date is a calendar date; compare as 'YYYY-MM-DD'
+    // (UTC-midnight convention — no .toLocal()).
     if (!_isUuid(sessionId) && programId != null) {
       try {
+        final now = DateTime.now();
+        final todayStr = '${now.year.toString().padLeft(4, '0')}-'
+            '${now.month.toString().padLeft(2, '0')}-'
+            '${now.day.toString().padLeft(2, '0')}';
         final rows = await _db
             .from('sessions')
             .select('id, start_date')
             .eq('program_id', programId)
+            .gte('start_date', todayStr)
             .order('start_date')
             .limit(1);
         if (rows is List && rows.isNotEmpty) {
