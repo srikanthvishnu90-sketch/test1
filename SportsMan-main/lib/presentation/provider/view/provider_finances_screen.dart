@@ -947,25 +947,6 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
     );
   }
 
-  Widget _buildPlaceholderTab(String message) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.dashboard_customize_outlined, size: 48, color: AppColors.textTertiary),
-            const SizedBox(height: 16),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: AppTypography.font(color: AppColors.textTertiary, fontSize: 13),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class ProviderWithdrawalScreen extends StatefulWidget {
@@ -978,17 +959,6 @@ class ProviderWithdrawalScreen extends StatefulWidget {
 class _ProviderWithdrawalScreenState extends State<ProviderWithdrawalScreen> {
   String _selectedAmount = '1k';
   int _selectedBankIndex = 0; // 0 for Chase, 1 for BoA
-
-  final List<Map<String, String>> _banks = [
-    {
-      'name': 'Chase Bank',
-      'details': 'Checking ****4821',
-    },
-    {
-      'name': 'Bank of America',
-      'details': 'Savings ****7392',
-    }
-  ];
 
   @override
   Widget build(BuildContext context) {

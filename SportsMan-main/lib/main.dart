@@ -8,6 +8,7 @@ import 'core/config/env.dart';
 import 'core/auth/auth_service.dart';
 import 'core/auth/supabase_auth_service.dart';
 import 'core/data/app_repository.dart';
+// ignore: unused_import
 import 'core/data/mock_repository.dart'; // kept for one-line rollback (see below)
 import 'core/data/supabase_repository.dart';
 import 'presentation/onboarding/controllers/onboarding_controller.dart';
