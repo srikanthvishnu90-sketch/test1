@@ -504,7 +504,9 @@ class SupabaseRepository implements AppRepository {
           final t = ta as Map;
           return {
             '_id': t['athlete_id'],
-            'fullName': '',
+            // Denormalized name (see team_athlete_name migration); blank until
+            // applied — never read the minors-only athletes table here.
+            'fullName': t['athlete_first_name']?.toString() ?? '',
             'jerseyNumber': t['jersey_number'],
             'isAvailable': t['is_available'] ?? true,
             'isPaid': t['is_paid'] ?? false,

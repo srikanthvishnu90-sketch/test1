@@ -122,30 +122,9 @@ class ChatProvider with ChangeNotifier {
     }
 
     notifyListeners();
-
-    // Simulate an offline auto-reply
-    Future.delayed(const Duration(seconds: 1), () async {
-      final replyId = DateTime.now().millisecondsSinceEpoch.toString();
-      final replyMsg = {
-        '_id': replyId,
-        'conversationId': conversationId,
-        'text': "This is an automated offline mock reply.",
-        'senderId': 'provider_user_123',
-        'createdAt': DateTime.now().toIso8601String(),
-      };
-      _messages.add(replyMsg);
-      await _repo.saveMessages(conversationId, _messages);
-
-      final currentConvs = await _repo.getConversations();
-      final cIdx = currentConvs.indexWhere((c) => c['_id'] == conversationId);
-      if (cIdx != -1) {
-        currentConvs[cIdx]['lastMessage'] = replyMsg;
-        await _repo.saveConversations(currentConvs);
-        _conversations = currentConvs;
-      }
-      notifyListeners();
-    });
-
+    // NOTE: no fabricated auto-reply. Real two-way chat requires real
+    // conversations/messages rows (provider participant) — a separate feature;
+    // until then a sent message simply shows for this session.
     return true;
   }
 }
