@@ -187,8 +187,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   // Build a booking from the user's selections and persist it so it appears on
   // Home "Coming Up" and the Schedule calendar.
   Future<void> _persistBooking() async {
-    if (_bookingSaved) return;
-    _bookingSaved = true;
+    if (_bookingSaved && _realBookingId != null) return; // already created
 
     final now = DateTime.now();
     // The calendar shows the real current month, so use the selected date directly.
@@ -219,6 +218,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       'createdAt': now.toIso8601String(),
     };
 
+    // addBooking rethrows the real PostgrestException on a DB failure so the
+    // caller can show the exact reason instead of a generic message.
     final homeProvider = context.read<HomeProvider>();
     final id = await homeProvider.addBooking(booking);
     if (!mounted) return;
@@ -228,10 +229,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       _realBookingId = id;
       _paymentStatus = (saved?['paymentStatus'] ?? 'unpaid').toString();
     });
+    _bookingSaved = id != null; // only block re-create once it truly succeeded
   }
 
-  /// "Pay now" → Stripe Checkout via the `stripe-create-checkout` Edge Function
-  /// (invoke auto-attaches the signed-in user's JWT), then redirects this tab.
   /// THE payment moment ("Confirm & Pay"): create the UNPAID booking, then open
   /// Stripe hosted Checkout via the `stripe-create-checkout` Edge Function
   /// (invoke attaches the user's JWT). Non-2xx throws FunctionException — surface
@@ -243,8 +243,10 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       await _persistBooking();
       final id = _realBookingId;
       if (id == null) {
+        // Not a DB exception (those rethrow + show below) — this means we
+        // couldn't find a real, bookable session for this program.
         messenger.showSnackBar(const SnackBar(
-          content: Text('Could not create the booking. Please try again.'),
+          content: Text('No bookable session is available for this program yet.'),
           backgroundColor: AppColors.negative,
         ));
         return;

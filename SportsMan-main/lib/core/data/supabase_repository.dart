@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -266,14 +267,19 @@ class SupabaseRepository implements AppRepository {
 
   @override
   Future<String?> addBooking(Map<String, dynamic> booking) async {
-    try {
-      final uid = _uid;
-      if (uid == null) return null;
-      final programId = _extractId(booking['programId']);
-      var sessionId = _extractId(booking['sessionId']);
-      // The demo flow invents a synthetic session id; resolve a REAL session for
-      // the program so the FK + RLS pass.
-      if (!_isUuid(sessionId) && programId != null) {
+    // RLS WITH CHECK requires searcher_id = auth.uid(); no session => no insert.
+    final uid = _db.auth.currentUser?.id;
+    if (uid == null) {
+      debugPrint('addBooking: no authenticated user — cannot insert booking');
+      return null;
+    }
+
+    final programId = _extractId(booking['programId']);
+    var sessionId = _extractId(booking['sessionId']);
+    // The booking flow invents a synthetic session id; resolve a REAL session
+    // for the program so the session_id FK is satisfied.
+    if (!_isUuid(sessionId) && programId != null) {
+      try {
         final rows = await _db
             .from('sessions')
             .select('id, start_date')
@@ -283,22 +289,43 @@ class SupabaseRepository implements AppRepository {
         if (rows is List && rows.isNotEmpty) {
           sessionId = (rows.first as Map)['id']?.toString();
         }
+      } catch (e) {
+        debugPrint('addBooking: session lookup failed: $e');
       }
-      if (!_isUuid(sessionId)) return null; // nothing valid to attach to
-      final inserted = await _db.from('bookings').insert({
-        'searcher_id': uid,
-        'session_id': sessionId,
-        if (_isUuid(programId)) 'program_id': programId,
-        'selected_tier': booking['selectedTier'],
-        'original_price': booking['originalPrice'] ?? 0,
-        'final_price': booking['finalPrice'] ?? 0,
-        'currency': booking['currency'] ?? 'USD',
-        'status': booking['status'] ?? 'pending',
-        'payment_status': booking['paymentStatus'] ?? 'unpaid',
-      }).select('id').single();
+    }
+    if (!_isUuid(sessionId)) {
+      debugPrint('addBooking: no real session to book for program=$programId '
+          '(is the database seeded?) — skipping insert');
+      return null;
+    }
+
+    final athleteId = _extractId(booking['athleteId']);
+    // Every key below is a real `bookings` column. searcher_id MUST equal
+    // auth.uid() (RLS). status MUST satisfy the CHECK
+    // (pending|confirmed|declined|completed) — payment lives in the separate
+    // payment_status column, which we let DEFAULT to 'unpaid'.
+    final payload = <String, dynamic>{
+      'searcher_id': uid,
+      'session_id': sessionId,
+      if (_isUuid(programId)) 'program_id': programId,
+      if (_isUuid(athleteId)) 'athlete_id': athleteId,
+      'selected_tier': booking['selectedTier'],
+      'original_price': booking['originalPrice'] ?? 0,
+      'final_price': booking['finalPrice'] ?? 0,
+      'currency': booking['currency'] ?? 'USD',
+      'status': 'pending',
+    };
+
+    try {
+      final inserted =
+          await _db.from('bookings').insert(payload).select('id').single();
       return (inserted as Map)['id']?.toString();
-    } catch (_) {
-      return null; // never crash the booking UI
+    } on PostgrestException catch (e) {
+      // Surface the REAL database reason rather than masking it as a generic
+      // "could not create booking" — the caller shows e.message to the user.
+      debugPrint('addBooking PostgrestException: code=${e.code} '
+          'message=${e.message} details=${e.details} hint=${e.hint}');
+      rethrow;
     }
   }
 
