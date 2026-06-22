@@ -45,14 +45,51 @@ class HomeProvider with ChangeNotifier {
     }
   }
 
+  // Athletes (children) belonging to the signed-in searcher.
+  List<dynamic> _athletes = [];
+  List<dynamic> get athletes => _athletes;
+
   Future<void> fetchAllAthleteData() async {
     await Future.wait([
       fetchUserProfile(),
       fetchPrograms(),
       fetchBookings(),
       fetchFavorites(),
+      fetchAthletes(),
     ]);
     _calculateStats();
+  }
+
+  Future<void> fetchAthletes() async {
+    try {
+      _athletes = await _repo.getAthletes();
+    } catch (e) {
+      debugPrint('Error fetching athletes: $e');
+    }
+  }
+
+  /// Real upcoming sessions for a program (today or later, soonest first).
+  Future<List<dynamic>> sessionsForProgram(String? programId) async {
+    if (programId == null || programId.isEmpty) return [];
+    try {
+      final all = await _repo.getSessions();
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final list = all.where((s) {
+        if (s is! Map) return false;
+        final sProg = s['programId'];
+        final pid = sProg is Map ? sProg['_id']?.toString() : sProg?.toString();
+        if (pid != programId) return false;
+        final start = parseSessionStart(s);
+        final day = DateTime(start.year, start.month, start.day);
+        return !day.isBefore(today);
+      }).toList();
+      list.sort((a, b) => parseSessionStart(a).compareTo(parseSessionStart(b)));
+      return list;
+    } catch (e) {
+      debugPrint('Error fetching sessions for program: $e');
+      return [];
+    }
   }
 
   /// Count of bookings whose session starts today or later.

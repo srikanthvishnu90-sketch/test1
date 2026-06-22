@@ -312,11 +312,14 @@ class SupabaseRepository implements AppRepository {
     // auth.uid() (RLS). status MUST satisfy the CHECK
     // (pending|confirmed|declined|completed) — payment lives in the separate
     // payment_status column, which we let DEFAULT to 'unpaid'.
+    final athleteName = booking['athleteName']?.toString();
     final payload = <String, dynamic>{
       'searcher_id': uid,
       'session_id': sessionId,
       if (_isUuid(programId)) 'program_id': programId,
       if (_isUuid(athleteId)) 'athlete_id': athleteId,
+      if (athleteName != null && athleteName.isNotEmpty)
+        'athlete_first_name': athleteName.split(' ').first,
       'selected_tier': booking['selectedTier'],
       'original_price': booking['originalPrice'] ?? 0,
       'final_price': booking['finalPrice'] ?? 0,

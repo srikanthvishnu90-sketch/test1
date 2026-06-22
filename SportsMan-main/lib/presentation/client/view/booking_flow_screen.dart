@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/routes/app_routes.dart';
+import '../../../core/utils/session_time.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../../core/theme/sport_colors.dart';
@@ -31,6 +32,14 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   String? _realBookingId;
   String _paymentStatus = 'unpaid';
   bool _checkoutLoading = false;
+
+  // Real session + child selection (E). Bookings attach to the session the user
+  // actually picks, and always carry a chosen athlete_id.
+  List<dynamic> _programSessions = [];
+  Map<String, dynamic>? _selectedSession;
+  List<dynamic> _athletes = [];
+  String? _selectedAthleteId;
+  String? _selectedAthleteName;
 
   // Calendar shows the real current month.
   late int _calYear;
@@ -182,6 +191,221 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     } else {
       _sessionPrice = 75.0;
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadBookable());
+  }
+
+  /// Load the program's REAL upcoming sessions + the searcher's children so the
+  /// booking attaches to a real session and always sets athlete_id.
+  Future<void> _loadBookable() async {
+    final home = context.read<HomeProvider>();
+    await home.fetchAthletes();
+    final sessions = await home.sessionsForProgram(_program?['_id']?.toString());
+    if (!mounted) return;
+    setState(() {
+      _programSessions = sessions;
+      _athletes = home.athletes;
+      if (_selectedSession == null && sessions.isNotEmpty) {
+        _selectSession(sessions.first as Map<String, dynamic>, notify: false);
+      }
+      if (_athletes.length == 1) {
+        _selectedAthleteId = _athletes.first['_id']?.toString();
+        _selectedAthleteName = _athleteName(_athletes.first);
+      }
+    });
+  }
+
+  String _athleteName(dynamic a) =>
+      (a is Map ? (a['fullName'] ?? a['firstName']) : null)?.toString() ?? 'Athlete';
+
+  /// Pick a real session and sync the calendar/time display to it.
+  void _selectSession(Map<String, dynamic> s, {bool notify = true}) {
+    final start = parseSessionStart(s);
+    void apply() {
+      _selectedSession = s;
+      _calYear = start.year;
+      _calMonth = start.month;
+      _selectedDay = start.day;
+      _selectedTime = (s['startTime']?.toString().isNotEmpty ?? false)
+          ? s['startTime'].toString()
+          : formatTime12h(start);
+      _sessionTitle = s['title']?.toString() ?? _sessionTitle;
+    }
+
+    if (notify) {
+      setState(apply);
+    } else {
+      apply();
+    }
+  }
+
+  void _snack(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: AppColors.negative),
+    );
+  }
+
+  // Gate Step 1 -> Step 2: must have a real session and a chosen child.
+  void _onContinueFromStep1() {
+    if (_programSessions.isEmpty) {
+      _snack('No upcoming sessions for this program yet.');
+      return;
+    }
+    if (_selectedSession == null) {
+      _snack('Please choose a session.');
+      return;
+    }
+    if (_athletes.isEmpty) {
+      _snack('Add a child in your profile before booking.');
+      return;
+    }
+    if (_selectedAthleteId == null) {
+      _snack('Please select a child first.');
+      return;
+    }
+    setState(() => _currentStep = 2);
+  }
+
+  // "Who's attending" — pick one of the searcher's children (sets athlete_id).
+  Widget _buildChildSelector() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('WHO\'S ATTENDING',
+            style: AppTypography.font(
+                color: AppColors.textTertiary,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5)),
+        const SizedBox(height: 12),
+        if (_athletes.isEmpty)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppRadii.tile),
+              border: Border.all(color: AppColors.hairline),
+            ),
+            child: Text('No children on your profile yet. Add one to book.',
+                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13)),
+          )
+        else
+          Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            children: _athletes.map((a) {
+              final id = a['_id']?.toString();
+              final name = _athleteName(a);
+              final selected = _selectedAthleteId == id;
+              return GestureDetector(
+                onTap: () => setState(() {
+                  _selectedAthleteId = id;
+                  _selectedAthleteName = name;
+                }),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadii.chip),
+                    border: Border.all(
+                      color: selected ? _sportColor : AppColors.hairline,
+                      width: 2,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(selected ? Icons.check_circle : Icons.person_outline,
+                          color: selected ? _sportColor : AppColors.textTertiary, size: 16),
+                      const SizedBox(width: 8),
+                      Text(name,
+                          style: AppTypography.font(
+                              color: AppColors.textPrimary,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  // Real upcoming sessions for this program — the user books one of these.
+  Widget _buildSessionPicker() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('CHOOSE A SESSION',
+            style: AppTypography.font(
+                color: AppColors.textTertiary,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5)),
+        const SizedBox(height: 12),
+        if (_programSessions.isEmpty)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppRadii.tile),
+              border: Border.all(color: AppColors.hairline),
+            ),
+            child: Text('No upcoming sessions for this program yet.',
+                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13)),
+          )
+        else
+          ..._programSessions.map((s) {
+            final session = s as Map<String, dynamic>;
+            final start = parseSessionStart(session);
+            final selected = _selectedSession?['_id'] == session['_id'];
+            final label = '${_weekdayNames[start.weekday - 1]}, '
+                '${_monthNames[start.month - 1].substring(0, 3)} ${start.day}';
+            final time = (session['startTime']?.toString().isNotEmpty ?? false)
+                ? session['startTime'].toString()
+                : formatTime12h(start);
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: GestureDetector(
+                onTap: () => _selectSession(session),
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadii.tile),
+                    border: Border.all(
+                      color: selected ? _sportColor : AppColors.hairline,
+                      width: 2,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(selected ? Icons.radio_button_checked : Icons.radio_button_off,
+                          color: selected ? _sportColor : AppColors.textTertiary, size: 20),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Text(label,
+                            style: AppTypography.font(
+                                color: AppColors.textPrimary,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Text(time,
+                          style: AppTypography.font(
+                              color: AppColors.textSecondary, fontSize: 13)),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+        const SizedBox(height: 28),
+      ],
+    );
   }
 
   // Build a booking from the user's selections and persist it so it appears on
@@ -194,20 +418,25 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     final isoDate =
         '${_calYear.toString().padLeft(4, '0')}-${_calMonth.toString().padLeft(2, '0')}-${_selectedDay.toString().padLeft(2, '0')}T00:00:00.000Z';
 
-    final session = {
-      '_id': 'sess_${now.millisecondsSinceEpoch}',
-      'title': _sessionTitle,
-      'startDate': isoDate,
-      'date': isoDate,
-      'startTime': _selectedTime,
-      'programId': _program?['_id'],
-    };
+    // Use the REAL session the user picked (carries a uuid _id) so the booking
+    // attaches to it directly; fall back to a synthetic shape only if somehow
+    // none was selected.
+    final session = _selectedSession ??
+        {
+          '_id': 'sess_${now.millisecondsSinceEpoch}',
+          'title': _sessionTitle,
+          'startDate': isoDate,
+          'date': isoDate,
+          'startTime': _selectedTime,
+          'programId': _program?['_id'],
+        };
 
     final booking = <String, dynamic>{
       '_id': 'book_${now.millisecondsSinceEpoch}',
-      'searcherId': 'user_123',
       'programId': _program, // full object so Home/Schedule resolve sport + coach
       'sessionId': session,
+      'athleteId': _selectedAthleteId, // chosen child (RLS sets searcher_id)
+      'athleteName': _selectedAthleteName, // denormalized display for provider
       'selectedTier': _tier,
       'originalPrice': _sessionPrice,
       'finalPrice': _total,
@@ -427,6 +656,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
+                _buildChildSelector(),
+                _buildSessionPicker(),
                 // Month header with prev/next navigation. Prev is disabled +
                 // dimmed in the current month so users can't book in the past.
                 Row(
@@ -665,11 +896,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                     'Continue',
                     variant: SporveButtonVariant.primary,
                     color: _sportColor,
-                    onPressed: () {
-                      setState(() {
-                        _currentStep = 2;
-                      });
-                    },
+                    onPressed: _onContinueFromStep1,
                   ),
                 ),
               ],
