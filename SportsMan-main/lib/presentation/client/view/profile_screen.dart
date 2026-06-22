@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../core/routes/app_routes.dart';
@@ -221,7 +220,7 @@ class ProfileScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.blueTint,
                     borderRadius: BorderRadius.circular(AppRadii.card),
-                    border: Border.all(color: AppColors.blue.withOpacity(0.5)),
+                    border: Border.all(color: AppColors.blue.withValues(alpha: 0.5)),
                   ),
                   child: Stack(
                     children: [

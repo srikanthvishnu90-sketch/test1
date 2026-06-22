@@ -294,7 +294,7 @@ class SupabaseRepository implements AppRepository {
             .gte('start_date', todayStr)
             .order('start_date')
             .limit(1);
-        if (rows is List && rows.isNotEmpty) {
+        if (rows.isNotEmpty) {
           sessionId = (rows.first as Map)['id']?.toString();
         }
       } catch (e) {

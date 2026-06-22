@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../controllers/home_controller.dart';
@@ -408,13 +407,13 @@ class _SearchScreenState extends State<SearchScreen> {
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadii.card),
           border: Border.all(
-            color: isTeamMatch ? AppColors.blue.withOpacity(0.5) : AppColors.hairline,
+            color: isTeamMatch ? AppColors.blue.withValues(alpha: 0.5) : AppColors.hairline,
             width: isTeamMatch ? 1.5 : 1,
           ),
           boxShadow: isTeamMatch
               ? [
                   BoxShadow(
-                    color: AppColors.blue.withOpacity(0.15),
+                    color: AppColors.blue.withValues(alpha: 0.15),
                     blurRadius: 8,
                     spreadRadius: 1,
                   )
@@ -442,7 +441,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.blueTint,
                         borderRadius: BorderRadius.circular(AppRadii.chip),
-                        border: Border.all(color: AppColors.blue.withOpacity(0.5)),
+                        border: Border.all(color: AppColors.blue.withValues(alpha: 0.5)),
                       ),
                       child: Text(
                         'TEAM',
@@ -470,7 +469,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: AppColors.negative.withOpacity(0.12),
+                          color: AppColors.negative.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(AppRadii.chip),
                         ),
                         child: Text(
@@ -616,7 +615,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: AppColors.slateText.withOpacity(0.4),
+                          color: AppColors.slateText.withValues(alpha: 0.4),
                           blurRadius: 12,
                           spreadRadius: 2,
                         )
@@ -691,7 +690,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.45),
+                            color: Colors.black.withValues(alpha: 0.45),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -771,7 +770,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(AppRadii.chip),
       ),
       child: Row(

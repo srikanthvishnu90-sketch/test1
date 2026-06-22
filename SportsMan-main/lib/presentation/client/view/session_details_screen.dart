@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../controllers/home_controller.dart';
@@ -175,7 +174,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withOpacity(0.4),
+                        Colors.black.withValues(alpha: 0.4),
                         Colors.transparent,
                         AppColors.ink,
                       ],
@@ -225,7 +224,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                             height: 44,
                             width: 44,
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.45),
+                              color: Colors.black.withValues(alpha: 0.45),
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white24),
                             ),
@@ -244,7 +243,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                                 height: 44,
                                 width: 44,
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.45),
+                                  color: Colors.black.withValues(alpha: 0.45),
                                   shape: BoxShape.circle,
                                   border: Border.all(color: Colors.white24),
                                 ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
@@ -94,7 +93,7 @@ class ProviderCapacityScreen extends StatelessWidget {
                       activeTrackColor: AppColors.slateText,
                       inactiveTrackColor: AppColors.surface2,
                       thumbColor: AppColors.slateText,
-                      overlayColor: AppColors.slateText.withOpacity(0.1),
+                      overlayColor: AppColors.slateText.withValues(alpha: 0.1),
                       trackHeight: 20,
                       trackShape: const GradientSliderTrackShape(),
                       thumbShape: const RoundSliderThumbShape(

@@ -78,16 +78,16 @@ class SportColors {
       of(sport).computeLuminance() < 0.45 ? const Color(0xFFF3F6F8) : const Color(0xFF0B0F14);
 
   /// Low-opacity tint for sport tags (~20%).
-  static Color tintOf(String? sport) => of(sport).withOpacity(0.20);
+  static Color tintOf(String? sport) => of(sport).withValues(alpha: 0.20);
 
   /// Stronger tint for icon-tile bases (~25%) — the bolder, more colorful look.
-  static Color tileTintOf(String? sport) => of(sport).withOpacity(0.25);
+  static Color tileTintOf(String? sport) => of(sport).withValues(alpha: 0.25);
 
   /// Faint header-zone wash for cards (~12%).
-  static Color washOf(String? sport) => of(sport).withOpacity(0.12);
+  static Color washOf(String? sport) => of(sport).withValues(alpha: 0.12);
 
   /// Heavier scrim for gradient overlays on cover images (~60%).
-  static Color scrimOf(String? sport) => of(sport).withOpacity(0.60);
+  static Color scrimOf(String? sport) => of(sport).withValues(alpha: 0.60);
 
   /// Sport → line/duotone icon. Replaces every emoji in the product.
   static IconData iconOf(String? sport) {

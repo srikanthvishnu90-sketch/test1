@@ -109,7 +109,7 @@ class _SporveButtonState extends State<SporveButton> {
       case SporveButtonVariant.secondary:
         bg = widget.onDark
             ? AppColors.surface2
-            : AppColors.inkOnSlate.withOpacity(0.16);
+            : AppColors.inkOnSlate.withValues(alpha: 0.16);
         fg = widget.onDark ? AppColors.textPrimary : AppColors.inkOnSlate;
         break;
       case SporveButtonVariant.tertiary:
@@ -158,15 +158,15 @@ class _SporveButtonState extends State<SporveButton> {
 
     final style = ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith(
-        (states) => states.contains(WidgetState.disabled) ? bg.withOpacity(0.45) : bg,
+        (states) => states.contains(WidgetState.disabled) ? bg.withValues(alpha: 0.45) : bg,
       ),
       foregroundColor: WidgetStateProperty.all(fg),
-      overlayColor: WidgetStateProperty.all(fg.withOpacity(0.10)),
+      overlayColor: WidgetStateProperty.all(fg.withValues(alpha: 0.10)),
       side: side == BorderSide.none
           ? null
           : WidgetStateProperty.resolveWith(
               (states) => states.contains(WidgetState.disabled)
-                  ? side.copyWith(color: side.color.withOpacity(0.4))
+                  ? side.copyWith(color: side.color.withValues(alpha: 0.4))
                   : side,
             ),
       shape: WidgetStateProperty.all(

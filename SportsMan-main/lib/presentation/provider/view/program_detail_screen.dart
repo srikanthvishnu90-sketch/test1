@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
-import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:provider/provider.dart';
 import 'package:geolocator/geolocator.dart';
@@ -285,8 +283,8 @@ class _HeroCover extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 Colors.transparent,
-                Colors.black.withOpacity(0.3),
-                Colors.black.withOpacity(0.85),
+                Colors.black.withValues(alpha: 0.3),
+                Colors.black.withValues(alpha: 0.85),
               ],
               stops: const [0.3, 0.6, 1.0],
             ),
@@ -321,7 +319,7 @@ class _HeroCover extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
               color: listing.status == 'published'
-                  ? AppColors.slateText.withOpacity(0.9)
+                  ? AppColors.slateText.withValues(alpha: 0.9)
                   : Colors.white24,
               borderRadius: BorderRadius.circular(AppRadii.tile),
             ),
@@ -409,7 +407,7 @@ class _TitleSection extends StatelessWidget {
           decoration: BoxDecoration(
             color: SportColors.tintOf(listing.sportType),
             borderRadius: BorderRadius.circular(AppRadii.chip),
-            border: Border.all(color: SportColors.of(listing.sportType).withOpacity(0.4)),
+            border: Border.all(color: SportColors.of(listing.sportType).withValues(alpha: 0.4)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

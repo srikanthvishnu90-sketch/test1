@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../onboarding/controllers/onboarding_controller.dart';
@@ -50,7 +49,7 @@ class AuthEntryScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: ink.withOpacity(0.12),
+                    color: ink.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -63,7 +62,7 @@ class AuthEntryScreen extends StatelessWidget {
                         style: AppTypography.font(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: ink.withOpacity(0.7),
+                          color: ink.withValues(alpha: 0.7),
                           letterSpacing: 1.0,
                         ),
                       ),
@@ -92,7 +91,7 @@ class AuthEntryScreen extends StatelessWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.0,
-                    color: ink.withOpacity(0.5),
+                    color: ink.withValues(alpha: 0.5),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -123,7 +122,7 @@ class AuthEntryScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Already have an account? ',
-                      style: AppTypography.font(color: ink.withOpacity(0.7)),
+                      style: AppTypography.font(color: ink.withValues(alpha: 0.7)),
                     ),
                     GestureDetector(
                       onTap: () => Get.toNamed(
@@ -144,7 +143,7 @@ class AuthEntryScreen extends StatelessWidget {
                   'By continuing, you acknowledge and agree to Sporve\'s Terms of Service and Privacy Policy.',
                   textAlign: TextAlign.center,
                   style: AppTypography.font(
-                    color: ink.withOpacity(0.5),
+                    color: ink.withValues(alpha: 0.5),
                     fontSize: 11,
                   ),
                 ),

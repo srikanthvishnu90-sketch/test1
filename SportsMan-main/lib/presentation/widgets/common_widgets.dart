@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../../core/theme/app_typography.dart';
@@ -256,7 +255,7 @@ class AIBadge extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.blueTint,
           borderRadius: BorderRadius.circular(AppRadii.chip),
-          border: Border.all(color: AppColors.blue.withOpacity(0.5)),
+          border: Border.all(color: AppColors.blue.withValues(alpha: 0.5)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,

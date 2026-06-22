@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_colors.dart';
 import './view/provider_dashboard_screen.dart';
 import './view/provider_listings_screen.dart';
