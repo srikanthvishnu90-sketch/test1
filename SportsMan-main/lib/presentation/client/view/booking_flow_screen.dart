@@ -536,7 +536,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.ink,
+      backgroundColor: Colors.transparent,
       appBar: _buildAppBar(),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
@@ -549,7 +549,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     if (_currentStep == 3) {
       // Step 3 has custom close button / back button
       return AppBar(
-        backgroundColor: AppColors.ink,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.only(left: 12),
@@ -567,7 +567,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     if (_currentStep == 4) {
       // Step 4 has close button on right
       return AppBar(
-        backgroundColor: AppColors.ink,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: false,
         actions: [
@@ -583,7 +583,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
     // Step 1 and Step 2 AppBar
     return AppBar(
-      backgroundColor: AppColors.ink,
+      backgroundColor: Colors.transparent,
       elevation: 0,
       leading: Padding(
         padding: const EdgeInsets.only(left: 12),
@@ -857,7 +857,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           decoration: const BoxDecoration(
-            color: AppColors.ink,
+            color: Colors.transparent,
             border: Border(
               top: BorderSide(color: AppColors.hairline, width: 1),
             ),
@@ -1122,7 +1122,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           decoration: const BoxDecoration(
-            color: AppColors.ink,
+            color: Colors.transparent,
             border: Border(
               top: BorderSide(color: AppColors.hairline, width: 1),
             ),
@@ -1148,7 +1148,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     return Container(
       key: const ValueKey(3),
       width: double.infinity,
-      color: AppColors.ink,
+      color: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -1216,7 +1216,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     return Container(
       key: const ValueKey(4),
       width: double.infinity,
-      color: AppColors.ink,
+      color: Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
