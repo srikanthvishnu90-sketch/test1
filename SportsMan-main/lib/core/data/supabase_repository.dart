@@ -205,7 +205,8 @@ class SupabaseRepository implements AppRepository {
           .from('programs')
           .select('*, providers(business_name, verification_status)');
       return (rows as List).map((r) => _mapProgram(r as Map)).toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -215,7 +216,8 @@ class SupabaseRepository implements AppRepository {
     try {
       final rows = await _db.from('sessions').select();
       return (rows as List).map((r) => _mapSession(r as Map)).toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -232,7 +234,9 @@ class SupabaseRepository implements AppRepository {
         final row = _programToRow(p, providerId);
         await _db.from('programs').upsert(row);
       }
-    } catch (_) {/* never crash the UI */}
+    } catch (e) {
+      debugPrint('SupabaseRepository write failed: $e');
+    }
   }
 
   @override
@@ -244,7 +248,9 @@ class SupabaseRepository implements AppRepository {
         if (row['program_id'] == null) continue; // can't satisfy the FK
         await _db.from('sessions').upsert(row);
       }
-    } catch (_) {/* never crash the UI */}
+    } catch (e) {
+      debugPrint('SupabaseRepository write failed: $e');
+    }
   }
 
   // ── Bookings ──────────────────────────────────────────────────────────────
@@ -254,7 +260,8 @@ class SupabaseRepository implements AppRepository {
       final rows = await _db.from('bookings').select(
           '*, sessions(*, programs(*)), athletes(first_name,last_name,profile_image)');
       return (rows as List).map((r) => _mapBooking(r as Map)).toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -349,7 +356,8 @@ class SupabaseRepository implements AppRepository {
       final row =
           await _db.from('profiles').select().eq('id', uid).maybeSingle();
       return row == null ? {} : _mapUserProfile(row);
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return {};
     }
   }
@@ -369,7 +377,9 @@ class SupabaseRepository implements AppRepository {
         if (profile['profileImage'] != null)
           'profile_image': profile['profileImage'],
       }).eq('id', uid);
-    } catch (_) {/* never crash the UI */}
+    } catch (e) {
+      debugPrint('SupabaseRepository write failed: $e');
+    }
   }
 
   @override
@@ -383,7 +393,8 @@ class SupabaseRepository implements AppRepository {
           .eq('owner_id', uid)
           .maybeSingle();
       return row == null ? {} : _mapProviderProfile(row);
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return {};
     }
   }
@@ -405,7 +416,9 @@ class SupabaseRepository implements AppRepository {
           'onboarding_completed': profile['onboardingCompleted'],
       };
       await _db.from('providers').upsert(row, onConflict: 'owner_id');
-    } catch (_) {/* never crash the UI */}
+    } catch (e) {
+      debugPrint('SupabaseRepository write failed: $e');
+    }
   }
 
   // ── Athletes ──────────────────────────────────────────────────────────────
@@ -414,7 +427,8 @@ class SupabaseRepository implements AppRepository {
     try {
       final rows = await _db.from('athletes').select();
       return (rows as List).map((r) => _mapAthlete(r as Map)).toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -434,7 +448,9 @@ class SupabaseRepository implements AppRepository {
           await _db.from('athletes').insert(row);
         }
       }
-    } catch (_) {/* never crash the UI */}
+    } catch (e) {
+      debugPrint('SupabaseRepository write failed: $e');
+    }
   }
 
   // ── Conversations & messages ──────────────────────────────────────────────
@@ -459,7 +475,8 @@ class SupabaseRepository implements AppRepository {
                     : {'text': r['last_message']},
               })
           .toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -485,7 +502,8 @@ class SupabaseRepository implements AppRepository {
                 'createdAt': r['created_at'],
               })
           .toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -519,7 +537,8 @@ class SupabaseRepository implements AppRepository {
           'roster': roster,
         };
       }).toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -554,7 +573,8 @@ class SupabaseRepository implements AppRepository {
                 'createdAt': r['created_at'],
               })
           .toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
@@ -593,7 +613,8 @@ class SupabaseRepository implements AppRepository {
           .eq('owner_id', uid)
           .maybeSingle();
       return (row as Map?)?['id']?.toString();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseRepository read failed: $e');
       return null;
     }
   }
@@ -657,11 +678,17 @@ class SupabaseRepository implements AppRepository {
     String? dob = a['dateOfBirth']?.toString();
     if (dob != null && dob.length >= 10) dob = dob.substring(0, 10);
     final gender = a['gender']?.toString();
+    // The onboarding flow stores the child's name as `fullName`; derive
+    // first/last from it so the real name is persisted (not a placeholder).
+    final full = (a['fullName'] ?? '').toString().trim();
+    final firstFromFull = full.isEmpty ? null : full.split(RegExp(r'\s+')).first;
+    final lastFromFull =
+        full.contains(' ') ? full.substring(full.indexOf(' ') + 1).trim() : null;
     return {
       if (_isUuid(a['_id'])) 'id': a['_id'],
       'parent_id': parentId,
-      'first_name': a['firstName'] ?? 'Athlete',
-      'last_name': a['lastName'],
+      'first_name': a['firstName'] ?? firstFromFull ?? 'Athlete',
+      'last_name': a['lastName'] ?? lastFromFull,
       'date_of_birth': dob,
       if (gender != null && validGenders.contains(gender)) 'gender': gender,
       if (a['preferredSports'] != null) 'preferred_sports': a['preferredSports'],

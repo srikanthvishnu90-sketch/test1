@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app_user.dart';
@@ -44,7 +45,8 @@ class SupabaseAuthService implements AuthService {
       return AuthResult.emailConfirmationRequired();
     } on AuthException catch (e) {
       return AuthResult.error(e.message);
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseAuthService error: $e');
       return AuthResult.error('Something went wrong. Please try again.');
     }
   }
@@ -66,7 +68,8 @@ class SupabaseAuthService implements AuthService {
       return AuthResult.error('Sign in failed. Please try again.');
     } on AuthException catch (e) {
       return AuthResult.error(e.message);
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseAuthService error: $e');
       return AuthResult.error('Something went wrong. Please try again.');
     }
   }
@@ -86,9 +89,11 @@ class SupabaseAuthService implements AuthService {
     try {
       await _client.auth.resetPasswordForEmail(email);
       return true;
-    } on AuthException {
+    } on AuthException catch (e) {
+      debugPrint('SupabaseAuthService auth error: ${e.message}');
       return false;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseAuthService error: $e');
       return false;
     }
   }
@@ -107,9 +112,11 @@ class SupabaseAuthService implements AuthService {
       );
       await _client.auth.updateUser(UserAttributes(password: newPassword));
       return true;
-    } on AuthException {
+    } on AuthException catch (e) {
+      debugPrint('SupabaseAuthService auth error: ${e.message}');
       return false;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('SupabaseAuthService error: $e');
       return false;
     }
   }
