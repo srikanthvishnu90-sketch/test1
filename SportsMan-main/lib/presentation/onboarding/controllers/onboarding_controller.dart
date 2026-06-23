@@ -293,7 +293,15 @@ class OnboardingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Persist the child. NOTHING is fabricated: DOB is required (validated by the
+  /// UI before this runs), gender/medical/emergencyContact are written only when
+  /// the parent actually entered them (null otherwise), and parental consent is
+  /// recorded. The UI gates this call behind the un-prechecked consent box.
   Future<bool> submitAthleteProfile() async {
+    if (_athleteDob == null || _fullName.trim().isEmpty) {
+      // Defensive: the UI must collect a real name + DOB first.
+      return false;
+    }
     _setLoading(true);
     await Future.delayed(const Duration(milliseconds: 600));
 
@@ -301,17 +309,19 @@ class OnboardingProvider with ChangeNotifier {
       final athletes = await _repo.getAthletes();
       athletes.add({
         '_id': 'athlete_${DateTime.now().millisecondsSinceEpoch}',
-        'fullName': _fullName,
-        'dateOfBirth': _athleteDob ?? '2015-06-01T00:00:00Z',
-        'gender': _athleteGender ?? 'male',
+        'fullName': _fullName.trim(),
+        'dateOfBirth': _athleteDob, // real entered DOB — no default
+        if (_athleteGender != null) 'gender': _athleteGender,
         'preferredSports': _selectedSports,
-        'mission': _selectedMission,
-        'medicalConditions': _athleteMedicalConditions ?? 'None',
-        'emergencyContact': _athleteEmergencyContact ?? {
-          'name': 'Emergency Contact',
-          'phone': '+13125550123',
-          'relationship': 'Parent'
-        }
+        if (_athleteMedicalConditions != null &&
+            _athleteMedicalConditions!.trim().isNotEmpty)
+          'medicalConditions': _athleteMedicalConditions!.trim(),
+        if (_athleteEmergencyContact != null)
+          'emergencyContact': _athleteEmergencyContact,
+        // COPPA parental consent (UI gate guarantees this is true here).
+        'parentConsent': true,
+        'consentAt': DateTime.now().toUtc().toIso8601String(),
+        'consentVersion': 'v1',
       });
       await _repo.saveAthletes(athletes);
       _setLoading(false);

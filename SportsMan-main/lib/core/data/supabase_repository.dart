@@ -687,15 +687,21 @@ class SupabaseRepository implements AppRepository {
     return {
       if (_isUuid(a['_id'])) 'id': a['_id'],
       'parent_id': parentId,
-      'first_name': a['firstName'] ?? firstFromFull ?? 'Athlete',
+      // REAL entered name only (UI validates non-empty); no 'Athlete' fallback.
+      'first_name': a['firstName'] ?? firstFromFull,
       'last_name': a['lastName'] ?? lastFromFull,
-      'date_of_birth': dob,
+      'date_of_birth': dob, // required real DOB (UI-validated); never defaulted
       if (gender != null && validGenders.contains(gender)) 'gender': gender,
       if (a['preferredSports'] != null) 'preferred_sports': a['preferredSports'],
+      // Written only when the parent entered it — null otherwise (no 'None').
       'medical_conditions': a['medicalConditions'],
       if (a['emergencyContact'] != null)
         'emergency_contact': a['emergencyContact'],
       'profile_image': a['profileImage'],
+      // COPPA parental consent.
+      if (a['parentConsent'] != null) 'parent_consent': a['parentConsent'],
+      if (a['consentAt'] != null) 'consent_at': a['consentAt'],
+      if (a['consentVersion'] != null) 'consent_version': a['consentVersion'],
     };
   }
 }
