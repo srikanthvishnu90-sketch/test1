@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Sporve type system — **serif headers (Fraunces) + sans body (Geist)**.
+/// Sporve type system — **serif headers (Fraunces) + sans body (Manrope)**.
 /// Headers/display/titles (≥18px) render in Fraunces for editorial warmth;
-/// body, labels, and numbers stay in Geist. Hierarchy comes from size + the
-/// gray ramp + ONE weight step, not from making everything bold.
-///
-/// Geist is a bundled variable font; we drive its weight axis with
-/// [FontVariation]. Fraunces is loaded via google_fonts.
+/// body, labels, and numbers use Manrope. Manrope ships a real weight ramp
+/// (300/400/500/600/700/800, see pubspec) so hierarchy comes from weight + size
+/// + the gray ramp — not from a single weight. Fraunces is loaded via
+/// google_fonts.
 class AppTypography {
-  static const String fontFamily = 'Geist';
+  static const String fontFamily = 'Manrope';
 
   static TextStyle _geist({
     required double size,
