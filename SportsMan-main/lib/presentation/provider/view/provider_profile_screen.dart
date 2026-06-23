@@ -7,7 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../authentication/controllers/auth_provider.dart';
 import '../../widgets/common_widgets.dart';
-import '../../../core/mock/mock_data.dart';
+import '../controllers/provider_controller.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
 
@@ -35,8 +35,11 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
 
   Future<void> _fetchProfileData() async {
     try {
-      final userData = MockData.userProfile;
-      final providerData = MockData.providerProfile;
+      final c = context.read<ProviderController>();
+      await Future.wait([c.fetchAccountProfile(), c.fetchProviderProfile()]);
+      if (!mounted) return;
+      final userData = c.accountProfile;
+      final providerData = c.providerProfile;
 
       if (userData.isNotEmpty) {
         final fName = userData['firstName'] ?? '';

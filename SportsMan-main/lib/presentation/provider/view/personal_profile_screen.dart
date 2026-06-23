@@ -7,7 +7,8 @@ import '../../../core/theme/app_radii.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
-import '../../../core/mock/mock_data.dart';
+import 'package:provider/provider.dart';
+import '../controllers/provider_controller.dart';
 
 class PersonalProfileScreen extends StatefulWidget {
   const PersonalProfileScreen({super.key});
@@ -23,17 +24,8 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  // Settings State
-  bool _pushEnabled = false;
-  bool _emailEnabled = false;
-  bool _inAppEnabled = false;
-  bool _bookingReminderEnabled = false;
-  bool _smsAlertsEnabled = false;
-
-  bool _listingVisibility = false;
-  bool _activityStatusEnabled = false;
-  bool _shareUsageDataEnabled = false;
-
+  // (Notification/visibility toggle state removed — that UI is commented out and
+  // those prefs have no backing column. See report.)
   bool _isLoading = false;
   bool _isFetching = true;
 
@@ -49,21 +41,14 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
     });
 
     try {
-      final data = MockData.userProfile;
+      final c = context.read<ProviderController>();
+      await c.fetchAccountProfile();
+      if (!mounted) return;
+      final data = c.accountProfile;
       if (data.isNotEmpty) {
         _firstNameController.text = data['firstName'] ?? '';
         _lastNameController.text = data['lastName'] ?? '';
         _emailController.text = data['email'] ?? '';
-
-        _pushEnabled = data['pushEnabled'] ?? false;
-        _emailEnabled = data['emailEnabled'] ?? false;
-        _inAppEnabled = data['inAppEnabled'] ?? false;
-        _bookingReminderEnabled = data['bookingReminderEnabled'] ?? false;
-        _smsAlertsEnabled = data['smsAlertsEnabled'] ?? false;
-
-        _listingVisibility = data['listingVisibility'] ?? false;
-        _activityStatusEnabled = data['activityStatusEnabled'] ?? false;
-        _shareUsageDataEnabled = data['shareUsageDataEnabled'] ?? false;
       }
     } catch (e) {
       Get.snackbar(
@@ -94,22 +79,16 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
       _isLoading = true;
     });
 
-    final Map<String, dynamic> body = {
-      ...MockData.userProfile,
+    // Only the name maps to real columns (profiles). The notification/visibility
+    // toggles below have NO column yet — they are intentionally NOT persisted
+    // here (flagged for a schema decision) rather than faked into local storage.
+    final c = context.read<ProviderController>();
+    final ok = await c.saveMyAccount({
       'firstName': _firstNameController.text.trim(),
       'lastName': _lastNameController.text.trim(),
-      'pushEnabled': _pushEnabled,
-      'emailEnabled': _emailEnabled,
-      'inAppEnabled': _inAppEnabled,
-      'bookingReminderEnabled': _bookingReminderEnabled,
-      'smsAlertsEnabled': _smsAlertsEnabled,
-      'listingVisibility': _listingVisibility,
-      'activityStatusEnabled': _activityStatusEnabled,
-      'shareUsageDataEnabled': _shareUsageDataEnabled,
-    };
-
-    try {
-      MockData.userProfile = body;
+    });
+    if (!mounted) return;
+    if (ok) {
       Get.snackbar(
         'Success',
         'Personal profile updated successfully!',
@@ -118,18 +97,17 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(16),
       );
-    } catch (e) {
+    } else {
       Get.snackbar(
         'Error',
-        'An error occurred: $e',
+        c.profileError ?? 'Could not save. Please try again.',
         backgroundColor: AppColors.negative,
         colorText: AppColors.textPrimary,
       );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

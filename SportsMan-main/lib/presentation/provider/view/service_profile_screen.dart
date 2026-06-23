@@ -10,8 +10,8 @@ import '../../../core/theme/sport_colors.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
-
-import '../../../core/mock/mock_data.dart';
+import 'package:provider/provider.dart';
+import '../controllers/provider_controller.dart';
 
 class ServiceProfileScreen extends StatefulWidget {
   const ServiceProfileScreen({super.key});
@@ -62,15 +62,17 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
       _isFetching = true;
     });
 
+    final c = context.read<ProviderController>();
     try {
-      await Future.delayed(const Duration(milliseconds: 300));
-      final data = MockData.providerProfile;
+      await c.fetchProviderProfile();
+      if (!mounted) return;
+      final data = c.providerProfile;
       if (data.isNotEmpty) {
         _businessNameController.text = data['businessName'] ?? '';
-        
-        if (data['supportedSports'] != null) {
+
+        if (data['sports'] != null) {
           _selectedSports.clear();
-          for (var sport in data['supportedSports']) {
+          for (var sport in data['sports']) {
             _selectedSports.add(sport.toString());
           }
         }
@@ -173,14 +175,16 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
       }
     };
 
-    try {
-      await Future.delayed(const Duration(milliseconds: 300));
-      final prof = MockData.providerProfile;
-      prof.addAll(body);
-      if (_localLogoPath != null) prof['logo'] = _localLogoPath;
-      if (_localCoverPath != null) prof['coverImage'] = _localCoverPath;
-      MockData.providerProfile = prof;
-
+    // Only business_name + sports map to real columns. pricingOptions, logo and
+    // coverImage have NO provider column (pricing is per-program; logo/cover need
+    // Storage) — intentionally NOT persisted here (flagged), never faked.
+    final c = context.read<ProviderController>();
+    final ok = await c.saveMyProvider({
+      'businessName': body['businessName'],
+      'sports': _selectedSports.toList(),
+    });
+    if (!mounted) return;
+    if (ok) {
       Get.snackbar(
         'Success',
         'Service profile updated successfully!',
@@ -189,18 +193,17 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(16),
       );
-    } catch (e) {
+    } else {
       Get.snackbar(
         'Error',
-        'An error occurred: $e',
+        c.profileError ?? 'Could not save. Please try again.',
         backgroundColor: AppColors.negative,
         colorText: AppColors.textPrimary,
       );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override

@@ -370,6 +370,7 @@ class SupabaseRepository implements AppRepository {
       await _db.from('profiles').update({
         if (profile['firstName'] != null) 'first_name': profile['firstName'],
         if (profile['lastName'] != null) 'last_name': profile['lastName'],
+        if (profile['email'] != null) 'email': profile['email'],
         if (profile['phoneNumber'] != null)
           'phone_number': profile['phoneNumber'],
         if (profile['preferredSports'] != null)
@@ -378,7 +379,8 @@ class SupabaseRepository implements AppRepository {
           'profile_image': profile['profileImage'],
       }).eq('id', uid);
     } catch (e) {
-      debugPrint('SupabaseRepository write failed: $e');
+      debugPrint('saveUserProfile failed: $e');
+      rethrow; // let the caller surface a real error
     }
   }
 
@@ -417,7 +419,8 @@ class SupabaseRepository implements AppRepository {
       };
       await _db.from('providers').upsert(row, onConflict: 'owner_id');
     } catch (e) {
-      debugPrint('SupabaseRepository write failed: $e');
+      debugPrint('saveProviderProfile failed: $e');
+      rethrow; // let the caller surface a real error
     }
   }
 

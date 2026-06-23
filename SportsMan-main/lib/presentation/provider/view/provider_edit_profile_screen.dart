@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../core/mock/mock_data.dart';
+import 'package:provider/provider.dart';
+import '../controllers/provider_controller.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../widgets/common_widgets.dart';
@@ -39,27 +39,59 @@ class _ProviderEditProfileScreenState extends State<ProviderEditProfileScreen> {
     if (image != null) setState(() => _avatarPath = image.path);
   }
 
-  void _save() {
-    final user = Map<String, dynamic>.from(MockData.userProfile);
-    user['firstName'] = _firstNameController.text.trim();
-    user['lastName'] = _lastNameController.text.trim();
-    user['email'] = _emailController.text.trim();
-    user['phoneNumber'] = _phoneController.text.trim();
-    MockData.userProfile = user;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+  }
 
-    final prov = Map<String, dynamic>.from(MockData.providerProfile);
-    prov['bio'] = _bioController.text.trim();
-    prov['location'] = _locationController.text.trim();
-    prov['sports'] = [_selectedSport];
-    MockData.providerProfile = prov;
+  // Load the coach's REAL account (profiles) + business (providers) rows.
+  Future<void> _load() async {
+    final c = context.read<ProviderController>();
+    await Future.wait([c.fetchAccountProfile(), c.fetchProviderProfile()]);
+    if (!mounted) return;
+    final a = c.accountProfile, p = c.providerProfile;
+    setState(() {
+      if ((a['firstName'] ?? '').toString().isNotEmpty) _firstNameController.text = a['firstName'];
+      if ((a['lastName'] ?? '').toString().isNotEmpty) _lastNameController.text = a['lastName'];
+      if ((a['email'] ?? '').toString().isNotEmpty) _emailController.text = a['email'];
+      if ((a['phoneNumber'] ?? '').toString().isNotEmpty) _phoneController.text = a['phoneNumber'];
+      if ((p['bio'] ?? '').toString().isNotEmpty) _bioController.text = p['bio'];
+      if ((p['location'] ?? '').toString().isNotEmpty) _locationController.text = p['location'];
+      final sports = p['sports'];
+      if (sports is List && sports.isNotEmpty && _sports.contains(sports.first.toString())) {
+        _selectedSport = sports.first.toString();
+      }
+    });
+  }
 
-    Get.snackbar(
-      'Saved',
-      'Your profile has been updated.',
-      backgroundColor: AppColors.surface,
-      colorText: AppColors.textPrimary,
-    );
-    Navigator.pop(context);
+  Future<void> _save() async {
+    final c = context.read<ProviderController>();
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    // NOTE: _avatarPath is a local file/blob path — NOT persisted (needs Supabase
+    // Storage; profile_image expects a URL). Flagged, not faked.
+    final okAccount = await c.saveMyAccount({
+      'firstName': _firstNameController.text.trim(),
+      'lastName': _lastNameController.text.trim(),
+      'email': _emailController.text.trim(),
+      'phoneNumber': _phoneController.text.trim(),
+    });
+    final okProvider = await c.saveMyProvider({
+      'bio': _bioController.text.trim(),
+      'location': _locationController.text.trim(),
+      'sports': [_selectedSport],
+    });
+    if (!mounted) return;
+    if (okAccount && okProvider) {
+      messenger.showSnackBar(const SnackBar(
+        content: Text('Profile updated.'), backgroundColor: AppColors.slateText));
+      navigator.pop();
+    } else {
+      messenger.showSnackBar(SnackBar(
+        content: Text(c.profileError ?? 'Could not save. Please try again.'),
+        backgroundColor: AppColors.negative));
+    }
   }
 
   @override

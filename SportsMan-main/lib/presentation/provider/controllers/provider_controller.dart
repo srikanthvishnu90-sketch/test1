@@ -278,6 +278,62 @@ class ProviderController with ChangeNotifier {
     notifyListeners();
   }
 
+  // ── Account (profiles) + save plumbing for the profile/settings screens ──
+  Map<String, dynamic> _accountProfile = {};
+  Map<String, dynamic> get accountProfile => _accountProfile;
+  bool _savingProfile = false;
+  bool get savingProfile => _savingProfile;
+  String? _profileError;
+  String? get profileError => _profileError;
+
+  Future<void> fetchAccountProfile() async {
+    try {
+      _accountProfile = await _repo.getUserProfile();
+    } catch (e) {
+      debugPrint('fetchAccountProfile failed: $e');
+    }
+    notifyListeners();
+  }
+
+  /// Persist account (profiles) fields. Returns false + sets [profileError] on
+  /// failure so the screen can show a REAL error (never a fake "Saved!").
+  Future<bool> saveMyAccount(Map<String, dynamic> updates) async {
+    _savingProfile = true;
+    _profileError = null;
+    notifyListeners();
+    try {
+      await _repo.saveUserProfile(updates);
+      _accountProfile = await _repo.getUserProfile();
+      return true;
+    } catch (e) {
+      _profileError = 'Could not save your profile. Please try again.';
+      debugPrint('saveMyAccount failed: $e');
+      return false;
+    } finally {
+      _savingProfile = false;
+      notifyListeners();
+    }
+  }
+
+  /// Persist provider (business) fields. Returns false + sets [profileError].
+  Future<bool> saveMyProvider(Map<String, dynamic> updates) async {
+    _savingProfile = true;
+    _profileError = null;
+    notifyListeners();
+    try {
+      await _repo.saveProviderProfile(updates);
+      _providerProfile = await _repo.getProviderProfile();
+      return true;
+    } catch (e) {
+      _profileError = 'Could not save your business profile. Please try again.';
+      debugPrint('saveMyProvider failed: $e');
+      return false;
+    } finally {
+      _savingProfile = false;
+      notifyListeners();
+    }
+  }
+
   /// Fetches the authenticated provider's programs from the server.
   /// After building the basic list from the /provider/me endpoint,
   /// it calls GET /programs/:id for every listing to hydrate the
