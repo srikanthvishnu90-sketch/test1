@@ -406,8 +406,8 @@ class SupabaseRepository implements AppRepository {
     try {
       final uid = _uid;
       if (uid == null) return;
-      final row = <String, dynamic>{
-        'owner_id': uid,
+      // Only the fields the caller actually provided.
+      final fields = <String, dynamic>{
         if (profile['businessName'] != null)
           'business_name': profile['businessName'],
         if (profile['bio'] != null) 'bio': profile['bio'],
@@ -417,7 +417,21 @@ class SupabaseRepository implements AppRepository {
         if (profile['onboardingCompleted'] != null)
           'onboarding_completed': profile['onboardingCompleted'],
       };
-      await _db.from('providers').upsert(row, onConflict: 'owner_id');
+      // UPDATE the existing provider row (the edit case) — a partial edit must
+      // NOT require business_name. Only INSERT a new row when none exists yet
+      // (e.g. onboarding), where business_name is mandatory.
+      final updated = await _db
+          .from('providers')
+          .update(fields)
+          .eq('owner_id', uid)
+          .select('id');
+      if ((updated as List).isEmpty) {
+        await _db.from('providers').insert({
+          'owner_id': uid,
+          'business_name': profile['businessName'] ?? 'My Academy',
+          ...fields,
+        });
+      }
     } catch (e) {
       debugPrint('saveProviderProfile failed: $e');
       rethrow; // let the caller surface a real error
