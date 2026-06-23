@@ -70,7 +70,14 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                 ),
                 child: IconButton(
                   icon: const Icon(Icons.share_outlined, color: Colors.white, size: 18),
-                  onPressed: () {},
+                  onPressed: () {
+                    Clipboard.setData(const ClipboardData(
+                        text: 'Check out this program on Sporve'));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Link copied to clipboard'),
+                      backgroundColor: AppColors.slateText,
+                    ));
+                  },
                   padding: const EdgeInsets.all(8),
                   constraints: const BoxConstraints(),
                 ),

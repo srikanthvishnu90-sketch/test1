@@ -79,7 +79,12 @@ class _FilterScreenState extends State<FilterScreen> {
             Row(
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => setState(() {
+                    _radius = 25;
+                    _selectedSport = 'VOLLEYBALL';
+                    _selectedService = 'CAMPS';
+                    _selectedSkill = 'INTERMEDIATE';
+                  }),
                   child: Text('CLEAR ALL', style: AppTypography.font(color: AppColors.textTertiary, fontWeight: FontWeight.bold, letterSpacing: 1)),
                 ),
                 const SizedBox(width: 20),

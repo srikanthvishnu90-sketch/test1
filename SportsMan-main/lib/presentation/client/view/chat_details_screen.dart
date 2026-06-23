@@ -349,13 +349,19 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                       children: [
                         // Attachment Icon
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => Get.snackbar('Attachments',
+                              'Sending attachments is coming soon.',
+                              backgroundColor: AppColors.surface,
+                              colorText: AppColors.textPrimary),
                           child: const Icon(Icons.attachment, color: AppColors.textSecondary, size: 22),
                         ),
                         const SizedBox(width: 12),
                         // Emoji Icon
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => Get.snackbar('Emoji',
+                              'Emoji picker is coming soon.',
+                              backgroundColor: AppColors.surface,
+                              colorText: AppColors.textPrimary),
                           child: const Icon(Icons.sentiment_satisfied_alt, color: AppColors.textSecondary, size: 22),
                         ),
                         const SizedBox(width: 12),
