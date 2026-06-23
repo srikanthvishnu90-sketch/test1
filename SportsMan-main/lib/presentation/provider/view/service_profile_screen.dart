@@ -29,18 +29,8 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
   final List<String> _availableSports = ['Soccer', 'Basketball', 'Tennis', 'Football', 'Swimming', 'Martial Arts', 'Baseball'];
   final List<String> _selectedSports = [];
 
-  // Pricing Options state
-  bool _perSessionActive = false;
-  final TextEditingController _perSessionRate = TextEditingController();
-  final TextEditingController _perSessionDuration = TextEditingController();
-
-  bool _perHourActive = false;
-  final TextEditingController _perHourRate = TextEditingController();
-  final TextEditingController _perHourDuration = TextEditingController();
-
-  bool _perSeasonActive = false;
-  final TextEditingController _perSeasonRate = TextEditingController();
-  final TextEditingController _perSeasonDuration = TextEditingController();
+  // NOTE: provider-level pricing (per session/hour/season) was REMOVED — pricing
+  // lives on each program (programs.price), the single source of truth.
 
   bool _isLoading = false;
   bool _isFetching = true;
@@ -79,35 +69,6 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
 
         _logoUrl = data['logo'];
         _coverUrl = data['coverImage'];
-
-        final pricing = data['pricingOptions'];
-        if (pricing != null) {
-          final perSession = pricing['perSession'];
-          if (perSession != null) {
-            _perSessionActive = perSession['active'] ?? false;
-            _perSessionRate.text = perSession['rate']?.toString() ?? '';
-            _perSessionDuration.text = perSession['duration']?.toString() ?? '';
-          }
-
-          final perHour = pricing['perHour'];
-          if (perHour != null) {
-            _perHourActive = perHour['active'] ?? false;
-            _perHourRate.text = perHour['rate']?.toString() ?? '';
-            _perHourDuration.text = perHour['duration']?.toString() ?? '';
-          }
-
-          final perSeason = pricing['perSeason'];
-          if (perSeason != null) {
-            _perSeasonActive = perSeason['active'] ?? false;
-            _perSeasonRate.text = perSeason['rate']?.toString() ?? '';
-            
-            final dur = perSeason['duration'];
-            if (dur != null) {
-              final numOnly = dur.toString().replaceAll(RegExp(r'[^0-9]'), '');
-              _perSeasonDuration.text = numOnly.isNotEmpty ? numOnly : dur.toString();
-            }
-          }
-        }
       }
     } catch (e) {
       Get.snackbar(
@@ -126,12 +87,6 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
   @override
   void dispose() {
     _businessNameController.dispose();
-    _perSessionRate.dispose();
-    _perSessionDuration.dispose();
-    _perHourRate.dispose();
-    _perHourDuration.dispose();
-    _perSeasonRate.dispose();
-    _perSeasonDuration.dispose();
     super.dispose();
   }
 
@@ -154,25 +109,6 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
     final Map<String, dynamic> body = {
       'businessName': _businessNameController.text.trim(),
       'supportedSports': _selectedSports,
-      'pricingOptions': {
-        'perSession': {
-          'active': _perSessionActive,
-          'rate': double.tryParse(_perSessionRate.text) ?? 0.0,
-          'duration': int.tryParse(_perSessionDuration.text) ?? 0,
-        },
-        'perHour': {
-          'active': _perHourActive,
-          'rate': double.tryParse(_perHourRate.text) ?? 0.0,
-          'duration': int.tryParse(_perHourDuration.text) ?? 0,
-        },
-        'perSeason': {
-          'active': _perSeasonActive,
-          'rate': double.tryParse(_perSeasonRate.text) ?? 0.0,
-          'duration': _perSeasonDuration.text.contains('Month') 
-              ? _perSeasonDuration.text 
-              : '${_perSeasonDuration.text} Months',
-        }
-      }
     };
 
     // Only business_name + sports map to real columns. pricingOptions, logo and
@@ -354,123 +290,6 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
                 ),
                 const SizedBox(height: 20),
 
-                // 3. Pricing Configuration Card
-                FadeInUp(
-                  duration: const Duration(milliseconds: 700),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(AppRadii.card),
-                      border: Border.all(color: AppColors.hairlineSoft, width: 1),
-                    ),
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'PRICING OPTIONS',
-                          style: AppTypography.font(
-                            color: AppColors.textGrey,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        // Per Session
-                        _buildPricingToggleRow(
-                          title: 'Per Session Pricing',
-                          value: _perSessionActive,
-                          onChanged: (val) => setState(() => _perSessionActive = val),
-                        ),
-                        if (_perSessionActive) ...[
-                          const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _buildTextField(
-                                  controller: _perSessionRate,
-                                  label: 'Rate (\$)',
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildTextField(
-                                  controller: _perSessionDuration,
-                                  label: 'Duration (Min)',
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                        const Divider(color: AppColors.hairline, height: 32),
-
-                        // Per Hour
-                        _buildPricingToggleRow(
-                          title: 'Per Hour Pricing',
-                          value: _perHourActive,
-                          onChanged: (val) => setState(() => _perHourActive = val),
-                        ),
-                        if (_perHourActive) ...[
-                          const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _buildTextField(
-                                  controller: _perHourRate,
-                                  label: 'Rate (\$)',
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildTextField(
-                                  controller: _perHourDuration,
-                                  label: 'Duration (Min)',
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                        const Divider(color: AppColors.hairline, height: 32),
-
-                        // Per Season
-                        _buildPricingToggleRow(
-                          title: 'Per Season Pricing',
-                          value: _perSeasonActive,
-                          onChanged: (val) => setState(() => _perSeasonActive = val),
-                        ),
-                        if (_perSeasonActive) ...[
-                          const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _buildTextField(
-                                  controller: _perSeasonRate,
-                                  label: 'Rate (\$)',
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: _buildTextField(
-                                  controller: _perSeasonDuration,
-                                  label: 'Duration (Months)',
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
                 // 4. Logo and Cover Photo Selection
                 FadeInUp(
                   duration: const Duration(milliseconds: 800),
@@ -621,32 +440,6 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
               ),
             ),
       ),
-    );
-  }
-
-  Widget _buildPricingToggleRow({
-    required String title,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: AppTypography.font(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Switch(
-          value: value,
-          onChanged: onChanged,
-          activeThumbColor: AppColors.slateText,
-          activeTrackColor: AppColors.slateTint,
-        ),
-      ],
     );
   }
 

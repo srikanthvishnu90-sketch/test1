@@ -234,6 +234,13 @@ class _PersonalProfileScreenState extends State<PersonalProfileScreen> {
                           ),
                         ),
                       ),
+                      // TODO(notifications): the push/email notification +
+                      // visibility/privacy toggles below (Messages, Bookings,
+                      // Promotions, Reminders, SMS Alerts, listingVisibility,
+                      // activityStatusEnabled, shareUsageDataEnabled) are HIDDEN —
+                      // they had no backing system and persisted nowhere. Restore
+                      // this block + its state fields once the push/email backend
+                      // and privacy settings exist.
                       /*
                       const SizedBox(height: 20),
 
