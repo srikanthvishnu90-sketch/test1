@@ -18,7 +18,7 @@ class AuthEntryScreen extends StatelessWidget {
 
     const ink = Colors.white; // deep-slate wall → white logo/text/accents
     return Container(
-      decoration: const BoxDecoration(gradient: AppColors.slateWall),
+      decoration: const BoxDecoration(gradient: AppColors.slateGlowWall),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(

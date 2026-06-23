@@ -22,7 +22,7 @@ class ProviderMediaScreen extends StatelessWidget {
         (provider.videoUrl != null && provider.videoUrl!.isNotEmpty);
 
     return Scaffold(
-      backgroundColor: AppColors.navyDark,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

@@ -105,7 +105,7 @@ class _NearbySessionScreenState extends State<NearbySessionScreen> {
     final fields = _fieldsFrom(homeProvider.programs);
 
     return Scaffold(
-      backgroundColor: AppColors.navyDark,
+      backgroundColor: Colors.transparent,
       body: Stack(
         children: [
           _buildMapArea(fields),

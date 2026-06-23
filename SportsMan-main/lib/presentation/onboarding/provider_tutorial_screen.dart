@@ -62,7 +62,7 @@ class _ProviderTutorialScreenState extends State<ProviderTutorialScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.navyDark,
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         child: Column(
           children: [

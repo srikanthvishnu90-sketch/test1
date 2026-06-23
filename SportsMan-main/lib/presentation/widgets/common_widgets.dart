@@ -36,7 +36,9 @@ class GradientScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.ink,
+      // Transparent so the app-wide ambient glow (app.dart builder) shows
+      // through — every product screen shares the same lit-from-within feel.
+      backgroundColor: Colors.transparent,
       appBar: appBar,
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,

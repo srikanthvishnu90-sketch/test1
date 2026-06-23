@@ -47,14 +47,26 @@ class AppColors {
   static const Color glowSlate = Color(0xFF7D9FBE); // mid glow / glowing accents
   static const Color glowHalo = Color(0x8C7DA0BE); // ~55% slate — bloom shadow color
 
-  /// Radial "lit-from-center" field for brand moments (splash). A brighter
-  /// slate core falls off to deep slate then the near-black canvas, so the
-  /// screen reads as emitting light instead of a flat painted slate fill.
+  /// Radial "lit-from-center" field for brand moments (splash / entry wall). A
+  /// brighter slate core falls off to deep slate then the near-black canvas, so
+  /// the screen reads as emitting light instead of a flat painted slate fill.
   static const RadialGradient slateGlowWall = RadialGradient(
     center: Alignment(0, -0.08),
     radius: 0.95,
     colors: [Color(0xFF6E93B5), slateDeep, ink],
     stops: [0.0, 0.5, 1.0],
+  );
+
+  /// SUBTLE ambient glow painted behind EVERY product screen (transparent
+  /// scaffolds reveal it). A faint slate-tinted lift toward the upper-center
+  /// falls off to the near-black canvas — enough to give the whole app a
+  /// cohesive "lit from within" depth while keeping text fully legible. This is
+  /// the restrained product-layer cousin of [slateGlowWall].
+  static const RadialGradient canvasGlow = RadialGradient(
+    center: Alignment(0, -0.35),
+    radius: 1.15,
+    colors: [Color(0xFF18222D), ink],
+    stops: [0.0, 0.9],
   );
 
   // ── Semantic ─────────────────────────────────────────────────────────────

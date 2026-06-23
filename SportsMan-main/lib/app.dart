@@ -14,7 +14,9 @@ class MyApp extends StatelessWidget {
       title: 'Sporve',
       debugShowCheckedModeBanner: false,
       theme: base.copyWith(
-        scaffoldBackgroundColor: AppColors.ink,
+        // Transparent so the app-wide ambient glow backdrop (builder below)
+        // shows behind every screen.
+        scaffoldBackgroundColor: Colors.transparent,
         primaryColor: AppColors.slate,
         colorScheme: base.colorScheme.copyWith(
           brightness: Brightness.dark,
@@ -38,8 +40,14 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         final media = MediaQuery.of(context);
         const frameWidth = 440.0;
+        // Ambient "lit-from-center" glow behind EVERY screen — transparent
+        // scaffolds reveal it, so the whole app shares one emissive feel.
+        final glow = DecoratedBox(
+          decoration: const BoxDecoration(gradient: AppColors.canvasGlow),
+          child: child ?? const SizedBox.shrink(),
+        );
         if (media.size.width <= 480 || child == null) {
-          return child ?? const SizedBox.shrink();
+          return glow;
         }
         return ColoredBox(
           color: AppColors.frame,
@@ -48,7 +56,7 @@ class MyApp extends StatelessWidget {
               width: frameWidth,
               child: MediaQuery(
                 data: media.copyWith(size: Size(frameWidth, media.size.height)),
-                child: child,
+                child: glow,
               ),
             ),
           ),

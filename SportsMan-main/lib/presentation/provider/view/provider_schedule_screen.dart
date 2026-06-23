@@ -102,7 +102,7 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
     final confirmedSessions = daySessions.where((s) => s.isConfirmed).toList();
 
     return Scaffold(
-      backgroundColor: AppColors.navyDark,
+      backgroundColor: Colors.transparent,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
