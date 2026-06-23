@@ -38,6 +38,25 @@ class AppColors {
   static const Color blueText = Color(0xFF536878);
   static const Color blueTint = Color(0x2E536878); // ~18% slate fill
 
+  // ── Glow (brand "lit" moments only: splash / hero / brand) ───────────────
+  // Perceived glow = high LUMINANCE + CHROMA + a soft BLOOM against a dark
+  // field. The muted brand slate (#536878, lum ~0.13, sat ~18%) is matte BY
+  // DESIGN and cannot glow — so these brighter, more saturated tokens carry the
+  // emissive look. Use ONLY for brand moments, never for product chrome.
+  static const Color glowCore = Color(0xFFAFC6D8); // luminous slate — the lit mark
+  static const Color glowSlate = Color(0xFF7D9FBE); // mid glow / glowing accents
+  static const Color glowHalo = Color(0x8C7DA0BE); // ~55% slate — bloom shadow color
+
+  /// Radial "lit-from-center" field for brand moments (splash). A brighter
+  /// slate core falls off to deep slate then the near-black canvas, so the
+  /// screen reads as emitting light instead of a flat painted slate fill.
+  static const RadialGradient slateGlowWall = RadialGradient(
+    center: Alignment(0, -0.08),
+    radius: 0.95,
+    colors: [Color(0xFF6E93B5), slateDeep, ink],
+    stops: [0.0, 0.5, 1.0],
+  );
+
   // ── Semantic ─────────────────────────────────────────────────────────────
   static const Color positive = slateText; // up / confirmed (slate, no green)
   // Non-destructive "negative" (down/error states) is MUTED — never red.

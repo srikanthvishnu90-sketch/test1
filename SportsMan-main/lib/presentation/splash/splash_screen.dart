@@ -40,7 +40,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(gradient: AppColors.slateWall),
+      // Radial "lit-from-center" field — the screen emits light (Kalshi/Whoop
+      // register) instead of a flat slate fill.
+      decoration: const BoxDecoration(gradient: AppColors.slateGlowWall),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
@@ -49,13 +51,23 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo rendered as a solid WHITE mark on the deep-slate wall.
-                ColorFiltered(
-                  colorFilter: const ColorFilter.mode(
-                    Colors.white,
-                    BlendMode.srcIn,
+                // White mark with a soft slate BLOOM behind it (drop-shadow
+                // halo) so it reads as glowing, not painted.
+                Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(color: AppColors.glowHalo, blurRadius: 56, spreadRadius: 8),
+                      BoxShadow(color: AppColors.glowHalo, blurRadius: 18, spreadRadius: 2),
+                    ],
                   ),
-                  child: Image.asset(AppAssets.appLogo, width: 72, height: 72),
+                  child: ColorFiltered(
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                    child: Image.asset(AppAssets.appLogo, width: 72, height: 72),
+                  ),
                 ),
                 const SizedBox(height: 28),
                 SizedBox(
