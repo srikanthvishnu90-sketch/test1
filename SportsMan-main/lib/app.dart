@@ -62,40 +62,12 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      // Uber-like route motion: a soft fade-through with a small upward slide.
-      customTransition: _FadeThroughTransition(),
-      transitionDuration: const Duration(milliseconds: 260),
+      // Near-instant page motion (Uber/Airbnb feel): a single fast fade, no
+      // slide — slides read as lag on web. Sub-150ms keeps switches crisp.
+      defaultTransition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 120),
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
-    );
-  }
-}
-
-/// Fade-through + soft slide page transition (incoming fades up & in).
-class _FadeThroughTransition extends CustomTransition {
-  @override
-  Widget buildTransition(
-    BuildContext context,
-    Curve? curve,
-    Alignment? alignment,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    final curved = CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeOutCubic,
-      reverseCurve: Curves.easeInCubic,
-    );
-    return FadeTransition(
-      opacity: curved,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: const Offset(0, 0.015),
-          end: Offset.zero,
-        ).animate(curved),
-        child: child,
-      ),
     );
   }
 }

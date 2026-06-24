@@ -25,14 +25,43 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch real programs and bookings from API on first load
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final controller = context.read<ProviderController>();
-      controller.fetchMyPrograms();
-      controller.fetchProviderBookings();
-      // Re-fetch so the Payouts status reflects stripe_charges_enabled.
-      controller.fetchProviderProfile();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+  }
+
+  Future<void> _load() async {
+    final controller = context.read<ProviderController>();
+    controller.fetchMyPrograms();
+    controller.fetchProviderBookings();
+    // Pull the latest provider row first (reflects any prior write-back).
+    await controller.fetchProviderProfile();
+    if (!mounted) return;
+    // Returning from Stripe onboarding lands back here via a full page reload.
+    // If an account exists but charges aren't active yet, RE-INVOKE the function
+    // so it retrieves the (now-onboarded) account and writes
+    // stripe_charges_enabled back — then the re-fetch reflects the live status.
+    // A plain re-fetch alone can never refresh charges; only the function writes
+    // it. Self-limiting: once charges are active this no longer fires.
+    if (controller.stripeAccountId != null && !controller.stripeChargesEnabled) {
+      await _refreshPayoutsFromStripe(controller);
+    }
+  }
+
+  /// Re-invoke the onboarding function purely for its write-back side effect
+  /// (retrieve account → persist stripe_charges_enabled). The returned
+  /// onboarding URL is intentionally ignored — we are not redirecting here.
+  Future<void> _refreshPayoutsFromStripe(ProviderController controller) async {
+    try {
+      await Supabase.instance.client.functions.invoke(
+        'stripe-connect-onboarding',
+        body: {'returnUrl': Uri.base.origin},
+      );
+    } on FunctionException catch (e) {
+      debugPrint('refresh payouts -> ${e.status} ${e.details}');
+    } catch (e) {
+      debugPrint('refresh payouts -> $e');
+    }
+    if (!mounted) return;
+    await controller.fetchProviderProfile();
   }
 
   void _showCreateListing(BuildContext context) {

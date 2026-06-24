@@ -29,25 +29,11 @@ class _MainNavScreenState extends State<MainNavScreen> {
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-      // Pages cross-fade (with a whisper of upward slide) on tab change.
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 240),
-        switchInCurve: Curves.easeOutCubic,
-        switchOutCurve: Curves.easeInCubic,
-        transitionBuilder: (child, anim) => FadeTransition(
-          opacity: anim,
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0, 0.012),
-              end: Offset.zero,
-            ).animate(anim),
-            child: child,
-          ),
-        ),
-        child: KeyedSubtree(
-          key: ValueKey<int>(_selectedIndex),
-          child: _screens[_selectedIndex],
-        ),
+      // Instant tab switching with every tab kept alive — preserves each tab's
+      // state and scroll position (no rebuild/re-fetch on switch).
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),

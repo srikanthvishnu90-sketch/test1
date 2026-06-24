@@ -29,7 +29,12 @@ class _ProviderMainNavScreenState extends State<ProviderMainNavScreen> {
   @override
   Widget build(BuildContext context) {
     return GradientScaffold(
-      body: _screens[_selectedIndex],
+      // Instant tab switching with every tab kept alive — preserves each tab's
+      // state and scroll position (no rebuild/re-fetch on switch).
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: Container(
         height: 100,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
