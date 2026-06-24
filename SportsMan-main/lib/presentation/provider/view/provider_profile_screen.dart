@@ -352,8 +352,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                       width: double.infinity,
                       margin: const EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 20),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(AppRadii.card),
+                        border: Border.all(color: AppColors.hairline),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
                       child: Column(
@@ -472,7 +473,7 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
           children: [
-            Icon(icon, color: Colors.black87, size: 22),
+            Icon(icon, color: AppColors.textSecondary, size: 22),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -481,7 +482,7 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                   Text(
                     title,
                     style: AppTypography.font(
-                      color: Colors.black,
+                      color: AppColors.textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
@@ -490,14 +491,14 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                   Text(
                     subtitle,
                     style: AppTypography.font(
-                      color: Colors.black38,
+                      color: AppColors.textSecondary,
                       fontSize: 11,
                     ),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.black26, size: 16),
+            const Icon(Icons.chevron_right, color: AppColors.textTertiary, size: 16),
           ],
         ),
       ),

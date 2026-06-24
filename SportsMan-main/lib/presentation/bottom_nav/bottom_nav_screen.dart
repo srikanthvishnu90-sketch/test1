@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_structure/core/theme/app_typography.dart';
 import '../client/view/home_screen.dart';
 import '../client/view/search_screen.dart';
 import '../client/view/schedule_screen.dart';
@@ -7,6 +6,7 @@ import '../client/view/messages_screen.dart';
 import '../client/view/profile_screen.dart';
 import '../../core/theme/app_colors.dart';
 import '../widgets/common_widgets.dart';
+import '../widgets/motion_widgets.dart';
 
 class MainNavScreen extends StatefulWidget {
   const MainNavScreen({super.key});
@@ -36,21 +36,55 @@ class _MainNavScreenState extends State<MainNavScreen> {
         children: _screens,
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 8),
         decoration: const BoxDecoration(
           color: AppColors.ink,
           border: Border(top: BorderSide(color: AppColors.hairline, width: 0.5)),
         ),
         child: SafeArea(
           top: false,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home'),
-              _buildNavItem(1, Icons.search_outlined, Icons.search, 'Search'),
-              _buildNavItem(2, Icons.calendar_today_outlined, Icons.calendar_today, 'Schedule'),
-              _buildNavItem(3, Icons.chat_bubble_outline, Icons.chat_bubble, 'Chat'),
-              _buildNavItem(4, Icons.person_outline, Icons.person, 'Profile'),
+              // Brand indicator slides to the active tab (Kalshi-style).
+              const SizedBox(height: 6),
+              SlidingTabIndicator(
+                count: 5,
+                index: _selectedIndex,
+                color: AppColors.slateText,
+                slotPadding: const EdgeInsets.symmetric(horizontal: 26),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8, 6, 8, 8),
+                child: Row(
+                  children: [
+                    AnimatedNavItem(
+                      icon: Icons.home_outlined, activeIcon: Icons.home,
+                      label: 'Home', selected: _selectedIndex == 0,
+                      onTap: () => _select(0),
+                    ),
+                    AnimatedNavItem(
+                      icon: Icons.search_outlined, activeIcon: Icons.search,
+                      label: 'Search', selected: _selectedIndex == 1,
+                      onTap: () => _select(1),
+                    ),
+                    AnimatedNavItem(
+                      icon: Icons.calendar_today_outlined, activeIcon: Icons.calendar_today,
+                      label: 'Schedule', selected: _selectedIndex == 2,
+                      onTap: () => _select(2),
+                    ),
+                    AnimatedNavItem(
+                      icon: Icons.chat_bubble_outline, activeIcon: Icons.chat_bubble,
+                      label: 'Chat', selected: _selectedIndex == 3,
+                      onTap: () => _select(3),
+                    ),
+                    AnimatedNavItem(
+                      icon: Icons.person_outline, activeIcon: Icons.person,
+                      label: 'Profile', selected: _selectedIndex == 4,
+                      onTap: () => _select(4),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -58,52 +92,5 @@ class _MainNavScreenState extends State<MainNavScreen> {
     );
   }
 
-  Widget _buildNavItem(int index, IconData icon, IconData activeIcon, String label) {
-    final bool isSelected = _selectedIndex == index;
-    return Expanded(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => setState(() => _selectedIndex = index),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          // Animate color (tertiary→slate), a subtle scale-up, and the
-          // outline→filled icon swap — the Uber-style active-tab polish.
-          child: TweenAnimationBuilder<double>(
-            duration: const Duration(milliseconds: 220),
-            curve: Curves.easeOut,
-            tween: Tween<double>(begin: 0, end: isSelected ? 1 : 0),
-            builder: (context, t, _) {
-              final color = Color.lerp(AppColors.textTertiary, AppColors.slateText, t)!;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Transform.scale(
-                    scale: 1 + 0.12 * t,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 180),
-                      child: Icon(
-                        isSelected ? activeIcon : icon,
-                        key: ValueKey<bool>(isSelected),
-                        color: color,
-                        size: 22,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    label,
-                    style: AppTypography.font(
-                      color: color,
-                      fontSize: 10,
-                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
+  void _select(int index) => setState(() => _selectedIndex = index);
 }

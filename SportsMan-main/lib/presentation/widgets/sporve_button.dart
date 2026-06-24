@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
+import '../../core/ui/motion.dart';
 
 /// Visual role of a button. Color encodes importance consistently app-wide.
 enum SporveButtonVariant {
@@ -179,20 +181,26 @@ class _SporveButtonState extends State<SporveButton> {
     );
 
     final button = TextButton(
-      onPressed: disabled ? null : widget.onPressed,
+      onPressed: disabled
+          ? null
+          : () {
+              // Uniform selection haptic on every CTA tap (matches PressableScale).
+              HapticFeedback.selectionClick();
+              widget.onPressed!();
+            },
       style: style,
       child: child,
     );
 
-    // Subtle press-scale (Uber-style) layered over the Material ripple.
+    // Subtle press-scale (shared motion system) layered over the Material ripple.
     return Listener(
       onPointerDown: disabled ? null : (_) => setState(() => _pressed = true),
       onPointerUp: disabled ? null : (_) => setState(() => _pressed = false),
       onPointerCancel: disabled ? null : (_) => setState(() => _pressed = false),
       child: AnimatedScale(
-        scale: _pressed ? 0.97 : 1.0,
-        duration: const Duration(milliseconds: 90),
-        curve: Curves.easeOut,
+        scale: _pressed ? Motion.pressScale : 1.0,
+        duration: Motion.fast,
+        curve: Motion.standard,
         child: SizedBox(
           width: widget.fullWidth ? double.infinity : null,
           height: height,

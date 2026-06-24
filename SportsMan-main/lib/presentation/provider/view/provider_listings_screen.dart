@@ -9,6 +9,7 @@ import '../widgets/create_listing_bottom_sheet.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
+import '../../widgets/motion_widgets.dart';
 import 'program_detail_screen.dart';
 
 class ProviderListingsScreen extends StatefulWidget {
@@ -91,15 +92,13 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
             // Listings List
             Expanded(
               child: controller.isLoading && !controller.listingsLoaded
-                  // ── Loading shimmer ──────────────────────────────────────
-                  ? const Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CircularProgressIndicator(color: AppColors.slateText, strokeWidth: 2),
-                          SizedBox(height: 16),
-                          Text('Loading listings...', style: TextStyle(color: AppColors.textTertiary, fontSize: 12)),
-                        ],
+                  // ── Skeleton placeholders (no spinner / blank flash) ─────
+                  ? ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      itemCount: 4,
+                      itemBuilder: (_, _) => Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _listingSkeletonCard(),
                       ),
                     )
                   : listings.isEmpty
@@ -162,6 +161,36 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
     );
   }
 
+
+  /// Card-shaped skeleton shown while the first listings load resolves.
+  Widget _listingSkeletonCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        border: Border.all(color: AppColors.hairline),
+      ),
+      child: Row(
+        children: [
+          Skeleton(width: 64, height: 64, radius: BorderRadius.circular(AppRadii.tile)),
+          const SizedBox(width: 16),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Skeleton(height: 14, width: 160),
+                SizedBox(height: 8),
+                Skeleton(height: 11, width: 100),
+                SizedBox(height: 12),
+                Skeleton(height: 11, width: 140),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildListingCard({
     required int index,
