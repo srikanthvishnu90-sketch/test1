@@ -33,6 +33,18 @@ class MyApp extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(color: AppColors.textPrimary),
         dividerColor: AppColors.hairline,
+        // Any Material route (Navigator.push) also swaps instantly — no native
+        // slide/zoom — so it matches the GetX no-transition behaviour below.
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: _NoTransitionsBuilder(),
+            TargetPlatform.iOS: _NoTransitionsBuilder(),
+            TargetPlatform.macOS: _NoTransitionsBuilder(),
+            TargetPlatform.windows: _NoTransitionsBuilder(),
+            TargetPlatform.linux: _NoTransitionsBuilder(),
+            TargetPlatform.fuchsia: _NoTransitionsBuilder(),
+          },
+        ),
       ),
       // On wide screens (desktop web), render inside a centered phone-width
       // frame so the mobile app keeps its intended proportions instead of being
@@ -62,12 +74,30 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      // Near-instant page motion (Uber/Airbnb feel): a single fast fade, no
-      // slide — slides read as lag on web. Sub-150ms keeps switches crisp.
-      defaultTransition: Transition.fadeIn,
-      transitionDuration: const Duration(milliseconds: 120),
+      // Instant, direct page swaps — no fade/slide to "see". Tab content already
+      // switches instantly via IndexedStack; this makes route pushes match.
+      defaultTransition: Transition.noTransition,
+      transitionDuration: Duration.zero,
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
     );
+  }
+}
+
+/// A page-transition builder that performs NO animation — the new page appears
+/// immediately. Applied to every platform so Material routes match the GetX
+/// no-transition behaviour for a clean, direct page-to-page swap.
+class _NoTransitionsBuilder extends PageTransitionsBuilder {
+  const _NoTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return child;
   }
 }

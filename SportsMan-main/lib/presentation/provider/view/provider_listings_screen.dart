@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
@@ -400,11 +401,8 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
                       await context.read<ProviderController>().fetchProgramDetails(listing.id);
                     }
                     if (!context.mounted) return;
-                    final editIndex = await Navigator.push<int>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProgramDetailScreen(listing: listing),
-                      ),
+                    final editIndex = await Get.to<int>(
+                      () => ProgramDetailScreen(listing: listing),
                     );
                     if (!context.mounted) return;
                     if (editIndex != null && editIndex >= 0) {
