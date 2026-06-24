@@ -589,34 +589,39 @@ create trigger trg_enforce_booking_provider_update
 -- ── rls_auto_enable(): event trigger that auto-enables RLS on any new public
 --    table, so a forgotten `enable row level security` can never silently leave
 --    a table world-readable. SECURITY DEFINER; search_path pinned to pg_catalog.
--- // VERIFY: reconstructed from the spec — not present in any archived migration
--- // file. Confirm the exact live function body + event-trigger filter match.
 create or replace function public.rls_auto_enable()
   returns event_trigger
   language plpgsql
   security definer
-  set search_path = 'pg_catalog'
-as $$
+  set search_path to 'pg_catalog'
+as $function$
 declare
-  obj record;
+  cmd record;
 begin
-  for obj in
-    select object_identity
+  for cmd in
+    select *
     from pg_event_trigger_ddl_commands()
-    where command_tag = 'CREATE TABLE'
-      and object_type = 'table'
+    where command_tag in ('CREATE TABLE', 'CREATE TABLE AS', 'SELECT INTO')
+      and object_type in ('table','partitioned table')
   loop
-    if split_part(obj.object_identity, '.', 1) = 'public' then
-      execute format('alter table %s enable row level security', obj.object_identity);
+    if cmd.schema_name is not null and cmd.schema_name in ('public') and cmd.schema_name not in ('pg_catalog','information_schema') then
+      begin
+        execute format('alter table if exists %s enable row level security', cmd.object_identity);
+        raise log 'rls_auto_enable: enabled RLS on %', cmd.object_identity;
+      exception
+        when others then
+          raise log 'rls_auto_enable: failed to enable RLS on %', cmd.object_identity;
+      end;
+    else
+      raise log 'rls_auto_enable: skip % (either system schema or not in enforced set)', cmd.object_identity;
     end if;
   end loop;
 end;
-$$;
+$function$;
 
 drop event trigger if exists rls_auto_enable on ddl_command_end;
 create event trigger rls_auto_enable
   on ddl_command_end
-  when tag in ('CREATE TABLE')
   execute function public.rls_auto_enable();
 
 -- ============================================================================
