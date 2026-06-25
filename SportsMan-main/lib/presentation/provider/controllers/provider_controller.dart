@@ -572,7 +572,7 @@ class ProviderController with ChangeNotifier {
           }
           final athlete = booking['athleteId'] ?? {};
           final userName = athlete['fullName'] ?? 'Athlete';
-          final userAvatar = athlete['profileImage'] ?? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100';
+          final userAvatar = athlete['profileImage'] ?? '';
           
           String serviceTitle = 'Training Session';
           DateTime sessionDate = DateTime.now();
@@ -658,7 +658,7 @@ class ProviderController with ChangeNotifier {
                 'name': athleteItem['fullName']?.toString() ?? 'Athlete',
                 'email': athleteItem['email']?.toString() ?? '',
                 'jersey': athleteItem['jerseyNumber']?.toString() ?? '#7',
-                'imageUrl': athleteItem['avatar'] ?? 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150',
+                'imageUrl': athleteItem['avatar'] ?? '',
                 'isAvailable': athleteItem['isAvailable'] ?? true,
                 'isPaid': athleteItem['isPaid'] ?? true,
                 'teamId': teamId,

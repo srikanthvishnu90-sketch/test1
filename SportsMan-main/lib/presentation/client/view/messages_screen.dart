@@ -144,8 +144,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       Get.snackbar(
                         'New Message',
                         'Start a new conversation or program chat...',
-                        backgroundColor: Colors.white,
-                        colorText: Colors.black,
+                        backgroundColor: AppColors.surface,
+                        colorText: AppColors.textPrimary,
                       );
                     },
                     size: 40,

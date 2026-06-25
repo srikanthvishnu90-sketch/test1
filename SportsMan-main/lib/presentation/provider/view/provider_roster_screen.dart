@@ -9,6 +9,7 @@ import '../../widgets/common_widgets.dart';
 import '../controllers/provider_controller.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
+import '../../widgets/motion_widgets.dart';
 
 class ProviderRosterScreen extends StatefulWidget {
   const ProviderRosterScreen({super.key});
@@ -51,57 +52,53 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
     return pc.rosterAthletes.isNotEmpty ? pc.rosterAthletes : _athletes;
   }
 
+  /// Skeleton rows shown while the first roster load is in flight.
+  List<Widget> _buildRosterSkeleton() {
+    return List.generate(
+      4,
+      (_) => Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(AppRadii.card),
+            border: Border.all(color: AppColors.hairline),
+          ),
+          child: Row(
+            children: [
+              Skeleton(width: 44, height: 44, radius: BorderRadius.circular(22)),
+              const SizedBox(width: 16),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Skeleton(height: 13, width: 140),
+                    SizedBox(height: 8),
+                    Skeleton(height: 11, width: 90),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Local in-session store for the demo add-team form. Starts with only the
+  // catch-all "Unassigned" group — NO fabricated teams. Real teams come from the
+  // controller (rosterTeams); these locals are only used before any real data.
   final List<CoachTeam> _teams = [
-    const CoachTeam(id: 'scorenow_elite', name: 'ScoreNow Elite'),
-    const CoachTeam(id: 'apex_academy', name: 'Apex Academy'),
     const CoachTeam(id: 'unassigned', name: 'Unassigned Athletes'),
   ];
 
   final Map<String, bool> _teamExpanded = {};
 
-  // Mock list of athletes, now associated with a teamId
-  final List<Map<String, dynamic>> _athletes = [
-    {
-      'id': 1,
-      'name': 'Alex Burton',
-      'email': 'aburton@scorenow.ai',
-      'jersey': '#7',
-      'imageUrl': 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
-      'isAvailable': true,
-      'isPaid': true,
-      'teamId': 'scorenow_elite',
-    },
-    {
-      'id': 2,
-      'name': 'Aidan Collins',
-      'email': 'acollins@scorenow.ai',
-      'jersey': '#7',
-      'imageUrl': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-      'isAvailable': false,
-      'isPaid': false,
-      'teamId': 'scorenow_elite',
-    },
-    {
-      'id': 3,
-      'name': 'Aidan Collins',
-      'email': 'acollins@scorenow.ai',
-      'jersey': '#7',
-      'imageUrl': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-      'isAvailable': false,
-      'isPaid': false,
-      'teamId': 'apex_academy',
-    },
-    {
-      'id': 4,
-      'name': 'Aidan Collins',
-      'email': 'acollins@scorenow.ai',
-      'jersey': '#7',
-      'imageUrl': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-      'isAvailable': false,
-      'isPaid': false,
-      'teamId': 'unassigned',
-    },
-  ];
+  // Local in-session store for the demo add-athlete form. Starts EMPTY — no
+  // fabricated athletes are ever shown. Real athletes come from the controller
+  // (rosterAthletes); an empty roster shows a proper empty state instead.
+  final List<Map<String, dynamic>> _athletes = [];
 
   void _showSessionsPopup(String athleteName) {
     showDialog(
@@ -302,6 +299,9 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Subscribe to the controller so the roster rebuilds when fetchRosterData
+    // completes — the loading skeleton is replaced by real data (or empty state).
+    final pc = context.watch<ProviderController>();
     int paidCount = activeAthletes.where((a) => a['isPaid'] == true).length;
 
     return GradientScaffold(
@@ -443,8 +443,9 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.card),
+                    border: Border.all(color: AppColors.hairline),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,7 +453,7 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                       Text(
                         'Broadcast to all ${activeAthletes.length} athletes',
                         style: AppTypography.font(
-                          color: Colors.black,
+                          color: AppColors.textPrimary,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -460,17 +461,18 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                       const SizedBox(height: 16),
                       Container(
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black26),
+                          color: AppColors.surface2,
+                          border: Border.all(color: AppColors.hairline),
                           borderRadius: BorderRadius.circular(AppRadii.tile),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                         child: TextField(
                           controller: _broadcastController,
                           maxLines: 4,
-                          style: AppTypography.font(color: Colors.black, fontSize: 13),
+                          style: AppTypography.font(color: AppColors.textPrimary, fontSize: 13),
                           decoration: InputDecoration(
                             hintText: 'Type your announcement...',
-                            hintStyle: AppTypography.font(color: Colors.black38, fontSize: 13),
+                            hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 13),
                             border: InputBorder.none,
                           ),
                         ),
@@ -482,7 +484,7 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                             child: SporveButton(
                               'Cancel',
                               variant: SporveButtonVariant.secondary,
-                              onDark: false,
+                              onDark: true,
                               onPressed: () {
                                 setState(() {
                                   _showBroadcastCard = false;
@@ -666,7 +668,7 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                                       'name': _nameController.text.trim(),
                                       'email': _emailController.text.trim(),
                                       'jersey': '#7',
-                                      'imageUrl': 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150',
+                                      'imageUrl': '',
                                       'isAvailable': true,
                                       'isPaid': false,
                                       'teamId': _selectedInitialTeamId,
@@ -688,8 +690,11 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                 const SizedBox(height: 20),
               ],
 
-              // Overall empty state when there are no athletes at all
-              if (activeAthletes.isEmpty)
+              // First real load in flight → skeleton (no mock content, no blank).
+              if (!pc.rosterLoaded)
+                ..._buildRosterSkeleton()
+              // Loaded with no athletes → honest empty state.
+              else if (activeAthletes.isEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40),
                   child: Center(
@@ -700,8 +705,9 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                   ),
                 ),
 
-              // Collapsible Accordion Sections per Team
-              ...activeTeams.map((team) {
+              // Collapsible Accordion Sections per Team (only once real data is in).
+              if (pc.rosterLoaded && activeAthletes.isNotEmpty)
+                ...activeTeams.map((team) {
                 final teamPlayers = activeAthletes.where((a) {
                   final matchesTeam = a['teamId'] == team.id;
                   if (_searchQuery.isEmpty) return matchesTeam;

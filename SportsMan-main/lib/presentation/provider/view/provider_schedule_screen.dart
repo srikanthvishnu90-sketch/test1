@@ -237,11 +237,14 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
+                        // Fixed cell height (decoupled from width) so day cells
+                        // never overflow at any viewport width — the day circle
+                        // (36) + gap (6) + dot (4) = 46px fits inside 56.
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 7,
                           mainAxisSpacing: 12,
                           crossAxisSpacing: 8,
-                          childAspectRatio: 0.85,
+                          mainAxisExtent: 56,
                         ),
                         itemCount: totalCells,
                         itemBuilder: (context, index) {
@@ -258,6 +261,7 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                           return GestureDetector(
                             onTap: () => controller.selectDate(cellDate),
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(

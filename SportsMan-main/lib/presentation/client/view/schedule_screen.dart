@@ -454,11 +454,14 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
+            // Fixed cell height (decoupled from width) so day cells never
+            // overflow at any viewport width — day circle (34) + gap (4) + dot
+            // (4) = 42px fits inside 56.
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 7,
               mainAxisSpacing: 12,
               crossAxisSpacing: 8,
-              childAspectRatio: 0.85,
+              mainAxisExtent: 56,
             ),
             itemCount: totalCells,
             itemBuilder: (context, index) {
@@ -483,6 +486,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                   });
                 },
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
@@ -1057,7 +1061,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     final gallery = program['gallery'];
     final image = (gallery is List && gallery.isNotEmpty)
         ? gallery.first.toString()
-        : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+        : '';
     final provider = program['providerId'];
     final business =
         provider is Map ? (provider['businessName']?.toString() ?? 'Academy') : 'Academy';

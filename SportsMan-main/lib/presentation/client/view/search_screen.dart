@@ -79,7 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
       final gallery = program['gallery'];
       final image = (gallery != null && (gallery as List).isNotEmpty)
           ? gallery[0].toString()
-          : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+          : '';
 
       return Opportunity(
         id: index,

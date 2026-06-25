@@ -100,7 +100,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
       final gallery = programData['gallery'];
       final image = (gallery != null && (gallery as List).isNotEmpty)
           ? gallery[0].toString()
-          : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+          : '';
           
       opportunity = Opportunity(
         id: 0,
@@ -118,7 +118,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
       );
     }
     
-    final String title = programData?['title'] ?? opportunity?.title ?? 'Elite Point Guard Training';
+    final String title = programData?['title'] ?? opportunity?.title ?? 'Session';
 
     // Sport identity for this session — drives the per-sport CTA, tag, scrim.
     final String sport = (programData?['sportType'] ?? 'basketball').toString();
@@ -128,18 +128,21 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
             ? programData['gallery'][0].toString() 
             : null) ?? 
         opportunity?.image ?? 
-        'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+        '';
         
-    final String coach = programData?['providerId']?['businessName'] ?? 
-        opportunity?.coach ?? 
-        'Coach Marcus Johnson';
-        
-    final double averageRatingVal = (programData?['averageRating'] as num?)?.toDouble() ?? 
-        double.tryParse(opportunity?.rating.split(' ')[0] ?? '4.9') ?? 4.9;
-    final int reviewsCountVal = (programData?['totalReviews'] as num?)?.toInt() ?? 124;
-    final String rating = '${averageRatingVal.toStringAsFixed(1)} ($reviewsCountVal)';
-    
-    String locationText = 'Downtown Athletic Club';
+    final String coach = programData?['providerId']?['businessName'] ??
+        opportunity?.coach ??
+        'Coach';
+
+    // Rating comes from REAL program data only — no fabricated default stars.
+    final double averageRatingVal =
+        (programData?['averageRating'] as num?)?.toDouble() ?? 0;
+    final int reviewsCountVal = (programData?['totalReviews'] as num?)?.toInt() ?? 0;
+    final String rating = averageRatingVal > 0
+        ? '${averageRatingVal.toStringAsFixed(1)} ($reviewsCountVal)'
+        : 'New';
+
+    String locationText = 'Location TBD';
     if (programData != null) {
       final addr = programData['address'];
       if (addr is Map) {

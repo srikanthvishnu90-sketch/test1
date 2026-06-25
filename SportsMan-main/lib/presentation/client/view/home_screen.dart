@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: SporveImage(
                                 (homeProvider.userProfile != null && homeProvider.userProfile!['profileImage'] != null)
                                     ? homeProvider.userProfile!['profileImage']
-                                    : 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500&auto=format&fit=crop&q=60',
+                                    : '',
                                 width: 48,
                                 height: 48,
                                 fit: BoxFit.cover,
@@ -161,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       final gallery = program['gallery'];
                       final image = (gallery != null && (gallery as List).isNotEmpty)
                           ? gallery[0].toString()
-                          : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+                          : '';
                       
                       final opp = Opportunity(
                         id: 0,
@@ -245,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           final gallery = program['gallery'];
                           final image = (gallery != null && (gallery as List).isNotEmpty)
                               ? gallery[0].toString()
-                              : 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=500&auto=format&fit=crop&q=60';
+                              : '';
                           
                           final opp = Opportunity(
                             id: 0,

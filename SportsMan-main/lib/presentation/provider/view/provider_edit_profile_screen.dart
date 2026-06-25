@@ -165,7 +165,7 @@ class _ProviderEditProfileScreenState extends State<ProviderEditProfileScreen> {
                                             child: Image.file(File(_avatarPath!), width: 100, height: 100, fit: BoxFit.cover),
                                           ))
                                     : SporveImage(
-                                        'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80',
+                                        '',
                                         width: 100,
                                         height: 100,
                                         fit: BoxFit.cover,

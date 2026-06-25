@@ -149,7 +149,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                     child: SporveImage(
                       _avatarUrl.isNotEmpty
                           ? _avatarUrl
-                          : 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+                          : '',
                       width: 40,
                       height: 40,
                       fit: BoxFit.cover,
@@ -211,8 +211,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                 Get.snackbar(
                   'Phone Call',
                   'Calling $_contactName...',
-                  backgroundColor: Colors.white,
-                  colorText: Colors.black,
+                  backgroundColor: AppColors.surface,
+                  colorText: AppColors.textPrimary,
                 );
               },
               size: 36,
@@ -228,8 +228,8 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                 Get.snackbar(
                   'Video Call',
                   'Starting video call with $_contactName...',
-                  backgroundColor: Colors.white,
-                  colorText: Colors.black,
+                  backgroundColor: AppColors.surface,
+                  colorText: AppColors.textPrimary,
                 );
               },
               size: 36,
@@ -347,24 +347,9 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
-                        // Attachment Icon
-                        GestureDetector(
-                          onTap: () => Get.snackbar('Attachments',
-                              'Sending attachments is coming soon.',
-                              backgroundColor: AppColors.surface,
-                              colorText: AppColors.textPrimary),
-                          child: const Icon(Icons.attachment, color: AppColors.textSecondary, size: 22),
-                        ),
-                        const SizedBox(width: 12),
-                        // Emoji Icon
-                        GestureDetector(
-                          onTap: () => Get.snackbar('Emoji',
-                              'Emoji picker is coming soon.',
-                              backgroundColor: AppColors.surface,
-                              colorText: AppColors.textPrimary),
-                          child: const Icon(Icons.sentiment_satisfied_alt, color: AppColors.textSecondary, size: 22),
-                        ),
-                        const SizedBox(width: 12),
+                        // TODO(chat): restore attachment + emoji controls once
+                        // they do something real (hidden — they only showed a
+                        // "coming soon" snackbar).
                         // Text Input
                         Expanded(
                           child: TextField(

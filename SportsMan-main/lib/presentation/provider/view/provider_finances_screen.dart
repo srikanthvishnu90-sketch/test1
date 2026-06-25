@@ -131,27 +131,27 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
             children: [
               _buildFinanceGridCard(
                 label: 'REVENUE',
-                value: '\$48,290',
-                trend: '↑ 14%',
-                trendColor: AppColors.slateText,
+                value: '\$0',
+                trend: '—',
+                trendColor: AppColors.textTertiary,
               ),
               _buildFinanceGridCard(
                 label: 'ATHLETES',
-                value: '142',
-                trend: '↑ 5%',
-                trendColor: AppColors.slateText,
+                value: '0',
+                trend: '—',
+                trendColor: AppColors.textTertiary,
               ),
               _buildFinanceGridCard(
                 label: 'PENDING',
-                value: '\$2,105',
-                trend: 'DUE',
-                trendColor: AppColors.warning,
+                value: '\$0',
+                trend: '—',
+                trendColor: AppColors.textTertiary,
               ),
               _buildFinanceGridCard(
                 label: 'MARGIN',
-                value: '32%',
-                trend: 'PEAK',
-                trendColor: AppColors.slateText,
+                value: '0%',
+                trend: '—',
+                trendColor: AppColors.textTertiary,
               ),
             ],
           ),
@@ -179,7 +179,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  '\$12,450',
+                  '\$0',
                   style: AppTypography.mono(
                     size: 40,
                     weight: FontWeight.bold,
@@ -198,15 +198,15 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                 const SizedBox(height: 24),
                 _buildProgressRow(
                   label: 'REVENUE',
-                  amount: '\$18,900',
-                  progress: 1.0,
+                  amount: '\$0',
+                  progress: 0,
                   color: AppColors.slateText,
                 ),
                 const SizedBox(height: 16),
                 _buildProgressRow(
                   label: 'EXPENSES',
-                  amount: '\$6,450',
-                  progress: 0.35,
+                  amount: '\$0',
+                  progress: 0,
                   color: AppColors.negative,
                 ),
               ],
@@ -325,7 +325,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
           ),
           const SizedBox(height: 8),
           Text(
-            '\$12,450.00',
+            '\$0.00',
             style: AppTypography.mono(
               size: 40,
               weight: FontWeight.bold,
@@ -337,13 +337,13 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
           // Badge row
           Row(
             children: [
-              _buildTransfersBadge('DEMO BALANCE', isGreenDot: true),
+              _buildTransfersBadge('NOT CONNECTED', isGreenDot: true),
             ],
           ),
           const SizedBox(height: 24),
 
           // Bullet points
-          _buildBulletPoint('This is sample data for preview. Payment processing is not yet connected.'),
+          _buildBulletPoint('Payments aren\'t connected yet — your balance will appear here once payouts are live.'),
           const SizedBox(height: 12),
           _buildBulletPoint('Once live, withdrawals will be processed through your linked bank account.'),
           const SizedBox(height: 32),
@@ -355,17 +355,9 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
             variant: SporveButtonVariant.primary,
             icon: Icons.arrow_upward,
           ),
-          const SizedBox(height: 12),
-          SporveButton(
-            'Deposit cash',
-            onPressed: () {
-              Get.snackbar('Action', 'Depositing cash will be available once payments are live.',
-                  backgroundColor: AppColors.surface, colorText: AppColors.textPrimary);
-            },
-            variant: SporveButtonVariant.secondary,
-            onDark: true,
-            icon: Icons.arrow_downward,
-          ),
+          // TODO(payments): "Deposit cash" + "Add bank account" hidden — they
+          // only showed a "coming soon" snackbar and did nothing. Restore once
+          // payments/bank-linking are live.
           const SizedBox(height: 32),
 
           // Linked accounts
@@ -379,29 +371,20 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
             ),
           ),
           const SizedBox(height: 16),
-          _buildLinkedAccountCard(
-            bankName: 'Chase Bank',
-            details: 'Checking ****4821',
-            icon: Icons.account_balance_wallet_outlined,
-          ),
-          const SizedBox(height: 12),
-          _buildLinkedAccountCard(
-            bankName: 'Bank of America',
-            details: 'Savings ****7392',
-            icon: Icons.account_balance_outlined,
-          ),
-          const SizedBox(height: 16),
-
-          // Add bank account outline button
-          SporveButton(
-            'Add bank account',
-            onPressed: () {
-              Get.snackbar('Coming soon', 'Linking a bank account will be available once payments are live.',
-                  backgroundColor: AppColors.surface, colorText: AppColors.textPrimary);
-            },
-            variant: SporveButtonVariant.secondary,
-            onDark: true,
-            icon: Icons.add,
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(AppRadii.card),
+              border: Border.all(color: AppColors.hairline),
+            ),
+            child: Center(
+              child: Text(
+                'No bank accounts linked yet.',
+                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+              ),
+            ),
           ),
           const SizedBox(height: 40),
         ],
@@ -467,111 +450,11 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
     );
   }
 
-  Widget _buildLinkedAccountCard({
-    required String bankName,
-    required String details,
-    required IconData icon,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppRadii.card),
-        border: Border.all(color: AppColors.hairline),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.surface2,
-              borderRadius: BorderRadius.circular(AppRadii.tile),
-            ),
-            child: Icon(icon, color: AppColors.textSecondary, size: 20),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  bankName,
-                  style: AppTypography.font(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  details,
-                  style: AppTypography.font(
-                    color: AppColors.textTertiary,
-                    fontSize: 11,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const OutlinePill('Active'),
-        ],
-      ),
-    );
-  }
-
   Widget _buildTransactionsTab() {
-    final List<Map<String, dynamic>> transactions = [
-      {
-        'name': 'Alex Burton',
-        'type': 'TUITION',
-        'time': 'TODAY 10:45 AM',
-        'status': 'COMPLETED',
-        'isCompleted': true,
-        'amount': '+\$120',
-        'isIncome': true,
-        'imageUrl': 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150',
-      },
-      {
-        'name': 'Coach Marcus',
-        'type': 'PAYROLL',
-        'time': 'TODAY 08:30 AM',
-        'status': 'COMPLETED',
-        'isCompleted': true,
-        'amount': '-\$1,250',
-        'isIncome': false,
-        'imageUrl': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-      },
-      {
-        'name': 'Northside Turf',
-        'type': 'FACILITY',
-        'time': 'YESTERDAY',
-        'status': 'COMPLETED',
-        'isCompleted': true,
-        'amount': '-\$450',
-        'isIncome': false,
-        'imageUrl': 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
-      },
-      {
-        'name': 'Joshua Gordon',
-        'type': 'TUITION',
-        'time': 'YESTERDAY',
-        'status': 'COMPLETED',
-        'isCompleted': true,
-        'amount': '+\$120',
-        'isIncome': true,
-        'imageUrl': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
-      },
-      {
-        'name': 'Ryan Harrison',
-        'type': 'TUITION',
-        'time': 'FEB 24',
-        'status': 'PROCESSING',
-        'isCompleted': false,
-        'amount': '+\$250',
-        'isIncome': true,
-        'imageUrl': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
-      },
-    ];
+    // No payments backend yet → no fabricated transactions. Real entries will
+    // populate here once payment processing is connected; until then the empty
+    // state below is shown.
+    final List<Map<String, dynamic>> transactions = [];
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -601,7 +484,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '+\$18,920',
+                        '\$0',
                         style: AppTypography.mono(
                           size: 24,
                           weight: FontWeight.bold,
@@ -635,7 +518,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '-\$6,450',
+                        '\$0',
                         style: AppTypography.mono(
                           size: 24,
                           weight: FontWeight.bold,
@@ -769,62 +652,18 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
   }
 
   Widget _buildInvoicesTab() {
-    final List<Map<String, dynamic>> invoices = [
-      {
-        'client': 'Chicago Sports Complex',
-        'service': 'GYM RENTAL',
-        'due': 'DUE MAR 15',
-        'status': 'PENDING',
-        'amount': '\$2,450',
-        'invNo': 'INV-2026-042',
-        'imageUrl': 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=150',
-      },
-      {
-        'client': 'Coach Marcus Johnson',
-        'service': 'TRAINER FEE',
-        'due': 'DUE MAR 10',
-        'status': 'PAID',
-        'amount': '\$1,250',
-        'invNo': 'INV-2026-041',
-        'imageUrl': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
-      },
-      {
-        'client': 'AAU Wider area Finals',
-        'service': 'TOURNAMENT',
-        'due': 'DUE MAR 05',
-        'status': 'OVERDUE',
-        'amount': '\$800',
-        'invNo': 'INV-2026-039',
-        'imageUrl': 'https://images.unsplash.com/photo-1519766304817-4f37bda74a27?w=150',
-      },
-      {
-        'client': 'Northside Turf',
-        'service': 'GYM RENTAL',
-        'due': 'DUE MAR 20',
-        'status': 'PENDING',
-        'amount': '\$1,200',
-        'invNo': 'INV-2026-045',
-        'imageUrl': 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150',
-      },
-    ];
+    // No invoicing backend yet → no fabricated invoices. Real invoices will
+    // populate here once invoicing is live; until then the empty state shows.
+    final List<Map<String, dynamic>> invoices = [];
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SporveButton(
-            'New invoice',
-            onPressed: () {
-              Get.snackbar('Coming soon', 'Invoice creation will be available once payments are live.',
-                  backgroundColor: AppColors.surface, colorText: AppColors.textPrimary);
-            },
-            variant: SporveButtonVariant.secondary,
-            onDark: true,
-            icon: Icons.add,
-            size: SporveButtonSize.compact,
-            fullWidth: false,
-          ),
+          // TODO(payments): restore the "New invoice" action once invoice
+          // creation is backed by a real service (hidden — it only showed a
+          // "coming soon" snackbar and did nothing).
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(16),
@@ -1028,7 +867,7 @@ class _ProviderWithdrawalScreenState extends State<ProviderWithdrawalScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                '\$12,450.00',
+                '\$0.00',
                 style: AppTypography.mono(
                   size: 32,
                   weight: FontWeight.bold,

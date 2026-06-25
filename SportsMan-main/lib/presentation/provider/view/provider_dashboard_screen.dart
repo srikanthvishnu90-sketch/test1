@@ -266,7 +266,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                       width: 40,
                       height: 40,
                       child: SporveImage(
-                        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100',
+                        '',
                         width: 40,
                         height: 40,
                         fit: BoxFit.cover,

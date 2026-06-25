@@ -10,6 +10,7 @@ import '../../authentication/controllers/auth_provider.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
+import '../../widgets/motion_widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -23,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: homeProvider.isLoadingProfile
-            ? const Center(child: CircularProgressIndicator(color: AppColors.slateText))
+            ? _buildProfileSkeleton()
             : SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +133,7 @@ class ProfileScreen extends StatelessWidget {
                                 child: SporveImage(
                                   (userProfile != null && userProfile['profileImage'] != null)
                                       ? userProfile['profileImage']
-                                      : 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
+                                      : '',
                                   width: 64,
                                   height: 64,
                                   fit: BoxFit.cover,
@@ -358,6 +359,39 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// First-load skeleton (instead of a bare centered spinner).
+  Widget _buildProfileSkeleton() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Skeleton(height: 30, width: 180),
+                  SizedBox(height: 12),
+                  Skeleton(height: 22, width: 140),
+                ],
+              ),
+              Skeleton(width: 64, height: 64, radius: BorderRadius.circular(32)),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Skeleton(height: 96, radius: BorderRadius.circular(AppRadii.card)),
+          const SizedBox(height: 16),
+          Skeleton(height: 120, radius: BorderRadius.circular(AppRadii.card)),
+          const SizedBox(height: 16),
+          Skeleton(height: 320, radius: BorderRadius.circular(AppRadii.card)),
+        ],
       ),
     );
   }
