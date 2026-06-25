@@ -93,7 +93,22 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
       final onboardingUrl = data['onboardingUrl'] as String?;
       final chargesEnabled = data['chargesEnabled'] == true;
       if (onboardingUrl != null && onboardingUrl.isNotEmpty) {
-        await launchUrl(Uri.parse(onboardingUrl), webOnlyWindowName: '_self');
+        // Open Stripe in a NEW top-level tab. Stripe Connect refuses to render
+        // inside an iframe/embedded browser (X-Frame-Options), and '_blank'
+        // escapes the app's frame so onboarding loads. Surface a real failure
+        // instead of silently doing nothing if the launch is blocked.
+        final launched = await launchUrl(
+          Uri.parse(onboardingUrl),
+          webOnlyWindowName: '_blank',
+        );
+        if (!launched) {
+          _payoutsSnack(
+            messenger,
+            "Couldn't open Stripe. Allow pop-ups and open the app in a normal "
+            'browser tab (not an embedded preview).',
+            ok: false,
+          );
+        }
       } else if (chargesEnabled) {
         _payoutsSnack(messenger, 'Payouts active', ok: true);
         await controller.fetchProviderProfile();
