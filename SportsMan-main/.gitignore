@@ -37,6 +37,10 @@ migrate_working_dir/
 # Holds PUBLIC keys only; never secrets. Commit env.example.json instead.
 env.json
 
+# Edge Function SECRETS for local dev (ANTHROPIC_API_KEY, etc.) — never commit.
+# Commit supabase/functions/.env.example (placeholders) instead.
+supabase/functions/.env
+
 # Symbolication related
 app.*.symbols
 
