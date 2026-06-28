@@ -126,16 +126,18 @@ class SupabaseRepository implements AppRepository {
       'athleteId': ath is Map
           ? {
               '_id': row['athlete_id'],
+              'firstName': ath['first_name'] ?? row['athlete_first_name'] ?? '',
               'fullName':
                   '${ath['first_name'] ?? ''} ${ath['last_name'] ?? ''}'.trim(),
               'profileImage': ath['profile_image'],
             }
           : {
               '_id': row['athlete_id'],
+              'firstName': row['athlete_first_name'] ?? '',
               'fullName': row['athlete_first_name'] ?? '',
             },
       'programId': prog is Map
-          ? {'_id': prog['id'], 'title': prog['title']}
+          ? {'_id': prog['id'], 'title': prog['title'], 'sport': prog['sport_type']}
           : row['program_id'],
       'sessionId': sess is Map
           ? {
@@ -344,6 +346,107 @@ class SupabaseRepository implements AppRepository {
       debugPrint('addBooking PostgrestException: code=${e.code} '
           'message=${e.message} details=${e.details} hint=${e.hint}');
       rethrow;
+    }
+  }
+
+  // ── Session notes + parent updates (AI deliverable) ─────────────────────────
+  @override
+  Future<String?> createSessionNote(Map<String, dynamic> note) async {
+    try {
+      final providerId = await _currentProviderId();
+      if (providerId == null) {
+        debugPrint('createSessionNote: caller is not a provider');
+        return null;
+      }
+      final payload = <String, dynamic>{
+        'provider_id': providerId,
+        'raw_notes': note['rawNotes'] ?? '',
+        if (_isUuid(note['bookingId'])) 'booking_id': note['bookingId'],
+        if (_isUuid(note['childId'])) 'child_id': note['childId'],
+      };
+      final inserted =
+          await _db.from('session_notes').insert(payload).select('id').single();
+      return (inserted as Map)['id']?.toString();
+    } on PostgrestException catch (e) {
+      debugPrint('createSessionNote failed: ${e.message}');
+      return null;
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> summarizeSessionNote(
+      Map<String, dynamic> payload) async {
+    try {
+      final res =
+          await _db.functions.invoke('session-note-summarize', body: payload);
+      return Map<String, dynamic>.from((res.data as Map?) ?? {});
+    } on FunctionException catch (e) {
+      debugPrint('summarizeSessionNote FunctionException: ${e.status}');
+      final det = e.details;
+      if (det is Map && det['error'] != null) {
+        return {'error': det['error'].toString()};
+      }
+      return {'error': 'Could not draft the update (status ${e.status}).'};
+    } catch (e) {
+      debugPrint('summarizeSessionNote failed: $e');
+      return {'error': 'Could not draft the update. Please try again.'};
+    }
+  }
+
+  @override
+  Future<String?> upsertParentUpdateDraft(Map<String, dynamic> update) async {
+    try {
+      final providerId = await _currentProviderId();
+      if (providerId == null) return null;
+      final fields = <String, dynamic>{
+        'provider_id': providerId,
+        if (_isUuid(update['sessionNoteId']))
+          'session_note_id': update['sessionNoteId'],
+        if (_isUuid(update['bookingId'])) 'booking_id': update['bookingId'],
+        if (_isUuid(update['childId'])) 'child_id': update['childId'],
+        'summary_body': update['summaryBody'] ?? '',
+        'skills_worked':
+            (update['skillsWorked'] as List?)?.cast<String>() ?? <String>[],
+        'progress_signal': update['progressSignal'] ?? '',
+        'practice_suggestions':
+            (update['practiceSuggestions'] as List?)?.cast<String>() ?? <String>[],
+        'encouragement': update['encouragement'] ?? '',
+      };
+      final id = update['id'];
+      if (_isUuid(id)) {
+        // Don't touch status on update — autosave must never revert an approval.
+        await _db.from('parent_updates').update(fields).eq('id', id);
+        return id.toString();
+      }
+      final inserted = await _db
+          .from('parent_updates')
+          .insert({...fields, 'status': 'draft'})
+          .select('id')
+          .single();
+      return (inserted as Map)['id']?.toString();
+    } on PostgrestException catch (e) {
+      debugPrint('upsertParentUpdateDraft failed: ${e.message}');
+      return null;
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>?> approveParentUpdate(String id) async {
+    try {
+      final updated = await _db
+          .from('parent_updates')
+          .update({
+            'status': 'approved',
+            'approved_by': _uid,
+            'approved_at': DateTime.now().toUtc().toIso8601String(),
+          })
+          .eq('id', id)
+          .select()
+          .single();
+      return Map<String, dynamic>.from(updated as Map);
+    } on PostgrestException catch (e) {
+      debugPrint('approveParentUpdate failed: ${e.message}');
+      return null;
     }
   }
 

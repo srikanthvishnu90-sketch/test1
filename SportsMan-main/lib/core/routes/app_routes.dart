@@ -38,4 +38,5 @@ abstract class AppRoutes {
   static const String providerTutorial = '/provider-tutorial';
   static const String providerOnboardIntake = '/provider-onboard-intake';
   static const String providerOnboardReview = '/provider-onboard-review';
+  static const String parentUpdate = '/parent-update';
 }

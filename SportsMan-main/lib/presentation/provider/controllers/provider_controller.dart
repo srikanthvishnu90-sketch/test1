@@ -225,6 +225,11 @@ class ScheduledSession {
   final String timeStr; // Time e.g. "5:00 PM"
   bool isConfirmed;
   bool isDeclined;
+  final bool isCompleted;
+  // Context for the "Write parent update" flow (from the booking).
+  final String childId;
+  final String childFirstName;
+  final String sport;
 
   ScheduledSession({
     required this.id,
@@ -235,6 +240,10 @@ class ScheduledSession {
     required this.timeStr,
     this.isConfirmed = false,
     this.isDeclined = false,
+    this.isCompleted = false,
+    this.childId = '',
+    this.childFirstName = '',
+    this.sport = '',
   });
 }
 
@@ -583,10 +592,15 @@ class ProviderController with ChangeNotifier {
           final athlete = booking['athleteId'] ?? {};
           final userName = athlete['fullName'] ?? 'Athlete';
           final userAvatar = athlete['profileImage'] ?? '';
-          
+          final childId = (athlete['_id'] ?? '').toString();
+          final childFirstName = (athlete['firstName'] ??
+                  userName.toString().split(' ').first)
+              .toString();
+
           String serviceTitle = 'Training Session';
           DateTime sessionDate = DateTime.now();
           String timeStr = '12:00 PM';
+          String sport = '';
 
           final sess = booking['sessionId'];
           if (sess is Map) {
@@ -598,9 +612,13 @@ class ProviderController with ChangeNotifier {
           final prog = booking['programId'];
           if (prog is Map) {
             serviceTitle = prog['title'] ?? serviceTitle;
+            sport = (prog['sport'] ?? '').toString();
           }
 
-          final isConfirmed = status.toLowerCase() == 'confirmed' || status.toLowerCase() == 'active';
+          final isCompleted = status.toLowerCase() == 'completed';
+          final isConfirmed = status.toLowerCase() == 'confirmed' ||
+              status.toLowerCase() == 'active' ||
+              isCompleted;
           final isDeclined = status.toLowerCase() == 'cancelled' || status.toLowerCase() == 'declined';
 
           _sessions.add(ScheduledSession(
@@ -612,6 +630,10 @@ class ProviderController with ChangeNotifier {
             timeStr: timeStr,
             isConfirmed: isConfirmed,
             isDeclined: isDeclined,
+            isCompleted: isCompleted,
+            childId: childId,
+            childFirstName: childFirstName,
+            sport: sport,
           ));
         } catch (e) {
           debugPrint('Error parsing booking item: $e');

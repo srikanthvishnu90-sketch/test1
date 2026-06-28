@@ -74,6 +74,25 @@ abstract class AuthRepository {
   Future<void> saveFavorites(List<String> favorites);
 }
 
+/// Session notes (coach raw input) + parent updates (the AI-drafted deliverable).
+/// All persistence is server-side + RLS-scoped; the draft is never sent here.
+abstract class SessionUpdateRepository {
+  /// Persists the coach's raw notes to `session_notes`; returns the new id.
+  Future<String?> createSessionNote(Map<String, dynamic> note);
+
+  /// Calls the `session-note-summarize` Edge Function; returns its JSON body
+  /// (`{result, model, audit_id, removed}` or `{error}`).
+  Future<Map<String, dynamic>> summarizeSessionNote(Map<String, dynamic> payload);
+
+  /// Inserts (no `id`) or updates (`id` present) a `parent_updates` draft row;
+  /// returns its id. Used for autosave. Always status='draft' here.
+  Future<String?> upsertParentUpdateDraft(Map<String, dynamic> update);
+
+  /// Flips a parent_update to status='approved' (+ approved_by/approved_at).
+  /// Sending stays a separate, later, explicit step. Returns the stored row.
+  Future<Map<String, dynamic>?> approveParentUpdate(String id);
+}
+
 /// Facade aggregating every domain repository. Controllers depend on this one
 /// type; `lib/main.dart` injects a single concrete instance.
 abstract class AppRepository
@@ -85,4 +104,5 @@ abstract class AppRepository
         ConversationRepository,
         TeamRepository,
         NotificationRepository,
+        SessionUpdateRepository,
         AuthRepository {}

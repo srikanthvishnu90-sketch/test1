@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../controllers/provider_controller.dart';
@@ -650,9 +652,36 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
               ],
             ),
           ),
+          // Once a session is completed (or its date has passed), the coach can
+          // write a parent update — pre-filled with the child's name + sport.
+          if (_isFinished(session)) ...[
+            const SizedBox(height: 12),
+            SporveButton(
+              'Write parent update',
+              onPressed: () => Get.toNamed(AppRoutes.parentUpdate, arguments: {
+                'bookingId': session.id,
+                'childId': session.childId,
+                'childFirstName': session.childFirstName,
+                'sport': session.sport,
+              }),
+              variant: SporveButtonVariant.secondary,
+              onDark: true,
+              icon: Icons.edit_note,
+              size: SporveButtonSize.compact,
+            ),
+          ],
         ],
       ),
     );
+  }
+
+  /// A session is "finished" when the booking is completed or its date is past.
+  bool _isFinished(ScheduledSession session) {
+    if (session.isCompleted) return true;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final d = DateTime(session.sessionDate.year, session.sessionDate.month, session.sessionDate.day);
+    return d.isBefore(today);
   }
 
   List<DateTime> _getDaysInWeek(DateTime date) {

@@ -31,6 +31,39 @@ class MockRepository implements AppRepository {
     return booking['_id']?.toString();
   }
 
+  // ── Session notes + parent updates (demo: echo back, no AI/network) ─────────
+  @override
+  Future<String?> createSessionNote(Map<String, dynamic> note) async =>
+      'mock-note-${DateTime.now().millisecondsSinceEpoch}';
+
+  @override
+  Future<Map<String, dynamic>> summarizeSessionNote(
+          Map<String, dynamic> payload) async =>
+      {
+        'result': {
+          'type': 'draft',
+          'summary_body':
+              '${payload['childFirstName'] ?? 'Your athlete'} had a focused ${payload['sport'] ?? ''} session.',
+          'skills_worked': const <String>[],
+          'progress_signal': 'building consistency',
+          'practice_suggestions': const <String>[],
+          'encouragement': 'Keep it up!',
+        },
+        'removed': const <String>[],
+      };
+
+  @override
+  Future<String?> upsertParentUpdateDraft(Map<String, dynamic> update) async =>
+      (update['id'] as String?) ??
+      'mock-update-${DateTime.now().millisecondsSinceEpoch}';
+
+  @override
+  Future<Map<String, dynamic>?> approveParentUpdate(String id) async => {
+        'id': id,
+        'status': 'approved',
+        'approved_at': DateTime.now().toUtc().toIso8601String(),
+      };
+
   // ── Profiles ─────────────────────────────────────────────────────────────
   @override
   Future<Map<String, dynamic>> getUserProfile() => Future.value(MockData.userProfile);
