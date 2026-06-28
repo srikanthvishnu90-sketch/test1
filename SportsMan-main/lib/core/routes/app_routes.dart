@@ -36,4 +36,6 @@ abstract class AppRoutes {
   static const String providerServiceProfile = '/provider-service-profile';
   static const String notificationSettings = '/notification-settings';
   static const String providerTutorial = '/provider-tutorial';
+  static const String providerOnboardIntake = '/provider-onboard-intake';
+  static const String providerOnboardReview = '/provider-onboard-review';
 }

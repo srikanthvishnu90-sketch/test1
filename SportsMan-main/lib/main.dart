@@ -12,6 +12,7 @@ import 'core/data/app_repository.dart';
 import 'core/data/mock_repository.dart'; // kept for one-line rollback (see below)
 import 'core/data/supabase_repository.dart';
 import 'presentation/onboarding/controllers/onboarding_controller.dart';
+import 'presentation/onboarding/controllers/onboard_draft_controller.dart';
 import 'presentation/client/controllers/home_controller.dart';
 import 'presentation/provider/controllers/provider_controller.dart';
 import 'presentation/authentication/controllers/auth_provider.dart';
@@ -43,6 +44,7 @@ void main() async {
       providers: [
         Provider<AuthService>.value(value: authService),
         ChangeNotifierProvider(create: (_) => OnboardingProvider(repo)),
+        ChangeNotifierProvider(create: (_) => OnboardDraftProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider(repo)),
         ChangeNotifierProvider(create: (_) => ProviderController(repo)),
         ChangeNotifierProvider(create: (_) => AuthProvider(authService)),

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_structure/core/theme/app_typography.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 import '../controllers/provider_controller.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../widgets/common_widgets.dart';
@@ -144,6 +146,36 @@ class _ProviderEditProfileScreenState extends State<ProviderEditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // AI draft entry (optional, additive) — routes to the intake
+                    // flow; the manual form below stays fully usable.
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => Get.toNamed(AppRoutes.providerOnboardIntake),
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(top: 4, bottom: 20),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColors.slateTint,
+                          borderRadius: BorderRadius.circular(AppRadii.card),
+                          border: Border.all(color: AppColors.slateBorder),
+                        ),
+                        child: Row(children: [
+                          const Icon(Icons.auto_awesome, color: AppColors.slateText, size: 20),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Text('Draft my profile with AI',
+                                  style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.bold)),
+                              const SizedBox(height: 2),
+                              Text('Paste a bio, add a photo, or record a voice note.',
+                                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11)),
+                            ]),
+                          ),
+                          const Icon(Icons.chevron_right, color: AppColors.textTertiary, size: 18),
+                        ]),
+                      ),
+                    ),
                     // Profile Photo section
                     Center(
                       child: Column(

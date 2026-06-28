@@ -13,6 +13,8 @@ import '../../presentation/onboarding/provider_pricing_screen.dart';
 import '../../presentation/onboarding/provider_media_screen.dart';
 import '../../presentation/onboarding/provider_activation_screen.dart';
 import '../../presentation/onboarding/provider_tutorial_screen.dart';
+import '../../presentation/onboarding/provider_onboard_intake_screen.dart';
+import '../../presentation/onboarding/provider_onboard_review_screen.dart';
 import '../../presentation/provider/provider_main_nav_screen.dart';
 import '../../presentation/provider/view/provider_dashboard_screen.dart';
 import '../../presentation/provider/view/provider_listings_screen.dart';
@@ -183,6 +185,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.providerServiceProfile,
       page: () => const ServiceProfileScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.providerOnboardIntake,
+      page: () => const ProviderOnboardIntakeScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.providerOnboardReview,
+      page: () => const ProviderOnboardReviewScreen(),
     ),
   ];
 }
