@@ -44,6 +44,22 @@ Demo runs on mock data (`lib/core/mock/mock_data.dart`, via GetStorage).
   Protection, and `service_role` is server-only — those (plus Stripe/Resend
   secrets) NEVER go in `env.json`.
 
+## AI access (mandatory)
+- **All AI features MUST call through the `ai-gateway` Edge Function.** No feature
+  may hit the Anthropic Messages API (or any model API) directly — model routing,
+  prompt caching, the per-call `max_tokens` ceiling, cost/latency capture, and the
+  one-row-per-call `ai_audit_log` write all live in the gateway. New AI work calls
+  `runAI({ task, system, messages, tools?, actorId, actorRole, feature })` and lets
+  the gateway pick the model by `task`.
+- **Never expose raw model access to the client.** `ANTHROPIC_API_KEY` (and any
+  model/provider key) is a server secret that lives only in Edge Function secrets —
+  never in `env.json`, Dart, or the web build. The Flutter app reaches AI only via
+  `functions.invoke('ai-gateway', …)` (or a feature function that itself calls the
+  gateway); it can't escalate the model (Opus is service-role-only).
+- Embeddings follow the same rule: generate via `generate-embedding` server-side;
+  never ship raw vectors or keys to the client. Never embed price, location,
+  availability, certifications, or background-check status (queried deterministically).
+
 ## Known cleanups
 - Auth state is split across `AuthController` (GetStorage tokens) and
   `AuthProvider` (mock `mock_access_token`); unify to a single owner during the
