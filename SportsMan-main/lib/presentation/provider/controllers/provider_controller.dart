@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/data/app_repository.dart';
 import '../../../core/theme/app_colors.dart';
 
@@ -323,6 +324,15 @@ class ProviderController with ChangeNotifier {
     try {
       await _repo.saveProviderProfile(updates);
       _providerProfile = await _repo.getProviderProfile();
+      // On profile create/update, refresh this provider's listing embeddings so
+      // search reflects the new bio/specialties/session descriptions. Best-effort
+      // and idempotent: backfill-embeddings skips rows whose source hash is
+      // unchanged, so an unchanged save does not re-embed. Never blocks the save.
+      try {
+        await Supabase.instance.client.functions.invoke('backfill-embeddings');
+      } catch (e) {
+        debugPrint('embedding refresh skipped: $e');
+      }
       return true;
     } catch (e) {
       _profileError = 'Could not save your business profile. Please try again.';

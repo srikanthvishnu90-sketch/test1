@@ -49,18 +49,26 @@ type Program = {
   age_group: string | null;
   whats_included: string[] | null;
   embedding_source_hash: string | null;
+  provider_id: string | null;
 };
 
-// The ONLY fields that get embedded — descriptive content, never the structured
-// deterministic fields (price/location/availability/certs/background-check).
-function embeddableText(p: Program): string {
+type Provider = { id: string; bio: string | null; sports: string[] | null };
+
+// The ONLY fields that get embedded — descriptive content: the coach's bio +
+// specialties (providers.sports) + the listing's title/description/what's-included
+// + its session descriptions (titles). NEVER price, location, availability,
+// certifications, or background-check/verification status.
+function embeddableText(p: Program, provider: Provider | null, sessionTitles: string[]): string {
   return [
+    provider?.bio,
+    (provider?.sports ?? []).join(" "),
     p.title,
     p.description,
     p.sport_type,
     p.skill_level,
     p.age_group,
     (p.whats_included ?? []).join(" "),
+    sessionTitles.join(" "),
   ].filter((v) => v && v.toString().trim()).join("\n").trim();
 }
 
@@ -104,11 +112,30 @@ Deno.serve(async (req) => {
     }
 
     let q = db.from("programs").select(
-      "id, title, description, sport_type, skill_level, age_group, whats_included, embedding_source_hash",
+      "id, provider_id, title, description, sport_type, skill_level, age_group, whats_included, embedding_source_hash",
     );
     if (!isService) q = q.in("provider_id", ownedProviderIds!);
     const { data: rows, error: selErr } = await q;
     if (selErr) return json({ error: selErr.message }, 400);
+
+    // Hydrate provider bio/specialties + session descriptions for embeddable text.
+    const provIds = [...new Set((rows ?? []).map((r: Program) => r.provider_id).filter(Boolean))] as string[];
+    const provMap = new Map<string, Provider>();
+    if (provIds.length) {
+      const { data: provs } = await db.from("providers").select("id, bio, sports").in("id", provIds);
+      for (const pr of (provs ?? []) as Provider[]) provMap.set(pr.id, pr);
+    }
+    const progIds = (rows ?? []).map((r: Program) => r.id);
+    const sessMap = new Map<string, string[]>();
+    if (progIds.length) {
+      const { data: sess } = await db.from("sessions").select("program_id, title").in("program_id", progIds);
+      for (const s of (sess ?? []) as { program_id: string; title: string | null }[]) {
+        if (!s.title) continue;
+        const arr = sessMap.get(s.program_id) ?? [];
+        arr.push(s.title);
+        sessMap.set(s.program_id, arr);
+      }
+    }
 
     let embedded = 0;
     let skipped = 0;
@@ -116,7 +143,8 @@ Deno.serve(async (req) => {
 
     for (const p of (rows ?? []) as Program[]) {
       try {
-        const text = embeddableText(p);
+        const provider = p.provider_id ? (provMap.get(p.provider_id) ?? null) : null;
+        const text = embeddableText(p, provider, sessMap.get(p.id) ?? []);
         if (!text) { skipped++; continue; }
         const hash = await sha256Hex(text);
         if (hash === p.embedding_source_hash) { skipped++; continue; }
