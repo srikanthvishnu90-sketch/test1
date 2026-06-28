@@ -92,6 +92,7 @@ type RunAIArgs = {
   feature: string;
   maxTokens?: number;
   modelOverride?: string;
+  toolChoice?: unknown;
   isService: boolean;
 };
 
@@ -117,12 +118,14 @@ async function runAI(args: RunAIArgs) {
     messages: args.messages,
     ...(system ? { system } : {}),
     ...(args.tools ? { tools: args.tools } : {}),
+    ...(args.toolChoice ? { tool_choice: args.toolChoice } : {}),
   };
 
   const t0 = Date.now();
   let ok = false;
   let errMsg: string | null = null;
   let text = "";
+  let toolCalls: { name: string; input: unknown }[] = [];
   let usage: Record<string, number> = {};
   try {
     const resp = await fetch("https://api.anthropic.com/v1/messages", {
@@ -140,10 +143,11 @@ async function runAI(args: RunAIArgs) {
     } else {
       ok = true;
       usage = data?.usage ?? {};
-      text = Array.isArray(data?.content)
-        ? data.content.filter((b: { type: string }) => b.type === "text")
-            .map((b: { text: string }) => b.text).join("")
-        : "";
+      const blocks = Array.isArray(data?.content) ? data.content : [];
+      text = blocks.filter((b: { type: string }) => b.type === "text")
+        .map((b: { text: string }) => b.text).join("");
+      toolCalls = blocks.filter((b: { type: string }) => b.type === "tool_use")
+        .map((b: { name: string; input: unknown }) => ({ name: b.name, input: b.input }));
     }
   } catch (e) {
     errMsg = (e as Error).message ?? "request failed";
@@ -160,7 +164,8 @@ async function runAI(args: RunAIArgs) {
   // Audit summaries: HASHES + sizes only. No raw prompt/response text persisted.
   const inputSerialized = JSON.stringify({ system: args.system ?? null, messages: args.messages });
   const inputHash = await sha256Hex(inputSerialized);
-  const outputHash = ok ? await sha256Hex(text) : null;
+  const outputSerialized = text + (toolCalls.length ? JSON.stringify(toolCalls) : "");
+  const outputHash = ok ? await sha256Hex(outputSerialized) : null;
 
   const row = {
     feature: args.feature ?? "unknown",
@@ -169,7 +174,7 @@ async function runAI(args: RunAIArgs) {
     actor_role: args.actorRole ?? null,
     input_summary: `task=${args.task}; chars=${inputSerialized.length}; sha256=${inputHash.slice(0, 16)}`,
     output_summary: ok
-      ? `chars=${text.length}; sha256=${outputHash!.slice(0, 16)}`
+      ? `chars=${outputSerialized.length}; sha256=${outputHash!.slice(0, 16)}`
       : `error: ${(errMsg ?? "").slice(0, 400)}`,
     tokens_in: tokensIn,
     tokens_out: tokensOut,
@@ -187,6 +192,7 @@ async function runAI(args: RunAIArgs) {
   }
   return {
     text,
+    toolCalls,
     model,
     task: args.task,
     usage: { tokens_in: tokensIn, tokens_out: tokensOut, cache_read: cacheRead, cache_write: cacheWrite },
@@ -236,6 +242,7 @@ Deno.serve(async (req) => {
       feature: body.feature,
       maxTokens: body.maxTokens,
       modelOverride: isService ? body.modelOverride : undefined, // Opus escalation = service only
+      toolChoice: body.tool_choice, // forward forced/explicit tool selection
       isService,
     });
 
