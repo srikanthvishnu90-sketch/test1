@@ -450,6 +450,67 @@ class SupabaseRepository implements AppRepository {
     }
   }
 
+  @override
+  Future<Map<String, dynamic>> sendParentUpdate(String id) async {
+    try {
+      final res = await _db.functions
+          .invoke('parent-update-send', body: {'parentUpdateId': id});
+      return Map<String, dynamic>.from((res.data as Map?) ?? {});
+    } on FunctionException catch (e) {
+      debugPrint('sendParentUpdate FunctionException: ${e.status}');
+      final det = e.details;
+      if (det is Map && det['error'] != null) {
+        return {'error': det['error'].toString()};
+      }
+      return {'error': 'Could not send the update (status ${e.status}).'};
+    } catch (e) {
+      debugPrint('sendParentUpdate failed: $e');
+      return {'error': 'Could not send the update. Please try again.'};
+    }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getParentUpdatesForChild(
+      String childId) async {
+    try {
+      final uid = _uid;
+      if (uid == null || !_isUuid(childId)) return [];
+      // Defense in depth on top of RLS: confirm the caller actually guards this
+      // child before querying, then constrain to that child's SENT rows only.
+      final child = await _db
+          .from('athletes')
+          .select('id')
+          .eq('id', childId)
+          .eq('parent_id', uid)
+          .maybeSingle();
+      if (child == null) return [];
+      final rows = await _db
+          .from('parent_updates')
+          .select(
+              'id, child_id, summary_body, skills_worked, progress_signal, practice_suggestions, encouragement, status, sent_at, created_at')
+          .eq('child_id', childId)
+          .eq('status', 'sent')
+          .order('created_at', ascending: false);
+      return (rows as List).map((r) => _mapParentUpdate(r as Map)).toList();
+    } catch (e) {
+      debugPrint('getParentUpdatesForChild failed: $e');
+      return [];
+    }
+  }
+
+  Map<String, dynamic> _mapParentUpdate(Map row) => {
+        '_id': row['id'],
+        'childId': row['child_id'],
+        'summaryBody': row['summary_body'] ?? '',
+        'skillsWorked': _toList(row['skills_worked']),
+        'progressSignal': row['progress_signal'] ?? '',
+        'practiceSuggestions': _toList(row['practice_suggestions']),
+        'encouragement': row['encouragement'] ?? '',
+        'status': row['status'],
+        'sentAt': row['sent_at'],
+        'createdAt': row['created_at'],
+      };
+
   // ── Profiles ──────────────────────────────────────────────────────────────
   @override
   Future<Map<String, dynamic>> getUserProfile() async {

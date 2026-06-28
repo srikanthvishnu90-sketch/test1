@@ -64,6 +64,15 @@ class MockRepository implements AppRepository {
         'approved_at': DateTime.now().toUtc().toIso8601String(),
       };
 
+  @override
+  Future<Map<String, dynamic>> sendParentUpdate(String id) async =>
+      {'ok': true, 'status': 'sent', 'delivery_channel': 'inbox'};
+
+  @override
+  Future<List<Map<String, dynamic>>> getParentUpdatesForChild(
+          String childId) async =>
+      const [];
+
   // ── Profiles ─────────────────────────────────────────────────────────────
   @override
   Future<Map<String, dynamic>> getUserProfile() => Future.value(MockData.userProfile);

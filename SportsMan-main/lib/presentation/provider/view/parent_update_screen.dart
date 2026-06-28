@@ -89,8 +89,10 @@ class _ParentUpdateScreenState extends State<ParentUpdateScreen> {
                 _inputSection(c)
               else if (c.stage == ParentUpdateStage.draft)
                 _draftSection(c)
+              else if (c.stage == ParentUpdateStage.approved)
+                _approvedSection(c)
               else
-                _approvedSection(),
+                _sentSection(),
             ],
           ),
         ),
@@ -236,7 +238,7 @@ class _ParentUpdateScreenState extends State<ParentUpdateScreen> {
     );
   }
 
-  Widget _approvedSection() {
+  Widget _approvedSection(ParentUpdateController c) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -252,7 +254,44 @@ class _ParentUpdateScreenState extends State<ParentUpdateScreen> {
           Text('Approved', style: AppTypography.font(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w600)),
         ]),
         const SizedBox(height: 10),
-        Text('This update is approved and ready to send. Sending is a separate step — you decide when it goes to the parent.',
+        Text('This update is approved and ready to send. You choose when it goes to the parent — sending is your explicit action.',
+            style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13, height: 1.5)),
+        const SizedBox(height: 20),
+        SporveButton('Send to parent', onPressed: c.busy ? null : () => _send(c), loading: c.busy,
+            variant: SporveButtonVariant.primary, icon: Icons.send),
+        const SizedBox(height: 10),
+        SporveButton('Not now', onPressed: c.busy ? null : () => Get.back(), variant: SporveButtonVariant.dark),
+      ]),
+    );
+  }
+
+  Future<void> _send(ParentUpdateController c) async {
+    final ok = await c.send();
+    if (!mounted) return;
+    if (!ok) {
+      Get.snackbar('Send', c.error ?? 'Could not send.',
+          backgroundColor: AppColors.negative, colorText: AppColors.textPrimary,
+          snackPosition: SnackPosition.BOTTOM, margin: const EdgeInsets.all(16));
+    }
+  }
+
+  Widget _sentSection() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        border: Border.all(color: AppColors.positive),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          const Icon(Icons.mark_email_read_outlined, color: AppColors.positive, size: 22),
+          const SizedBox(width: 10),
+          Text('Sent', style: AppTypography.font(color: AppColors.textPrimary, fontSize: 18, fontWeight: FontWeight.w600)),
+        ]),
+        const SizedBox(height: 10),
+        Text('The parent has been notified and can now see this update in their Progress updates.',
             style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13, height: 1.5)),
         const SizedBox(height: 20),
         SporveButton('Back to schedule', onPressed: () => Get.back(), variant: SporveButtonVariant.dark),

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../../../core/data/app_repository.dart';
 
-enum ParentUpdateStage { input, clarifying, draft, approved }
+enum ParentUpdateStage { input, clarifying, draft, approved, sent }
 
 /// Drives the "Write parent update" flow: raw notes -> session-note-summarize ->
 /// (clarify | editable draft) -> autosave draft -> explicit Approve. Nothing is
@@ -227,6 +227,32 @@ class ParentUpdateController extends ChangeNotifier {
         return false;
       }
       stage = ParentUpdateStage.approved;
+      return true;
+    } finally {
+      busy = false;
+      notifyListeners();
+    }
+  }
+
+  /// Explicit, deterministic send of an APPROVED update. Routes the finalized
+  /// content to the guardian(s) via the inbox channel and flips status to 'sent'.
+  /// No AI here — the content is already finalized.
+  Future<bool> send() async {
+    if (_parentUpdateId == null) {
+      error = 'Nothing to send yet.';
+      notifyListeners();
+      return false;
+    }
+    busy = true;
+    error = null;
+    notifyListeners();
+    try {
+      final res = await _repo.sendParentUpdate(_parentUpdateId!);
+      if (res['error'] != null) {
+        error = res['error'].toString();
+        return false;
+      }
+      stage = ParentUpdateStage.sent;
       return true;
     } finally {
       busy = false;

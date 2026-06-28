@@ -16,6 +16,7 @@ import '../../presentation/onboarding/provider_tutorial_screen.dart';
 import '../../presentation/onboarding/provider_onboard_intake_screen.dart';
 import '../../presentation/onboarding/provider_onboard_review_screen.dart';
 import '../../presentation/provider/view/parent_update_screen.dart';
+import '../../presentation/client/view/progress_updates_screen.dart';
 import '../../presentation/provider/provider_main_nav_screen.dart';
 import '../../presentation/provider/view/provider_dashboard_screen.dart';
 import '../../presentation/provider/view/provider_listings_screen.dart';
@@ -198,6 +199,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.parentUpdate,
       page: () => const ParentUpdateScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.progressUpdates,
+      page: () => const ProgressUpdatesScreen(),
     ),
   ];
 }

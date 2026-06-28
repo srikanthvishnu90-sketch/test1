@@ -308,6 +308,12 @@ class ProfileScreen extends StatelessWidget {
                       subtitle: 'Name, photo, sport, bio',
                     ),
                     _buildListOption(
+                      icon: Icons.insights_outlined,
+                      title: 'Progress updates',
+                      subtitle: 'Coach updates on your child',
+                      onTap: () => Get.toNamed(AppRoutes.progressUpdates),
+                    ),
+                    _buildListOption(
                       icon: Icons.bookmark_border,
                       title: 'Saved Coaches',
                       subtitle: '5 saved coaches and facilities',

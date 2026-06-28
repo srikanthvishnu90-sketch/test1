@@ -14,6 +14,7 @@ import 'core/data/supabase_repository.dart';
 import 'presentation/onboarding/controllers/onboarding_controller.dart';
 import 'presentation/onboarding/controllers/onboard_draft_controller.dart';
 import 'presentation/client/controllers/home_controller.dart';
+import 'presentation/client/controllers/progress_updates_controller.dart';
 import 'presentation/provider/controllers/provider_controller.dart';
 import 'presentation/provider/controllers/parent_update_controller.dart';
 import 'presentation/authentication/controllers/auth_provider.dart';
@@ -47,6 +48,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => OnboardingProvider(repo)),
         ChangeNotifierProvider(create: (_) => OnboardDraftProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider(repo)),
+        ChangeNotifierProvider(create: (_) => ProgressUpdatesController(repo)),
         ChangeNotifierProvider(create: (_) => ProviderController(repo)),
         ChangeNotifierProvider(create: (_) => ParentUpdateController(repo)),
         ChangeNotifierProvider(create: (_) => AuthProvider(authService)),

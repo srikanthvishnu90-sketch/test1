@@ -91,6 +91,16 @@ abstract class SessionUpdateRepository {
   /// Flips a parent_update to status='approved' (+ approved_by/approved_at).
   /// Sending stays a separate, later, explicit step. Returns the stored row.
   Future<Map<String, dynamic>?> approveParentUpdate(String id);
+
+  /// Deterministic send: routes an APPROVED update to the child's guardian(s)
+  /// via the notifications/inbox channel and flips status='sent'. Server-side
+  /// (service role) because notifications has no client-insert policy. Returns
+  /// the function body (`{ok,status,sent_at,...}` or `{error}`).
+  Future<Map<String, dynamic>> sendParentUpdate(String id);
+
+  /// Parent-facing read: SENT updates for a child the caller guards, newest
+  /// first. Enforced by RLS AND by an explicit child-ownership + status filter.
+  Future<List<Map<String, dynamic>>> getParentUpdatesForChild(String childId);
 }
 
 /// Facade aggregating every domain repository. Controllers depend on this one
