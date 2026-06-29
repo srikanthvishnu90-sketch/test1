@@ -1,58 +1,767 @@
 {
   "_comment": [
-    "DEV-ONLY eval set for listing semantic search. NOT used by the app/production.",
-    "Each entry: { query, expected_listing_ids, notes }.",
-    "- query: a natural-language search a parent/athlete might type.",
-    "- expected_listing_ids: the program (listing) UUIDs that SHOULD rank in the",
-    "  top results for this query. Fill these from real rows: in Supabase run",
-    "  `select id, title, sport_type, skill_level, age_group from programs;` and",
-    "  paste the ids that genuinely match the query. Leave [] if not yet labeled",
-    "  (the eval scores recall only over queries that have expected ids).",
-    "",
-    "HOW TO GROW TO 50 LABELED QUERIES:",
-    "  1. Pull the full listing catalog (query above). Skim titles/descriptions.",
-    "  2. For each distinct sport + skill_level + age_group cluster, write 2-3",
-    "     realistic queries (a beginner phrasing, an intent phrasing, a location-free",
-    "     paraphrase). Vary vocabulary so it isn't keyword-matchable.",
-    "  3. Label each with the 1-5 listing ids a human would consider correct.",
-    "  4. Keep a few HARD negatives (queries whose best match is subtle) and a few",
-    "     EASY ones (exact-topic) so recall@10 spreads out and is diagnostic.",
-    "  5. NEVER label on price/location/availability/certs/background-check — those",
-    "     are structured/deterministic, not semantic (hard rule). Label on the",
-    "     descriptive content only (sport, skill, age, what's included).",
-    "  6. Aim for ~50 across the sports you actually list; re-run run_eval.py and",
-    "     watch recall@10 / mean rank as you tune embeddings + (later) hybrid search."
+    "DEV-ONLY hybrid-pipeline eval set (NOT used by the app).",
+    "Each entry: {query, topic, constraints, expected_listing_ids, notes}.",
+    "constraints are the ground-truth parse (price/age/radius/sport/lat/lng); the runner",
+    "feeds them to search_listings. topic selects the controlled query embedding offline.",
+    "expected_listing_ids = catalog listings in the topic that SATISFY the hard constraints."
   ],
   "queries": [
-    { "query": "beginner youth soccer practice to learn the basics",
-      "expected_listing_ids": ["990c147d-dae3-4668-b312-bd630990dd52"],
-      "notes": "Matches the seeded 'Test Soccer Session'. Replace/extend as catalog grows." },
-    { "query": "improve my kid's ball control and dribbling",
+    {
+      "query": "beginner basketball for my 8 year old to learn the basics",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 100,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f",
+        "17632731-e79c-ae4e-5fab-6c28eb9408af"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$100 r=25mi"
+    },
+    {
+      "query": "fun intro hoops near me for a young first-timer",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 80,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f",
+        "17632731-e79c-ae4e-5fab-6c28eb9408af"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$80 r=25mi"
+    },
+    {
+      "query": "patient basketball coach for kids just starting out",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 80,
+        "radius_miles": 10,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f",
+        "17632731-e79c-ae4e-5fab-6c28eb9408af"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$80 r=10mi"
+    },
+    {
+      "query": "where can my 8 year old learn basketball fundamentals",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 200,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f",
+        "17632731-e79c-ae4e-5fab-6c28eb9408af"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$200 r=25mi"
+    },
+    {
+      "query": "youth basketball for an absolute beginner",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 60,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$60 r=25mi"
+    },
+    {
+      "query": "first-time basketball lessons for a young child",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 100,
+        "radius_miles": 5,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f",
+        "17632731-e79c-ae4e-5fab-6c28eb9408af"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$100 r=5mi"
+    },
+    {
+      "query": "easygoing hoops program to build my kid's confidence",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 40,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Label with soccer/skills listing ids once present." },
-    { "query": "small-group basketball shooting and footwork clinic",
+      "notes": "topic=basketball-youth-beginner; cap=$40 r=25mi"
+    },
+    {
+      "query": "introductory basketball skills for a 8 year old",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 100,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f",
+        "17632731-e79c-ae4e-5fab-6c28eb9408af"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$100 r=25mi"
+    },
+    {
+      "query": "gentle basketball coaching for a nervous beginner",
+      "topic": 0,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 8,
+        "max_price": 80,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "13a1fbf0-5b0d-231d-ce88-3207d8afa61f",
+        "17632731-e79c-ae4e-5fab-6c28eb9408af"
+      ],
+      "notes": "topic=basketball-youth-beginner; cap=$80 r=25mi"
+    },
+    {
+      "query": "competitive basketball training for tryout prep",
+      "topic": 1,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 14,
+        "max_price": 80,
+        "radius_miles": 10,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Basketball skills listing." },
-    { "query": "one-on-one private coaching for an advanced player",
+      "notes": "topic=basketball-competitive; cap=$80 r=10mi"
+    },
+    {
+      "query": "advanced travel-team basketball for my 14 year old",
+      "topic": 1,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 14,
+        "max_price": 200,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "22fc1e49-8a2c-341c-b2dd-c3fbed271063",
+        "958d9d0f-a18d-e936-901f-36fbbaa9f67c"
+      ],
+      "notes": "topic=basketball-competitive; cap=$200 r=25mi"
+    },
+    {
+      "query": "serious guard development for a competitive player",
+      "topic": 1,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 14,
+        "max_price": 60,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Any sport, session_type one_on_one / advanced skill_level." },
-    { "query": "after-school program for elementary-age beginners",
+      "notes": "topic=basketball-competitive; cap=$60 r=25mi"
+    },
+    {
+      "query": "elite basketball coaching to make the travel team",
+      "topic": 1,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 14,
+        "max_price": 100,
+        "radius_miles": 5,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "age_group elementary + skill_level beginner." },
-    { "query": "speed and agility training for teen athletes",
+      "notes": "topic=basketball-competitive; cap=$100 r=5mi"
+    },
+    {
+      "query": "intense hoops training for a high-level 14 year old",
+      "topic": 1,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 14,
+        "max_price": 40,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Conditioning-style listing for older age group." },
-    { "query": "fun introductory tennis lessons for young children",
+      "notes": "topic=basketball-competitive; cap=$40 r=25mi"
+    },
+    {
+      "query": "skills training for an experienced competitive player",
+      "topic": 1,
+      "constraints": {
+        "sport": "Basketball",
+        "athlete_age": 14,
+        "max_price": 100,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Tennis + young age + beginner." },
-    { "query": "competitive travel team tryout preparation",
+      "notes": "topic=basketball-competitive; cap=$100 r=25mi"
+    },
+    {
+      "query": "beginner soccer for my 7 year old to learn ball control",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 80,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "e517a2e1-6056-9c74-0f17-b625301cd529",
+        "3c24f011-4b68-cb9e-969e-47dcae6d9dc7"
+      ],
+      "notes": "topic=soccer-youth-beginner; cap=$80 r=25mi"
+    },
+    {
+      "query": "intro soccer for little kids near me",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 80,
+        "radius_miles": 10,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "e517a2e1-6056-9c74-0f17-b625301cd529",
+        "3c24f011-4b68-cb9e-969e-47dcae6d9dc7"
+      ],
+      "notes": "topic=soccer-youth-beginner; cap=$80 r=10mi"
+    },
+    {
+      "query": "fun first soccer lessons for a young child",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 200,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "e517a2e1-6056-9c74-0f17-b625301cd529",
+        "3c24f011-4b68-cb9e-969e-47dcae6d9dc7"
+      ],
+      "notes": "topic=soccer-youth-beginner; cap=$200 r=25mi"
+    },
+    {
+      "query": "where to start soccer for a 7 year old beginner",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 60,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "e517a2e1-6056-9c74-0f17-b625301cd529"
+      ],
+      "notes": "topic=soccer-youth-beginner; cap=$60 r=25mi"
+    },
+    {
+      "query": "playful soccer basics for little ones",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 100,
+        "radius_miles": 5,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "e517a2e1-6056-9c74-0f17-b625301cd529",
+        "3c24f011-4b68-cb9e-969e-47dcae6d9dc7"
+      ],
+      "notes": "topic=soccer-youth-beginner; cap=$100 r=5mi"
+    },
+    {
+      "query": "learn-to-play soccer for a young first-timer",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 40,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Advanced/competitive intent; team session_type." },
-    { "query": "goalkeeper specific drills and positioning",
+      "notes": "topic=soccer-youth-beginner; cap=$40 r=25mi"
+    },
+    {
+      "query": "introductory soccer dribbling for a 7 year old",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 100,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "e517a2e1-6056-9c74-0f17-b625301cd529",
+        "3c24f011-4b68-cb9e-969e-47dcae6d9dc7"
+      ],
+      "notes": "topic=soccer-youth-beginner; cap=$100 r=25mi"
+    },
+    {
+      "query": "starter soccer sessions for a little kid",
+      "topic": 2,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 7,
+        "max_price": 80,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "e517a2e1-6056-9c74-0f17-b625301cd529",
+        "3c24f011-4b68-cb9e-969e-47dcae6d9dc7"
+      ],
+      "notes": "topic=soccer-youth-beginner; cap=$80 r=25mi"
+    },
+    {
+      "query": "goalkeeper training and positioning drills",
+      "topic": 3,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 12,
+        "max_price": 80,
+        "radius_miles": 10,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Soccer position-specific (semantic, not keyword)." },
-    { "query": "weekend volleyball skills camp for middle schoolers",
+      "notes": "topic=soccer-goalkeeping; cap=$80 r=10mi"
+    },
+    {
+      "query": "soccer keeper coaching for my 12 year old",
+      "topic": 3,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 12,
+        "max_price": 200,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "14eb1e0a-1a22-0c0b-3ead-0833840d4f94"
+      ],
+      "notes": "topic=soccer-goalkeeping; cap=$200 r=25mi"
+    },
+    {
+      "query": "goalie-specific soccer training near me",
+      "topic": 3,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 12,
+        "max_price": 60,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
       "expected_listing_ids": [],
-      "notes": "Volleyball + middle-school age group." }
+      "notes": "topic=soccer-goalkeeping; cap=$60 r=25mi"
+    },
+    {
+      "query": "shot-stopping and distribution coaching for a keeper",
+      "topic": 3,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 12,
+        "max_price": 100,
+        "radius_miles": 5,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "14eb1e0a-1a22-0c0b-3ead-0833840d4f94"
+      ],
+      "notes": "topic=soccer-goalkeeping; cap=$100 r=5mi"
+    },
+    {
+      "query": "soccer goalkeeping development for a 12 year old",
+      "topic": 3,
+      "constraints": {
+        "sport": "Soccer",
+        "athlete_age": 12,
+        "max_price": 40,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [],
+      "notes": "topic=soccer-goalkeeping; cap=$40 r=25mi"
+    },
+    {
+      "query": "fun tennis lessons for young children",
+      "topic": 4,
+      "constraints": {
+        "sport": "Tennis",
+        "athlete_age": 9,
+        "max_price": 100,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "09d0ed66-0160-9eff-a071-a0bf21583267",
+        "0e943472-32fa-9224-ee3b-66980bc12897"
+      ],
+      "notes": "topic=tennis-youth; cap=$100 r=25mi"
+    },
+    {
+      "query": "junior tennis development for my 9 year old",
+      "topic": 4,
+      "constraints": {
+        "sport": "Tennis",
+        "athlete_age": 9,
+        "max_price": 80,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "09d0ed66-0160-9eff-a071-a0bf21583267"
+      ],
+      "notes": "topic=tennis-youth; cap=$80 r=25mi"
+    },
+    {
+      "query": "intro tennis rallying and footwork for kids",
+      "topic": 4,
+      "constraints": {
+        "sport": "Tennis",
+        "athlete_age": 9,
+        "max_price": 80,
+        "radius_miles": 10,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "09d0ed66-0160-9eff-a071-a0bf21583267"
+      ],
+      "notes": "topic=tennis-youth; cap=$80 r=10mi"
+    },
+    {
+      "query": "where can a 9 year old start tennis",
+      "topic": 4,
+      "constraints": {
+        "sport": "Tennis",
+        "athlete_age": 9,
+        "max_price": 200,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "09d0ed66-0160-9eff-a071-a0bf21583267",
+        "0e943472-32fa-9224-ee3b-66980bc12897"
+      ],
+      "notes": "topic=tennis-youth; cap=$200 r=25mi"
+    },
+    {
+      "query": "beginner-friendly youth tennis program",
+      "topic": 4,
+      "constraints": {
+        "sport": "Tennis",
+        "athlete_age": 9,
+        "max_price": 60,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [],
+      "notes": "topic=tennis-youth; cap=$60 r=25mi"
+    },
+    {
+      "query": "learn tennis strokes and footwork for juniors",
+      "topic": 4,
+      "constraints": {
+        "sport": "Tennis",
+        "athlete_age": 9,
+        "max_price": 100,
+        "radius_miles": 5,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "09d0ed66-0160-9eff-a071-a0bf21583267"
+      ],
+      "notes": "topic=tennis-youth; cap=$100 r=5mi"
+    },
+    {
+      "query": "starter tennis classes for a 9 year old",
+      "topic": 4,
+      "constraints": {
+        "sport": "Tennis",
+        "athlete_age": 9,
+        "max_price": 40,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [],
+      "notes": "topic=tennis-youth; cap=$40 r=25mi"
+    },
+    {
+      "query": "speed and agility training for a teen athlete",
+      "topic": 5,
+      "constraints": {
+        "sport": "Conditioning",
+        "athlete_age": 15,
+        "max_price": 100,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "7b549025-e186-141c-8644-718fa66126c6"
+      ],
+      "notes": "topic=speed-agility; cap=$100 r=25mi"
+    },
+    {
+      "query": "conditioning and quickness for my 15 year old",
+      "topic": 5,
+      "constraints": {
+        "sport": "Conditioning",
+        "athlete_age": 15,
+        "max_price": 80,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "7b549025-e186-141c-8644-718fa66126c6"
+      ],
+      "notes": "topic=speed-agility; cap=$80 r=25mi"
+    },
+    {
+      "query": "athletic speed work for older youth",
+      "topic": 5,
+      "constraints": {
+        "sport": "Conditioning",
+        "athlete_age": 15,
+        "max_price": 80,
+        "radius_miles": 10,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "7b549025-e186-141c-8644-718fa66126c6"
+      ],
+      "notes": "topic=speed-agility; cap=$80 r=10mi"
+    },
+    {
+      "query": "agility and acceleration training for a teen",
+      "topic": 5,
+      "constraints": {
+        "sport": "Conditioning",
+        "athlete_age": 15,
+        "max_price": 200,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "7b549025-e186-141c-8644-718fa66126c6"
+      ],
+      "notes": "topic=speed-agility; cap=$200 r=25mi"
+    },
+    {
+      "query": "off-season conditioning for a 15 year old athlete",
+      "topic": 5,
+      "constraints": {
+        "sport": "Conditioning",
+        "athlete_age": 15,
+        "max_price": 60,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [],
+      "notes": "topic=speed-agility; cap=$60 r=25mi"
+    },
+    {
+      "query": "explosiveness and footwork training for teens",
+      "topic": 5,
+      "constraints": {
+        "sport": "Conditioning",
+        "athlete_age": 15,
+        "max_price": 100,
+        "radius_miles": 5,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "7b549025-e186-141c-8644-718fa66126c6"
+      ],
+      "notes": "topic=speed-agility; cap=$100 r=5mi"
+    },
+    {
+      "query": "sprint and quickness coaching for a teen athlete",
+      "topic": 5,
+      "constraints": {
+        "sport": "Conditioning",
+        "athlete_age": 15,
+        "max_price": 40,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [],
+      "notes": "topic=speed-agility; cap=$40 r=25mi"
+    },
+    {
+      "query": "volleyball skills camp for middle schoolers",
+      "topic": 6,
+      "constraints": {
+        "sport": "Volleyball",
+        "athlete_age": 12,
+        "max_price": 100,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "9137d3a7-78fa-bfa2-cbb1-ec027896a729"
+      ],
+      "notes": "topic=volleyball; cap=$100 r=25mi"
+    },
+    {
+      "query": "learn volleyball passing and setting for my 12 year old",
+      "topic": 6,
+      "constraints": {
+        "sport": "Volleyball",
+        "athlete_age": 12,
+        "max_price": 80,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "9137d3a7-78fa-bfa2-cbb1-ec027896a729"
+      ],
+      "notes": "topic=volleyball; cap=$80 r=25mi"
+    },
+    {
+      "query": "youth volleyball fundamentals near me",
+      "topic": 6,
+      "constraints": {
+        "sport": "Volleyball",
+        "athlete_age": 12,
+        "max_price": 80,
+        "radius_miles": 10,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "9137d3a7-78fa-bfa2-cbb1-ec027896a729"
+      ],
+      "notes": "topic=volleyball; cap=$80 r=10mi"
+    },
+    {
+      "query": "serving and passing volleyball clinic for a 12 year old",
+      "topic": 6,
+      "constraints": {
+        "sport": "Volleyball",
+        "athlete_age": 12,
+        "max_price": 200,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "9137d3a7-78fa-bfa2-cbb1-ec027896a729"
+      ],
+      "notes": "topic=volleyball; cap=$200 r=25mi"
+    },
+    {
+      "query": "beginner volleyball for a middle schooler",
+      "topic": 6,
+      "constraints": {
+        "sport": "Volleyball",
+        "athlete_age": 12,
+        "max_price": 60,
+        "radius_miles": 25,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "9137d3a7-78fa-bfa2-cbb1-ec027896a729"
+      ],
+      "notes": "topic=volleyball; cap=$60 r=25mi"
+    },
+    {
+      "query": "intro volleyball training for a 12 year old",
+      "topic": 6,
+      "constraints": {
+        "sport": "Volleyball",
+        "athlete_age": 12,
+        "max_price": 100,
+        "radius_miles": 5,
+        "lat": 41.88,
+        "lng": -87.63
+      },
+      "expected_listing_ids": [
+        "9137d3a7-78fa-bfa2-cbb1-ec027896a729"
+      ],
+      "notes": "topic=volleyball; cap=$100 r=5mi"
+    }
   ]
 }
