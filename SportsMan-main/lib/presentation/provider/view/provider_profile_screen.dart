@@ -20,7 +20,6 @@ class ProviderProfileScreen extends StatefulWidget {
 }
 
 class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
-
   bool _isLoading = true;
   String _displayName = 'Loading...';
   String _verificationStatus = 'pending';
@@ -53,9 +52,12 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
 
       if (providerData.isNotEmpty) {
         setState(() {
-          _verificationStatus = providerData['verificationStatus'] ?? providerData['status'] ?? 'pending';
+          _verificationStatus =
+              providerData['verificationStatus'] ??
+              providerData['status'] ??
+              'pending';
           _logoUrl = providerData['logo'] ?? userData['profileImage'] ?? '';
-          
+
           final address = providerData['address'];
           if (address != null) {
             _city = address['city'] ?? 'CHICAGO';
@@ -118,7 +120,10 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                   children: [
                     // 1. TOP USER CARD (USER DISPLAY NAME AND PHOTO)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 20,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,20 +153,40 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                                       const SizedBox(width: 6),
                                       // Dynamic Verification Badge
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 6,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: Colors.transparent,
-                                          borderRadius: BorderRadius.circular(AppRadii.chip),
-                                          border: Border.all(color: _getVerificationColor(_verificationStatus), width: 1.5),
+                                          borderRadius: BorderRadius.circular(
+                                            AppRadii.chip,
+                                          ),
+                                          border: Border.all(
+                                            color: _getVerificationColor(
+                                              _verificationStatus,
+                                            ),
+                                            width: 1.5,
+                                          ),
                                         ),
                                         child: Row(
                                           children: [
-                                            Icon(_getVerificationIcon(_verificationStatus), color: _getVerificationColor(_verificationStatus), size: 10),
+                                            Icon(
+                                              _getVerificationIcon(
+                                                _verificationStatus,
+                                              ),
+                                              color: _getVerificationColor(
+                                                _verificationStatus,
+                                              ),
+                                              size: 10,
+                                            ),
                                             const SizedBox(width: 4),
                                             Text(
                                               _verificationStatus.toUpperCase(),
                                               style: AppTypography.font(
-                                                color: _getVerificationColor(_verificationStatus),
+                                                color: _getVerificationColor(
+                                                  _verificationStatus,
+                                                ),
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.bold,
                                                 letterSpacing: 0.5,
@@ -172,7 +197,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                                       ),
                                       const SizedBox(width: 6),
                                       // Location Badge
-                                      _buildTopBadge('${_city.toUpperCase()}, ${_state.toUpperCase()}'),
+                                      _buildTopBadge(
+                                        '${_city.toUpperCase()}, ${_state.toUpperCase()}',
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -187,12 +214,13 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                             width: 64,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: AppColors.hairline, width: 2),
+                              border: Border.all(
+                                color: AppColors.hairline,
+                                width: 2,
+                              ),
                             ),
                             child: SporveImage(
-                              _logoUrl.isNotEmpty
-                                  ? _logoUrl
-                                  : '',
+                              _logoUrl.isNotEmpty ? _logoUrl : '',
                               width: 64,
                               height: 64,
                               fit: BoxFit.cover,
@@ -205,14 +233,20 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
 
                     // 2. PROFILE STRENGTH CARD (72%)
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 8,
+                      ),
                       child: Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: AppColors.surface,
                           borderRadius: BorderRadius.circular(AppRadii.card),
-                          border: Border.all(color: AppColors.hairlineSoft, width: 1),
+                          border: Border.all(
+                            color: AppColors.hairlineSoft,
+                            width: 1,
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,20 +275,29 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                             const SizedBox(height: 12),
                             // Custom Linear Progress bar
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(AppRadii.chip),
+                              borderRadius: BorderRadius.circular(
+                                AppRadii.chip,
+                              ),
                               child: const LinearProgressIndicator(
                                 value: 0.72,
                                 backgroundColor: AppColors.surface2,
-                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.slateText),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  AppColors.slateText,
+                                ),
                                 minHeight: 6,
                               ),
                             ),
                             const SizedBox(height: 12),
                             RichText(
                               text: TextSpan(
-                                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11),
+                                style: AppTypography.font(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 11,
+                                ),
                                 children: [
-                                  const TextSpan(text: 'Add a profile photo to get '),
+                                  const TextSpan(
+                                    text: 'Add a profile photo to get ',
+                                  ),
                                   TextSpan(
                                     text: '3x more bookings',
                                     style: AppTypography.font(
@@ -272,13 +315,19 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
 
                     // 3. AI COACH PURPLE BANNER
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                       child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
                           color: AppColors.blueTint,
                           borderRadius: BorderRadius.circular(AppRadii.card),
-                          border: Border.all(color: AppColors.hairline, width: 1),
+                          border: Border.all(
+                            color: AppColors.hairline,
+                            width: 1,
+                          ),
                         ),
                         child: Stack(
                           children: [
@@ -347,26 +396,37 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                     // 4. MAIN LIST OPTIONS (ACCURATE FLOATING WHITE CARD MATCHING FIGMA)
                     Container(
                       width: double.infinity,
-                      margin: const EdgeInsets.only(left: 24, right: 24, top: 12, bottom: 20),
+                      margin: const EdgeInsets.only(
+                        left: 24,
+                        right: 24,
+                        top: 12,
+                        bottom: 20,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.surface,
                         borderRadius: BorderRadius.circular(AppRadii.card),
                         border: Border.all(color: AppColors.hairline),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 28,
+                      ),
                       child: Column(
                         children: [
                           _buildListOption(
                             icon: Icons.person_outline,
                             title: 'Personal Profile',
                             subtitle: 'Name, photo, email, phone number',
-                            onTap: () => Get.toNamed(AppRoutes.providerPersonalProfile),
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.providerPersonalProfile),
                           ),
                           _buildListOption(
                             icon: Icons.storefront_outlined,
                             title: 'Service Profile',
-                            subtitle: 'Business details, sports, pricing, branding',
-                            onTap: () => Get.toNamed(AppRoutes.providerServiceProfile),
+                            subtitle:
+                                'Business details, sports, pricing, branding',
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.providerServiceProfile),
                           ),
                           _buildListOption(
                             icon: Icons.people_outline,
@@ -378,19 +438,36 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                             icon: Icons.business_center_outlined,
                             title: 'Earnings & Payouts',
                             subtitle: 'Revenue, invoices, bank transfers',
-                            onTap: () => Get.toNamed(AppRoutes.providerFinances),
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.providerFinances),
                           ),
                           _buildListOption(
                             icon: Icons.credit_card_outlined,
                             title: 'Payment Methods',
                             subtitle: 'Cards and billing',
-                            onTap: () => Get.toNamed(AppRoutes.providerPayoutsPayments),
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.providerPayoutsPayments),
                           ),
                           _buildListOption(
                             icon: Icons.notifications_none,
                             title: 'Notifications',
                             subtitle: 'Push, email, and SMS preferences',
-                            onTap: () => Get.toNamed(AppRoutes.notificationSettings),
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.notificationSettings),
+                          ),
+                          _buildListOption(
+                            icon: Icons.auto_awesome,
+                            title: 'Automated messages',
+                            subtitle: 'Off / draft / auto per message type',
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.automatedMessages),
+                          ),
+                          _buildListOption(
+                            icon: Icons.mark_email_unread_outlined,
+                            title: 'Approval queue',
+                            subtitle: 'Review and send drafted messages',
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.lifecycleApprovals),
                           ),
                           _buildListOption(
                             icon: Icons.shield_outlined,
@@ -407,14 +484,17 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                             title: 'Legal',
                             subtitle: 'Terms, privacy policy, licenses',
                           ),
-                          
+
                           const SizedBox(height: 16),
-                          
+
                           // Sign Out Row
                           SporveButton(
                             'Sign out',
                             onPressed: () async {
-                              final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                              final authProvider = Provider.of<AuthProvider>(
+                                context,
+                                listen: false,
+                              );
                               await authProvider.logout();
                               Get.offAllNamed(AppRoutes.authEntry);
                             },
@@ -424,7 +504,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 100), // spacing for bottom navigation bar
+                    const SizedBox(
+                      height: 100,
+                    ), // spacing for bottom navigation bar
                   ],
                 ),
               ),
@@ -470,7 +552,11 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                   Skeleton(height: 18, width: 120),
                 ],
               ),
-              Skeleton(width: 72, height: 72, radius: BorderRadius.circular(36)),
+              Skeleton(
+                width: 72,
+                height: 72,
+                radius: BorderRadius.circular(36),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -491,14 +577,16 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
     VoidCallback? onTap,
   }) {
     return GestureDetector(
-      onTap: onTap ?? () {
-        Get.snackbar(
-          title,
-          'Opening $title settings...',
-          backgroundColor: AppColors.surface2,
-          colorText: AppColors.textPrimary,
-        );
-      },
+      onTap:
+          onTap ??
+          () {
+            Get.snackbar(
+              title,
+              'Opening $title settings...',
+              backgroundColor: AppColors.surface2,
+              colorText: AppColors.textPrimary,
+            );
+          },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Row(
@@ -528,7 +616,11 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: AppColors.textTertiary, size: 16),
+            const Icon(
+              Icons.chevron_right,
+              color: AppColors.textTertiary,
+              size: 16,
+            ),
           ],
         ),
       ),

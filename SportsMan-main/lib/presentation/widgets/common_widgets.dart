@@ -36,8 +36,8 @@ class GradientScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Transparent so the app-wide ambient glow (app.dart builder) shows
-      // through — every product screen shares the same lit-from-within feel.
+      // Transparent so the app-wide solid canvas (app.dart builder) shows
+      // through — every product screen shares the same near-black canvas.
       backgroundColor: Colors.transparent,
       appBar: appBar,
       bottomNavigationBar: bottomNavigationBar,
@@ -126,15 +126,28 @@ class CustomSearchField extends StatelessWidget {
           cursorColor: AppColors.slateText,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 14),
-            prefixIcon: const Icon(Icons.search, color: AppColors.textTertiary, size: 20),
+            hintStyle: AppTypography.font(
+              color: AppColors.textTertiary,
+              fontSize: 14,
+            ),
+            prefixIcon: const Icon(
+              Icons.search,
+              color: AppColors.textTertiary,
+              size: 20,
+            ),
             border: InputBorder.none,
             enabledBorder: InputBorder.none,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadii.tile),
-              borderSide: const BorderSide(color: AppColors.slateBorder, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.slateBorder,
+                width: 1.5,
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 14,
+            ),
           ),
         ),
       ),
@@ -193,12 +206,12 @@ class Hairline extends StatelessWidget {
   const Hairline({super.key, this.indent = 0, this.endIndent = 0});
   @override
   Widget build(BuildContext context) => Divider(
-        height: 0.5,
-        thickness: 0.5,
-        indent: indent,
-        endIndent: endIndent,
-        color: AppColors.hairline,
-      );
+    height: 0.5,
+    thickness: 0.5,
+    indent: indent,
+    endIndent: endIndent,
+    color: AppColors.hairline,
+  );
 }
 
 /// Slate outline pill — the Kalshi leverage-pill pattern (NEW, LIVE, U12, VIEW…).
@@ -209,21 +222,23 @@ class OutlinePill extends StatelessWidget {
   const OutlinePill(this.label, {super.key, this.color = AppColors.slateText});
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppRadii.chip),
-          border: Border.all(color: color == AppColors.slateText ? AppColors.slateBorder : color),
-        ),
-        child: Text(
-          label.toUpperCase(),
-          style: AppTypography.font(
-            color: color,
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.6,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(AppRadii.chip),
+      border: Border.all(
+        color: color == AppColors.slateText ? AppColors.slateBorder : color,
+      ),
+    ),
+    child: Text(
+      label.toUpperCase(),
+      style: AppTypography.font(
+        color: color,
+        fontSize: 10,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.6,
+      ),
+    ),
+  );
 }
 
 /// Sport tag — tint background + sport-color text. The canonical metadata chip.
@@ -241,7 +256,11 @@ class SportTag extends StatelessWidget {
       ),
       child: Text(
         sport,
-        style: AppTypography.font(color: c, fontSize: 11, fontWeight: FontWeight.w600),
+        style: AppTypography.font(
+          color: c,
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
@@ -253,29 +272,29 @@ class AIBadge extends StatelessWidget {
   const AIBadge({super.key, this.label = 'AI'});
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-        decoration: BoxDecoration(
-          color: AppColors.blueTint,
-          borderRadius: BorderRadius.circular(AppRadii.chip),
-          border: Border.all(color: AppColors.blue.withValues(alpha: 0.5)),
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    decoration: BoxDecoration(
+      color: AppColors.blueTint,
+      borderRadius: BorderRadius.circular(AppRadii.chip),
+      border: Border.all(color: AppColors.blue.withValues(alpha: 0.5)),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.auto_awesome, color: AppColors.blueText, size: 11),
+        const SizedBox(width: 4),
+        Text(
+          label.toUpperCase(),
+          style: AppTypography.font(
+            color: AppColors.blueText,
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.6,
+          ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.auto_awesome, color: AppColors.blueText, size: 11),
-            const SizedBox(width: 4),
-            Text(
-              label.toUpperCase(),
-              style: AppTypography.font(
-                color: AppColors.blueText,
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.6,
-              ),
-            ),
-          ],
-        ),
-      );
+      ],
+    ),
+  );
 }
 
 /// Sport icon tile — tint base + sport-color glyph. Replaces colored "bubbles".
@@ -305,23 +324,23 @@ class SeeAll extends StatelessWidget {
   const SeeAll({super.key, this.onTap, this.label = 'See all'});
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: AppTypography.font(
-                color: AppColors.slateText,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const Icon(Icons.chevron_right, color: AppColors.slateText, size: 16),
-          ],
+    onTap: onTap,
+    behavior: HitTestBehavior.opaque,
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: AppTypography.font(
+            color: AppColors.slateText,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
         ),
-      );
+        const Icon(Icons.chevron_right, color: AppColors.slateText, size: 16),
+      ],
+    ),
+  );
 }
 
 /// A solid slate circle with a dark forward icon — the confident affordance on
@@ -338,18 +357,18 @@ class SlateCircleButton extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) => Material(
-        color: AppColors.slate,
-        shape: const CircleBorder(),
-        child: InkWell(
-          customBorder: const CircleBorder(),
-          onTap: onTap,
-          child: SizedBox(
-            width: size,
-            height: size,
-            child: Icon(icon, color: AppColors.onSlate, size: size * 0.45),
-          ),
-        ),
-      );
+    color: AppColors.slate,
+    shape: const CircleBorder(),
+    child: InkWell(
+      customBorder: const CircleBorder(),
+      onTap: onTap,
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Icon(icon, color: AppColors.onSlate, size: size * 0.45),
+      ),
+    ),
+  );
 }
 
 /// Featured / horizontal program card. Tight 10px radius, hairline border,
@@ -393,8 +412,18 @@ class NearYouCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                SporveImage(image, height: 130, width: double.infinity, fit: BoxFit.cover),
-                Positioned(left: 0, top: 0, bottom: 0, child: Container(width: 3, color: sportColor)),
+                SporveImage(
+                  image,
+                  height: 130,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Container(width: 3, color: sportColor),
+                ),
               ],
             ),
             Container(
@@ -410,30 +439,55 @@ class NearYouCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (sport != null) ...[SportTag(sport!), const SizedBox(height: 8)],
+                  if (sport != null) ...[
+                    SportTag(sport!),
+                    const SizedBox(height: 8),
+                  ],
                   Text(
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTypography.titleMedium.copyWith(color: AppColors.textPrimary),
+                    style: AppTypography.titleMedium.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 12),
+                    style: AppTypography.font(
+                      color: AppColors.textSecondary,
+                      fontSize: 12,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(price, style: AppTypography.mono(size: 14, weight: FontWeight.w600, color: AppColors.textPrimary)),
+                      Text(
+                        price,
+                        style: AppTypography.mono(
+                          size: 14,
+                          weight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
                       Row(
                         children: [
-                          const Icon(Icons.star, color: AppColors.textPrimary, size: 14),
+                          const Icon(
+                            Icons.star,
+                            color: AppColors.textPrimary,
+                            size: 14,
+                          ),
                           const SizedBox(width: 4),
-                          Text(rating, style: AppTypography.mono(size: 12, color: AppColors.textPrimary)),
+                          Text(
+                            rating,
+                            style: AppTypography.mono(
+                              size: 12,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -506,22 +560,46 @@ class ProgramListItem extends StatelessWidget {
                           subtitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: AppTypography.font(color: AppColors.textSecondary, fontSize: 12),
+                          style: AppTypography.font(
+                            color: AppColors.textSecondary,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                       _dot(),
-                      const Icon(Icons.star, color: AppColors.textPrimary, size: 12),
+                      const Icon(
+                        Icons.star,
+                        color: AppColors.textPrimary,
+                        size: 12,
+                      ),
                       const SizedBox(width: 3),
-                      Text(rating, style: AppTypography.mono(size: 11, color: AppColors.textSecondary)),
+                      Text(
+                        rating,
+                        style: AppTypography.mono(
+                          size: 11,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
                       _dot(),
-                      Text(price, style: AppTypography.mono(size: 11, weight: FontWeight.w600, color: AppColors.textPrimary)),
+                      Text(
+                        price,
+                        style: AppTypography.mono(
+                          size: 11,
+                          weight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.chevron_right, color: AppColors.textTertiary, size: 20),
+            const Icon(
+              Icons.chevron_right,
+              color: AppColors.textTertiary,
+              size: 20,
+            ),
           ],
         ),
       ),
@@ -529,9 +607,9 @@ class ProgramListItem extends StatelessWidget {
   }
 
   Widget _dot() => const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 7),
-        child: Icon(Icons.circle, color: AppColors.textTertiary, size: 3),
-      );
+    padding: EdgeInsets.symmetric(horizontal: 7),
+    child: Icon(Icons.circle, color: AppColors.textTertiary, size: 3),
+  );
 }
 
 /// Consistent icon-only button — a tight rounded-square (radius 8) on a subtle
@@ -567,11 +645,19 @@ class _SporveIconButtonState extends State<SporveIconButton> {
   @override
   Widget build(BuildContext context) {
     final bg = widget.filled ? AppColors.slate : AppColors.surface;
-    final fg = widget.filled ? AppColors.onSlate : (widget.color ?? AppColors.textPrimary);
+    final fg = widget.filled
+        ? AppColors.onSlate
+        : (widget.color ?? AppColors.textPrimary);
     return Listener(
-      onPointerDown: widget.onTap == null ? null : (_) => setState(() => _pressed = true),
-      onPointerUp: widget.onTap == null ? null : (_) => setState(() => _pressed = false),
-      onPointerCancel: widget.onTap == null ? null : (_) => setState(() => _pressed = false),
+      onPointerDown: widget.onTap == null
+          ? null
+          : (_) => setState(() => _pressed = true),
+      onPointerUp: widget.onTap == null
+          ? null
+          : (_) => setState(() => _pressed = false),
+      onPointerCancel: widget.onTap == null
+          ? null
+          : (_) => setState(() => _pressed = false),
       child: GestureDetector(
         onTap: widget.onTap,
         behavior: HitTestBehavior.opaque,
@@ -586,7 +672,9 @@ class _SporveIconButtonState extends State<SporveIconButton> {
             decoration: BoxDecoration(
               color: bg,
               shape: widget.circle ? BoxShape.circle : BoxShape.rectangle,
-              borderRadius: widget.circle ? null : BorderRadius.circular(AppRadii.tile),
+              borderRadius: widget.circle
+                  ? null
+                  : BorderRadius.circular(AppRadii.tile),
               border: (widget.border && !widget.filled)
                   ? Border.all(color: AppColors.hairline)
                   : null,

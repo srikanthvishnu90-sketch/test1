@@ -17,6 +17,8 @@ import '../../presentation/onboarding/provider_onboard_intake_screen.dart';
 import '../../presentation/onboarding/provider_onboard_review_screen.dart';
 import '../../presentation/provider/view/parent_update_screen.dart';
 import '../../presentation/client/view/progress_updates_screen.dart';
+import '../../presentation/provider/view/automated_messages_screen.dart';
+import '../../presentation/provider/view/lifecycle_approvals_screen.dart';
 import '../../presentation/provider/provider_main_nav_screen.dart';
 import '../../presentation/provider/view/provider_dashboard_screen.dart';
 import '../../presentation/provider/view/provider_listings_screen.dart';
@@ -44,30 +46,15 @@ class AppPages {
   static const String initial = AppRoutes.splash;
 
   static final List<GetPage> routes = [
-    GetPage(
-      name: AppRoutes.splash,
-      page: () => const SplashScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.authEntry,
-      page: () => const AuthEntryScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.signup,
-      page: () => const SignupScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.login,
-      page: () => const LoginScreen(),
-    ),
+    GetPage(name: AppRoutes.splash, page: () => const SplashScreen()),
+    GetPage(name: AppRoutes.authEntry, page: () => const AuthEntryScreen()),
+    GetPage(name: AppRoutes.signup, page: () => const SignupScreen()),
+    GetPage(name: AppRoutes.login, page: () => const LoginScreen()),
     GetPage(
       name: AppRoutes.providerLogin,
       page: () => const ProviderLoginScreen(),
     ),
-    GetPage(
-      name: AppRoutes.verifyEmail,
-      page: () => const VerifyEmailScreen(),
-    ),
+    GetPage(name: AppRoutes.verifyEmail, page: () => const VerifyEmailScreen()),
     GetPage(
       name: AppRoutes.forgotPassword,
       page: () => const ForgotPasswordScreen(),
@@ -76,30 +63,15 @@ class AppPages {
       name: AppRoutes.onboarding,
       page: () => const OnboardingSelectionScreen(),
     ),
-    GetPage(
-      name: AppRoutes.selectSports,
-      page: () => SelectSportsScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.identity,
-      page: () => IdentityScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.mission,
-      page: () => MissionScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.almostDone,
-      page: () => AlmostDoneScreen(),
-    ),
+    GetPage(name: AppRoutes.selectSports, page: () => SelectSportsScreen()),
+    GetPage(name: AppRoutes.identity, page: () => IdentityScreen()),
+    GetPage(name: AppRoutes.mission, page: () => MissionScreen()),
+    GetPage(name: AppRoutes.almostDone, page: () => AlmostDoneScreen()),
     GetPage(
       name: AppRoutes.providerIdentity,
       page: () => const ProviderIdentityScreen(),
     ),
-    GetPage(
-      name: AppRoutes.providerSports,
-      page: () => ProviderSportsScreen(),
-    ),
+    GetPage(name: AppRoutes.providerSports, page: () => ProviderSportsScreen()),
     GetPage(
       name: AppRoutes.providerCapacity,
       page: () => const ProviderCapacityScreen(),
@@ -128,18 +100,9 @@ class AppPages {
       name: AppRoutes.providerListings,
       page: () => const ProviderListingsScreen(),
     ),
-    GetPage(
-      name: AppRoutes.mainNav,
-      page: () => const MainNavScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.search,
-      page: () => const SearchScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.filters,
-      page: () => const FilterScreen(),
-    ),
+    GetPage(name: AppRoutes.mainNav, page: () => const MainNavScreen()),
+    GetPage(name: AppRoutes.search, page: () => const SearchScreen()),
+    GetPage(name: AppRoutes.filters, page: () => const FilterScreen()),
     GetPage(
       name: AppRoutes.nearbySession,
       page: () => const NearbySessionScreen(),
@@ -148,14 +111,8 @@ class AppPages {
       name: AppRoutes.sessionDetails,
       page: () => const SessionDetailsScreen(),
     ),
-    GetPage(
-      name: AppRoutes.bookingFlow,
-      page: () => const BookingFlowScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.chatDetails,
-      page: () => const ChatDetailsScreen(),
-    ),
+    GetPage(name: AppRoutes.bookingFlow, page: () => const BookingFlowScreen()),
+    GetPage(name: AppRoutes.chatDetails, page: () => const ChatDetailsScreen()),
     GetPage(
       name: AppRoutes.providerRoster,
       page: () => const ProviderRosterScreen(),
@@ -203,6 +160,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.progressUpdates,
       page: () => const ProgressUpdatesScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.automatedMessages,
+      page: () => const AutomatedMessagesScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.lifecycleApprovals,
+      page: () => const LifecycleApprovalsScreen(),
     ),
   ];
 }

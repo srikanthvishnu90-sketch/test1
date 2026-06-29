@@ -1,10 +1,15 @@
 -- ============================================================================
--- Sporve — CONSOLIDATED SCHEMA BASELINE  (authoritative as of 2026-06-23)
+-- Sporve — CONSOLIDATED SCHEMA BASELINE  (authoritative as of 2026-06-26)
 -- ============================================================================
 -- This single migration reproduces the CURRENT live Supabase schema exactly:
--- 11 tables, 46 RLS policies, hardened functions/triggers, the RLS auto-enable
+-- 13 tables, 55 RLS policies, hardened functions/triggers, the RLS auto-enable
 -- event trigger, and PostgREST grants. It supersedes the partial migrations now
 -- moved to ./_archive/ (init + handle_new_user + stripe + consent). It is a
+--
+-- 2026-06-26: folded in the supply tables `services` + `availability` (forward
+-- migration 20260626_000000_services_availability.sql) and the new hardened
+-- `set_updated_at()` trigger fn (those two tables are the only ones with an
+-- updated_at column / trigger; no other table has one).
 -- reproducibility artifact — it does NOT add or "improve" anything. The live DB
 -- already matches, so this is NOT meant to be run against production.
 --
@@ -212,6 +217,49 @@ create table if not exists public.team_athletes (
   unique (team_id, athlete_id)
 );
 
+-- services: a provider's bookable offering (the supply unit). Added 2026-06-26.
+-- NOTE: price is INTEGER CENTS here (differs from programs.price = numeric dollars).
+create table if not exists public.services (
+  id                 uuid primary key default gen_random_uuid(),
+  provider_id        uuid not null references public.providers (id) on delete cascade,
+  title              text not null,
+  description        text,
+  session_type       text not null default 'one_on_one'
+                       check (session_type in
+                         ('one_on_one','small_group','team','online','recurring')),
+  price              integer not null default 0 check (price >= 0),  -- cents
+  duration_minutes   integer check (duration_minutes >= 0),
+  max_athletes       integer check (max_athletes >= 0),
+  location_text      text,
+  location_lat       double precision,
+  location_lng       double precision,
+  indoor_outdoor     text check (indoor_outdoor in ('indoor','outdoor','both')),
+  what_to_bring      text,
+  cancellation_rules text,
+  age_groups         text[] not null default '{}',
+  skill_levels       text[] not null default '{}',
+  is_active          boolean not null default true,
+  is_recurring       boolean not null default false,
+  created_at         timestamptz not null default now(),
+  updated_at         timestamptz not null default now()
+);
+
+-- availability: weekly recurring slots (day_of_week) and/or one-off openings/
+-- blocks (specific_date). is_blocked marks a block vs an open slot. Added 2026-06-26.
+create table if not exists public.availability (
+  id            uuid primary key default gen_random_uuid(),
+  provider_id   uuid not null references public.providers (id) on delete cascade,
+  day_of_week   integer check (day_of_week between 0 and 6),  -- 0=Sun … 6=Sat
+  start_time    time,
+  end_time      time,
+  is_blocked    boolean not null default false,
+  specific_date date,
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now(),
+  check (day_of_week is not null or specific_date is not null),
+  check (end_time is null or start_time is null or end_time > start_time)
+);
+
 -- ── Column reconciliation: converge a DB built from the OLD init (idempotent;
 --    no-ops on a fresh DB created above, and on live which already matches). ──
 alter table public.providers
@@ -241,6 +289,10 @@ create index if not exists idx_notifications_user     on public.notifications (u
 create index if not exists idx_teams_provider         on public.teams (provider_id);
 create index if not exists idx_team_athletes_team     on public.team_athletes (team_id);
 create index if not exists idx_team_athletes_athlete  on public.team_athletes (athlete_id);
+create index if not exists idx_services_provider      on public.services (provider_id);
+create index if not exists idx_services_active        on public.services (is_active);
+create index if not exists idx_availability_provider  on public.availability (provider_id);
+create index if not exists idx_availability_day       on public.availability (day_of_week);
 
 -- ============================================================================
 -- ENABLE ROW LEVEL SECURITY (default-deny everywhere)
@@ -256,6 +308,8 @@ alter table public.messages      enable row level security;
 alter table public.notifications enable row level security;
 alter table public.teams         enable row level security;
 alter table public.team_athletes enable row level security;
+alter table public.services      enable row level security;
+alter table public.availability  enable row level security;
 
 -- ============================================================================
 -- POLICIES (the 46 live policies, reproduced verbatim; drop+create = idempotent)
@@ -503,6 +557,60 @@ create policy team_athletes_delete_owner on public.team_athletes
             join public.providers pv on pv.id = t.provider_id
             where t.id = team_athletes.team_id and pv.owner_id = auth.uid()));
 
+-- ── services: public discovery (active) + owning provider full CRUD ────────
+--    Customers never write (no customer write policy → default-deny). Public
+--    SELECT is `authenticated`-only (tighter than providers/programs which also
+--    allow anon); change to `anon, authenticated` for logged-out discovery.
+drop policy if exists services_select_public on public.services;
+create policy services_select_public on public.services
+  for select to authenticated using (is_active = true);
+drop policy if exists services_select_owner on public.services;
+create policy services_select_owner on public.services
+  for select to authenticated using (
+    exists (select 1 from public.providers pv
+            where pv.id = services.provider_id and pv.owner_id = auth.uid()));
+drop policy if exists services_insert_owner on public.services;
+create policy services_insert_owner on public.services
+  for insert to authenticated with check (
+    exists (select 1 from public.providers pv
+            where pv.id = services.provider_id and pv.owner_id = auth.uid()));
+drop policy if exists services_update_owner on public.services;
+create policy services_update_owner on public.services
+  for update to authenticated using (
+    exists (select 1 from public.providers pv
+            where pv.id = services.provider_id and pv.owner_id = auth.uid()))
+  with check (
+    exists (select 1 from public.providers pv
+            where pv.id = services.provider_id and pv.owner_id = auth.uid()));
+drop policy if exists services_delete_owner on public.services;
+create policy services_delete_owner on public.services
+  for delete to authenticated using (
+    exists (select 1 from public.providers pv
+            where pv.id = services.provider_id and pv.owner_id = auth.uid()));
+
+-- ── availability: any authenticated user reads (booking) + owner full write ─
+drop policy if exists availability_select_public on public.availability;
+create policy availability_select_public on public.availability
+  for select to authenticated using (true);
+drop policy if exists availability_insert_owner on public.availability;
+create policy availability_insert_owner on public.availability
+  for insert to authenticated with check (
+    exists (select 1 from public.providers pv
+            where pv.id = availability.provider_id and pv.owner_id = auth.uid()));
+drop policy if exists availability_update_owner on public.availability;
+create policy availability_update_owner on public.availability
+  for update to authenticated using (
+    exists (select 1 from public.providers pv
+            where pv.id = availability.provider_id and pv.owner_id = auth.uid()))
+  with check (
+    exists (select 1 from public.providers pv
+            where pv.id = availability.provider_id and pv.owner_id = auth.uid()));
+drop policy if exists availability_delete_owner on public.availability;
+create policy availability_delete_owner on public.availability
+  for delete to authenticated using (
+    exists (select 1 from public.providers pv
+            where pv.id = availability.provider_id and pv.owner_id = auth.uid()));
+
 -- ============================================================================
 -- FUNCTIONS + TRIGGERS (current hardened state)
 -- ============================================================================
@@ -619,7 +727,7 @@ begin
 end;
 $function$;
 
-drop event trigger if exists rls_auto_enable on ddl_command_end;
+drop event trigger if exists rls_auto_enable;
 create event trigger rls_auto_enable
   on ddl_command_end
   execute function public.rls_auto_enable();

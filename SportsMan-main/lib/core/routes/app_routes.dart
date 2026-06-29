@@ -40,4 +40,6 @@ abstract class AppRoutes {
   static const String providerOnboardReview = '/provider-onboard-review';
   static const String parentUpdate = '/parent-update';
   static const String progressUpdates = '/progress-updates';
+  static const String automatedMessages = '/automated-messages';
+  static const String lifecycleApprovals = '/lifecycle-approvals';
 }

@@ -39,49 +39,35 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // Radial "lit-from-center" field — the screen emits light (Kalshi/Whoop
-      // register) instead of a flat slate fill.
-      decoration: const BoxDecoration(gradient: AppColors.slateGlowWall),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-          child: FadeIn(
-            duration: const Duration(milliseconds: 1500),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // White mark with a soft slate BLOOM behind it (drop-shadow
-                // halo) so it reads as glowing, not painted.
-                Container(
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(color: AppColors.glowHalo, blurRadius: 56, spreadRadius: 8),
-                      BoxShadow(color: AppColors.glowHalo, blurRadius: 18, spreadRadius: 2),
-                    ],
-                  ),
-                  child: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcIn,
-                    ),
-                    child: Image.asset(AppAssets.appLogo, width: 72, height: 72),
+    return Scaffold(
+      // Flat slate brand fill.
+      backgroundColor: AppColors.slate,
+      body: Center(
+        child: FadeIn(
+          duration: const Duration(milliseconds: 1500),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // White mark on the flat slate field.
+              ColorFiltered(
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
+                child: Image.asset(AppAssets.appLogo, width: 72, height: 72),
+              ),
+              const SizedBox(height: 28),
+              SizedBox(
+                width: 18,
+                height: 18,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Colors.white.withValues(alpha: 0.6),
                   ),
                 ),
-                const SizedBox(height: 28),
-                SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.white.withValues(alpha: 0.6),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

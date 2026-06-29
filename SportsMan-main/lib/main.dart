@@ -17,6 +17,7 @@ import 'presentation/client/controllers/home_controller.dart';
 import 'presentation/client/controllers/progress_updates_controller.dart';
 import 'presentation/provider/controllers/provider_controller.dart';
 import 'presentation/provider/controllers/parent_update_controller.dart';
+import 'presentation/provider/controllers/lifecycle_controller.dart';
 import 'presentation/authentication/controllers/auth_provider.dart';
 import 'presentation/shared/controllers/chat_provider.dart';
 
@@ -35,7 +36,15 @@ void main() async {
   // THE SWAP POINT (#16/#19): the app's single data source. Now bound to the
   // real backend. ROLLBACK is one line — swap this back to:
   //   final AppRepository repo = const MockRepository();
-  final AppRepository repo = SupabaseRepository();
+  // For an offline demo (no deployed Edge Functions), run with:
+  //   flutter run -d chrome --dart-define=USE_MOCK_REPO=true --dart-define-from-file=env.json
+  const useMockRepo = bool.fromEnvironment(
+    'USE_MOCK_REPO',
+    defaultValue: false,
+  );
+  final AppRepository repo = useMockRepo
+      ? const MockRepository()
+      : SupabaseRepository();
 
   // AUTH SWAP POINT (#18): the app's single auth source. The UI only ever talks
   // to AuthService (via AuthProvider); the Supabase SDK never leaks past it.
@@ -51,6 +60,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProgressUpdatesController(repo)),
         ChangeNotifierProvider(create: (_) => ProviderController(repo)),
         ChangeNotifierProvider(create: (_) => ParentUpdateController(repo)),
+        ChangeNotifierProvider(create: (_) => LifecycleController(repo)),
         ChangeNotifierProvider(create: (_) => AuthProvider(authService)),
         ChangeNotifierProvider(create: (_) => ChatProvider(repo, authService)),
       ],
@@ -58,5 +68,3 @@ void main() async {
     ),
   );
 }
-
-

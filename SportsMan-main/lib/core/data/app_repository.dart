@@ -82,7 +82,16 @@ abstract class SessionUpdateRepository {
 
   /// Calls the `session-note-summarize` Edge Function; returns its JSON body
   /// (`{result, model, audit_id, removed}` or `{error}`).
-  Future<Map<String, dynamic>> summarizeSessionNote(Map<String, dynamic> payload);
+  Future<Map<String, dynamic>> summarizeSessionNote(
+    Map<String, dynamic> payload,
+  );
+
+  /// Calls the `message-draft` Edge Function for AI reply drafts in a message
+  /// thread. The repo injects the caller's `providerId`; pass `threadContext`
+  /// ({role, body}[]) plus optional `intent`/`childFirstName`/`bookingContext`.
+  /// Returns the function body (`{result:{type, drafts:[{text}]}, removed, ...}`
+  /// or `{error}`). DRAFT-only — it never sends.
+  Future<Map<String, dynamic>> draftMessage(Map<String, dynamic> payload);
 
   /// Inserts (no `id`) or updates (`id` present) a `parent_updates` draft row;
   /// returns its id. Used for autosave. Always status='draft' here.
@@ -105,6 +114,29 @@ abstract class SessionUpdateRepository {
 
 /// Facade aggregating every domain repository. Controllers depend on this one
 /// type; `lib/main.dart` injects a single concrete instance.
+/// Automated lifecycle messaging (P4/P6): per-coach delivery prefs + the coach's
+/// approval queue of AI-drafted lifecycle messages.
+abstract class LifecycleRepository {
+  /// The coach's per-event delivery modes — list of `{eventType, mode}`.
+  /// Missing rows imply the default mode 'draft'.
+  Future<List<Map<String, dynamic>>> getLifecyclePrefs();
+
+  /// Upserts the coach's mode ('off'|'draft'|'auto') for an event type. The DB
+  /// rejects 'auto' for non-logistics types; returns false on rejection/failure.
+  Future<bool> setLifecyclePref(String eventType, String mode);
+
+  /// Drafted lifecycle messages awaiting the coach's approval (newest first).
+  Future<List<Map<String, dynamic>>> getLifecycleDrafts();
+
+  /// Coach approves (optionally with an edited body) -> server delivers it via
+  /// the `lifecycle-approve` Edge Function. Returns its body (`{ok,status,...}`
+  /// or `{error}`). Nothing sends without this explicit call.
+  Future<Map<String, dynamic>> approveLifecycleMessage(
+    String id, {
+    String? body,
+  });
+}
+
 abstract class AppRepository
     implements
         ProgramRepository,
@@ -115,4 +147,5 @@ abstract class AppRepository
         TeamRepository,
         NotificationRepository,
         SessionUpdateRepository,
+        LifecycleRepository,
         AuthRepository {}

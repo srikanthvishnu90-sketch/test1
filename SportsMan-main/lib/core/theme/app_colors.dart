@@ -14,7 +14,9 @@ class AppColors {
   // ── Core neutrals (the 90%) ─────────────────────────────────────────────
   // Canvas is a near-black (not pure #000) to kill neon halation and soften
   // every edge — the single highest-impact "calm" change.
-  static const Color ink = Color(0xFF0B0F14); // product canvas (near-black, slate-tinted)
+  static const Color ink = Color(
+    0xFF0B0F14,
+  ); // product canvas (near-black, slate-tinted)
   static const Color surface = Color(0xFF12181F); // raised surface 1
   static const Color surface2 = Color(0xFF1A222B); // raised surface 2 / pressed
   static const Color hairline = Color(0xFF283039); // divider / border (slate)
@@ -22,52 +24,27 @@ class AppColors {
   static const Color textPrimary = Color(0xFFF3F6F8); // near-white
   static const Color textSecondary = Color(0xFF9AA7B2);
   static const Color textTertiary = Color(0xFF647079); // muted
-  static const Color inkOnSlate = Color(0xFF04121F); // dark text on light fills (value unchanged; renamed in 1b)
+  static const Color inkOnSlate = Color(
+    0xFF04121F,
+  ); // dark text on light fills (value unchanged; renamed in 1b)
 
   // ── Brand ───────────────────────────────────────────────────────────────
   // The single accent is SLATE (#536878) — used for ALL chrome.
   static const Color slate = Color(0xFF536878); // PRIMARY accent (slate)
   static const Color slateDeep = Color(0xFF3E4F5C); // pressed
-  static const Color slateText = Color(0xFF536878); // slate accent for text/icons (active/selected use textPrimary)
+  static const Color slateText = Color(
+    0xFF536878,
+  ); // slate accent for text/icons (active/selected use textPrimary)
   static const Color slateTint = Color(0x2E536878); // ~18% slate fill
   static const Color slateBorder = Color(0x80536878); // ~50% slate border
-  static const Color slateBrand = Color(0xFF536878); // folded into slate (splash is flat slate)
+  static const Color slateBrand = Color(
+    0xFF536878,
+  ); // folded into slate (splash is flat slate)
   static const Color onSlate = Color(0xFFFFFFFF); // text/icons ON a slate fill
   // AI / social were a distinct blue; folded into slate (single accent).
   static const Color blue = Color(0xFF536878);
   static const Color blueText = Color(0xFF536878);
   static const Color blueTint = Color(0x2E536878); // ~18% slate fill
-
-  // ── Glow (brand "lit" moments only: splash / hero / brand) ───────────────
-  // Perceived glow = high LUMINANCE + CHROMA + a soft BLOOM against a dark
-  // field. The muted brand slate (#536878, lum ~0.13, sat ~18%) is matte BY
-  // DESIGN and cannot glow — so these brighter, more saturated tokens carry the
-  // emissive look. Use ONLY for brand moments, never for product chrome.
-  static const Color glowCore = Color(0xFFAFC6D8); // luminous slate — the lit mark
-  static const Color glowSlate = Color(0xFF7D9FBE); // mid glow / glowing accents
-  static const Color glowHalo = Color(0x8C7DA0BE); // ~55% slate — bloom shadow color
-
-  /// Radial "lit-from-center" field for brand moments (splash / entry wall). A
-  /// brighter slate core falls off to deep slate then the near-black canvas, so
-  /// the screen reads as emitting light instead of a flat painted slate fill.
-  static const RadialGradient slateGlowWall = RadialGradient(
-    center: Alignment(0, -0.08),
-    radius: 0.95,
-    colors: [Color(0xFF6E93B5), slateDeep, ink],
-    stops: [0.0, 0.5, 1.0],
-  );
-
-  /// SUBTLE ambient glow painted behind EVERY product screen (transparent
-  /// scaffolds reveal it). A faint slate-tinted lift toward the upper-center
-  /// falls off to the near-black canvas — enough to give the whole app a
-  /// cohesive "lit from within" depth while keeping text fully legible. This is
-  /// the restrained product-layer cousin of [slateGlowWall].
-  static const RadialGradient canvasGlow = RadialGradient(
-    center: Alignment(0, -0.35),
-    radius: 1.15,
-    colors: [Color(0xFF18222D), ink],
-    stops: [0.0, 0.9],
-  );
 
   // ── Semantic ─────────────────────────────────────────────────────────────
   static const Color positive = slateText; // up / confirmed (slate, no green)

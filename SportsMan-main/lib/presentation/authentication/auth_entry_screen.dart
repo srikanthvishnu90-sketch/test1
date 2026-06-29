@@ -40,11 +40,13 @@ class AuthEntryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isServiceProvider = context.watch<OnboardingProvider>().isServiceProvider;
+    final isServiceProvider = context
+        .watch<OnboardingProvider>()
+        .isServiceProvider;
 
-    const ink = Colors.white; // deep-slate wall → white logo/text/accents
+    const ink = Colors.white; // slate wall → white logo/text/accents
     return Container(
-      decoration: const BoxDecoration(gradient: AppColors.slateGlowWall),
+      color: AppColors.slate,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
@@ -57,7 +59,11 @@ class AuthEntryScreen extends StatelessWidget {
                 Center(
                   child: ColorFiltered(
                     colorFilter: const ColorFilter.mode(ink, BlendMode.srcIn),
-                    child: Image.asset(AppAssets.appLogo, width: 80, height: 80),
+                    child: Image.asset(
+                      AppAssets.appLogo,
+                      width: 80,
+                      height: 80,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -73,7 +79,10 @@ class AuthEntryScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 // Portal switch pill — translucent ink on slate.
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: ink.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
@@ -95,7 +104,9 @@ class AuthEntryScreen extends StatelessWidget {
                       const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
-                          context.read<OnboardingProvider>().setServiceProvider(!isServiceProvider);
+                          context.read<OnboardingProvider>().setServiceProvider(
+                            !isServiceProvider,
+                          );
                         },
                         child: Text(
                           'Switch',
@@ -123,7 +134,11 @@ class AuthEntryScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 SporveButton(
                   'Continue with Google',
-                  leadingWidget: SvgPicture.asset('assets/icons/google.svg', width: 20, height: 20),
+                  leadingWidget: SvgPicture.asset(
+                    'assets/icons/google.svg',
+                    width: 20,
+                    height: 20,
+                  ),
                   onPressed: _continueWithGoogle,
                   variant: SporveButtonVariant.white,
                 ),
@@ -132,7 +147,11 @@ class AuthEntryScreen extends StatelessWidget {
                   const SizedBox(height: 14),
                   SporveButton(
                     'Continue with Apple',
-                    leadingWidget: SvgPicture.asset('assets/icons/apple.svg', width: 20, height: 20),
+                    leadingWidget: SvgPicture.asset(
+                      'assets/icons/apple.svg',
+                      width: 20,
+                      height: 20,
+                    ),
                     onPressed: () {},
                     variant: SporveButtonVariant.white,
                   ),
@@ -151,11 +170,15 @@ class AuthEntryScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Already have an account? ',
-                      style: AppTypography.font(color: ink.withValues(alpha: 0.7)),
+                      style: AppTypography.font(
+                        color: ink.withValues(alpha: 0.7),
+                      ),
                     ),
                     GestureDetector(
                       onTap: () => Get.toNamed(
-                        isServiceProvider ? AppRoutes.providerLogin : AppRoutes.login,
+                        isServiceProvider
+                            ? AppRoutes.providerLogin
+                            : AppRoutes.login,
                       ),
                       child: Text(
                         'Log in',

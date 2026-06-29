@@ -30,7 +30,8 @@ class SupabaseRepository implements AppRepository {
   String? get _uid => _db.auth.currentUser?.id;
 
   static final RegExp _uuidRe = RegExp(
-      r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$');
+    r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+  );
   bool _isUuid(Object? v) => v is String && _uuidRe.hasMatch(v);
 
   /// A DB `date`/`timestamp` → the app's UTC-midnight ISO string.
@@ -127,8 +128,8 @@ class SupabaseRepository implements AppRepository {
           ? {
               '_id': row['athlete_id'],
               'firstName': ath['first_name'] ?? row['athlete_first_name'] ?? '',
-              'fullName':
-                  '${ath['first_name'] ?? ''} ${ath['last_name'] ?? ''}'.trim(),
+              'fullName': '${ath['first_name'] ?? ''} ${ath['last_name'] ?? ''}'
+                  .trim(),
               'profileImage': ath['profile_image'],
             }
           : {
@@ -137,7 +138,11 @@ class SupabaseRepository implements AppRepository {
               'fullName': row['athlete_first_name'] ?? '',
             },
       'programId': prog is Map
-          ? {'_id': prog['id'], 'title': prog['title'], 'sport': prog['sport_type']}
+          ? {
+              '_id': prog['id'],
+              'title': prog['title'],
+              'sport': prog['sport_type'],
+            }
           : row['program_id'],
       'sessionId': sess is Map
           ? {
@@ -161,43 +166,42 @@ class SupabaseRepository implements AppRepository {
   }
 
   Map<String, dynamic> _mapAthlete(Map row) => {
-        '_id': row['id'],
-        'firstName': row['first_name'],
-        'lastName': row['last_name'],
-        'fullName':
-            '${row['first_name'] ?? ''} ${row['last_name'] ?? ''}'.trim(),
-        'dateOfBirth': _utcMidnight(row['date_of_birth']),
-        'gender': row['gender'],
-        'preferredSports': _toList(row['preferred_sports']),
-        'medicalConditions': row['medical_conditions'],
-        'emergencyContact': row['emergency_contact'],
-        'profileImage': row['profile_image'],
-      };
+    '_id': row['id'],
+    'firstName': row['first_name'],
+    'lastName': row['last_name'],
+    'fullName': '${row['first_name'] ?? ''} ${row['last_name'] ?? ''}'.trim(),
+    'dateOfBirth': _utcMidnight(row['date_of_birth']),
+    'gender': row['gender'],
+    'preferredSports': _toList(row['preferred_sports']),
+    'medicalConditions': row['medical_conditions'],
+    'emergencyContact': row['emergency_contact'],
+    'profileImage': row['profile_image'],
+  };
 
   Map<String, dynamic> _mapUserProfile(Map row) => {
-        '_id': row['id'],
-        'firstName': row['first_name'],
-        'lastName': row['last_name'],
-        'email': row['email'],
-        'role': row['role'],
-        'phoneNumber': row['phone_number'],
-        'preferredSports': _toList(row['preferred_sports']),
-        'profileImage': row['profile_image'],
-      };
+    '_id': row['id'],
+    'firstName': row['first_name'],
+    'lastName': row['last_name'],
+    'email': row['email'],
+    'role': row['role'],
+    'phoneNumber': row['phone_number'],
+    'preferredSports': _toList(row['preferred_sports']),
+    'profileImage': row['profile_image'],
+  };
 
   Map<String, dynamic> _mapProviderProfile(Map row) => {
-        '_id': row['id'],
-        'userId': row['owner_id'],
-        'businessName': row['business_name'],
-        'bio': row['bio'],
-        'sports': _toList(row['sports']),
-        'location': row['location'],
-        'status': row['status'],
-        'onboardingCompleted': row['onboarding_completed'] ?? false,
-        'verificationStatus': row['verification_status'],
-        'stripeAccountId': row['stripe_account_id'],
-        'stripeChargesEnabled': row['stripe_charges_enabled'] ?? false,
-      };
+    '_id': row['id'],
+    'userId': row['owner_id'],
+    'businessName': row['business_name'],
+    'bio': row['bio'],
+    'sports': _toList(row['sports']),
+    'location': row['location'],
+    'status': row['status'],
+    'onboardingCompleted': row['onboarding_completed'] ?? false,
+    'verificationStatus': row['verification_status'],
+    'stripeAccountId': row['stripe_account_id'],
+    'stripeChargesEnabled': row['stripe_charges_enabled'] ?? false,
+  };
 
   // ── Programs & sessions ───────────────────────────────────────────────────
   @override
@@ -259,8 +263,11 @@ class SupabaseRepository implements AppRepository {
   @override
   Future<List<dynamic>> getBookings() async {
     try {
-      final rows = await _db.from('bookings').select(
-          '*, sessions(*, programs(*)), athletes(first_name,last_name,profile_image)');
+      final rows = await _db
+          .from('bookings')
+          .select(
+            '*, sessions(*, programs(*)), athletes(first_name,last_name,profile_image)',
+          );
       return (rows as List).map((r) => _mapBooking(r as Map)).toList();
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
@@ -293,7 +300,8 @@ class SupabaseRepository implements AppRepository {
     if (!_isUuid(sessionId) && programId != null) {
       try {
         final now = DateTime.now();
-        final todayStr = '${now.year.toString().padLeft(4, '0')}-'
+        final todayStr =
+            '${now.year.toString().padLeft(4, '0')}-'
             '${now.month.toString().padLeft(2, '0')}-'
             '${now.day.toString().padLeft(2, '0')}';
         final rows = await _db
@@ -311,8 +319,10 @@ class SupabaseRepository implements AppRepository {
       }
     }
     if (!_isUuid(sessionId)) {
-      debugPrint('addBooking: no real session to book for program=$programId '
-          '(is the database seeded?) — skipping insert');
+      debugPrint(
+        'addBooking: no real session to book for program=$programId '
+        '(is the database seeded?) — skipping insert',
+      );
       return null;
     }
 
@@ -337,14 +347,19 @@ class SupabaseRepository implements AppRepository {
     };
 
     try {
-      final inserted =
-          await _db.from('bookings').insert(payload).select('id').single();
+      final inserted = await _db
+          .from('bookings')
+          .insert(payload)
+          .select('id')
+          .single();
       return (inserted as Map)['id']?.toString();
     } on PostgrestException catch (e) {
       // Surface the REAL database reason rather than masking it as a generic
       // "could not create booking" — the caller shows e.message to the user.
-      debugPrint('addBooking PostgrestException: code=${e.code} '
-          'message=${e.message} details=${e.details} hint=${e.hint}');
+      debugPrint(
+        'addBooking PostgrestException: code=${e.code} '
+        'message=${e.message} details=${e.details} hint=${e.hint}',
+      );
       rethrow;
     }
   }
@@ -364,8 +379,11 @@ class SupabaseRepository implements AppRepository {
         if (_isUuid(note['bookingId'])) 'booking_id': note['bookingId'],
         if (_isUuid(note['childId'])) 'child_id': note['childId'],
       };
-      final inserted =
-          await _db.from('session_notes').insert(payload).select('id').single();
+      final inserted = await _db
+          .from('session_notes')
+          .insert(payload)
+          .select('id')
+          .single();
       return (inserted as Map)['id']?.toString();
     } on PostgrestException catch (e) {
       debugPrint('createSessionNote failed: ${e.message}');
@@ -375,10 +393,13 @@ class SupabaseRepository implements AppRepository {
 
   @override
   Future<Map<String, dynamic>> summarizeSessionNote(
-      Map<String, dynamic> payload) async {
+    Map<String, dynamic> payload,
+  ) async {
     try {
-      final res =
-          await _db.functions.invoke('session-note-summarize', body: payload);
+      final res = await _db.functions.invoke(
+        'session-note-summarize',
+        body: payload,
+      );
       return Map<String, dynamic>.from((res.data as Map?) ?? {});
     } on FunctionException catch (e) {
       debugPrint('summarizeSessionNote FunctionException: ${e.status}');
@@ -390,6 +411,132 @@ class SupabaseRepository implements AppRepository {
     } catch (e) {
       debugPrint('summarizeSessionNote failed: $e');
       return {'error': 'Could not draft the update. Please try again.'};
+    }
+  }
+
+  // ── Lifecycle automated messaging (P4/P6) ─────────────────────────────────
+  @override
+  Future<List<Map<String, dynamic>>> getLifecyclePrefs() async {
+    try {
+      final providerId = await _currentProviderId();
+      if (providerId == null) return [];
+      final rows = await _db
+          .from('lifecycle_message_prefs')
+          .select('event_type, mode')
+          .eq('provider_id', providerId);
+      return (rows as List)
+          .map((r) => {'eventType': r['event_type'], 'mode': r['mode']})
+          .toList();
+    } on PostgrestException catch (e) {
+      debugPrint('getLifecyclePrefs failed: ${e.message}');
+      return [];
+    }
+  }
+
+  @override
+  Future<bool> setLifecyclePref(String eventType, String mode) async {
+    try {
+      final providerId = await _currentProviderId();
+      if (providerId == null) return false;
+      // Upsert on (provider_id, event_type). The DB CHECK rejects 'auto' for
+      // non-logistics types (surfaces as a PostgrestException -> false).
+      await _db.from('lifecycle_message_prefs').upsert({
+        'provider_id': providerId,
+        'event_type': eventType,
+        'mode': mode,
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      }, onConflict: 'provider_id,event_type');
+      return true;
+    } on PostgrestException catch (e) {
+      debugPrint('setLifecyclePref rejected/failed: ${e.message}');
+      return false;
+    }
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getLifecycleDrafts() async {
+    try {
+      final providerId = await _currentProviderId();
+      if (providerId == null) return [];
+      final rows = await _db
+          .from('outbound_messages')
+          .select(
+            'id, event_type, child_id, booking_id, content, scheduled_for, created_at',
+          )
+          .eq('provider_id', providerId)
+          .eq('status', 'drafted')
+          .order('created_at', ascending: false);
+      return (rows as List).map((r) {
+        final content = r['content'];
+        return {
+          'id': r['id'],
+          'eventType': r['event_type'],
+          'childId': r['child_id'],
+          'bookingId': r['booking_id'],
+          'body': (content is Map ? content['body'] : null)?.toString() ?? '',
+          'scheduledFor': r['scheduled_for'],
+        };
+      }).toList();
+    } on PostgrestException catch (e) {
+      debugPrint('getLifecycleDrafts failed: ${e.message}');
+      return [];
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> approveLifecycleMessage(
+    String id, {
+    String? body,
+  }) async {
+    try {
+      final res = await _db.functions.invoke(
+        'lifecycle-approve',
+        body: {'id': id, 'body': ?body},
+      );
+      return Map<String, dynamic>.from((res.data as Map?) ?? {});
+    } on FunctionException catch (e) {
+      debugPrint('approveLifecycleMessage FunctionException: ${e.status}');
+      final det = e.details;
+      if (det is Map && det['error'] != null) {
+        return {'error': det['error'].toString()};
+      }
+      return {'error': 'Could not send the message (status ${e.status}).'};
+    } catch (e) {
+      debugPrint('approveLifecycleMessage failed: $e');
+      return {'error': 'Could not send the message. Please try again.'};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> draftMessage(
+    Map<String, dynamic> payload,
+  ) async {
+    try {
+      final providerId = await _currentProviderId();
+      if (providerId == null) {
+        return {'error': 'Only a coach can draft replies.'};
+      }
+      final body = <String, dynamic>{
+        'providerId': providerId,
+        'threadContext': payload['threadContext'] ?? const [],
+        if (payload['intent'] != null) 'intent': payload['intent'],
+        if (payload['childFirstName'] != null)
+          'childFirstName': payload['childFirstName'],
+        if (payload['bookingContext'] != null)
+          'bookingContext': payload['bookingContext'],
+      };
+      final res = await _db.functions.invoke('message-draft', body: body);
+      return Map<String, dynamic>.from((res.data as Map?) ?? {});
+    } on FunctionException catch (e) {
+      debugPrint('draftMessage FunctionException: ${e.status}');
+      final det = e.details;
+      if (det is Map && det['error'] != null) {
+        return {'error': det['error'].toString()};
+      }
+      return {'error': 'Could not draft a reply (status ${e.status}).'};
+    } catch (e) {
+      debugPrint('draftMessage failed: $e');
+      return {'error': 'Could not draft a reply. Please try again.'};
     }
   }
 
@@ -409,7 +556,8 @@ class SupabaseRepository implements AppRepository {
             (update['skillsWorked'] as List?)?.cast<String>() ?? <String>[],
         'progress_signal': update['progressSignal'] ?? '',
         'practice_suggestions':
-            (update['practiceSuggestions'] as List?)?.cast<String>() ?? <String>[],
+            (update['practiceSuggestions'] as List?)?.cast<String>() ??
+            <String>[],
         'encouragement': update['encouragement'] ?? '',
       };
       final id = update['id'];
@@ -453,8 +601,10 @@ class SupabaseRepository implements AppRepository {
   @override
   Future<Map<String, dynamic>> sendParentUpdate(String id) async {
     try {
-      final res = await _db.functions
-          .invoke('parent-update-send', body: {'parentUpdateId': id});
+      final res = await _db.functions.invoke(
+        'parent-update-send',
+        body: {'parentUpdateId': id},
+      );
       return Map<String, dynamic>.from((res.data as Map?) ?? {});
     } on FunctionException catch (e) {
       debugPrint('sendParentUpdate FunctionException: ${e.status}');
@@ -471,7 +621,8 @@ class SupabaseRepository implements AppRepository {
 
   @override
   Future<List<Map<String, dynamic>>> getParentUpdatesForChild(
-      String childId) async {
+    String childId,
+  ) async {
     try {
       final uid = _uid;
       if (uid == null || !_isUuid(childId)) return [];
@@ -487,7 +638,8 @@ class SupabaseRepository implements AppRepository {
       final rows = await _db
           .from('parent_updates')
           .select(
-              'id, child_id, summary_body, skills_worked, progress_signal, practice_suggestions, encouragement, status, sent_at, created_at')
+            'id, child_id, summary_body, skills_worked, progress_signal, practice_suggestions, encouragement, status, sent_at, created_at',
+          )
           .eq('child_id', childId)
           .eq('status', 'sent')
           .order('created_at', ascending: false);
@@ -499,17 +651,17 @@ class SupabaseRepository implements AppRepository {
   }
 
   Map<String, dynamic> _mapParentUpdate(Map row) => {
-        '_id': row['id'],
-        'childId': row['child_id'],
-        'summaryBody': row['summary_body'] ?? '',
-        'skillsWorked': _toList(row['skills_worked']),
-        'progressSignal': row['progress_signal'] ?? '',
-        'practiceSuggestions': _toList(row['practice_suggestions']),
-        'encouragement': row['encouragement'] ?? '',
-        'status': row['status'],
-        'sentAt': row['sent_at'],
-        'createdAt': row['created_at'],
-      };
+    '_id': row['id'],
+    'childId': row['child_id'],
+    'summaryBody': row['summary_body'] ?? '',
+    'skillsWorked': _toList(row['skills_worked']),
+    'progressSignal': row['progress_signal'] ?? '',
+    'practiceSuggestions': _toList(row['practice_suggestions']),
+    'encouragement': row['encouragement'] ?? '',
+    'status': row['status'],
+    'sentAt': row['sent_at'],
+    'createdAt': row['created_at'],
+  };
 
   // ── Profiles ──────────────────────────────────────────────────────────────
   @override
@@ -517,8 +669,11 @@ class SupabaseRepository implements AppRepository {
     try {
       final uid = _uid;
       if (uid == null) return {};
-      final row =
-          await _db.from('profiles').select().eq('id', uid).maybeSingle();
+      final row = await _db
+          .from('profiles')
+          .select()
+          .eq('id', uid)
+          .maybeSingle();
       return row == null ? {} : _mapUserProfile(row);
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
@@ -531,17 +686,21 @@ class SupabaseRepository implements AppRepository {
     try {
       final uid = _uid;
       if (uid == null) return;
-      await _db.from('profiles').update({
-        if (profile['firstName'] != null) 'first_name': profile['firstName'],
-        if (profile['lastName'] != null) 'last_name': profile['lastName'],
-        if (profile['email'] != null) 'email': profile['email'],
-        if (profile['phoneNumber'] != null)
-          'phone_number': profile['phoneNumber'],
-        if (profile['preferredSports'] != null)
-          'preferred_sports': profile['preferredSports'],
-        if (profile['profileImage'] != null)
-          'profile_image': profile['profileImage'],
-      }).eq('id', uid);
+      await _db
+          .from('profiles')
+          .update({
+            if (profile['firstName'] != null)
+              'first_name': profile['firstName'],
+            if (profile['lastName'] != null) 'last_name': profile['lastName'],
+            if (profile['email'] != null) 'email': profile['email'],
+            if (profile['phoneNumber'] != null)
+              'phone_number': profile['phoneNumber'],
+            if (profile['preferredSports'] != null)
+              'preferred_sports': profile['preferredSports'],
+            if (profile['profileImage'] != null)
+              'profile_image': profile['profileImage'],
+          })
+          .eq('id', uid);
     } catch (e) {
       debugPrint('saveUserProfile failed: $e');
       rethrow; // let the caller surface a real error
@@ -647,14 +806,16 @@ class SupabaseRepository implements AppRepository {
           .select()
           .order('last_message_at', ascending: false);
       return (rows as List)
-          .map((r) => {
-                '_id': (r as Map)['id'],
-                'programId': r['program_id'],
-                'participants': const [],
-                'lastMessage': r['last_message'] == null
-                    ? null
-                    : {'text': r['last_message']},
-              })
+          .map(
+            (r) => {
+              '_id': (r as Map)['id'],
+              'programId': r['program_id'],
+              'participants': const [],
+              'lastMessage': r['last_message'] == null
+                  ? null
+                  : {'text': r['last_message']},
+            },
+          )
           .toList();
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
@@ -675,13 +836,15 @@ class SupabaseRepository implements AppRepository {
           .eq('conversation_id', conversationId)
           .order('created_at');
       return (rows as List)
-          .map((r) => {
-                '_id': (r as Map)['id'],
-                'conversationId': r['conversation_id'],
-                'text': r['body'],
-                'senderId': r['sender_id'],
-                'createdAt': r['created_at'],
-              })
+          .map(
+            (r) => {
+              '_id': (r as Map)['id'],
+              'conversationId': r['conversation_id'],
+              'text': r['body'],
+              'senderId': r['sender_id'],
+              'createdAt': r['created_at'],
+            },
+          )
           .toList();
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
@@ -690,7 +853,10 @@ class SupabaseRepository implements AppRepository {
   }
 
   @override
-  Future<void> saveMessages(String conversationId, List<dynamic> messages) async {}
+  Future<void> saveMessages(
+    String conversationId,
+    List<dynamic> messages,
+  ) async {}
 
   // ── Teams ─────────────────────────────────────────────────────────────────
   @override
@@ -746,13 +912,15 @@ class SupabaseRepository implements AppRepository {
           .select()
           .order('created_at', ascending: false);
       return (rows as List)
-          .map((r) => {
-                '_id': (r as Map)['id'],
-                'title': r['title'],
-                'message': r['message'],
-                'isRead': r['read'] ?? false,
-                'createdAt': r['created_at'],
-              })
+          .map(
+            (r) => {
+              '_id': (r as Map)['id'],
+              'title': r['title'],
+              'message': r['message'],
+              'isRead': r['read'] ?? false,
+              'createdAt': r['created_at'],
+            },
+          )
           .toList();
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
@@ -862,9 +1030,12 @@ class SupabaseRepository implements AppRepository {
     // The onboarding flow stores the child's name as `fullName`; derive
     // first/last from it so the real name is persisted (not a placeholder).
     final full = (a['fullName'] ?? '').toString().trim();
-    final firstFromFull = full.isEmpty ? null : full.split(RegExp(r'\s+')).first;
-    final lastFromFull =
-        full.contains(' ') ? full.substring(full.indexOf(' ') + 1).trim() : null;
+    final firstFromFull = full.isEmpty
+        ? null
+        : full.split(RegExp(r'\s+')).first;
+    final lastFromFull = full.contains(' ')
+        ? full.substring(full.indexOf(' ') + 1).trim()
+        : null;
     return {
       if (_isUuid(a['_id'])) 'id': a['_id'],
       'parent_id': parentId,
@@ -873,7 +1044,8 @@ class SupabaseRepository implements AppRepository {
       'last_name': a['lastName'] ?? lastFromFull,
       'date_of_birth': dob, // required real DOB (UI-validated); never defaulted
       if (gender != null && validGenders.contains(gender)) 'gender': gender,
-      if (a['preferredSports'] != null) 'preferred_sports': a['preferredSports'],
+      if (a['preferredSports'] != null)
+        'preferred_sports': a['preferredSports'],
       // Written only when the parent entered it — null otherwise (no 'None').
       'medical_conditions': a['medicalConditions'],
       if (a['emergencyContact'] != null)
