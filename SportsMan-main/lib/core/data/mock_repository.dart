@@ -19,6 +19,28 @@ class MockRepository implements AppRepository {
   Future<void> savePrograms(List<dynamic> programs) async =>
       MockData.programs = programs;
   @override
+  Future<String?> createProgram(Map<String, dynamic> program) async {
+    final id = 'prog_${DateTime.now().millisecondsSinceEpoch}';
+    final p = Map<String, dynamic>.from(program)..['_id'] = id;
+    MockData.programs = [p, ...MockData.programs];
+    final now = DateTime.now();
+    final sessions = [
+      for (var w = 1; w <= 4; w++)
+        {
+          '_id': 'sess_${id}_$w',
+          'programId': id,
+          'title': 'Session',
+          'startDate': now.add(Duration(days: 7 * w)).toIso8601String(),
+          'date': now.add(Duration(days: 7 * w)).toIso8601String(),
+          'startTime': '05:00 PM',
+          'endTime': '06:00 PM',
+        },
+    ];
+    MockData.sessions = [...MockData.sessions, ...sessions];
+    return id;
+  }
+
+  @override
   Future<List<dynamic>> getSessions() => Future.value(MockData.sessions);
   @override
   Future<void> saveSessions(List<dynamic> sessions) async =>

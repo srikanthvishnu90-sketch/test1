@@ -21,6 +21,13 @@ abstract class ProgramRepository {
   Future<List<dynamic>> getProgramsOrThrow();
 
   Future<void> savePrograms(List<dynamic> programs);
+
+  /// Creates ONE program (real INSERT, returns its new id) AND auto-provisions a
+  /// few future sessions so the listing is immediately bookable. Returns null on
+  /// failure. Use this for new listings instead of the list-replace
+  /// [savePrograms] (which can't return the new id or seed sessions).
+  Future<String?> createProgram(Map<String, dynamic> program);
+
   Future<List<dynamic>> getSessions();
   Future<void> saveSessions(List<dynamic> sessions);
 }

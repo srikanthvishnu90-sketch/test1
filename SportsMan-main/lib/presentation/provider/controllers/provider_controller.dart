@@ -444,14 +444,18 @@ class ProviderController with ChangeNotifier {
   }) async {
     _setLoading(true);
     _lastErrorMessage = null;
-    await Future.delayed(const Duration(milliseconds: 300));
-    listing.id = 'prog_${DateTime.now().millisecondsSinceEpoch}';
+    // Real INSERT that returns the program's id and seeds bookable sessions, so
+    // a brand-new listing is immediately bookable (was: list-replace, no id, no
+    // sessions -> "no upcoming sessions for this program").
+    final id = await _repo.createProgram(listing.toJson());
+    if (id == null) {
+      _lastErrorMessage = 'Could not create the program. Please try again.';
+      _setLoading(false);
+      notifyListeners();
+      return false;
+    }
+    listing.id = id;
     _listings.insert(0, listing);
-
-    final progs = List<dynamic>.from(await _repo.getPrograms());
-    progs.insert(0, listing.toJson());
-    await _repo.savePrograms(progs);
-
     _setLoading(false);
     notifyListeners();
     return true;

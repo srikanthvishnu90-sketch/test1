@@ -254,6 +254,53 @@ class SupabaseRepository implements AppRepository {
   }
 
   @override
+  Future<String?> createProgram(Map<String, dynamic> program) async {
+    try {
+      final providerId = await _currentProviderId();
+      if (providerId == null) return null;
+      final row = _programToRow(program, providerId)..remove('id');
+      // Publish so it's discoverable; the coach can archive later.
+      row['status'] = program['status'] ?? 'published';
+      final inserted = await _db
+          .from('programs')
+          .insert(row)
+          .select('id')
+          .single();
+      final id = inserted['id']?.toString();
+      if (id != null) await _seedDefaultSessions(id);
+      return id;
+    } catch (e) {
+      debugPrint('createProgram failed: $e');
+      return null;
+    }
+  }
+
+  /// A new listing needs bookable sessions or the booking flow shows "no
+  /// upcoming sessions". Seed four weekly future sessions; the coach can edit.
+  Future<void> _seedDefaultSessions(String programId) async {
+    try {
+      final now = DateTime.now();
+      final rows = [
+        for (var w = 1; w <= 4; w++)
+          {
+            'program_id': programId,
+            'title': 'Session',
+            'start_date': now
+                .add(Duration(days: 7 * w))
+                .toIso8601String()
+                .substring(0, 10),
+            'start_time': '05:00 PM',
+            'end_time': '06:00 PM',
+            'timezone': 'EST',
+          },
+      ];
+      await _db.from('sessions').insert(rows);
+    } catch (e) {
+      debugPrint('_seedDefaultSessions failed: $e');
+    }
+  }
+
+  @override
   Future<void> saveSessions(List<dynamic> sessions) async {
     try {
       for (final s in sessions) {
