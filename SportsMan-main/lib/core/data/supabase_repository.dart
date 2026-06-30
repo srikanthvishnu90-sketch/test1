@@ -278,7 +278,20 @@ class SupabaseRepository implements AppRepository {
   @override
   Future<void> saveBookings(List<dynamic> bookings) async {
     // No wholesale replace against a shared table; individual creation goes
-    // through addBooking. Intentionally a no-op (status changes are #20).
+    // through addBooking; status changes go through updateBookingStatus.
+  }
+
+  @override
+  Future<bool> updateBookingStatus(String bookingId, String status) async {
+    try {
+      if (!_isUuid(bookingId)) return false;
+      // Provider RLS + enforce_booking_provider_update pin this to `status`.
+      await _db.from('bookings').update({'status': status}).eq('id', bookingId);
+      return true;
+    } on PostgrestException catch (e) {
+      debugPrint('updateBookingStatus failed: ${e.message}');
+      return false;
+    }
   }
 
   @override

@@ -34,6 +34,17 @@ class MockRepository implements AppRepository {
     return booking['_id']?.toString();
   }
 
+  @override
+  Future<bool> updateBookingStatus(String bookingId, String status) async {
+    final list = List<dynamic>.from(MockData.bookings);
+    final i = list.indexWhere((b) => (b['_id'] ?? b['id']) == bookingId);
+    if (i != -1) {
+      list[i]['status'] = status;
+      MockData.bookings = list;
+    }
+    return true;
+  }
+
   // ── Session notes + parent updates (demo: echo back, no AI/network) ─────────
   @override
   Future<String?> createSessionNote(Map<String, dynamic> note) async =>
@@ -208,8 +219,7 @@ class MockRepository implements AppRepository {
   Future<void Function()> subscribeMessages(
     String conversationId,
     void Function(Map<String, dynamic>) onMessage,
-  ) async =>
-      () {}; // no realtime in the mock
+  ) async => () {}; // no realtime in the mock
 
   // ── Teams ────────────────────────────────────────────────────────────────
   @override

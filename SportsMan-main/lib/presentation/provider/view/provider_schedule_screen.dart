@@ -42,46 +42,104 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
   }
 
   String _formatFullDate(DateTime date) {
-    final weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    
+    final weekdays = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+
     // Manual mapping to handle index properly
     final weekdayStr = weekdays[date.weekday - 1];
     final String monthStr;
     switch (date.month) {
-      case 1: monthStr = 'January'; break;
-      case 2: monthStr = 'February'; break;
-      case 3: monthStr = 'March'; break;
-      case 4: monthStr = 'April'; break;
-      case 5: monthStr = 'May'; break;
-      case 6: monthStr = 'June'; break;
-      case 7: monthStr = 'July'; break;
-      case 8: monthStr = 'August'; break;
-      case 9: monthStr = 'September'; break;
-      case 10: monthStr = 'October'; break;
-      case 11: monthStr = 'November'; break;
-      case 12: monthStr = 'December'; break;
-      default: monthStr = '';
+      case 1:
+        monthStr = 'January';
+        break;
+      case 2:
+        monthStr = 'February';
+        break;
+      case 3:
+        monthStr = 'March';
+        break;
+      case 4:
+        monthStr = 'April';
+        break;
+      case 5:
+        monthStr = 'May';
+        break;
+      case 6:
+        monthStr = 'June';
+        break;
+      case 7:
+        monthStr = 'July';
+        break;
+      case 8:
+        monthStr = 'August';
+        break;
+      case 9:
+        monthStr = 'September';
+        break;
+      case 10:
+        monthStr = 'October';
+        break;
+      case 11:
+        monthStr = 'November';
+        break;
+      case 12:
+        monthStr = 'December';
+        break;
+      default:
+        monthStr = '';
     }
-    
+
     return '$weekdayStr, $monthStr ${date.day}, ${date.year}';
   }
 
   String _formatMonthHeader(DateTime date) {
     final String monthStr;
     switch (date.month) {
-      case 1: monthStr = 'January'; break;
-      case 2: monthStr = 'February'; break;
-      case 3: monthStr = 'March'; break;
-      case 4: monthStr = 'April'; break;
-      case 5: monthStr = 'May'; break;
-      case 6: monthStr = 'June'; break;
-      case 7: monthStr = 'July'; break;
-      case 8: monthStr = 'August'; break;
-      case 9: monthStr = 'September'; break;
-      case 10: monthStr = 'October'; break;
-      case 11: monthStr = 'November'; break;
-      case 12: monthStr = 'December'; break;
-      default: monthStr = '';
+      case 1:
+        monthStr = 'January';
+        break;
+      case 2:
+        monthStr = 'February';
+        break;
+      case 3:
+        monthStr = 'March';
+        break;
+      case 4:
+        monthStr = 'April';
+        break;
+      case 5:
+        monthStr = 'May';
+        break;
+      case 6:
+        monthStr = 'June';
+        break;
+      case 7:
+        monthStr = 'July';
+        break;
+      case 8:
+        monthStr = 'August';
+        break;
+      case 9:
+        monthStr = 'September';
+        break;
+      case 10:
+        monthStr = 'October';
+        break;
+      case 11:
+        monthStr = 'November';
+        break;
+      case 12:
+        monthStr = 'December';
+        break;
+      default:
+        monthStr = '';
     }
     return '$monthStr ${date.year}';
   }
@@ -95,13 +153,25 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
     // Calculate calendar parameters
     int daysInMonth = _getDaysInMonth(currentMonth.year, currentMonth.month);
     // weekday is 1 (Monday) to 7 (Sunday). Let's convert to 0 (Sunday) to 6 (Saturday).
-    int firstWeekday = DateTime(currentMonth.year, currentMonth.month, 1).weekday;
-    int offset = firstWeekday == 7 ? 0 : firstWeekday; // Sunday is 0, Monday is 1, etc.
+    int firstWeekday = DateTime(
+      currentMonth.year,
+      currentMonth.month,
+      1,
+    ).weekday;
+    int offset = firstWeekday == 7
+        ? 0
+        : firstWeekday; // Sunday is 0, Monday is 1, etc.
     int totalCells = daysInMonth + offset;
 
     final daySessions = controller.getSessionsForDate(selectedDate);
-    final pendingRequests = daySessions.where((s) => !s.isConfirmed).toList();
-    final confirmedSessions = daySessions.where((s) => s.isConfirmed).toList();
+    // Pending = not yet acted on. Active/outcome section = confirmed, completed,
+    // or no-show. Declined bookings are hidden from both.
+    final pendingRequests = daySessions
+        .where((s) => !s.isConfirmed && !s.isDeclined && !s.isNoShow)
+        .toList();
+    final confirmedSessions = daySessions
+        .where((s) => (s.isConfirmed || s.isNoShow) && !s.isDeclined)
+        .toList();
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -113,7 +183,10 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
             children: [
               // Header Title
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -144,7 +217,11 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: SporveSegmented(
                   segments: const ['MONTH', 'WEEK', 'DAY'],
-                  selected: const ['MONTH', 'WEEK', 'DAY'].indexOf(_selectedView),
+                  selected: const [
+                    'MONTH',
+                    'WEEK',
+                    'DAY',
+                  ].indexOf(_selectedView),
                   onChanged: (i) {
                     setState(() {
                       _selectedView = const ['MONTH', 'WEEK', 'DAY'][i];
@@ -177,16 +254,24 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                             if (_selectedView == 'MONTH') {
                               controller.prevMonth();
                             } else if (_selectedView == 'WEEK') {
-                              final newDate = selectedDate.subtract(const Duration(days: 7));
+                              final newDate = selectedDate.subtract(
+                                const Duration(days: 7),
+                              );
                               controller.selectDate(newDate);
                             } else if (_selectedView == 'DAY') {
-                              final newDate = selectedDate.subtract(const Duration(days: 1));
+                              final newDate = selectedDate.subtract(
+                                const Duration(days: 1),
+                              );
                               controller.selectDate(newDate);
                             }
                           },
                         ),
                         Text(
-                          _formatMonthHeader(_selectedView == 'MONTH' ? currentMonth : selectedDate),
+                          _formatMonthHeader(
+                            _selectedView == 'MONTH'
+                                ? currentMonth
+                                : selectedDate,
+                          ),
                           style: AppTypography.font(
                             color: AppColors.textPrimary,
                             fontSize: 18,
@@ -202,10 +287,14 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                             if (_selectedView == 'MONTH') {
                               controller.nextMonth();
                             } else if (_selectedView == 'WEEK') {
-                              final newDate = selectedDate.add(const Duration(days: 7));
+                              final newDate = selectedDate.add(
+                                const Duration(days: 7),
+                              );
                               controller.selectDate(newDate);
                             } else if (_selectedView == 'DAY') {
-                              final newDate = selectedDate.add(const Duration(days: 1));
+                              final newDate = selectedDate.add(
+                                const Duration(days: 1),
+                              );
                               controller.selectDate(newDate);
                             }
                           },
@@ -218,20 +307,29 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       // Weekdays Label Row
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map((day) {
-                          return Expanded(
-                            child: Center(
-                              child: Text(
-                                day,
-                                style: AppTypography.font(
-                                  color: AppColors.textSecondary,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
+                        children:
+                            [
+                              'SUN',
+                              'MON',
+                              'TUE',
+                              'WED',
+                              'THU',
+                              'FRI',
+                              'SAT',
+                            ].map((day) {
+                              return Expanded(
+                                child: Center(
+                                  child: Text(
+                                    day,
+                                    style: AppTypography.font(
+                                      color: AppColors.textSecondary,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
+                              );
+                            }).toList(),
                       ),
                       const SizedBox(height: 16),
 
@@ -242,23 +340,31 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                         // Fixed cell height (decoupled from width) so day cells
                         // never overflow at any viewport width — the day circle
                         // (36) + gap (6) + dot (4) = 46px fits inside 56.
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 7,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 8,
-                          mainAxisExtent: 56,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 7,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 8,
+                              mainAxisExtent: 56,
+                            ),
                         itemCount: totalCells,
                         itemBuilder: (context, index) {
                           if (index < offset) {
                             return const SizedBox.shrink();
                           }
                           final dayNum = index - offset + 1;
-                          final cellDate = DateTime(currentMonth.year, currentMonth.month, dayNum);
-                          final isSelected = selectedDate.year == cellDate.year &&
+                          final cellDate = DateTime(
+                            currentMonth.year,
+                            currentMonth.month,
+                            dayNum,
+                          );
+                          final isSelected =
+                              selectedDate.year == cellDate.year &&
                               selectedDate.month == cellDate.month &&
                               selectedDate.day == cellDate.day;
-                          final hasSessions = controller.hasSessionsOnDate(cellDate);
+                          final hasSessions = controller.hasSessionsOnDate(
+                            cellDate,
+                          );
 
                           return GestureDetector(
                             onTap: () => controller.selectDate(cellDate),
@@ -271,13 +377,17 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                                   height: 36,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: isSelected ? AppColors.slateText : Colors.transparent,
+                                    color: isSelected
+                                        ? AppColors.slateText
+                                        : Colors.transparent,
                                     shape: BoxShape.circle,
                                   ),
                                   child: Text(
                                     '$dayNum',
                                     style: AppTypography.font(
-                                      color: isSelected ? AppColors.onSlate : AppColors.textPrimary,
+                                      color: isSelected
+                                          ? AppColors.onSlate
+                                          : AppColors.textPrimary,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,
                                     ),
@@ -290,7 +400,9 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                                   decoration: BoxDecoration(
                                     color: isSelected
                                         ? AppColors.slateText
-                                        : (hasSessions ? AppColors.slateText : Colors.transparent),
+                                        : (hasSessions
+                                              ? AppColors.slateText
+                                              : Colors.transparent),
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -308,7 +420,10 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
 
                     // Selected Date Panel
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.surface2,
                         borderRadius: BorderRadius.circular(AppRadii.tile),
@@ -347,7 +462,10 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
               // Pending Requests Section
               if (pendingRequests.isNotEmpty) ...[
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 8,
+                  ),
                   child: Text(
                     'SESSION REQUESTS (${pendingRequests.length})',
                     style: AppTypography.font(
@@ -373,7 +491,10 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
 
               // Confirmed Sessions Section
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 8,
+                ),
                 child: Text(
                   'CONFIRMED SESSIONS (${confirmedSessions.length})',
                   style: AppTypography.font(
@@ -386,11 +507,17 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
               ),
               confirmedSessions.isEmpty
                   ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
                       child: Center(
                         child: Text(
                           'No confirmed sessions for this date.',
-                          style: AppTypography.font(color: AppColors.textGrey, fontSize: 13),
+                          style: AppTypography.font(
+                            color: AppColors.textGrey,
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                     )
@@ -401,7 +528,7 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       itemCount: confirmedSessions.length,
                       itemBuilder: (context, index) {
                         final session = confirmedSessions[index];
-                        return _buildConfirmedSessionCard(session);
+                        return _buildConfirmedSessionCard(context, session);
                       },
                     ),
 
@@ -413,7 +540,10 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
     );
   }
 
-  Widget _buildPendingRequestCard(BuildContext context, ScheduledSession session) {
+  Widget _buildPendingRequestCard(
+    BuildContext context,
+    ScheduledSession session,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(20),
@@ -511,12 +641,14 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
               Expanded(
                 child: SporveButton(
                   'Confirm',
-                  onPressed: () {
-                    context.read<ProviderController>().confirmSession(session.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Confirmed session for ${session.userName}')),
-                    );
-                  },
+                  onPressed: () => _runStatus(
+                    context,
+                    context.read<ProviderController>().confirmSession(
+                      session.id,
+                    ),
+                    'Confirmed session for ${session.userName}',
+                    'Could not confirm — please try again',
+                  ),
                   variant: SporveButtonVariant.primary,
                   size: SporveButtonSize.compact,
                 ),
@@ -525,12 +657,14 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
               Expanded(
                 child: SporveButton(
                   'Decline',
-                  onPressed: () {
-                    context.read<ProviderController>().declineSession(session.id);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Declined request from ${session.userName}')),
-                    );
-                  },
+                  onPressed: () => _runStatus(
+                    context,
+                    context.read<ProviderController>().declineSession(
+                      session.id,
+                    ),
+                    'Declined request from ${session.userName}',
+                    'Could not decline — please try again',
+                  ),
                   variant: SporveButtonVariant.destructive,
                   size: SporveButtonSize.compact,
                 ),
@@ -542,7 +676,24 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
     );
   }
 
-  Widget _buildConfirmedSessionCard(ScheduledSession session) {
+  // Persist a booking-status transition and surface success/failure.
+  Future<void> _runStatus(
+    BuildContext context,
+    Future<bool> action,
+    String okMsg,
+    String failMsg,
+  ) async {
+    final ok = await action;
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(ok ? okMsg : failMsg)));
+  }
+
+  Widget _buildConfirmedSessionCard(
+    BuildContext context,
+    ScheduledSession session,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(20),
@@ -595,26 +746,47 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.slateTint,
-                  borderRadius: BorderRadius.circular(AppRadii.chip),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.check, color: AppColors.slateDeep, size: 10),
-                    const SizedBox(width: 4),
-                    Text(
-                      'CONFIRMED',
-                      style: AppTypography.font(
-                        color: AppColors.slateDeep,
-                        fontSize: 11,
-                        fontWeight: FontWeight.bold,
-                      ),
+              Builder(
+                builder: (_) {
+                  final isNoShow = session.isNoShow;
+                  final label = isNoShow
+                      ? 'NO-SHOW'
+                      : (session.isCompleted ? 'COMPLETED' : 'CONFIRMED');
+                  final fg = isNoShow
+                      ? AppColors.textTertiary
+                      : AppColors.slateDeep;
+                  final bg = isNoShow
+                      ? AppColors.negativeTint
+                      : AppColors.slateTint;
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
                     ),
-                  ],
-                ),
+                    decoration: BoxDecoration(
+                      color: bg,
+                      borderRadius: BorderRadius.circular(AppRadii.chip),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          isNoShow ? Icons.close : Icons.check,
+                          color: fg,
+                          size: 10,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          label,
+                          style: AppTypography.font(
+                            color: fg,
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -652,18 +824,62 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
               ],
             ),
           ),
-          // Once a session is completed (or its date has passed), the coach can
-          // write a parent update — pre-filled with the child's name + sport.
-          if (_isFinished(session)) ...[
+          // Outcome step: once the session is due (date past) and not yet
+          // recorded, the coach marks it completed or a no-show — which fires
+          // the lifecycle messaging (post_session / no_show_followup).
+          if (_isFinished(session) &&
+              !session.isCompleted &&
+              !session.isNoShow) ...[
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: SporveButton(
+                    'Mark complete',
+                    onPressed: () => _runStatus(
+                      context,
+                      context.read<ProviderController>().completeSession(
+                        session.id,
+                      ),
+                      'Marked complete for ${session.userName}',
+                      'Could not update — please try again',
+                    ),
+                    variant: SporveButtonVariant.primary,
+                    size: SporveButtonSize.compact,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: SporveButton(
+                    'No-show',
+                    onPressed: () => _runStatus(
+                      context,
+                      context.read<ProviderController>().markNoShow(session.id),
+                      'Marked as no-show',
+                      'Could not update — please try again',
+                    ),
+                    variant: SporveButtonVariant.secondary,
+                    onDark: true,
+                    size: SporveButtonSize.compact,
+                  ),
+                ),
+              ],
+            ),
+          ],
+          // Completed sessions: write the parent update (child name + sport prefilled).
+          if (session.isCompleted) ...[
             const SizedBox(height: 12),
             SporveButton(
               'Write parent update',
-              onPressed: () => Get.toNamed(AppRoutes.parentUpdate, arguments: {
-                'bookingId': session.id,
-                'childId': session.childId,
-                'childFirstName': session.childFirstName,
-                'sport': session.sport,
-              }),
+              onPressed: () => Get.toNamed(
+                AppRoutes.parentUpdate,
+                arguments: {
+                  'bookingId': session.id,
+                  'childId': session.childId,
+                  'childFirstName': session.childFirstName,
+                  'sport': session.sport,
+                },
+              ),
               variant: SporveButtonVariant.secondary,
               onDark: true,
               icon: Icons.edit_note,
@@ -680,7 +896,11 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
     if (session.isCompleted) return true;
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final d = DateTime(session.sessionDate.year, session.sessionDate.month, session.sessionDate.day);
+    final d = DateTime(
+      session.sessionDate.year,
+      session.sessionDate.month,
+      session.sessionDate.day,
+    );
     return d.isBefore(today);
   }
 
@@ -694,10 +914,13 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
     return List.generate(5, (index) => date.add(Duration(days: index - 2)));
   }
 
-  Widget _buildWeeklyView(DateTime selectedDate, ProviderController controller) {
+  Widget _buildWeeklyView(
+    DateTime selectedDate,
+    ProviderController controller,
+  ) {
     final daysOfWeek = _getDaysInWeek(selectedDate);
     final shortWeekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-    
+
     return Column(
       children: [
         // Weekday labels
@@ -723,12 +946,13 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: daysOfWeek.map((cellDate) {
-            final isSelected = selectedDate.year == cellDate.year &&
+            final isSelected =
+                selectedDate.year == cellDate.year &&
                 selectedDate.month == cellDate.month &&
                 selectedDate.day == cellDate.day;
             final hasSessions = controller.hasSessionsOnDate(cellDate);
             final dayNum = cellDate.day;
-            
+
             return Expanded(
               child: GestureDetector(
                 onTap: () => controller.selectDate(cellDate),
@@ -740,13 +964,17 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       height: 36,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: isSelected ? AppColors.slateText : Colors.transparent,
+                        color: isSelected
+                            ? AppColors.slateText
+                            : Colors.transparent,
                         shape: BoxShape.circle,
                       ),
                       child: Text(
                         '$dayNum',
                         style: AppTypography.font(
-                          color: isSelected ? AppColors.onSlate : AppColors.textPrimary,
+                          color: isSelected
+                              ? AppColors.onSlate
+                              : AppColors.textPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                         ),
@@ -759,7 +987,9 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       decoration: BoxDecoration(
                         color: isSelected
                             ? AppColors.slateText
-                            : (hasSessions ? AppColors.slateText : Colors.transparent),
+                            : (hasSessions
+                                  ? AppColors.slateText
+                                  : Colors.transparent),
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -780,12 +1010,14 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: daysAround.map((cellDate) {
-        final isSelected = selectedDate.year == cellDate.year &&
+        final isSelected =
+            selectedDate.year == cellDate.year &&
             selectedDate.month == cellDate.month &&
             selectedDate.day == cellDate.day;
         final hasSessions = controller.hasSessionsOnDate(cellDate);
         final dayNum = cellDate.day;
-        final weekdayStr = shortWeekdays[cellDate.weekday == 7 ? 0 : cellDate.weekday];
+        final weekdayStr =
+            shortWeekdays[cellDate.weekday == 7 ? 0 : cellDate.weekday];
 
         return Expanded(
           child: GestureDetector(
@@ -796,7 +1028,9 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                 Text(
                   weekdayStr,
                   style: AppTypography.font(
-                    color: isSelected ? AppColors.slateText : AppColors.textSecondary,
+                    color: isSelected
+                        ? AppColors.slateText
+                        : AppColors.textSecondary,
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
@@ -807,13 +1041,17 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                   height: 36,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: isSelected ? AppColors.slateText : Colors.transparent,
+                    color: isSelected
+                        ? AppColors.slateText
+                        : Colors.transparent,
                     shape: BoxShape.circle,
                   ),
                   child: Text(
                     '$dayNum',
                     style: AppTypography.font(
-                      color: isSelected ? AppColors.onSlate : AppColors.textPrimary,
+                      color: isSelected
+                          ? AppColors.onSlate
+                          : AppColors.textPrimary,
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
@@ -826,7 +1064,9 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppColors.slateText
-                        : (hasSessions ? AppColors.slateText : Colors.transparent),
+                        : (hasSessions
+                              ? AppColors.slateText
+                              : Colors.transparent),
                     shape: BoxShape.circle,
                   ),
                 ),

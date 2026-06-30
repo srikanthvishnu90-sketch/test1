@@ -26,6 +26,11 @@ abstract class BookingRepository {
 
   /// Persists a booking and returns its new id (null if it couldn't be created).
   Future<String?> addBooking(Map<String, dynamic> booking);
+
+  /// Transitions a booking's status (confirmed/declined/completed/no_show).
+  /// Provider-of-the-session only (RLS pins provider edits to `status`); the DB
+  /// lifecycle trigger reacts to the transition. Returns true on success.
+  Future<bool> updateBookingStatus(String bookingId, String status);
 }
 
 /// User + provider profiles.

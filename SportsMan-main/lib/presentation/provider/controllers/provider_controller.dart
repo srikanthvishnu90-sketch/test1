@@ -3,7 +3,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/data/app_repository.dart';
 import '../../../core/theme/app_colors.dart';
 
-
 class ProviderListing {
   // ── Server identity ──────────────────────────────────────────────
   String id; // backend _id
@@ -78,13 +77,15 @@ class ProviderListing {
     return 'CAMPS';
   }
 
-  String get rating => averageRating > 0 ? averageRating.toStringAsFixed(1) : '0.0';
+  String get rating =>
+      averageRating > 0 ? averageRating.toStringAsFixed(1) : '0.0';
   String get availability {
     final spots = maxCapacity - enrolledCount;
     if (spots <= 0) return 'FULL';
     if (spots <= 3) return '$spots SPOTS LEFT';
     return 'AVAILABLE NOW';
   }
+
   Color get availabilityColor {
     final spots = maxCapacity - enrolledCount;
     if (spots <= 0) return AppColors.negative;
@@ -141,10 +142,7 @@ class ProviderListing {
       'pricingModel': pricingModel,
       'maxCapacity': maxCapacity,
       'enrolledCount': enrolledCount,
-      'location': {
-        'type': 'Point',
-        'coordinates': coordinates,
-      },
+      'location': {'type': 'Point', 'coordinates': coordinates},
       'address': {
         'line1': addressLine1,
         'city': city,
@@ -168,41 +166,42 @@ class ProviderListing {
 
   /// Merge full detail data (from GET /programs/:id) into this listing.
   void applyDetails(Map<String, dynamic> data) {
-    final loc  = data['location']?['coordinates'];
+    final loc = data['location']?['coordinates'];
     final addr = data['address'] ?? {};
     final prov = data['providerId'];
 
-    image            = data['coverImage'] ?? image;
-    title            = data['title'] ?? title;
-    description      = data['description'] ?? description;
-    sportType        = data['sportType'] ?? sportType;
-    skillLevel       = data['skillLevel'] ?? skillLevel;
-    ageGroup         = data['ageGroup'] ?? ageGroup;
-    language         = data['language'] ?? language;
-    price            = (data['price'] as num?)?.toDouble() ?? price;
-    currency         = data['currency'] ?? currency;
-    pricingModel     = data['pricingModel'] ?? pricingModel;
-    maxCapacity      = (data['maxCapacity'] as num?)?.toInt() ?? maxCapacity;
-    enrolledCount    = (data['enrolledCount'] as num?)?.toInt() ?? enrolledCount;
-    isFeatured       = data['isFeatured'] ?? isFeatured;
-    status           = data['status'] ?? status;
-    averageRating    = (data['averageRating'] as num?)?.toDouble() ?? averageRating;
-    totalReviews     = (data['totalReviews'] as num?)?.toInt() ?? totalReviews;
+    image = data['coverImage'] ?? image;
+    title = data['title'] ?? title;
+    description = data['description'] ?? description;
+    sportType = data['sportType'] ?? sportType;
+    skillLevel = data['skillLevel'] ?? skillLevel;
+    ageGroup = data['ageGroup'] ?? ageGroup;
+    language = data['language'] ?? language;
+    price = (data['price'] as num?)?.toDouble() ?? price;
+    currency = data['currency'] ?? currency;
+    pricingModel = data['pricingModel'] ?? pricingModel;
+    maxCapacity = (data['maxCapacity'] as num?)?.toInt() ?? maxCapacity;
+    enrolledCount = (data['enrolledCount'] as num?)?.toInt() ?? enrolledCount;
+    isFeatured = data['isFeatured'] ?? isFeatured;
+    status = data['status'] ?? status;
+    averageRating =
+        (data['averageRating'] as num?)?.toDouble() ?? averageRating;
+    totalReviews = (data['totalReviews'] as num?)?.toInt() ?? totalReviews;
     cancellationPolicy = data['cancellationPolicy'] ?? cancellationPolicy;
-    minimumAge       = (data['minimumAge'] as num?)?.toInt() ?? minimumAge;
-    maximumAge       = (data['maximumAge'] as num?)?.toInt() ?? maximumAge;
+    minimumAge = (data['minimumAge'] as num?)?.toInt() ?? minimumAge;
+    maximumAge = (data['maximumAge'] as num?)?.toInt() ?? maximumAge;
 
     if (loc != null && loc.length >= 2) {
       coordinates = [loc[0].toDouble(), loc[1].toDouble()];
     }
     addressLine1 = addr['line1'] ?? addressLine1;
-    city         = addr['city'] ?? city;
-    state        = addr['state'] ?? state;
-    zip          = addr['zip'] ?? zip;
-    country      = addr['country'] ?? country;
+    city = addr['city'] ?? city;
+    state = addr['state'] ?? state;
+    zip = addr['zip'] ?? zip;
+    country = addr['country'] ?? country;
 
     if (prov is Map) {
-      providerName     = prov['businessName']?.toString() ?? providerName;
+      providerName = prov['businessName']?.toString() ?? providerName;
       providerVerified = prov['verificationStatus'] == 'verified';
     }
 
@@ -225,7 +224,8 @@ class ScheduledSession {
   final String timeStr; // Time e.g. "5:00 PM"
   bool isConfirmed;
   bool isDeclined;
-  final bool isCompleted;
+  bool isCompleted;
+  bool isNoShow;
   // Context for the "Write parent update" flow (from the booking).
   final String childId;
   final String childFirstName;
@@ -241,6 +241,7 @@ class ScheduledSession {
     this.isConfirmed = false,
     this.isDeclined = false,
     this.isCompleted = false,
+    this.isNoShow = false,
     this.childId = '',
     this.childFirstName = '',
     this.sport = '',
@@ -277,14 +278,17 @@ class ProviderController with ChangeNotifier {
   Map<String, dynamic> _providerProfile = {};
   Map<String, dynamic> get providerProfile => _providerProfile;
   String? get stripeAccountId => _providerProfile['stripeAccountId'] as String?;
-  bool get stripeChargesEnabled => _providerProfile['stripeChargesEnabled'] == true;
+  bool get stripeChargesEnabled =>
+      _providerProfile['stripeChargesEnabled'] == true;
 
   /// Re-fetch the provider so the payouts status reflects stripe_charges_enabled
   /// (the #20c webhook keeps this fresh automatically once it lands).
   Future<void> fetchProviderProfile() async {
     try {
       _providerProfile = await _repo.getProviderProfile();
-    } catch (_) {/* leave prior value; UI shows setup state */}
+    } catch (_) {
+      /* leave prior value; UI shows setup state */
+    }
     notifyListeners();
   }
 
@@ -365,39 +369,46 @@ class ProviderController with ChangeNotifier {
       _listings.clear();
       for (final item in data) {
         try {
-          final loc  = item['location']?['coordinates'];
+          final loc = item['location']?['coordinates'];
           final addr = item['address'] ?? {};
           final prov = item['providerId'];
-          _listings.add(ProviderListing(
-            id: item['_id']?.toString() ?? '',
-            image: item['coverImage'] ?? '',
-            title: item['title'] ?? '',
-            description: item['description'] ?? '',
-            sportType: item['sportType'] ?? '',
-            skillLevel: item['skillLevel'] ?? '',
-            ageGroup: item['ageGroup'] ?? '',
-            language: item['language'] ?? 'English',
-            price: (item['price'] as num?)?.toDouble() ?? 0,
-            currency: item['currency'] ?? 'USD',
-            pricingModel: item['pricingModel'] ?? 'single_session',
-            maxCapacity: (item['maxCapacity'] as num?)?.toInt() ?? 0,
-            enrolledCount: (item['enrolledCount'] as num?)?.toInt() ?? 0,
-            coordinates: loc != null ? [loc[0].toDouble(), loc[1].toDouble()] : [0.0, 0.0],
-            addressLine1: addr['line1'] ?? addr['addressLine1'] ?? '',
-            city: addr['city'] ?? '',
-            state: addr['state'] ?? '',
-            zip: addr['zip'] ?? addr['zipCode'] ?? '',
-            country: addr['country'] ?? '',
-            cancellationPolicy: item['cancellationPolicy'] ?? 'flexible',
-            minimumAge: (item['minimumAge'] as num?)?.toInt() ?? 0,
-            maximumAge: (item['maximumAge'] as num?)?.toInt() ?? 99,
-            isFeatured: item['isFeatured'] ?? false,
-            status: item['status'] ?? 'published',
-            averageRating: (item['averageRating'] as num?)?.toDouble() ?? 0.0,
-            totalReviews: (item['totalReviews'] as num?)?.toInt() ?? 0,
-            providerName: (prov is Map) ? (prov['businessName']?.toString() ?? '') : '',
-            providerVerified: (prov is Map) && prov['verificationStatus'] == 'verified',
-          ));
+          _listings.add(
+            ProviderListing(
+              id: item['_id']?.toString() ?? '',
+              image: item['coverImage'] ?? '',
+              title: item['title'] ?? '',
+              description: item['description'] ?? '',
+              sportType: item['sportType'] ?? '',
+              skillLevel: item['skillLevel'] ?? '',
+              ageGroup: item['ageGroup'] ?? '',
+              language: item['language'] ?? 'English',
+              price: (item['price'] as num?)?.toDouble() ?? 0,
+              currency: item['currency'] ?? 'USD',
+              pricingModel: item['pricingModel'] ?? 'single_session',
+              maxCapacity: (item['maxCapacity'] as num?)?.toInt() ?? 0,
+              enrolledCount: (item['enrolledCount'] as num?)?.toInt() ?? 0,
+              coordinates: loc != null
+                  ? [loc[0].toDouble(), loc[1].toDouble()]
+                  : [0.0, 0.0],
+              addressLine1: addr['line1'] ?? addr['addressLine1'] ?? '',
+              city: addr['city'] ?? '',
+              state: addr['state'] ?? '',
+              zip: addr['zip'] ?? addr['zipCode'] ?? '',
+              country: addr['country'] ?? '',
+              cancellationPolicy: item['cancellationPolicy'] ?? 'flexible',
+              minimumAge: (item['minimumAge'] as num?)?.toInt() ?? 0,
+              maximumAge: (item['maximumAge'] as num?)?.toInt() ?? 99,
+              isFeatured: item['isFeatured'] ?? false,
+              status: item['status'] ?? 'published',
+              averageRating: (item['averageRating'] as num?)?.toDouble() ?? 0.0,
+              totalReviews: (item['totalReviews'] as num?)?.toInt() ?? 0,
+              providerName: (prov is Map)
+                  ? (prov['businessName']?.toString() ?? '')
+                  : '',
+              providerVerified:
+                  (prov is Map) && prov['verificationStatus'] == 'verified',
+            ),
+          );
         } catch (_) {}
       }
       notifyListeners();
@@ -419,7 +430,10 @@ class ProviderController with ChangeNotifier {
   String? _lastErrorMessage;
   String? get lastErrorMessage => _lastErrorMessage;
 
-  Future<bool> createProgram(ProviderListing listing, {List<String>? galleryPaths}) async {
+  Future<bool> createProgram(
+    ProviderListing listing, {
+    List<String>? galleryPaths,
+  }) async {
     _setLoading(true);
     _lastErrorMessage = null;
     await Future.delayed(const Duration(milliseconds: 300));
@@ -439,7 +453,9 @@ class ProviderController with ChangeNotifier {
   Future<void> _syncProgramToMock(ProviderListing listing) async {
     if (listing.id.isEmpty) return;
     final progs = List<dynamic>.from(await _repo.getPrograms());
-    final idx = progs.indexWhere((p) => p is Map && p['_id']?.toString() == listing.id);
+    final idx = progs.indexWhere(
+      (p) => p is Map && p['_id']?.toString() == listing.id,
+    );
     if (idx >= 0) {
       progs[idx] = listing.toJson();
     } else {
@@ -453,8 +469,11 @@ class ProviderController with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> editProgram(int index, ProviderListing listing, {List<String>? galleryPaths}) async {
-
+  Future<bool> editProgram(
+    int index,
+    ProviderListing listing, {
+    List<String>? galleryPaths,
+  }) async {
     if (index < 0 || index >= _listings.length) return false;
     _setLoading(true);
     _lastErrorMessage = null;
@@ -490,7 +509,11 @@ class ProviderController with ChangeNotifier {
   }
 
   // Schedule State
-  DateTime _selectedDate = DateTime(2026, 5, 4); // Default to Monday, May 4, 2026
+  DateTime _selectedDate = DateTime(
+    2026,
+    5,
+    4,
+  ); // Default to Monday, May 4, 2026
   DateTime _currentMonth = DateTime(2026, 5, 1);
 
   DateTime get selectedDate => _selectedDate;
@@ -533,27 +556,36 @@ class ProviderController with ChangeNotifier {
     notifyListeners();
   }
 
-  void confirmSession(String sessionId) {
-    final index = _sessions.indexWhere((s) => s.id == sessionId);
-    if (index != -1) {
-      _sessions[index].isConfirmed = true;
+  // ── Booking lifecycle: persist the status transition, then reflect locally.
+  // The DB trigger reacts (booking_confirmed / post_session / no_show_followup).
+  Future<bool> confirmSession(String sessionId) =>
+      _setStatus(sessionId, 'confirmed');
+  Future<bool> declineSession(String sessionId) =>
+      _setStatus(sessionId, 'declined');
+  Future<bool> completeSession(String sessionId) =>
+      _setStatus(sessionId, 'completed');
+  Future<bool> markNoShow(String sessionId) => _setStatus(sessionId, 'no_show');
+
+  Future<bool> _setStatus(String sessionId, String status) async {
+    // Mock sessions (req_/conf_/other_) have no DB row — flip locally only.
+    final isMock =
+        sessionId.startsWith('req_') ||
+        sessionId.startsWith('conf_') ||
+        sessionId.startsWith('other_');
+    final ok = isMock
+        ? true
+        : await _repo.updateBookingStatus(sessionId, status);
+    if (!ok) return false;
+    final i = _sessions.indexWhere((s) => s.id == sessionId);
+    if (i != -1) {
+      final s = _sessions[i];
+      s.isConfirmed = status == 'confirmed' || status == 'completed';
+      s.isDeclined = status == 'declined';
+      s.isCompleted = status == 'completed';
+      s.isNoShow = status == 'no_show';
       notifyListeners();
     }
-  }
-
-  Future<bool> declineSession(String sessionId) async {
-    final index = _sessions.indexWhere((s) => s.id == sessionId);
-    if (index != -1) {
-      // If it is a mock session (starts with req_ or conf_), handle locally
-      if (sessionId.startsWith('req_') || sessionId.startsWith('conf_') || sessionId.startsWith('other_')) {
-        _sessions[index].isDeclined = true;
-        notifyListeners();
-        return true;
-      }
-      // Otherwise call backend to cancel the booking
-      return cancelBookingOnBackend(sessionId);
-    }
-    return false;
+    return true;
   }
 
   bool _bookingsLoaded = false;
@@ -567,11 +599,13 @@ class ProviderController with ChangeNotifier {
   int get sessionsToday {
     final now = DateTime.now();
     return _sessions
-        .where((s) =>
-            !s.isDeclined &&
-            s.sessionDate.year == now.year &&
-            s.sessionDate.month == now.month &&
-            s.sessionDate.day == now.day)
+        .where(
+          (s) =>
+              !s.isDeclined &&
+              s.sessionDate.year == now.year &&
+              s.sessionDate.month == now.month &&
+              s.sessionDate.day == now.day,
+        )
         .length;
   }
 
@@ -593,9 +627,9 @@ class ProviderController with ChangeNotifier {
           final userName = athlete['fullName'] ?? 'Athlete';
           final userAvatar = athlete['profileImage'] ?? '';
           final childId = (athlete['_id'] ?? '').toString();
-          final childFirstName = (athlete['firstName'] ??
-                  userName.toString().split(' ').first)
-              .toString();
+          final childFirstName =
+              (athlete['firstName'] ?? userName.toString().split(' ').first)
+                  .toString();
 
           String serviceTitle = 'Training Session';
           DateTime sessionDate = DateTime.now();
@@ -605,7 +639,9 @@ class ProviderController with ChangeNotifier {
           final sess = booking['sessionId'];
           if (sess is Map) {
             serviceTitle = sess['title'] ?? serviceTitle;
-            if (sess['date'] != null) sessionDate = DateTime.tryParse(sess['date']) ?? sessionDate;
+            if (sess['date'] != null) {
+              sessionDate = DateTime.tryParse(sess['date']) ?? sessionDate;
+            }
             timeStr = sess['startTime'] ?? timeStr;
           }
 
@@ -615,26 +651,29 @@ class ProviderController with ChangeNotifier {
             sport = (prog['sport'] ?? '').toString();
           }
 
-          final isCompleted = status.toLowerCase() == 'completed';
-          final isConfirmed = status.toLowerCase() == 'confirmed' ||
-              status.toLowerCase() == 'active' ||
-              isCompleted;
-          final isDeclined = status.toLowerCase() == 'cancelled' || status.toLowerCase() == 'declined';
+          final s = status.toLowerCase();
+          final isCompleted = s == 'completed';
+          final isNoShow = s == 'no_show';
+          final isConfirmed = s == 'confirmed' || s == 'active' || isCompleted;
+          final isDeclined = s == 'cancelled' || s == 'declined';
 
-          _sessions.add(ScheduledSession(
-            id: id,
-            userName: userName,
-            userAvatar: userAvatar,
-            serviceTitle: serviceTitle,
-            sessionDate: sessionDate,
-            timeStr: timeStr,
-            isConfirmed: isConfirmed,
-            isDeclined: isDeclined,
-            isCompleted: isCompleted,
-            childId: childId,
-            childFirstName: childFirstName,
-            sport: sport,
-          ));
+          _sessions.add(
+            ScheduledSession(
+              id: id,
+              userName: userName,
+              userAvatar: userAvatar,
+              serviceTitle: serviceTitle,
+              sessionDate: sessionDate,
+              timeStr: timeStr,
+              isConfirmed: isConfirmed,
+              isDeclined: isDeclined,
+              isCompleted: isCompleted,
+              isNoShow: isNoShow,
+              childId: childId,
+              childFirstName: childFirstName,
+              sport: sport,
+            ),
+          );
         } catch (e) {
           debugPrint('Error parsing booking item: $e');
         }
@@ -644,18 +683,6 @@ class ProviderController with ChangeNotifier {
       _bookingsLoaded = true;
       _setLoading(false);
     }
-  }
-
-  Future<bool> cancelBookingOnBackend(String bookingId) async {
-    _setLoading(true);
-    await Future.delayed(const Duration(milliseconds: 300));
-    final index = _sessions.indexWhere((s) => s.id == bookingId);
-    if (index != -1) {
-      _sessions[index].isDeclined = true;
-      notifyListeners();
-    }
-    _setLoading(false);
-    return true;
   }
 
   // ── Roster & Teams State ─────────────────────────────────────────
@@ -674,8 +701,10 @@ class ProviderController with ChangeNotifier {
       final data = await _repo.getTeams();
       _rosterTeams.clear();
       _rosterAthletes.clear();
-      _rosterTeams.add(const CoachTeam(id: 'unassigned', name: 'Unassigned Athletes'));
-      
+      _rosterTeams.add(
+        const CoachTeam(id: 'unassigned', name: 'Unassigned Athletes'),
+      );
+
       for (final teamItem in data) {
         final teamId = teamItem['_id']?.toString() ?? '';
         final teamName = teamItem['name']?.toString() ?? 'Unnamed Team';
@@ -709,12 +738,21 @@ class ProviderController with ChangeNotifier {
   Future<bool> createRosterTeam(String name, String sport) async {
     _setLoading(true);
     await Future.delayed(const Duration(milliseconds: 300));
-    _rosterTeams.add(CoachTeam(id: 'team_${DateTime.now().millisecondsSinceEpoch}', name: name));
+    _rosterTeams.add(
+      CoachTeam(
+        id: 'team_${DateTime.now().millisecondsSinceEpoch}',
+        name: name,
+      ),
+    );
     _setLoading(false);
     return true;
   }
 
-  Future<bool> moveRosterAthlete(String athleteId, String sourceTeamId, String targetTeamId) async {
+  Future<bool> moveRosterAthlete(
+    String athleteId,
+    String sourceTeamId,
+    String targetTeamId,
+  ) async {
     _setLoading(true);
     await Future.delayed(const Duration(milliseconds: 300));
     final i = _rosterAthletes.indexWhere((a) => a['id'] == athleteId);
@@ -766,7 +804,9 @@ class ProviderController with ChangeNotifier {
     await Future.delayed(const Duration(milliseconds: 300));
     final entry = {
       ...body,
-      '_id': body['_id']?.toString() ?? 'sess_${DateTime.now().millisecondsSinceEpoch}',
+      '_id':
+          body['_id']?.toString() ??
+          'sess_${DateTime.now().millisecondsSinceEpoch}',
     };
     final sessions = List<dynamic>.from(await _repo.getSessions());
     sessions.add(entry);
@@ -777,19 +817,31 @@ class ProviderController with ChangeNotifier {
     return true;
   }
 
-  Future<bool> updateProgramSession(String sessionId, String programId, Map<String, dynamic> body) async {
+  Future<bool> updateProgramSession(
+    String sessionId,
+    String programId,
+    Map<String, dynamic> body,
+  ) async {
     _sessionsLoading = true;
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 300));
     final sessions = List<dynamic>.from(await _repo.getSessions());
-    final idx = sessions.indexWhere((s) => s is Map && s['_id']?.toString() == sessionId);
+    final idx = sessions.indexWhere(
+      (s) => s is Map && s['_id']?.toString() == sessionId,
+    );
     if (idx >= 0) {
       sessions[idx] = {...(sessions[idx] as Map), ...body, '_id': sessionId};
       await _repo.saveSessions(sessions);
     }
-    final pidx = _programSessions.indexWhere((s) => s is Map && s['_id']?.toString() == sessionId);
+    final pidx = _programSessions.indexWhere(
+      (s) => s is Map && s['_id']?.toString() == sessionId,
+    );
     if (pidx >= 0) {
-      _programSessions[pidx] = {...(_programSessions[pidx] as Map), ...body, '_id': sessionId};
+      _programSessions[pidx] = {
+        ...(_programSessions[pidx] as Map),
+        ...body,
+        '_id': sessionId,
+      };
     }
     _sessionsLoading = false;
     notifyListeners();
