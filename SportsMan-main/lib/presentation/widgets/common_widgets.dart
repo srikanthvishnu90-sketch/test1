@@ -779,12 +779,16 @@ class EmptyState extends StatelessWidget {
   final String title;
   final String? message;
   final EdgeInsetsGeometry padding;
+  final String? actionLabel; // optional CTA
+  final VoidCallback? onAction;
   const EmptyState({
     super.key,
     this.icon = Icons.inbox_outlined,
     required this.title,
     this.message,
     this.padding = const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+    this.actionLabel,
+    this.onAction,
   });
 
   @override
@@ -815,6 +819,31 @@ class EmptyState extends StatelessWidget {
                   color: AppColors.textTertiary,
                   fontSize: 12,
                   height: 1.4,
+                ),
+              ),
+            ],
+            if (actionLabel != null && onAction != null) ...[
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: onAction,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.slateTint,
+                    borderRadius: BorderRadius.circular(AppRadii.tile),
+                    border: Border.all(color: AppColors.slateBorder),
+                  ),
+                  child: Text(
+                    actionLabel!,
+                    style: AppTypography.font(
+                      color: AppColors.slateText,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
             ],

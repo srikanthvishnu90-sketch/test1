@@ -289,11 +289,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     else if (homeProvider.programsError)
                       ErrorRetry(onRetry: () => homeProvider.fetchPrograms())
                     else if (homeProvider.programs.isEmpty)
-                      const EmptyState(
+                      EmptyState(
                         icon: Icons.sports_soccer_outlined,
                         title: 'No programs near you yet.',
                         message:
-                            'Check back soon, or try widening your search.',
+                            'Check back soon, or widen your search to find coaches.',
+                        actionLabel: 'Search programs',
+                        onAction: () => Get.toNamed(AppRoutes.search),
                       )
                     else
                       ...homeProvider.programs.map((program) {

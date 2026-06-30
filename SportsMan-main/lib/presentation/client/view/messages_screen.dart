@@ -238,21 +238,17 @@ class _MessagesScreenState extends State<MessagesScreen> {
       );
     }
     if (convs.isEmpty) {
-      return Center(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Center(
-              child: Text(
-                'No messages yet',
-                style: AppTypography.font(
-                  color: AppColors.textSecondary,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
+      return ListView(
+        children: [
+          const SizedBox(height: 32),
+          EmptyState(
+            icon: Icons.forum_outlined,
+            title: 'No messages yet',
+            message: 'Message a coach from their program to start a chat.',
+            actionLabel: 'Find a coach',
+            onAction: () => Get.toNamed(AppRoutes.search),
+          ),
+        ],
       );
     }
     return ListView.builder(
@@ -306,21 +302,17 @@ class _MessagesScreenState extends State<MessagesScreen> {
       );
     }
     if (convs.isEmpty) {
-      return Center(
-        child: ListView(
-          shrinkWrap: true,
-          children: [
-            Center(
-              child: Text(
-                'No messages yet',
-                style: AppTypography.font(
-                  color: AppColors.textSecondary,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
+      return ListView(
+        children: [
+          const SizedBox(height: 32),
+          EmptyState(
+            icon: Icons.forum_outlined,
+            title: 'No program chats yet',
+            message: 'Booking a session opens a chat with that coach.',
+            actionLabel: 'Browse programs',
+            onAction: () => Get.toNamed(AppRoutes.search),
+          ),
+        ],
       );
     }
     return ListView.builder(
