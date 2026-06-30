@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/utils/image_validation.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/sport_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../controllers/provider_controller.dart';
 import '../../widgets/common_widgets.dart';
@@ -44,13 +45,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
   String _selectedPricingModel = 'single_session';
   String _selectedCancellationPolicy = 'flexible';
 
-  final List<String> _sports = [
-    'Basketball',
-    'Soccer',
-    'Football',
-    'Swimming',
-    'Tennis',
-  ];
+  // The full catalogue, each with its identity color — no longer a hardcoded 5.
+  final List<String> _sports = SportColors.pickerNames;
   final List<String> _skillLevels = ['beginner', 'intermediate', 'advanced'];
   final List<String> _ageGroups = ['u8', 'u10', 'u12', 'u14', 'u16', 'u18'];
   final List<String> _languages = ['English', 'Spanish', 'French'];
@@ -88,7 +84,12 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
         _pickedImagePath = listing.image;
       }
 
-      _selectedSport = listing.sportType;
+      // Match case-insensitively so the dropdown value is always a valid item
+      // (a stored 'soccer' must map to the 'Soccer' option, not crash).
+      _selectedSport = _sports.firstWhere(
+        (s) => s.toLowerCase() == listing.sportType.toLowerCase(),
+        orElse: () => _sports.first,
+      );
       _selectedSkillLevel = listing.skillLevel;
       _selectedAgeGroup = listing.ageGroup;
       _selectedLanguage = listing.language;
@@ -308,6 +309,7 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           label: 'SPORT',
                           value: _selectedSport,
                           items: _sports,
+                          sportColors: true,
                           onChanged: (val) =>
                               setState(() => _selectedSport = val),
                         ),
@@ -773,6 +775,7 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
     required String value,
     required List<String> items,
     required ValueChanged<String> onChanged,
+    bool sportColors = false, // show each item's sport identity color as a dot
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -816,7 +819,22 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                 items: items.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: sportColors
+                        ? Row(
+                            children: [
+                              Container(
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: SportColors.of(value),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Text(value),
+                            ],
+                          )
+                        : Text(value),
                   );
                 }).toList(),
               ),

@@ -67,6 +67,49 @@ class SportColors {
 
   static const Color fallback = AppColors.slate; // unmapped sport → brand slate
 
+  /// De-duplicated, title-cased display names for sport pickers — every entry
+  /// maps to a real color via [of]. Use this everywhere a sport is chosen so the
+  /// full catalogue (not a hardcoded handful) is always offered.
+  static const List<String> pickerNames = [
+    'Basketball',
+    'Soccer',
+    'Football',
+    'Baseball',
+    'Softball',
+    'Tennis',
+    'Pickleball',
+    'Volleyball',
+    'Swimming',
+    'Diving',
+    'Water Polo',
+    'Track & Field',
+    'Cross Country',
+    'Gymnastics',
+    'Wrestling',
+    'Boxing',
+    'Martial Arts',
+    'MMA',
+    'Karate',
+    'Judo',
+    'Taekwondo',
+    'Fencing',
+    'Ice Hockey',
+    'Figure Skating',
+    'Skiing',
+    'Snowboarding',
+    'Golf',
+    'Lacrosse',
+    'Cricket',
+    'Cheerleading',
+    'Dance',
+    'Cycling',
+    'Climbing',
+    'Rowing',
+    'Badminton',
+    'Squash',
+    'Surfing',
+  ];
+
   static String _key(String? sport) => (sport ?? '').toLowerCase().trim();
 
   /// The full sport color (glyph / text / 3px bar / in-context action only).
@@ -74,8 +117,9 @@ class SportColors {
 
   /// Legible text/glyph color to place ON a sport-color fill — a dark shade for
   /// light sports, near-white for the few dark ones (boxing, baseball, etc.).
-  static Color onColorOf(String? sport) =>
-      of(sport).computeLuminance() < 0.45 ? const Color(0xFFF3F6F8) : const Color(0xFF0B0F14);
+  static Color onColorOf(String? sport) => of(sport).computeLuminance() < 0.45
+      ? const Color(0xFFF3F6F8)
+      : const Color(0xFF0B0F14);
 
   /// Low-opacity tint for sport tags (~20%).
   static Color tintOf(String? sport) => of(sport).withValues(alpha: 0.20);
