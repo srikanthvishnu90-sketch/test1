@@ -534,6 +534,63 @@ class SupabaseRepository implements AppRepository {
     }
   }
 
+  // ── AI discovery (search-parse / search-execute) ────────────────────────────
+  @override
+  Future<Map<String, dynamic>> searchParse(
+    String query, {
+    Map<String, dynamic>? locationHint,
+  }) async {
+    try {
+      final res = await _db.functions.invoke(
+        'search-parse',
+        body: {
+          'query': query,
+          'parentLocationHint': ?locationHint,
+        },
+      );
+      return Map<String, dynamic>.from((res.data as Map?) ?? {});
+    } on FunctionException catch (e) {
+      debugPrint('searchParse FunctionException: ${e.status}');
+      final det = e.details;
+      if (det is Map && det['error'] != null) {
+        return {'error': det['error'].toString()};
+      }
+      return {
+        'error': 'Could not understand that search (status ${e.status}).',
+      };
+    } catch (e) {
+      debugPrint('searchParse failed: $e');
+      return {'error': 'Could not run that search. Please try again.'};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> searchExecute(
+    Map<String, dynamic> constraints, {
+    Map<String, dynamic>? locationHint,
+  }) async {
+    try {
+      final res = await _db.functions.invoke(
+        'search-execute',
+        body: {
+          'constraints': constraints,
+          'parentLocationHint': ?locationHint,
+        },
+      );
+      return Map<String, dynamic>.from((res.data as Map?) ?? {});
+    } on FunctionException catch (e) {
+      debugPrint('searchExecute FunctionException: ${e.status}');
+      final det = e.details;
+      if (det is Map && det['error'] != null) {
+        return {'error': det['error'].toString()};
+      }
+      return {'error': 'Could not run that search (status ${e.status}).'};
+    } catch (e) {
+      debugPrint('searchExecute failed: $e');
+      return {'error': 'Could not run that search. Please try again.'};
+    }
+  }
+
   @override
   Future<Map<String, dynamic>> draftMessage(
     Map<String, dynamic> payload,

@@ -144,6 +144,27 @@ abstract class SessionUpdateRepository {
   Future<List<Map<String, dynamic>>> getParentUpdatesForChild(String childId);
 }
 
+/// AI discovery (Stage 3). Both methods call Edge Functions that route model
+/// access through ai-gateway — the client never embeds or ranks anything.
+abstract class SearchRepository {
+  /// NL query -> editable structured constraints. Returns
+  /// `{sport, athlete_age, metro, max_price, radius_miles, soft_attributes[]}`
+  /// (any field may be null) or `{error}`. The parse-to-chips step.
+  Future<Map<String, dynamic>> searchParse(
+    String query, {
+    Map<String, dynamic>? locationHint,
+  });
+
+  /// Runs discovery for [constraints]. Returns one of:
+  ///   `{gated:true, reason, metro}`     -> market not ready; show browse grid
+  ///   `{gated:false, results:[...], relax:{...}|null}`
+  ///   `{error}`
+  Future<Map<String, dynamic>> searchExecute(
+    Map<String, dynamic> constraints, {
+    Map<String, dynamic>? locationHint,
+  });
+}
+
 /// Facade aggregating every domain repository. Controllers depend on this one
 /// type; `lib/main.dart` injects a single concrete instance.
 /// Automated lifecycle messaging (P4/P6): per-coach delivery prefs + the coach's
@@ -180,4 +201,5 @@ abstract class AppRepository
         NotificationRepository,
         SessionUpdateRepository,
         LifecycleRepository,
+        SearchRepository,
         AuthRepository {}

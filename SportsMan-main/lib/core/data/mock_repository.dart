@@ -140,6 +140,107 @@ class MockRepository implements AppRepository {
     };
   }
 
+  // ── AI discovery (demo: local heuristic parse + filter, no network/model) ───
+  @override
+  Future<Map<String, dynamic>> searchParse(
+    String query, {
+    Map<String, dynamic>? locationHint,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    final q = query.toLowerCase();
+
+    // sport: first known sport mentioned.
+    const sports = [
+      'soccer',
+      'basketball',
+      'tennis',
+      'football',
+      'swimming',
+      'baseball',
+      'volleyball',
+      'golf',
+      'martial arts',
+    ];
+    String? sport;
+    for (final s in sports) {
+      if (q.contains(s)) {
+        sport = s;
+        break;
+      }
+    }
+
+    // max_price: "under $80" / "$80" / "80 dollars".
+    num? maxPrice;
+    final priceMatch = RegExp(r'\$?\s*(\d{2,4})').firstMatch(q);
+    if (q.contains('under') || q.contains('\$') || q.contains('budget')) {
+      if (priceMatch != null) maxPrice = num.tryParse(priceMatch.group(1)!);
+    }
+
+    // athlete_age: "12 year old" / "12yo".
+    int? age;
+    final ageMatch = RegExp(r'(\d{1,2})\s*(?:yo|year)').firstMatch(q);
+    if (ageMatch != null) age = int.tryParse(ageMatch.group(1)!);
+
+    // soft attributes: subjective hints.
+    final soft = <String>[];
+    if (q.contains('beginner')) soft.add('beginner-friendly');
+    if (q.contains('patient')) soft.add('patient');
+    if (q.contains('competitive') || q.contains('elite')) {
+      soft.add('competitive');
+    }
+
+    return {
+      'sport': sport,
+      'athlete_age': age,
+      'metro': null,
+      'max_price': maxPrice,
+      'radius_miles': null,
+      'soft_attributes': soft,
+    };
+  }
+
+  @override
+  Future<Map<String, dynamic>> searchExecute(
+    Map<String, dynamic> constraints, {
+    Map<String, dynamic>? locationHint,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 400));
+    final sport = (constraints['sport'] as String?)?.toLowerCase();
+    final maxPrice = constraints['max_price'] as num?;
+
+    final matched = MockData.programs
+        .where((p) {
+          if (p is! Map) return false;
+          if (sport != null &&
+              !(p['sportType']?.toString().toLowerCase().contains(sport) ??
+                  false)) {
+            return false;
+          }
+          if (maxPrice != null &&
+              (p['price'] is num) &&
+              p['price'] > maxPrice) {
+            return false;
+          }
+          return true;
+        })
+        .map((p) {
+          final gallery = p['gallery'];
+          return {
+            'program_id': p['_id'],
+            'title': p['title'] ?? 'Program',
+            'specialty': p['sportType'] ?? '',
+            'price': p['price'] ?? 0,
+            'image': (gallery is List && gallery.isNotEmpty) ? gallery[0] : '',
+            'why': sport != null
+                ? 'Matches ${sport[0].toUpperCase()}${sport.substring(1)} in your search.'
+                : 'A strong match for what you described.',
+          };
+        })
+        .toList();
+
+    return {'gated': false, 'results': matched, 'relax': null};
+  }
+
   @override
   Future<String?> upsertParentUpdateDraft(Map<String, dynamic> update) async =>
       (update['id'] as String?) ??
