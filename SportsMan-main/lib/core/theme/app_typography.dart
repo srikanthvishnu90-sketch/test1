@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-/// Sporve type system — **serif headers (Fraunces) + sans body (Manrope)**.
-/// Headers/display/titles (≥18px) render in Fraunces for editorial warmth;
-/// body, labels, and numbers use Manrope. Manrope ships a real weight ramp
-/// (300/400/500/600/700/800, see pubspec) so hierarchy comes from weight + size
-/// + the gray ramp — not from a single weight. Fraunces is loaded via
-/// google_fonts.
+/// Sporve type system — **one clean grotesque sans, Kalshi register**.
+/// Headers/display/titles (≥18px) render in **Geist** (variable, weight via
+/// fontVariations); body, labels, and numbers use **Manrope** (300–800 ramp).
+/// Hierarchy comes from weight + size + tight tracking + the gray ramp — no
+/// serif, no shadows, no bubbly headers.
 class AppTypography {
   static const String fontFamily = 'Manrope';
 
@@ -16,51 +14,68 @@ class AppTypography {
     required double tracking,
     double height = 1.3,
     Color? color,
-  }) =>
-      TextStyle(
-        fontFamily: fontFamily,
-        fontSize: size,
-        fontWeight: weight,
-        fontVariations: [FontVariation('wght', weight.value.toDouble())],
-        letterSpacing: tracking,
-        height: height,
-        color: color,
-      );
+  }) => TextStyle(
+    fontFamily: fontFamily,
+    fontSize: size,
+    fontWeight: weight,
+    fontVariations: [FontVariation('wght', weight.value.toDouble())],
+    letterSpacing: tracking,
+    height: height,
+    color: color,
+  );
 
-  // HEADERS use Fraunces (a serif) — family only; sizes/weights/tracking match
-  // the scale they replaced. Body / labels / numbers stay Geist (sans).
+  // HEADERS use Geist (a clean grotesque sans) — the Kalshi register: one
+  // minimalist sans, hierarchy from weight + tight tracking, no serif. Weight is
+  // applied via fontVariations (Geist.ttf is a variable font).
   static TextStyle _serifHeader({
     required double size,
     required FontWeight weight,
     required double tracking,
     double height = 1.3,
     Color? color,
-  }) =>
-      GoogleFonts.fraunces(
-        fontSize: size,
-        fontWeight: weight,
-        letterSpacing: tracking,
-        height: height,
-        color: color,
-      );
+  }) => TextStyle(
+    fontFamily: 'Geist',
+    fontSize: size,
+    fontWeight: weight,
+    fontVariations: [FontVariation('wght', weight.value.toDouble())],
+    letterSpacing: tracking,
+    height: height,
+    color: color,
+  );
 
-  // ── Display & headlines (serif: Fraunces) ────────────────────────────────
+  // ── Display & headlines (Geist, grotesque sans) ──────────────────────────
   /// Splash / brand-scale numbers.
-  static TextStyle get displayLarge =>
-      _serifHeader(size: 30, weight: FontWeight.w600, tracking: -0.6, height: 1.05);
+  static TextStyle get displayLarge => _serifHeader(
+    size: 30,
+    weight: FontWeight.w600,
+    tracking: -0.6,
+    height: 1.05,
+  );
 
   /// Big screen headers / auth hero.
-  static TextStyle get display =>
-      _serifHeader(size: 26, weight: FontWeight.w600, tracking: -0.5, height: 1.1);
+  static TextStyle get display => _serifHeader(
+    size: 26,
+    weight: FontWeight.w600,
+    tracking: -0.5,
+    height: 1.1,
+  );
 
   /// Screen titles, the user's name on Home.
-  static TextStyle get h1 =>
-      _serifHeader(size: 22, weight: FontWeight.w600, tracking: -0.4, height: 1.15);
+  static TextStyle get h1 => _serifHeader(
+    size: 22,
+    weight: FontWeight.w600,
+    tracking: -0.4,
+    height: 1.15,
+  );
   static TextStyle get heading => h1; // backwards-compatible alias
 
   /// Card titles / section headers that need weight.
-  static TextStyle get h2 =>
-      _serifHeader(size: 18, weight: FontWeight.w600, tracking: -0.3, height: 1.2);
+  static TextStyle get h2 => _serifHeader(
+    size: 18,
+    weight: FontWeight.w600,
+    tracking: -0.3,
+    height: 1.2,
+  );
 
   // ── Body: regular weight does the work ───────────────────────────────────
   /// List-item titles / emphasised body.
@@ -115,16 +130,20 @@ class AppTypography {
     double? size = fontSize;
     if (size != null && size > 28) size = 28; // clamp 32/36/40/48 → 28
     double? ls;
-    if (size != null && size >= 20 && (letterSpacing == null || letterSpacing >= 0)) {
+    if (size != null &&
+        size >= 20 &&
+        (letterSpacing == null || letterSpacing >= 0)) {
       ls = -0.4; // large text is always tightly tracked
     } else {
       ls = _track(letterSpacing); // collapse airy caps elsewhere
     }
-    // Headers (≥18px) render in the serif (Fraunces); body/labels stay Geist.
+    // Headers (≥18px) render in Geist (grotesque sans); body/labels too.
     if (size != null && size >= 18) {
-      return GoogleFonts.fraunces(
+      return TextStyle(
+        fontFamily: 'Geist',
         fontSize: size,
         fontWeight: w,
+        fontVariations: [FontVariation('wght', w.value.toDouble())],
         letterSpacing: ls,
         height: height,
         color: color,
@@ -171,14 +190,13 @@ class AppTypography {
     FontWeight weight = FontWeight.w500,
     Color? color,
     double height = 1.2,
-  }) =>
-      TextStyle(
-        fontFamily: fontFamily,
-        fontSize: size,
-        fontWeight: weight,
-        fontVariations: [FontVariation('wght', weight.value.toDouble())],
-        color: color,
-        height: height,
-        letterSpacing: 0,
-      );
+  }) => TextStyle(
+    fontFamily: fontFamily,
+    fontSize: size,
+    fontWeight: weight,
+    fontVariations: [FontVariation('wght', weight.value.toDouble())],
+    color: color,
+    height: height,
+    letterSpacing: 0,
+  );
 }
