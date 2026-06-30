@@ -745,3 +745,134 @@ class SporveSegmented extends StatelessWidget {
     );
   }
 }
+
+/// Consistent empty state — icon + title + optional message. Use whenever a list
+/// has genuinely no data (NOT for load failures — use [ErrorRetry] for those).
+class EmptyState extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String? message;
+  final EdgeInsetsGeometry padding;
+  const EmptyState({
+    super.key,
+    this.icon = Icons.inbox_outlined,
+    required this.title,
+    this.message,
+    this.padding = const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: padding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 36, color: AppColors.textTertiary),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            if (message != null) ...[
+              const SizedBox(height: 6),
+              Text(
+                message!,
+                textAlign: TextAlign.center,
+                style: AppTypography.font(
+                  color: AppColors.textTertiary,
+                  fontSize: 12,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A load-FAILURE state with a Try-again action — so a network/server error
+/// reads as "couldn't load" with a retry, never as a misleading empty list.
+class ErrorRetry extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+  final EdgeInsetsGeometry padding;
+  const ErrorRetry({
+    super.key,
+    this.message =
+        "We couldn't load this. Check your connection and try again.",
+    required this.onRetry,
+    this.padding = const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: padding,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.cloud_off_outlined,
+              size: 36,
+              color: AppColors.textTertiary,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+                height: 1.4,
+              ),
+            ),
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: onRetry,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.slateTint,
+                  borderRadius: BorderRadius.circular(AppRadii.tile),
+                  border: Border.all(color: AppColors.slateBorder),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.refresh,
+                      size: 16,
+                      color: AppColors.slateText,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Try again',
+                      style: AppTypography.font(
+                        color: AppColors.slateText,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

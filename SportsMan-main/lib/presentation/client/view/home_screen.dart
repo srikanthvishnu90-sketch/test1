@@ -39,135 +39,178 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Top Section with Padding
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ClipOval(
-                            child: SizedBox(
+            children: [
+              // Top Section with Padding
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ClipOval(
+                          child: SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: SporveImage(
+                              (homeProvider.userProfile != null &&
+                                      homeProvider
+                                              .userProfile!['profileImage'] !=
+                                          null)
+                                  ? homeProvider.userProfile!['profileImage']
+                                  : '',
                               width: 48,
                               height: 48,
-                              child: SporveImage(
-                                (homeProvider.userProfile != null && homeProvider.userProfile!['profileImage'] != null)
-                                    ? homeProvider.userProfile!['profileImage']
-                                    : '',
-                                width: 48,
-                                height: 48,
-                                fit: BoxFit.cover,
-                                fallbackIcon: Icons.person,
-                              ),
+                              fit: BoxFit.cover,
+                              fallbackIcon: Icons.person,
                             ),
                           ),
-                          SporveIconButton(
-                            Icons.notifications_outlined,
-                            onTap: () => Get.toNamed(AppRoutes.notificationSettings),
-                            iconSize: 22,
+                        ),
+                        SporveIconButton(
+                          Icons.notifications_outlined,
+                          onTap: () =>
+                              Get.toNamed(AppRoutes.notificationSettings),
+                          iconSize: 22,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Hello!',
+                      style: AppTypography.font(
+                        color: AppColors.textGrey,
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      (homeProvider.userProfile != null)
+                          ? '${homeProvider.userProfile!['firstName']} ${homeProvider.userProfile!['lastName']}'
+                          : 'Athlete',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTypography.font(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.8,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    CustomSearchField(
+                      onTap: () => Get.toNamed(AppRoutes.search),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Horizontal Categories (Full Width Scroll)
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  children: categories
+                      .map(
+                        (cat) => Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: CategoryChip(
+                            label: cat,
+                            isSelected: homeProvider.selectedCategory == cat,
+                            onTap: () => homeProvider.setCategory(cat),
                           ),
-                        ],
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+
+              // Middle Banner & Cards with Padding
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildBanner(),
+                    const SizedBox(height: 32),
+                    if (_nextUpcomingBooking(homeProvider.bookings) !=
+                        null) ...[
+                      _buildComingUpCard(
+                        _nextUpcomingBooking(homeProvider.bookings)!,
+                        homeProvider.programs,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 32),
+                    ],
+                    if (homeProvider.bookings.isNotEmpty) ...[
+                      _buildBookAgainCard(homeProvider),
+                      const SizedBox(height: 24),
+                    ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: _buildStatCard(
+                            '${homeProvider.stats['sessions']}',
+                            'SESSIONS',
+                            Icons.calendar_today,
+                            AppColors.slateText,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStatCard(
+                            '${homeProvider.stats['upcoming']}',
+                            'UPCOMING',
+                            Icons.schedule,
+                            AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildStatCard(
+                            '${homeProvider.stats['saved']}',
+                            'SAVED',
+                            Icons.favorite,
+                            AppColors.slateText,
+                          ),
+                        ),
+                      ],
+                    ),
+                    // "Near You" rail only when there are programs to show.
+                    if (homeProvider.programs.isNotEmpty) ...[
+                      const SizedBox(height: 32),
                       Text(
-                        'Hello!',
-                        style: AppTypography.font(color: AppColors.textGrey, fontSize: 14),
-                      ),
-                      Text(
-                        (homeProvider.userProfile != null)
-                            ? '${homeProvider.userProfile!['firstName']} ${homeProvider.userProfile!['lastName']}'
-                            : 'Athlete',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                        'NEAR YOU',
                         style: AppTypography.font(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.8,
-                          color: AppColors.textPrimary,
+                          color: AppColors.textGrey,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
                         ),
                       ),
-                      const SizedBox(height: 24),
-                      CustomSearchField(
-                        onTap: () => Get.toNamed(AppRoutes.search),
-                      ),
                     ],
-                  ),
+                  ],
                 ),
+              ),
 
-                // Horizontal Categories (Full Width Scroll)
+              // Horizontal Near You Cards (Full Width Scroll) — hidden when empty.
+              if (homeProvider.programs.isNotEmpty)
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
-                    children: categories.map((cat) => Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: CategoryChip(
-                        label: cat, 
-                        isSelected: homeProvider.selectedCategory == cat, 
-                        onTap: () => homeProvider.setCategory(cat)
-                      ),
-                    )).toList(),
-                  ),
-                ),
-
-                // Middle Banner & Cards with Padding
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildBanner(),
-                      const SizedBox(height: 32),
-                      if (_nextUpcomingBooking(homeProvider.bookings) != null) ...[
-                        _buildComingUpCard(_nextUpcomingBooking(homeProvider.bookings)!, homeProvider.programs),
-                        const SizedBox(height: 32),
-                      ],
-                      if (homeProvider.bookings.isNotEmpty) ...[
-                        _buildBookAgainCard(homeProvider),
-                        const SizedBox(height: 24),
-                      ],
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: _buildStatCard('${homeProvider.stats['sessions']}', 'SESSIONS', Icons.calendar_today, AppColors.slateText)),
-                          const SizedBox(width: 12),
-                          Expanded(child: _buildStatCard('${homeProvider.stats['upcoming']}', 'UPCOMING', Icons.schedule, AppColors.textPrimary)),
-                          const SizedBox(width: 12),
-                          Expanded(child: _buildStatCard('${homeProvider.stats['saved']}', 'SAVED', Icons.favorite, AppColors.slateText)),
-                        ],
-                      ),
-                      // "Near You" rail only when there are programs to show.
-                      if (homeProvider.programs.isNotEmpty) ...[
-                        const SizedBox(height: 32),
-                        Text(
-                          'NEAR YOU',
-                          style: AppTypography.font(color: AppColors.textGrey, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-
-                // Horizontal Near You Cards (Full Width Scroll) — hidden when empty.
-                if (homeProvider.programs.isNotEmpty)
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      children: homeProvider.programs.take(3).map((program) {
+                    children: homeProvider.programs.take(3).map((program) {
                       final gallery = program['gallery'];
-                      final image = (gallery != null && (gallery as List).isNotEmpty)
+                      final image =
+                          (gallery != null && (gallery as List).isNotEmpty)
                           ? gallery[0].toString()
                           : '';
-                      
+
                       final opp = Opportunity(
                         id: 0,
                         programId: program['_id']?.toString(),
                         title: program['title'] ?? 'Program',
-                        coach: program['providerId']?['businessName'] ?? 'Academy',
+                        coach:
+                            program['providerId']?['businessName'] ?? 'Academy',
                         price: '\$${program['price'] ?? 0}',
                         rating: program['averageRating']?.toString() ?? '5.0',
                         image: image,
@@ -175,7 +218,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         isVerified: true,
                         bookingTrend: 'Trending now',
                         top: 0,
-                        team: program['providerId']?['businessName'] ?? 'Academy',
+                        team:
+                            program['providerId']?['businessName'] ?? 'Academy',
                         rawData: program,
                       );
 
@@ -186,102 +230,120 @@ class _HomeScreenState extends State<HomeScreen> {
                         rating: opp.rating,
                         image: opp.image,
                         sport: program['sportType']?.toString(),
-                        onTap: () => Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
+                        onTap: () => Get.toNamed(
+                          AppRoutes.sessionDetails,
+                          arguments: opp,
+                        ),
                       );
                     }).toList(),
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${homeProvider.programs.length} Programs Available',
-                            style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 18),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${homeProvider.programs.length} Programs Available',
+                          style: AppTypography.font(
+                            color: AppColors.textPrimary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
-                          Row(
-                            children: [
-                              const Icon(Icons.location_on_outlined, color: AppColors.textGrey, size: 16),
-                              const SizedBox(width: 4),
-                              Text(
-                                'Map',
-                                style: AppTypography.font(color: AppColors.textGrey, fontSize: 14),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      if (homeProvider.isLoadingPrograms)
-                        const Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 24.0),
-                            child: CircularProgressIndicator(color: AppColors.slateText),
-                          ),
-                        )
-                      else if (homeProvider.programs.isEmpty)
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 32.0),
-                            child: Column(
-                              children: [
-                                const Icon(Icons.sports_soccer_outlined, color: AppColors.textGrey, size: 48),
-                                const SizedBox(height: 12),
-                                Text(
-                                  'No programs near you yet.',
-                                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
-                                ),
-                              ],
+                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on_outlined,
+                              color: AppColors.textGrey,
+                              size: 16,
                             ),
+                            const SizedBox(width: 4),
+                            Text(
+                              'Map',
+                              style: AppTypography.font(
+                                color: AppColors.textGrey,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    if (homeProvider.isLoadingPrograms)
+                      const Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 24.0),
+                          child: CircularProgressIndicator(
+                            color: AppColors.slateText,
                           ),
-                        )
-                      else
-                        ...homeProvider.programs.map((program) {
-                          final gallery = program['gallery'];
-                          final image = (gallery != null && (gallery as List).isNotEmpty)
-                              ? gallery[0].toString()
-                              : '';
-                          
-                          final opp = Opportunity(
-                            id: 0,
-                            programId: program['_id']?.toString(),
-                            title: program['title'] ?? 'Program',
-                            coach: program['providerId']?['businessName'] ?? 'Academy',
-                            price: '\$${program['price'] ?? 0}',
-                            rating: program['averageRating']?.toString() ?? '0.0',
-                            image: image,
-                            spotsLeft: 'AVAILABLE',
-                            isVerified: true,
-                            bookingTrend: 'Trending now',
-                            top: 0,
-                            team: program['providerId']?['businessName'] ?? 'Academy',
-                            rawData: program,
-                          );
+                        ),
+                      )
+                    else if (homeProvider.programsError)
+                      ErrorRetry(onRetry: () => homeProvider.fetchPrograms())
+                    else if (homeProvider.programs.isEmpty)
+                      const EmptyState(
+                        icon: Icons.sports_soccer_outlined,
+                        title: 'No programs near you yet.',
+                        message:
+                            'Check back soon, or try widening your search.',
+                      )
+                    else
+                      ...homeProvider.programs.map((program) {
+                        final gallery = program['gallery'];
+                        final image =
+                            (gallery != null && (gallery as List).isNotEmpty)
+                            ? gallery[0].toString()
+                            : '';
 
-                          return ProgramListItem(
-                            title: opp.title,
-                            subtitle: program['sportType']?.toString() ?? 'General',
-                            price: opp.price,
-                            rating: opp.rating,
-                            schedule: program['sportType'] ?? 'General',
-                            image: opp.image,
-                            sport: program['sportType']?.toString(),
-                            onTap: () => Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
-                          );
-                        }),
-                    ],
-                  ),
+                        final opp = Opportunity(
+                          id: 0,
+                          programId: program['_id']?.toString(),
+                          title: program['title'] ?? 'Program',
+                          coach:
+                              program['providerId']?['businessName'] ??
+                              'Academy',
+                          price: '\$${program['price'] ?? 0}',
+                          rating: program['averageRating']?.toString() ?? '0.0',
+                          image: image,
+                          spotsLeft: 'AVAILABLE',
+                          isVerified: true,
+                          bookingTrend: 'Trending now',
+                          top: 0,
+                          team:
+                              program['providerId']?['businessName'] ??
+                              'Academy',
+                          rawData: program,
+                        );
+
+                        return ProgramListItem(
+                          title: opp.title,
+                          subtitle:
+                              program['sportType']?.toString() ?? 'General',
+                          price: opp.price,
+                          rating: opp.rating,
+                          schedule: program['sportType'] ?? 'General',
+                          image: opp.image,
+                          sport: program['sportType']?.toString(),
+                          onTap: () => Get.toNamed(
+                            AppRoutes.sessionDetails,
+                            arguments: opp,
+                          ),
+                        );
+                      }),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   Widget _buildBanner() {
@@ -301,7 +363,11 @@ class _HomeScreenState extends State<HomeScreen> {
               'assets/images/marketeq_goal.png',
               width: 32,
               height: 32,
-              errorBuilder: (context, error, stackTrace) => const Icon(Icons.gps_fixed, color: AppColors.slateText, size: 28),
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                Icons.gps_fixed,
+                color: AppColors.slateText,
+                size: 28,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -310,11 +376,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     'Find a session near you.',
-                    style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                   Text(
                     'PERSONALIZED FOR YOU',
-                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, letterSpacing: 1),
+                    style: AppTypography.font(
+                      color: AppColors.textSecondary,
+                      fontSize: 11,
+                      letterSpacing: 1,
+                    ),
                   ),
                 ],
               ),
@@ -329,10 +403,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   static const List<String> _weekdayNames = [
-    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
   ];
   static const List<String> _monthShort = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   /// The soonest booking whose session starts today or later (not the most
@@ -369,7 +460,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildComingUpCard(dynamic nextBooking, List programs) {
-    final session = nextBooking['sessionId'] is Map ? nextBooking['sessionId'] : null;
+    final session = nextBooking['sessionId'] is Map
+        ? nextBooking['sessionId']
+        : null;
 
     // programId may be a full object OR just an id string (mock data is inconsistent).
     // Resolve the full program from the loaded list so we get sport + provider,
@@ -447,7 +540,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Text(
                             '${_relativeDay(startTime)}, ${formatTime12h(startTime)}',
-                            style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                            style: AppTypography.font(
+                              color: AppColors.textSecondary,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -461,18 +558,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  program?['title']?.toString() ?? 'Training Session',
+                                  program?['title']?.toString() ??
+                                      'Training Session',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: AppTypography.font(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
+                                  style: AppTypography.font(
+                                    color: AppColors.textPrimary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                                 Text(
                                   (program?['providerId'] is Map)
-                                      ? (program!['providerId']['businessName']?.toString() ?? 'Academy')
+                                      ? (program!['providerId']['businessName']
+                                                ?.toString() ??
+                                            'Academy')
                                       : 'Elite Academy',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 12),
+                                  style: AppTypography.font(
+                                    color: AppColors.textSecondary,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ],
                             ),
@@ -500,7 +607,8 @@ class _HomeScreenState extends State<HomeScreen> {
     for (final b in homeProvider.bookings) {
       if (b is! Map) continue;
       final ts = DateTime.tryParse(b['createdAt']?.toString() ?? '');
-      if (last == null || (ts != null && (lastTs == null || ts.isAfter(lastTs)))) {
+      if (last == null ||
+          (ts != null && (lastTs == null || ts.isAfter(lastTs)))) {
         last = Map<String, dynamic>.from(b);
         lastTs = ts;
       }
@@ -534,7 +642,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ? (program['providerId']['businessName']?.toString() ?? 'Academy')
         : 'Academy';
     final gallery = program['gallery'];
-    final image = (gallery is List && gallery.isNotEmpty) ? gallery[0].toString() : '';
+    final image = (gallery is List && gallery.isNotEmpty)
+        ? gallery[0].toString()
+        : '';
 
     final opp = Opportunity(
       id: 0,
@@ -562,32 +672,46 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: [
-          SporveImage(image,
-              width: 60,
-              height: 60,
-              fit: BoxFit.cover,
-              radius: AppRadii.tile,
-              fallbackIcon: Icons.sports),
+          SporveImage(
+            image,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+            radius: AppRadii.tile,
+            fallbackIcon: Icons.sports,
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Book again: $title',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.font(fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.textPrimary)),
-                Text('$sport • $coach',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11)),
+                Text(
+                  'Book again: $title',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.font(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                Text(
+                  '$sport • $coach',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTypography.font(
+                    color: AppColors.textSecondary,
+                    fontSize: 11,
+                  ),
+                ),
               ],
             ),
           ),
           const SizedBox(width: 8),
           SporveButton(
             'Rebook',
-            onPressed: () => Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
+            onPressed: () =>
+                Get.toNamed(AppRoutes.sessionDetails, arguments: opp),
             variant: SporveButtonVariant.primary,
             size: SporveButtonSize.compact,
             fullWidth: false,
@@ -598,7 +722,12 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildStatCard(String value, String label, IconData icon, Color color) {
+  Widget _buildStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -613,11 +742,24 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Icon(icon, color: color, size: 16),
           ),
           const SizedBox(height: 12),
-          Text(value, style: AppTypography.font(color: AppColors.textPrimary, fontSize: 22, fontWeight: FontWeight.bold)),
-          Text(label, style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold)),
+          Text(
+            value,
+            style: AppTypography.font(
+              color: AppColors.textPrimary,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Text(
+            label,
+            style: AppTypography.font(
+              color: AppColors.textSecondary,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
   }
 }
-

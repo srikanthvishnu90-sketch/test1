@@ -14,6 +14,12 @@ library;
 /// Programs & their sessions (provider listings + scheduled sessions).
 abstract class ProgramRepository {
   Future<List<dynamic>> getPrograms();
+
+  /// Like [getPrograms] but RETHROWS on failure (network/server) instead of
+  /// swallowing to an empty list — so the UI can show "couldn't load, retry"
+  /// rather than a misleading empty state.
+  Future<List<dynamic>> getProgramsOrThrow();
+
   Future<void> savePrograms(List<dynamic> programs);
   Future<List<dynamic>> getSessions();
   Future<void> saveSessions(List<dynamic> sessions);

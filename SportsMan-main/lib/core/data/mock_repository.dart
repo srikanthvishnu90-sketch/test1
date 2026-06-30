@@ -14,6 +14,8 @@ class MockRepository implements AppRepository {
   @override
   Future<List<dynamic>> getPrograms() => Future.value(MockData.programs);
   @override
+  Future<List<dynamic>> getProgramsOrThrow() => Future.value(MockData.programs);
+  @override
   Future<void> savePrograms(List<dynamic> programs) async =>
       MockData.programs = programs;
   @override

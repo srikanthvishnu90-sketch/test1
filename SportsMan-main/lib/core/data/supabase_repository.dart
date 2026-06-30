@@ -204,18 +204,25 @@ class SupabaseRepository implements AppRepository {
   };
 
   // ── Programs & sessions ───────────────────────────────────────────────────
+  Future<List<dynamic>> _fetchPrograms() async {
+    final rows = await _db
+        .from('programs')
+        .select('*, providers(business_name, verification_status)');
+    return (rows as List).map((r) => _mapProgram(r as Map)).toList();
+  }
+
   @override
   Future<List<dynamic>> getPrograms() async {
     try {
-      final rows = await _db
-          .from('programs')
-          .select('*, providers(business_name, verification_status)');
-      return (rows as List).map((r) => _mapProgram(r as Map)).toList();
+      return await _fetchPrograms();
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
+
+  @override
+  Future<List<dynamic>> getProgramsOrThrow() => _fetchPrograms();
 
   @override
   Future<List<dynamic>> getSessions() async {

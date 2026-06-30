@@ -14,11 +14,7 @@ class HomeProvider with ChangeNotifier {
   bool get isLoadingProfile => _isLoadingProfile;
 
   // Stats State — all derived from real data (see _calculateStats).
-  Map<String, dynamic> _stats = {
-    'sessions': 0,
-    'upcoming': 0,
-    'saved': 0,
-  };
+  Map<String, dynamic> _stats = {'sessions': 0, 'upcoming': 0, 'saved': 0};
   Map<String, dynamic> get stats => _stats;
 
   // Programs State
@@ -26,6 +22,9 @@ class HomeProvider with ChangeNotifier {
   List<dynamic> get programs => _programs;
   bool _isLoadingPrograms = false;
   bool get isLoadingPrograms => _isLoadingPrograms;
+  bool _programsError = false;
+  bool get programsError =>
+      _programsError; // true = the last load FAILED (not empty)
 
   // Bookings State
   List<dynamic> _bookings = [];
@@ -109,9 +108,9 @@ class HomeProvider with ChangeNotifier {
 
   void _calculateStats() {
     _stats = {
-      'sessions': _bookings.length,   // total bookings made
-      'upcoming': _upcomingCount,     // bookings still in the future
-      'saved': _favoriteIds.length,   // favorited programs
+      'sessions': _bookings.length, // total bookings made
+      'upcoming': _upcomingCount, // bookings still in the future
+      'saved': _favoriteIds.length, // favorited programs
     };
     notifyListeners();
   }
@@ -119,7 +118,9 @@ class HomeProvider with ChangeNotifier {
   Future<void> fetchUserProfile() async {
     _isLoadingProfile = true;
     notifyListeners();
-    await Future.delayed(const Duration(milliseconds: 200)); // Simulate UI loading state
+    await Future.delayed(
+      const Duration(milliseconds: 200),
+    ); // Simulate UI loading state
     try {
       _userProfile = await _repo.getUserProfile();
     } catch (e) {
@@ -132,13 +133,17 @@ class HomeProvider with ChangeNotifier {
 
   Future<void> fetchPrograms() async {
     _isLoadingPrograms = true;
+    _programsError = false;
     notifyListeners();
     await Future.delayed(const Duration(milliseconds: 200));
 
     try {
-      _programs = await _repo.getPrograms();
+      _programs = await _repo.getProgramsOrThrow();
     } catch (e) {
+      // Real failure (network/server) — surface it so the UI offers a retry
+      // instead of rendering a misleading "no programs" empty state.
       debugPrint('Error fetching programs: $e');
+      _programsError = true;
     } finally {
       _isLoadingPrograms = false;
       notifyListeners();
@@ -203,7 +208,9 @@ class HomeProvider with ChangeNotifier {
   }
 
   bool isFavorite(String? programId) =>
-      programId != null && programId.isNotEmpty && _favoriteIds.contains(programId);
+      programId != null &&
+      programId.isNotEmpty &&
+      _favoriteIds.contains(programId);
 
   Future<void> toggleFavorite(String? programId) async {
     if (programId == null || programId.isEmpty) return;
