@@ -57,6 +57,27 @@ class _SignupScreenState extends State<SignupScreen> {
       return;
     }
 
+    // Real validation: a properly-formed email and a password Supabase accepts.
+    final emailOk = RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$').hasMatch(email);
+    if (!emailOk) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a valid email address.'),
+          backgroundColor: AppColors.negative,
+        ),
+      );
+      return;
+    }
+    if (password.length < 8) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 8 characters.'),
+          backgroundColor: AppColors.negative,
+        ),
+      );
+      return;
+    }
+
     if (!_agreeToTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

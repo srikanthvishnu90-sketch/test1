@@ -42,6 +42,15 @@ class _ProviderLoginScreenState extends State<ProviderLoginScreen> {
       );
       return;
     }
+    if (!RegExp(r'^[\w.+-]+@[\w-]+\.[\w.-]+$').hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a valid email address.'),
+          backgroundColor: AppColors.negative,
+        ),
+      );
+      return;
+    }
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final result = await authProvider.signIn(email, password);
@@ -60,7 +69,9 @@ class _ProviderLoginScreenState extends State<ProviderLoginScreen> {
       case AuthStatus.emailConfirmationRequired:
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Please confirm your email from the link we sent, then log in.'),
+            content: Text(
+              'Please confirm your email from the link we sent, then log in.',
+            ),
             backgroundColor: AppColors.negative,
           ),
         );
@@ -131,7 +142,9 @@ class _ProviderLoginScreenState extends State<ProviderLoginScreen> {
               padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
               decoration: BoxDecoration(
                 color: AppColors.surface,
-                border: const Border(top: BorderSide(color: AppColors.hairline)),
+                border: const Border(
+                  top: BorderSide(color: AppColors.hairline),
+                ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(AppRadii.card),
                   topRight: Radius.circular(AppRadii.card),
@@ -142,7 +155,7 @@ class _ProviderLoginScreenState extends State<ProviderLoginScreen> {
                 children: [
                   _buildTextField(
                     controller: _emailController,
-                    label: 'BUSINESS EMAIL',
+                    label: 'EMAIL ADDRESS',
                     hint: 'provider@example.com',
                     keyboardType: TextInputType.emailAddress,
                   ),
@@ -186,7 +199,9 @@ class _ProviderLoginScreenState extends State<ProviderLoginScreen> {
                     children: [
                       Text(
                         'Want to join as a provider? ',
-                        style: AppTypography.font(color: AppColors.textSecondary),
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () => Get.toNamed(AppRoutes.onboarding),
@@ -240,7 +255,10 @@ class _ProviderLoginScreenState extends State<ProviderLoginScreen> {
           cursorColor: AppColors.slateText,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 15),
+            hintStyle: AppTypography.font(
+              color: AppColors.textTertiary,
+              fontSize: 15,
+            ),
             filled: true,
             fillColor: AppColors.surface2,
             border: OutlineInputBorder(
@@ -253,13 +271,21 @@ class _ProviderLoginScreenState extends State<ProviderLoginScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadii.tile),
-              borderSide: const BorderSide(color: AppColors.slateBorder, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.slateBorder,
+                width: 1.5,
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 18,
+            ),
             suffixIcon: isPassword
                 ? IconButton(
                     icon: Icon(
-                      obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                      obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
                       color: AppColors.textTertiary,
                       size: 20,
                     ),
