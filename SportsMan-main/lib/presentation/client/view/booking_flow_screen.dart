@@ -841,7 +841,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                             color: isPast
                                 ? AppColors.textTertiary
                                 : (isSelected
-                                      ? AppColors.onSlate
+                                      ? SportColors.onColorOf(_sport)
                                       : AppColors.textPrimary),
                             fontSize: 14,
                             fontWeight: isSelected
@@ -902,8 +902,10 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                         child: Text(
                           slot,
                           style: AppTypography.font(
+                            // Contrast-correct on any sport color (white on dark
+                            // sports, near-black on yellow/lime).
                             color: isSelected
-                                ? AppColors.onSlate
+                                ? SportColors.onColorOf(_sport)
                                 : AppColors.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
