@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../core/utils/image_validation.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../../core/theme/sport_colors.dart';
@@ -26,7 +27,15 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
   final TextEditingController _businessNameController = TextEditingController();
 
   // Selected Sports list
-  final List<String> _availableSports = ['Soccer', 'Basketball', 'Tennis', 'Football', 'Swimming', 'Martial Arts', 'Baseball'];
+  final List<String> _availableSports = [
+    'Soccer',
+    'Basketball',
+    'Tennis',
+    'Football',
+    'Swimming',
+    'Martial Arts',
+    'Baseball',
+  ];
   final List<String> _selectedSports = [];
 
   // NOTE: provider-level pricing (per session/hour/season) was REMOVED — pricing
@@ -165,280 +174,350 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
       body: SafeArea(
         child: _isFetching
             ? const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
+                child: CircularProgressIndicator(color: Colors.white),
               )
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(24.0),
                 child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // 1. Business Name Card
-                FadeInUp(
-                  duration: const Duration(milliseconds: 500),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(AppRadii.card),
-                      border: Border.all(color: AppColors.hairlineSoft, width: 1),
-                    ),
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'BUSINESS DETAILS',
-                          style: AppTypography.font(
-                            color: AppColors.textGrey,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 1. Business Name Card
+                      FadeInUp(
+                        duration: const Duration(milliseconds: 500),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.surface,
+                            borderRadius: BorderRadius.circular(AppRadii.card),
+                            border: Border.all(
+                              color: AppColors.hairlineSoft,
+                              width: 1,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        _buildTextField(
-                          controller: _businessNameController,
-                          label: 'Business / Academy Name',
-                          validator: (v) => v!.isEmpty ? 'Business name is required' : null,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // 2. Supported Sports Card
-                FadeInUp(
-                  duration: const Duration(milliseconds: 600),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(AppRadii.card),
-                      border: Border.all(color: AppColors.hairlineSoft, width: 1),
-                    ),
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'SUPPORTED SPORTS',
-                          style: AppTypography.font(
-                            color: AppColors.textGrey,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: _availableSports.map((sport) {
-                            final isSelected = _selectedSports.any((s) => s.toUpperCase() == sport.toUpperCase());
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (isSelected) {
-                                    _selectedSports.removeWhere((s) => s.toUpperCase() == sport.toUpperCase());
-                                  } else {
-                                    _selectedSports.add(sport);
-                                  }
-                                });
-                              },
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 200),
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                decoration: BoxDecoration(
-                                  color: isSelected ? AppColors.slateTint : AppColors.surface,
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
-                                  border: Border.all(
-                                    color: isSelected
-                                        ? AppColors.slateBorder
-                                        : AppColors.hairline,
-                                    width: 1,
-                                  ),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'BUSINESS DETAILS',
+                                style: AppTypography.font(
+                                  color: AppColors.textGrey,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.0,
                                 ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      SportColors.iconOf(sport),
-                                      size: 16,
-                                      color: isSelected ? AppColors.slateText : AppColors.textSecondary,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      sport,
-                                      style: AppTypography.font(
-                                        color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
-                                        fontSize: 13,
-                                        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                              ),
+                              const SizedBox(height: 16),
+                              _buildTextField(
+                                controller: _businessNameController,
+                                label: 'Business / Academy Name',
+                                validator: (v) => v!.isEmpty
+                                    ? 'Business name is required'
+                                    : null,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // 2. Supported Sports Card
+                      FadeInUp(
+                        duration: const Duration(milliseconds: 600),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.surface,
+                            borderRadius: BorderRadius.circular(AppRadii.card),
+                            border: Border.all(
+                              color: AppColors.hairlineSoft,
+                              width: 1,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'SUPPORTED SPORTS',
+                                style: AppTypography.font(
+                                  color: AppColors.textGrey,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: _availableSports.map((sport) {
+                                  final isSelected = _selectedSports.any(
+                                    (s) =>
+                                        s.toUpperCase() == sport.toUpperCase(),
+                                  );
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        if (isSelected) {
+                                          _selectedSports.removeWhere(
+                                            (s) =>
+                                                s.toUpperCase() ==
+                                                sport.toUpperCase(),
+                                          );
+                                        } else {
+                                          _selectedSports.add(sport);
+                                        }
+                                      });
+                                    },
+                                    child: AnimatedContainer(
+                                      duration: const Duration(
+                                        milliseconds: 200,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? AppColors.slateTint
+                                            : AppColors.surface,
+                                        borderRadius: BorderRadius.circular(
+                                          AppRadii.tile,
+                                        ),
+                                        border: Border.all(
+                                          color: isSelected
+                                              ? AppColors.slateBorder
+                                              : AppColors.hairline,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            SportColors.iconOf(sport),
+                                            size: 16,
+                                            color: isSelected
+                                                ? AppColors.slateText
+                                                : AppColors.textSecondary,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            sport,
+                                            style: AppTypography.font(
+                                              color: isSelected
+                                                  ? AppColors.textPrimary
+                                                  : AppColors.textSecondary,
+                                              fontSize: 13,
+                                              fontWeight: isSelected
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  );
+                                }).toList(),
                               ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // 4. Logo and Cover Photo Selection
-                FadeInUp(
-                  duration: const Duration(milliseconds: 800),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(AppRadii.card),
-                      border: Border.all(color: AppColors.hairlineSoft, width: 1),
-                    ),
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'MEDIA & BRANDING',
-                          style: AppTypography.font(
-                            color: AppColors.textGrey,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        // Logo Row
-                        Row(
-                          children: [
-                            Container(
-                              height: 64,
-                              width: 64,
-                              decoration: BoxDecoration(
-                                color: AppColors.surface2,
-                                borderRadius: BorderRadius.circular(AppRadii.tile),
-                                border: Border.all(color: AppColors.hairline),
-                              ),
-                              child: _localLogoPath != null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(AppRadii.tile),
-                                      child: Image.file(File(_localLogoPath!), fit: BoxFit.cover),
-                                    )
-                                  : (_logoUrl != null
-                                      ? SporveImage(
-                                          _logoUrl,
-                                          width: 64,
-                                          height: 64,
-                                          fit: BoxFit.cover,
-                                          radius: AppRadii.tile,
-                                          fallbackIcon: Icons.business,
-                                        )
-                                      : const Icon(Icons.business, color: AppColors.textSecondary)),
-                            ),
-                            const SizedBox(width: 16),
-                            SporveButton(
-                              'Change logo',
-                              onPressed: () async {
-                                final picker = ImagePicker();
-                                final image = await picker.pickImage(source: ImageSource.gallery);
-                                if (image != null) {
-                                  setState(() {
-                                    _localLogoPath = image.path;
-                                  });
-                                }
-                              },
-                              variant: SporveButtonVariant.secondary,
-                              onDark: true,
-                              size: SporveButtonSize.compact,
-                              fullWidth: false,
-                            ),
-                          ],
-                        ),
-                        const Divider(color: AppColors.hairline, height: 32),
-                        // Cover Photo Row
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'COVER PHOTO',
-                              style: AppTypography.font(
-                                color: AppColors.textTertiary,
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              height: 120,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: AppColors.surface2,
-                                borderRadius: BorderRadius.circular(AppRadii.tile),
-                                border: Border.all(color: AppColors.hairline),
-                              ),
-                              child: _localCoverPath != null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(AppRadii.tile),
-                                      child: Image.file(File(_localCoverPath!), fit: BoxFit.cover),
-                                    )
-                                  : (_coverUrl != null
-                                      ? SporveImage(
-                                          _coverUrl,
-                                          width: double.infinity,
-                                          height: 120,
-                                          fit: BoxFit.cover,
-                                          radius: AppRadii.tile,
-                                        )
-                                      : const Center(
-                                          child: Icon(Icons.image, color: AppColors.textSecondary),
-                                        )),
-                            ),
-                            const SizedBox(height: 12),
-                            SporveButton(
-                              'Change cover photo',
-                              onPressed: () async {
-                                final picker = ImagePicker();
-                                final image = await picker.pickImage(source: ImageSource.gallery);
-                                if (image != null) {
-                                  setState(() {
-                                    _localCoverPath = image.path;
-                                  });
-                                }
-                              },
-                              variant: SporveButtonVariant.secondary,
-                              onDark: true,
-                              size: SporveButtonSize.compact,
-                              fullWidth: false,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 32),
+                      ),
+                      const SizedBox(height: 20),
 
-                // Save button
-                FadeInUp(
-                  duration: const Duration(milliseconds: 900),
-                  child: SporveButton(
-                    'Save changes',
-                    onPressed: _isLoading ? null : _saveProfile,
-                    variant: SporveButtonVariant.primary,
-                    loading: _isLoading,
+                      // 4. Logo and Cover Photo Selection
+                      FadeInUp(
+                        duration: const Duration(milliseconds: 800),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.surface,
+                            borderRadius: BorderRadius.circular(AppRadii.card),
+                            border: Border.all(
+                              color: AppColors.hairlineSoft,
+                              width: 1,
+                            ),
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'MEDIA & BRANDING',
+                                style: AppTypography.font(
+                                  color: AppColors.textGrey,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              // Logo Row
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 64,
+                                    width: 64,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.surface2,
+                                      borderRadius: BorderRadius.circular(
+                                        AppRadii.tile,
+                                      ),
+                                      border: Border.all(
+                                        color: AppColors.hairline,
+                                      ),
+                                    ),
+                                    child: _localLogoPath != null
+                                        ? ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              AppRadii.tile,
+                                            ),
+                                            child: Image.file(
+                                              File(_localLogoPath!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                        : (_logoUrl != null
+                                              ? SporveImage(
+                                                  _logoUrl,
+                                                  width: 64,
+                                                  height: 64,
+                                                  fit: BoxFit.cover,
+                                                  radius: AppRadii.tile,
+                                                  fallbackIcon: Icons.business,
+                                                )
+                                              : const Icon(
+                                                  Icons.business,
+                                                  color:
+                                                      AppColors.textSecondary,
+                                                )),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  SporveButton(
+                                    'Change logo',
+                                    onPressed: () async {
+                                      final res = await pickValidatedImage(
+                                        ImagePicker(),
+                                      );
+                                      if (res.hasError) {
+                                        Get.snackbar(
+                                          'Image',
+                                          res.error!,
+                                          backgroundColor: AppColors.negative,
+                                          colorText: Colors.white,
+                                        );
+                                      } else if (res.hasImage) {
+                                        setState(() {
+                                          _localLogoPath = res.path!;
+                                        });
+                                      }
+                                    },
+                                    variant: SporveButtonVariant.secondary,
+                                    onDark: true,
+                                    size: SporveButtonSize.compact,
+                                    fullWidth: false,
+                                  ),
+                                ],
+                              ),
+                              const Divider(
+                                color: AppColors.hairline,
+                                height: 32,
+                              ),
+                              // Cover Photo Row
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'COVER PHOTO',
+                                    style: AppTypography.font(
+                                      color: AppColors.textTertiary,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    height: 120,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.surface2,
+                                      borderRadius: BorderRadius.circular(
+                                        AppRadii.tile,
+                                      ),
+                                      border: Border.all(
+                                        color: AppColors.hairline,
+                                      ),
+                                    ),
+                                    child: _localCoverPath != null
+                                        ? ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              AppRadii.tile,
+                                            ),
+                                            child: Image.file(
+                                              File(_localCoverPath!),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                        : (_coverUrl != null
+                                              ? SporveImage(
+                                                  _coverUrl,
+                                                  width: double.infinity,
+                                                  height: 120,
+                                                  fit: BoxFit.cover,
+                                                  radius: AppRadii.tile,
+                                                )
+                                              : const Center(
+                                                  child: Icon(
+                                                    Icons.image,
+                                                    color:
+                                                        AppColors.textSecondary,
+                                                  ),
+                                                )),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  SporveButton(
+                                    'Change cover photo',
+                                    onPressed: () async {
+                                      final picker = ImagePicker();
+                                      final image = await picker.pickImage(
+                                        source: ImageSource.gallery,
+                                      );
+                                      if (image != null) {
+                                        setState(() {
+                                          _localCoverPath = image.path;
+                                        });
+                                      }
+                                    },
+                                    variant: SporveButtonVariant.secondary,
+                                    onDark: true,
+                                    size: SporveButtonSize.compact,
+                                    fullWidth: false,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+
+                      // Save button
+                      FadeInUp(
+                        duration: const Duration(milliseconds: 900),
+                        child: SporveButton(
+                          'Save changes',
+                          onPressed: _isLoading ? null : _saveProfile,
+                          variant: SporveButtonVariant.primary,
+                          loading: _isLoading,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 32),
-              ],
-            ),
               ),
-            ),
       ),
     );
   }
@@ -476,7 +555,10 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadii.tile),
-              borderSide: const BorderSide(color: AppColors.slateText, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.slateText,
+                width: 1.5,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadii.tile),
@@ -484,9 +566,15 @@ class _ServiceProfileScreenState extends State<ServiceProfileScreen> {
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadii.tile),
-              borderSide: const BorderSide(color: AppColors.negative, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.negative,
+                width: 1.5,
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
           ),
         ),
       ],

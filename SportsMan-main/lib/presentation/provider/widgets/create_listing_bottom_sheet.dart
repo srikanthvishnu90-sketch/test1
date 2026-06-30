@@ -3,6 +3,7 @@ import 'package:flutter_structure/core/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../core/utils/image_validation.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../controllers/provider_controller.dart';
@@ -16,7 +17,8 @@ class CreateListingBottomSheet extends StatefulWidget {
   const CreateListingBottomSheet({super.key, this.editIndex});
 
   @override
-  State<CreateListingBottomSheet> createState() => _CreateListingBottomSheetState();
+  State<CreateListingBottomSheet> createState() =>
+      _CreateListingBottomSheetState();
 }
 
 class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
@@ -42,7 +44,13 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
   String _selectedPricingModel = 'single_session';
   String _selectedCancellationPolicy = 'flexible';
 
-  final List<String> _sports = ['Basketball', 'Soccer', 'Football', 'Swimming', 'Tennis'];
+  final List<String> _sports = [
+    'Basketball',
+    'Soccer',
+    'Football',
+    'Swimming',
+    'Tennis',
+  ];
   final List<String> _skillLevels = ['beginner', 'intermediate', 'advanced'];
   final List<String> _ageGroups = ['u8', 'u10', 'u12', 'u14', 'u16', 'u18'];
   final List<String> _languages = ['English', 'Spanish', 'French'];
@@ -59,19 +67,27 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
       _titleController = TextEditingController(text: listing.title);
       _descriptionController = TextEditingController(text: listing.description);
       _priceController = TextEditingController(text: listing.price.toString());
-      _maxCapacityController = TextEditingController(text: listing.maxCapacity.toString());
-      _addressLine1Controller = TextEditingController(text: listing.addressLine1);
+      _maxCapacityController = TextEditingController(
+        text: listing.maxCapacity.toString(),
+      );
+      _addressLine1Controller = TextEditingController(
+        text: listing.addressLine1,
+      );
       _cityController = TextEditingController(text: listing.city);
       _stateController = TextEditingController(text: listing.state);
       _zipController = TextEditingController(text: listing.zip);
       _countryController = TextEditingController(text: listing.country);
-      _minAgeController = TextEditingController(text: listing.minimumAge.toString());
-      _maxAgeController = TextEditingController(text: listing.maximumAge.toString());
+      _minAgeController = TextEditingController(
+        text: listing.minimumAge.toString(),
+      );
+      _maxAgeController = TextEditingController(
+        text: listing.maximumAge.toString(),
+      );
       _imageUrlController = TextEditingController(text: listing.image);
       if (listing.image.isNotEmpty && !listing.image.startsWith('http')) {
         _pickedImagePath = listing.image;
       }
-      
+
       _selectedSport = listing.sportType;
       _selectedSkillLevel = listing.skillLevel;
       _selectedAgeGroup = listing.ageGroup;
@@ -111,7 +127,6 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
     super.dispose();
   }
 
-
   void _submitForm() async {
     final title = _titleController.text.trim();
     final description = _descriptionController.text.trim();
@@ -127,7 +142,9 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
     final imageUrl = _pickedImagePath ?? _imageUrlController.text.trim();
 
     if (title.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Title is required')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Title is required')));
       return;
     }
 
@@ -167,7 +184,9 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
         );
         Navigator.pop(context);
       } else {
-        final errorMsg = providerController.lastErrorMessage ?? 'Failed to update listing on server.';
+        final errorMsg =
+            providerController.lastErrorMessage ??
+            'Failed to update listing on server.';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMsg),
@@ -176,7 +195,10 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
         );
       }
     } else {
-      final success = await providerController.createProgram(listing, galleryPaths: _pickedGalleryPaths);
+      final success = await providerController.createProgram(
+        listing,
+        galleryPaths: _pickedGalleryPaths,
+      );
       if (!mounted) return;
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -184,7 +206,9 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
         );
         Navigator.pop(context);
       } else {
-        final errorMsg = providerController.lastErrorMessage ?? 'Failed to create listing on server.';
+        final errorMsg =
+            providerController.lastErrorMessage ??
+            'Failed to create listing on server.';
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(errorMsg),
@@ -205,13 +229,20 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
       height: MediaQuery.of(context).size.height * 0.9,
       decoration: const BoxDecoration(
         color: AppColors.navyDark,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadii.card)),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppRadii.card),
+        ),
       ),
       child: Column(
         children: [
           // Drag handle and close button
           Padding(
-            padding: const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 8),
+            padding: const EdgeInsets.only(
+              top: 12,
+              left: 24,
+              right: 24,
+              bottom: 8,
+            ),
             child: Column(
               children: [
                 Container(
@@ -263,7 +294,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
 
                   _buildTextField(
                     label: 'DESCRIPTION',
-                    hint: 'Describe your training session, program, or facility...',
+                    hint:
+                        'Describe your training session, program, or facility...',
                     maxLines: 4,
                     controller: _descriptionController,
                   ),
@@ -276,7 +308,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           label: 'SPORT',
                           value: _selectedSport,
                           items: _sports,
-                          onChanged: (val) => setState(() => _selectedSport = val),
+                          onChanged: (val) =>
+                              setState(() => _selectedSport = val),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -285,7 +318,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           label: 'SKILL LEVEL',
                           value: _selectedSkillLevel,
                           items: _skillLevels,
-                          onChanged: (val) => setState(() => _selectedSkillLevel = val),
+                          onChanged: (val) =>
+                              setState(() => _selectedSkillLevel = val),
                         ),
                       ),
                     ],
@@ -299,7 +333,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           label: 'AGE GROUP',
                           value: _selectedAgeGroup,
                           items: _ageGroups,
-                          onChanged: (val) => setState(() => _selectedAgeGroup = val),
+                          onChanged: (val) =>
+                              setState(() => _selectedAgeGroup = val),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -308,7 +343,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           label: 'LANGUAGE',
                           value: _selectedLanguage,
                           items: _languages,
-                          onChanged: (val) => setState(() => _selectedLanguage = val),
+                          onChanged: (val) =>
+                              setState(() => _selectedLanguage = val),
                         ),
                       ),
                     ],
@@ -331,7 +367,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           label: 'PRICING MODEL',
                           value: _selectedPricingModel,
                           items: _pricingModels,
-                          onChanged: (val) => setState(() => _selectedPricingModel = val),
+                          onChanged: (val) =>
+                              setState(() => _selectedPricingModel = val),
                         ),
                       ),
                     ],
@@ -354,7 +391,8 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           label: 'CANCELLATION POLICY',
                           value: _selectedCancellationPolicy,
                           items: _cancellationPolicies,
-                          onChanged: (val) => setState(() => _selectedCancellationPolicy = val),
+                          onChanged: (val) =>
+                              setState(() => _selectedCancellationPolicy = val),
                         ),
                       ),
                     ],
@@ -363,7 +401,11 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
 
                   Text(
                     'ADDRESS',
-                    style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.textSecondary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   _buildTextField(
@@ -374,17 +416,41 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Expanded(child: _buildTextField(label: '', hint: 'City', controller: _cityController)),
+                      Expanded(
+                        child: _buildTextField(
+                          label: '',
+                          hint: 'City',
+                          controller: _cityController,
+                        ),
+                      ),
                       const SizedBox(width: 12),
-                      Expanded(child: _buildTextField(label: '', hint: 'State', controller: _stateController)),
+                      Expanded(
+                        child: _buildTextField(
+                          label: '',
+                          hint: 'State',
+                          controller: _stateController,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Expanded(child: _buildTextField(label: '', hint: 'Zip', controller: _zipController)),
+                      Expanded(
+                        child: _buildTextField(
+                          label: '',
+                          hint: 'Zip',
+                          controller: _zipController,
+                        ),
+                      ),
                       const SizedBox(width: 12),
-                      Expanded(child: _buildTextField(label: '', hint: 'Country', controller: _countryController)),
+                      Expanded(
+                        child: _buildTextField(
+                          label: '',
+                          hint: 'Country',
+                          controller: _countryController,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -427,11 +493,18 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                       const SizedBox(height: 10),
                       GestureDetector(
                         onTap: () async {
-                          final picker = ImagePicker();
-                          final image = await picker.pickImage(source: ImageSource.gallery);
-                          if (image != null) {
+                          final messenger = ScaffoldMessenger.of(context);
+                          final res = await pickValidatedImage(ImagePicker());
+                          if (res.hasError) {
+                            messenger.showSnackBar(
+                              SnackBar(
+                                content: Text(res.error!),
+                                backgroundColor: AppColors.negative,
+                              ),
+                            );
+                          } else if (res.hasImage) {
                             setState(() {
-                              _pickedImagePath = image.path;
+                              _pickedImagePath = res.path!;
                             });
                           }
                         },
@@ -441,40 +514,51 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                           decoration: BoxDecoration(
                             color: AppColors.surface2,
                             borderRadius: BorderRadius.circular(AppRadii.tile),
-                            border: Border.all(color: AppColors.hairline, width: 1),
+                            border: Border.all(
+                              color: AppColors.hairline,
+                              width: 1,
+                            ),
                           ),
                           child: _pickedImagePath != null
                               ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadii.tile,
+                                  ),
                                   child: Image.file(
                                     File(_pickedImagePath!),
                                     fit: BoxFit.cover,
                                   ),
                                 )
                               : (_imageUrlController.text.isNotEmpty
-                                  ? SporveImage(
-                                      _imageUrlController.text,
-                                      width: double.infinity,
-                                      height: 150,
-                                      fit: BoxFit.cover,
-                                      radius: AppRadii.tile,
-                                    )
-                                  : Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(Icons.add_photo_alternate_outlined, color: AppColors.textSecondary, size: 36),
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            'Tap to choose program cover image',
-                                            style: AppTypography.font(
-                                              color: AppColors.textTertiary,
-                                              fontSize: 11,
+                                    ? SporveImage(
+                                        _imageUrlController.text,
+                                        width: double.infinity,
+                                        height: 150,
+                                        fit: BoxFit.cover,
+                                        radius: AppRadii.tile,
+                                      )
+                                    : Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(
+                                              Icons
+                                                  .add_photo_alternate_outlined,
+                                              color: AppColors.textSecondary,
+                                              size: 36,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    )),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              'Tap to choose program cover image',
+                                              style: AppTypography.font(
+                                                color: AppColors.textTertiary,
+                                                fontSize: 11,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
                         ),
                       ),
                     ],
@@ -497,7 +581,9 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                         height: 90,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: _pickedGalleryPaths.length + (_pickedGalleryPaths.length < 4 ? 1 : 0),
+                          itemCount:
+                              _pickedGalleryPaths.length +
+                              (_pickedGalleryPaths.length < 4 ? 1 : 0),
                           itemBuilder: (context, index) {
                             if (index == _pickedGalleryPaths.length) {
                               return GestureDetector(
@@ -506,17 +592,26 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                                   final images = await picker.pickMultiImage();
                                   if (!context.mounted) return;
                                   if (images.isNotEmpty) {
-                                    if (_pickedGalleryPaths.length + images.length > 4) {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    if (_pickedGalleryPaths.length +
+                                            images.length >
+                                        4) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         const SnackBar(
-                                          content: Text('You can upload a maximum of 4 gallery images.'),
+                                          content: Text(
+                                            'You can upload a maximum of 4 gallery images.',
+                                          ),
                                           backgroundColor: AppColors.warning,
                                         ),
                                       );
-                                      final allowed = 4 - _pickedGalleryPaths.length;
+                                      final allowed =
+                                          4 - _pickedGalleryPaths.length;
                                       setState(() {
                                         _pickedGalleryPaths.addAll(
-                                          images.take(allowed).map((img) => img.path),
+                                          images
+                                              .take(allowed)
+                                              .map((img) => img.path),
                                         );
                                       });
                                     } else {
@@ -533,11 +628,20 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                                   margin: const EdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
                                     color: AppColors.surface2,
-                                    borderRadius: BorderRadius.circular(AppRadii.tile),
-                                    border: Border.all(color: AppColors.hairline, width: 1),
+                                    borderRadius: BorderRadius.circular(
+                                      AppRadii.tile,
+                                    ),
+                                    border: Border.all(
+                                      color: AppColors.hairline,
+                                      width: 1,
+                                    ),
                                   ),
                                   child: const Center(
-                                    child: Icon(Icons.add_a_photo_outlined, color: AppColors.textSecondary, size: 24),
+                                    child: Icon(
+                                      Icons.add_a_photo_outlined,
+                                      color: AppColors.textSecondary,
+                                      size: 24,
+                                    ),
                                   ),
                                 ),
                               );
@@ -550,7 +654,9 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                                   width: 90,
                                   margin: const EdgeInsets.only(right: 8),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(AppRadii.tile),
+                                    borderRadius: BorderRadius.circular(
+                                      AppRadii.tile,
+                                    ),
                                     image: DecorationImage(
                                       image: FileImage(File(path)),
                                       fit: BoxFit.cover,
@@ -572,7 +678,11 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                                         color: Colors.black54,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: const Icon(Icons.close, color: Colors.white, size: 14),
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 14,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -587,7 +697,9 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
 
                   SporveButton(
                     isEdit ? 'Update listing' : 'Create listing',
-                    onPressed: context.watch<ProviderController>().isLoading ? null : _submitForm,
+                    onPressed: context.watch<ProviderController>().isLoading
+                        ? null
+                        : _submitForm,
                     variant: SporveButtonVariant.primary,
                     loading: context.watch<ProviderController>().isLoading,
                   ),
@@ -628,10 +740,16 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
           style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: const TextStyle(color: AppColors.textTertiary, fontSize: 14),
+            hintStyle: const TextStyle(
+              color: AppColors.textTertiary,
+              fontSize: 14,
+            ),
             filled: true,
             fillColor: AppColors.surface2,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 16,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadii.tile),
               borderSide: const BorderSide(color: AppColors.hairline),
@@ -670,9 +788,7 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
         ),
         const SizedBox(height: 12),
         Theme(
-          data: Theme.of(context).copyWith(
-            canvasColor: AppColors.surface2,
-          ),
+          data: Theme.of(context).copyWith(canvasColor: AppColors.surface2),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
@@ -684,9 +800,16 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
               child: DropdownButton<String>(
                 value: value,
                 isExpanded: true,
-                icon: const Icon(Icons.arrow_drop_down_circle_outlined, color: AppColors.textTertiary, size: 20),
+                icon: const Icon(
+                  Icons.arrow_drop_down_circle_outlined,
+                  color: AppColors.textTertiary,
+                  size: 20,
+                ),
                 dropdownColor: AppColors.surface2,
-                style: const TextStyle(color: AppColors.textPrimary, fontSize: 14),
+                style: const TextStyle(
+                  color: AppColors.textPrimary,
+                  fontSize: 14,
+                ),
                 onChanged: (val) {
                   if (val != null) onChanged(val);
                 },

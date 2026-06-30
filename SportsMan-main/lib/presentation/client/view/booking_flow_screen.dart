@@ -21,7 +21,8 @@ class BookingFlowScreen extends StatefulWidget {
 }
 
 class _BookingFlowScreenState extends State<BookingFlowScreen> {
-  int _currentStep = 1; // Step 1: Book Slot, Step 2: Review & Pay, Step 3: Getting Ready, Step 4: Confirmed
+  int _currentStep =
+      1; // Step 1: Book Slot, Step 2: Review & Pay, Step 3: Getting Ready, Step 4: Confirmed
   int _selectedDay = 4;
   String _selectedTime = '10:30 AM';
   bool _bookingSaved = false; // guard against double-persist
@@ -45,11 +46,27 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   late int _calMonth;
 
   static const List<String> _monthNames = [
-    'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-    'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
+    'JANUARY',
+    'FEBRUARY',
+    'MARCH',
+    'APRIL',
+    'MAY',
+    'JUNE',
+    'JULY',
+    'AUGUST',
+    'SEPTEMBER',
+    'OCTOBER',
+    'NOVEMBER',
+    'DECEMBER',
   ];
   static const List<String> _weekdayNames = [
-    'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
   ];
 
   int get _daysInMonth => DateTime(_calYear, _calMonth + 1, 0).day;
@@ -61,7 +78,10 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     final d = DateTime(_calYear, _calMonth, _selectedDay);
     final weekday = _weekdayNames[d.weekday - 1];
     final month = _monthNames[_calMonth - 1];
-    final monthShort = (month[0] + month.substring(1).toLowerCase()).substring(0, 3);
+    final monthShort = (month[0] + month.substring(1).toLowerCase()).substring(
+      0,
+      3,
+    );
     return '$weekday, $monthShort $_selectedDay';
   }
 
@@ -130,7 +150,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
   // The booked start as a real DateTime (selected date + parsed 12h time).
   DateTime _bookingStart() {
-    final m = RegExp(r'(\d{1,2}):(\d{2})\s*([AaPp][Mm])?').firstMatch(_selectedTime);
+    final m = RegExp(
+      r'(\d{1,2}):(\d{2})\s*([AaPp][Mm])?',
+    ).firstMatch(_selectedTime);
     int hour = 9, minute = 0;
     if (m != null) {
       hour = int.tryParse(m.group(1)!) ?? 9;
@@ -154,9 +176,11 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     String location = '';
     final address = _program?['address'];
     if (address is Map) {
-      location = [address['line1'], address['city'], address['state']]
-          .where((p) => p != null && p.toString().trim().isNotEmpty)
-          .join(', ');
+      location = [
+        address['line1'],
+        address['city'],
+        address['state'],
+      ].where((p) => p != null && p.toString().trim().isNotEmpty).join(', ');
     }
 
     final url = Uri.parse(
@@ -168,7 +192,6 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     );
     await launchUrl(url, mode: LaunchMode.externalApplication);
   }
-
 
   @override
   void initState() {
@@ -183,10 +206,13 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       _program = args['program'] is Map
           ? Map<String, dynamic>.from(args['program'])
           : null;
-      _sessionTitle = (args['title'] ?? _program?['title'] ?? _sessionTitle).toString();
+      _sessionTitle = (args['title'] ?? _program?['title'] ?? _sessionTitle)
+          .toString();
       _coach = (args['coach'] ?? _coach).toString();
       _tier = (args['tier'] ?? _tier).toString();
-      _sessionPrice = (args['price'] is num) ? (args['price'] as num).toDouble() : 75.0;
+      _sessionPrice = (args['price'] is num)
+          ? (args['price'] as num).toDouble()
+          : 75.0;
     } else {
       _sessionPrice = 75.0;
     }
@@ -198,7 +224,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   Future<void> _loadBookable() async {
     final home = context.read<HomeProvider>();
     await home.fetchAthletes();
-    final sessions = await home.sessionsForProgram(_program?['_id']?.toString());
+    final sessions = await home.sessionsForProgram(
+      _program?['_id']?.toString(),
+    );
     if (!mounted) return;
     setState(() {
       _programSessions = sessions;
@@ -214,7 +242,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   }
 
   String _athleteName(dynamic a) =>
-      (a is Map ? (a['fullName'] ?? a['firstName']) : null)?.toString() ?? 'Athlete';
+      (a is Map ? (a['fullName'] ?? a['firstName']) : null)?.toString() ??
+      'Athlete';
 
   /// Pick a real session and sync the calendar/time display to it.
   void _selectSession(Map<String, dynamic> s, {bool notify = true}) {
@@ -269,12 +298,15 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('WHO\'S ATTENDING',
-            style: AppTypography.font(
-                color: AppColors.textTertiary,
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5)),
+        Text(
+          'WHO\'S ATTENDING',
+          style: AppTypography.font(
+            color: AppColors.textTertiary,
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
+        ),
         const SizedBox(height: 12),
         if (_athletes.isEmpty)
           Container(
@@ -285,8 +317,13 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
               borderRadius: BorderRadius.circular(AppRadii.tile),
               border: Border.all(color: AppColors.hairline),
             ),
-            child: Text('No children on your profile yet. Add one to book.',
-                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13)),
+            child: Text(
+              'No children on your profile yet. Add one to book.',
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+              ),
+            ),
           )
         else
           Wrap(
@@ -302,7 +339,10 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   _selectedAthleteName = name;
                 }),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.chip),
@@ -314,14 +354,20 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(selected ? Icons.check_circle : Icons.person_outline,
-                          color: selected ? _sportColor : AppColors.textTertiary, size: 16),
+                      Icon(
+                        selected ? Icons.check_circle : Icons.person_outline,
+                        color: selected ? _sportColor : AppColors.textTertiary,
+                        size: 16,
+                      ),
                       const SizedBox(width: 8),
-                      Text(name,
-                          style: AppTypography.font(
-                              color: AppColors.textPrimary,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        name,
+                        style: AppTypography.font(
+                          color: AppColors.textPrimary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -338,12 +384,15 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('CHOOSE A SESSION',
-            style: AppTypography.font(
-                color: AppColors.textTertiary,
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5)),
+        Text(
+          'CHOOSE A SESSION',
+          style: AppTypography.font(
+            color: AppColors.textTertiary,
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
+        ),
         const SizedBox(height: 12),
         if (_programSessions.isEmpty)
           Container(
@@ -354,15 +403,21 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
               borderRadius: BorderRadius.circular(AppRadii.tile),
               border: Border.all(color: AppColors.hairline),
             ),
-            child: Text('No upcoming sessions for this program yet.',
-                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13)),
+            child: Text(
+              'No upcoming sessions for this program yet.',
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+              ),
+            ),
           )
         else
           ..._programSessions.map((s) {
             final session = s as Map<String, dynamic>;
             final start = parseSessionStart(session);
             final selected = _selectedSession?['_id'] == session['_id'];
-            final label = '${_weekdayNames[start.weekday - 1]}, '
+            final label =
+                '${_weekdayNames[start.weekday - 1]}, '
                 '${_monthNames[start.month - 1].substring(0, 3)} ${start.day}';
             final time = (session['startTime']?.toString().isNotEmpty ?? false)
                 ? session['startTime'].toString()
@@ -383,19 +438,31 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   ),
                   child: Row(
                     children: [
-                      Icon(selected ? Icons.radio_button_checked : Icons.radio_button_off,
-                          color: selected ? _sportColor : AppColors.textTertiary, size: 20),
+                      Icon(
+                        selected
+                            ? Icons.radio_button_checked
+                            : Icons.radio_button_off,
+                        color: selected ? _sportColor : AppColors.textTertiary,
+                        size: 20,
+                      ),
                       const SizedBox(width: 14),
                       Expanded(
-                        child: Text(label,
-                            style: AppTypography.font(
-                                color: AppColors.textPrimary,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold)),
-                      ),
-                      Text(time,
+                        child: Text(
+                          label,
                           style: AppTypography.font(
-                              color: AppColors.textSecondary, fontSize: 13)),
+                            color: AppColors.textPrimary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        time,
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                          fontSize: 13,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -420,7 +487,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     // Use the REAL session the user picked (carries a uuid _id) so the booking
     // attaches to it directly; fall back to a synthetic shape only if somehow
     // none was selected.
-    final session = _selectedSession ??
+    final session =
+        _selectedSession ??
         {
           '_id': 'sess_${now.millisecondsSinceEpoch}',
           'title': _sessionTitle,
@@ -432,7 +500,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
 
     final booking = <String, dynamic>{
       '_id': 'book_${now.millisecondsSinceEpoch}',
-      'programId': _program, // full object so Home/Schedule resolve sport + coach
+      'programId':
+          _program, // full object so Home/Schedule resolve sport + coach
       'sessionId': session,
       'athleteId': _selectedAthleteId, // chosen child (RLS sets searcher_id)
       'athleteName': _selectedAthleteName, // denormalized display for provider
@@ -466,6 +535,21 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   /// the real reason from its details instead of failing silently.
   Future<void> _handleConfirmAndPay() async {
     final messenger = ScaffoldMessenger.of(context);
+    // Defense-in-depth: never persist a booking without a chosen athlete, no
+    // matter how this action is reached (the step-gate is not the only path).
+    if (_selectedAthleteId == null) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            _athletes.isEmpty
+                ? 'Add a child in your profile before booking.'
+                : 'Please select a child for this session.',
+          ),
+          backgroundColor: AppColors.negative,
+        ),
+      );
+      return;
+    }
     setState(() => _checkoutLoading = true);
     try {
       await _persistBooking();
@@ -473,10 +557,14 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       if (id == null) {
         // Not a DB exception (those rethrow + show below) — this means we
         // couldn't find a real, bookable session for this program.
-        messenger.showSnackBar(const SnackBar(
-          content: Text('No bookable session is available for this program yet.'),
-          backgroundColor: AppColors.negative,
-        ));
+        messenger.showSnackBar(
+          const SnackBar(
+            content: Text(
+              'No bookable session is available for this program yet.',
+            ),
+            backgroundColor: AppColors.negative,
+          ),
+        );
         return;
       }
       final res = await Supabase.instance.client.functions.invoke(
@@ -490,20 +578,24 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       final data = (res.data as Map?) ?? {};
       if (data['error'] != null) {
         debugPrint('stripe-create-checkout ${data['error']}');
-        messenger.showSnackBar(SnackBar(
-          content: Text(data['error'].toString()),
-          backgroundColor: AppColors.negative,
-        ));
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(data['error'].toString()),
+            backgroundColor: AppColors.negative,
+          ),
+        );
         return;
       }
       final checkoutUrl = data['checkoutUrl'] as String?;
       if (checkoutUrl != null && checkoutUrl.isNotEmpty) {
         await launchUrl(Uri.parse(checkoutUrl), webOnlyWindowName: '_self');
       } else {
-        messenger.showSnackBar(const SnackBar(
-          content: Text('Could not start checkout. Please try again.'),
-          backgroundColor: AppColors.negative,
-        ));
+        messenger.showSnackBar(
+          const SnackBar(
+            content: Text('Could not start checkout. Please try again.'),
+            backgroundColor: AppColors.negative,
+          ),
+        );
       }
     } on FunctionException catch (e) {
       final d = e.details;
@@ -512,11 +604,13 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
           : 'Payment error (status ${e.status})';
       debugPrint('FN stripe-create-checkout -> ${e.status} ${e.details}');
       messenger.showSnackBar(
-          SnackBar(content: Text(msg), backgroundColor: AppColors.negative));
+        SnackBar(content: Text(msg), backgroundColor: AppColors.negative),
+      );
     } catch (e) {
       debugPrint('FN stripe-create-checkout -> $e');
       messenger.showSnackBar(
-          SnackBar(content: Text('$e'), backgroundColor: AppColors.negative));
+        SnackBar(content: Text('$e'), backgroundColor: AppColors.negative),
+      );
     } finally {
       if (mounted) setState(() => _checkoutLoading = false);
     }
@@ -530,7 +624,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     '01:00 PM',
     '02:30 PM',
     '04:00 PM',
-    '05:30 PM'
+    '05:30 PM',
   ];
 
   @override
@@ -612,10 +706,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
       centerTitle: true,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Container(
-          color: AppColors.hairline,
-          height: 1,
-        ),
+        child: Container(color: AppColors.hairline, height: 1),
       ),
     );
   }
@@ -666,7 +757,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                       Icons.arrow_back,
                       iconSize: 16,
                       onTap: _isCurrentMonth ? null : _prevMonth,
-                      color: _isCurrentMonth ? AppColors.textTertiary : AppColors.textPrimary,
+                      color: _isCurrentMonth
+                          ? AppColors.textTertiary
+                          : AppColors.textPrimary,
                     ),
                     Text(
                       '${_monthNames[_calMonth - 1]} $_calYear',
@@ -706,7 +799,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   }).toList(),
                 ),
                 const SizedBox(height: 12),
-                
+
                 // Calendar Days Grid
                 GridView.builder(
                   shrinkWrap: true,
@@ -722,7 +815,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                     if (index < _leadingBlanks) return const SizedBox.shrink();
                     final day = index - _leadingBlanks + 1;
                     final now = DateTime.now();
-                    final isPast = _calYear == now.year &&
+                    final isPast =
+                        _calYear == now.year &&
                         _calMonth == now.month &&
                         day < now.day;
                     final isSelected = _selectedDay == day;
@@ -746,18 +840,22 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                           style: AppTypography.font(
                             color: isPast
                                 ? AppColors.textTertiary
-                                : (isSelected ? AppColors.onSlate : AppColors.textPrimary),
+                                : (isSelected
+                                      ? AppColors.onSlate
+                                      : AppColors.textPrimary),
                             fontSize: 14,
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.w500,
                           ),
                         ),
                       ),
                     );
                   },
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 Text(
                   'AVAILABLE TIMES',
                   style: AppTypography.font(
@@ -768,7 +866,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                
+
                 // Time slots grid
                 GridView.builder(
                   shrinkWrap: true,
@@ -794,13 +892,19 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                         decoration: BoxDecoration(
                           color: isSelected ? _sportColor : AppColors.surface,
                           borderRadius: BorderRadius.circular(AppRadii.tile),
-                          border: Border.all(color: isSelected ? Colors.transparent : AppColors.hairline),
+                          border: Border.all(
+                            color: isSelected
+                                ? Colors.transparent
+                                : AppColors.hairline,
+                          ),
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           slot,
                           style: AppTypography.font(
-                            color: isSelected ? AppColors.onSlate : AppColors.textSecondary,
+                            color: isSelected
+                                ? AppColors.onSlate
+                                : AppColors.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),
@@ -809,9 +913,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                     );
                   },
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 Text(
                   'NOTES (OPTIONAL)',
                   style: AppTypography.font(
@@ -826,25 +930,40 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                 // Notes Input Box
                 TextField(
                   maxLines: 3,
-                  style: AppTypography.font(color: AppColors.textPrimary, fontSize: 13),
+                  style: AppTypography.font(
+                    color: AppColors.textPrimary,
+                    fontSize: 13,
+                  ),
                   cursorColor: AppColors.slateText,
                   decoration: InputDecoration(
                     hintText: 'Any goals, injuries, or special requests...',
-                    hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 13),
+                    hintStyle: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 13,
+                    ),
                     filled: true,
                     fillColor: AppColors.surface,
                     contentPadding: const EdgeInsets.all(16),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(AppRadii.tile),
-                      borderSide: const BorderSide(color: AppColors.hairline, width: 1.5),
+                      borderSide: const BorderSide(
+                        color: AppColors.hairline,
+                        width: 1.5,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(AppRadii.tile),
-                      borderSide: const BorderSide(color: AppColors.hairline, width: 1.5),
+                      borderSide: const BorderSide(
+                        color: AppColors.hairline,
+                        width: 1.5,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(AppRadii.tile),
-                      borderSide: const BorderSide(color: AppColors.slateBorder, width: 1.5),
+                      borderSide: const BorderSide(
+                        color: AppColors.slateBorder,
+                        width: 1.5,
+                      ),
                     ),
                   ),
                 ),
@@ -852,7 +971,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
             ),
           ),
         ),
-        
+
         // Step 1 Footer Row
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -946,10 +1065,16 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                             width: 44,
                             decoration: BoxDecoration(
                               color: AppColors.surface2,
-                              borderRadius: BorderRadius.circular(AppRadii.tile),
+                              borderRadius: BorderRadius.circular(
+                                AppRadii.tile,
+                              ),
                             ),
                             alignment: Alignment.center,
-                            child: const Icon(Icons.calendar_today, color: AppColors.slateText, size: 20),
+                            child: const Icon(
+                              Icons.calendar_today,
+                              color: AppColors.slateText,
+                              size: 20,
+                            ),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
@@ -979,12 +1104,12 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                           ),
                         ],
                       ),
-                      
+
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         child: Divider(color: AppColors.hairline, height: 1),
                       ),
-                      
+
                       // Session Row
                       Row(
                         children: [
@@ -993,10 +1118,16 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                             width: 44,
                             decoration: BoxDecoration(
                               color: AppColors.surface2,
-                              borderRadius: BorderRadius.circular(AppRadii.tile),
+                              borderRadius: BorderRadius.circular(
+                                AppRadii.tile,
+                              ),
                             ),
                             alignment: Alignment.center,
-                            child: const Icon(Icons.emoji_events, color: AppColors.slateText, size: 20),
+                            child: const Icon(
+                              Icons.emoji_events,
+                              color: AppColors.slateText,
+                              size: 20,
+                            ),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
@@ -1029,9 +1160,9 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 Text(
                   'PAYMENT',
                   style: AppTypography.font(
@@ -1055,7 +1186,11 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.lock_outline, color: AppColors.slateText, size: 22),
+                      const Icon(
+                        Icons.lock_outline,
+                        color: AppColors.slateText,
+                        size: 22,
+                      ),
                       const SizedBox(width: 16),
                       Expanded(
                         child: Column(
@@ -1086,7 +1221,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                 ),
 
                 const SizedBox(height: 24),
-                
+
                 // Secured by Stripe pad banner
                 Container(
                   width: double.infinity,
@@ -1097,7 +1232,11 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.lock, color: AppColors.slateText, size: 18),
+                      const Icon(
+                        Icons.lock,
+                        color: AppColors.slateText,
+                        size: 18,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -1117,7 +1256,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
             ),
           ),
         ),
-        
+
         // Step 2 Footer button
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),

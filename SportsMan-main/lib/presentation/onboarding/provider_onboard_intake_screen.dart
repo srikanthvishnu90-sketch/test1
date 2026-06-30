@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../core/routes/app_routes.dart';
+import '../../core/utils/image_validation.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import '../widgets/common_widgets.dart';
@@ -18,10 +19,12 @@ class ProviderOnboardIntakeScreen extends StatefulWidget {
   const ProviderOnboardIntakeScreen({super.key});
 
   @override
-  State<ProviderOnboardIntakeScreen> createState() => _ProviderOnboardIntakeScreenState();
+  State<ProviderOnboardIntakeScreen> createState() =>
+      _ProviderOnboardIntakeScreenState();
 }
 
-class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScreen> {
+class _ProviderOnboardIntakeScreenState
+    extends State<ProviderOnboardIntakeScreen> {
   final _bio = TextEditingController();
   final _voice = TextEditingController();
 
@@ -35,10 +38,43 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
   Future<void> _pick(ImageSource source) async {
     final c = context.read<OnboardDraftProvider>();
     final XFile? img = await ImagePicker().pickImage(
-      source: source, maxWidth: 1024, imageQuality: 80,
+      source: source,
+      maxWidth: 1024,
+      imageQuality: 80,
     );
     if (img == null) return;
+
+    // Validate type + size before base64-encoding into the upload payload.
+    final ext = img.name.contains('.')
+        ? img.name.split('.').last.toLowerCase()
+        : '';
+    final mime = img.mimeType ?? '';
+    const okExt = {'jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'gif'};
+    if (!(mime.startsWith('image/') || okExt.contains(ext))) {
+      if (!mounted) return;
+      Get.snackbar(
+        'Image',
+        'Please choose an image file (JPG, PNG, WEBP, or HEIC).',
+        backgroundColor: AppColors.surface,
+        colorText: AppColors.textPrimary,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+      );
+      return;
+    }
     final bytes = await img.readAsBytes();
+    if (bytes.lengthInBytes > kMaxImageBytes) {
+      if (!mounted) return;
+      Get.snackbar(
+        'Image',
+        'That image is too large. Please pick one under ${kMaxImageBytes ~/ (1024 * 1024)}MB.',
+        backgroundColor: AppColors.surface,
+        colorText: AppColors.textPrimary,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+      );
+      return;
+    }
     c.setImage(base64Encode(bytes), img.mimeType ?? 'image/jpeg');
   }
 
@@ -51,9 +87,14 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
     if (ok) {
       Get.toNamed(AppRoutes.providerOnboardReview);
     } else if (c.error != null) {
-      Get.snackbar('Draft', c.error!,
-          backgroundColor: AppColors.surface, colorText: AppColors.textPrimary,
-          snackPosition: SnackPosition.BOTTOM, margin: const EdgeInsets.all(16));
+      Get.snackbar(
+        'Draft',
+        c.error!,
+        backgroundColor: AppColors.surface,
+        colorText: AppColors.textPrimary,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+      );
     }
   }
 
@@ -74,23 +115,46 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
                     onTap: () => Get.back(),
                     child: Container(
                       padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(color: AppColors.hairline, shape: BoxShape.circle),
-                      child: const Icon(Icons.arrow_back, color: AppColors.textPrimary, size: 18),
+                      decoration: const BoxDecoration(
+                        color: AppColors.hairline,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: AppColors.textPrimary,
+                        size: 18,
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-              Text('Set up your profile',
-                  style: AppTypography.font(color: AppColors.textPrimary, fontSize: 26, fontWeight: FontWeight.w600)),
+              Text(
+                'Set up your profile',
+                style: AppTypography.font(
+                  color: AppColors.textPrimary,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 6),
-              Text('Drop in whatever you have — we’ll draft it for you. You can edit everything before anything is saved.',
-                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13, height: 1.4)),
+              Text(
+                'Drop in whatever you have — we’ll draft it for you. You can edit everything before anything is saved.',
+                style: AppTypography.font(
+                  color: AppColors.textSecondary,
+                  fontSize: 13,
+                  height: 1.4,
+                ),
+              ),
               const SizedBox(height: 24),
 
               _sectionLabel('PASTE A BIO'),
               const SizedBox(height: 8),
-              _field(_bio, hint: 'Paste anything about yourself and your coaching…', maxLines: 5),
+              _field(
+                _bio,
+                hint: 'Paste anything about yourself and your coaching…',
+                maxLines: 5,
+              ),
               const SizedBox(height: 24),
 
               _sectionLabel('ADD A PHOTO'),
@@ -100,11 +164,25 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
 
               _sectionLabel('RECORD A VOICE NOTE'),
               const SizedBox(height: 6),
-              Text('Tap the mic on your keyboard and just talk — your words become the transcript below.',
-                  style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, height: 1.4)),
+              Text(
+                'Tap the mic on your keyboard and just talk — your words become the transcript below.',
+                style: AppTypography.font(
+                  color: AppColors.textTertiary,
+                  fontSize: 11,
+                  height: 1.4,
+                ),
+              ),
               const SizedBox(height: 8),
-              _field(_voice, hint: 'Your dictated transcript appears here…', maxLines: 4,
-                  prefix: const Icon(Icons.mic_none, color: AppColors.textTertiary, size: 18)),
+              _field(
+                _voice,
+                hint: 'Your dictated transcript appears here…',
+                maxLines: 4,
+                prefix: const Icon(
+                  Icons.mic_none,
+                  color: AppColors.textTertiary,
+                  size: 18,
+                ),
+              ),
               const SizedBox(height: 28),
 
               SporveButton(
@@ -117,13 +195,20 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
               const SizedBox(height: 12),
               SporveButton(
                 'Fill in manually instead',
-                onPressed: c.loading ? null : () => Get.toNamed(AppRoutes.providerEditProfile),
+                onPressed: c.loading
+                    ? null
+                    : () => Get.toNamed(AppRoutes.providerEditProfile),
                 variant: SporveButtonVariant.dark,
               ),
               const SizedBox(height: 12),
               Center(
-                child: Text('Nothing is saved or published until you confirm.',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11)),
+                child: Text(
+                  'Nothing is saved or published until you confirm.',
+                  style: AppTypography.font(
+                    color: AppColors.textTertiary,
+                    fontSize: 11,
+                  ),
+                ),
               ),
             ],
           ),
@@ -138,15 +223,32 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(AppRadii.tile),
-            child: Image.memory(base64Decode(c.imageBase64!), width: 64, height: 64, fit: BoxFit.cover),
+            child: Image.memory(
+              base64Decode(c.imageBase64!),
+              width: 64,
+              height: 64,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text('Photo added.', style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13)),
+            child: Text(
+              'Photo added.',
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+              ),
+            ),
           ),
           TextButton(
             onPressed: c.clearImage,
-            child: Text('Remove', style: AppTypography.font(color: AppColors.destructiveRed, fontSize: 13)),
+            child: Text(
+              'Remove',
+              style: AppTypography.font(
+                color: AppColors.destructiveRed,
+                fontSize: 13,
+              ),
+            ),
           ),
         ],
       );
@@ -154,27 +256,46 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
     return Row(
       children: [
         Expanded(
-          child: SporveButton('Upload', onPressed: () => _pick(ImageSource.gallery),
-              variant: SporveButtonVariant.secondary, onDark: true, icon: Icons.image_outlined,
-              size: SporveButtonSize.compact),
+          child: SporveButton(
+            'Upload',
+            onPressed: () => _pick(ImageSource.gallery),
+            variant: SporveButtonVariant.secondary,
+            onDark: true,
+            icon: Icons.image_outlined,
+            size: SporveButtonSize.compact,
+          ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: SporveButton('Take photo', onPressed: () => _pick(ImageSource.camera),
-              variant: SporveButtonVariant.secondary, onDark: true, icon: Icons.photo_camera_outlined,
-              size: SporveButtonSize.compact),
+          child: SporveButton(
+            'Take photo',
+            onPressed: () => _pick(ImageSource.camera),
+            variant: SporveButtonVariant.secondary,
+            onDark: true,
+            icon: Icons.photo_camera_outlined,
+            size: SporveButtonSize.compact,
+          ),
         ),
       ],
     );
   }
 
   Widget _sectionLabel(String text) => Text(
-        text,
-        style: AppTypography.font(
-          color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1.0),
-      );
+    text,
+    style: AppTypography.font(
+      color: AppColors.textTertiary,
+      fontSize: 11,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 1.0,
+    ),
+  );
 
-  Widget _field(TextEditingController ctrl, {required String hint, int maxLines = 1, Widget? prefix}) {
+  Widget _field(
+    TextEditingController ctrl, {
+    required String hint,
+    int maxLines = 1,
+    Widget? prefix,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface2,
@@ -185,16 +306,26 @@ class _ProviderOnboardIntakeScreenState extends State<ProviderOnboardIntakeScree
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (prefix != null) ...[Padding(padding: const EdgeInsets.only(top: 14), child: prefix), const SizedBox(width: 10)],
+          if (prefix != null) ...[
+            Padding(padding: const EdgeInsets.only(top: 14), child: prefix),
+            const SizedBox(width: 10),
+          ],
           Expanded(
             child: TextField(
               controller: ctrl,
               maxLines: maxLines,
               cursorColor: AppColors.slateText,
-              style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14, height: 1.4),
+              style: AppTypography.font(
+                color: AppColors.textPrimary,
+                fontSize: 14,
+                height: 1.4,
+              ),
               decoration: InputDecoration(
                 hintText: hint,
-                hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 13),
+                hintStyle: AppTypography.font(
+                  color: AppColors.textTertiary,
+                  fontSize: 13,
+                ),
                 border: InputBorder.none,
                 isCollapsed: true,
                 contentPadding: const EdgeInsets.symmetric(vertical: 14),

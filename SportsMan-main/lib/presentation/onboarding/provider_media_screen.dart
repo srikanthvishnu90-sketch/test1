@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../core/routes/app_routes.dart';
+import '../../core/utils/image_validation.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_radii.dart';
 import './controllers/onboarding_controller.dart';
@@ -16,8 +17,10 @@ class ProviderMediaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<OnboardingProvider>();
-    final hasMedia = (provider.logoPath != null && provider.logoPath!.isNotEmpty) ||
-        (provider.coverPhotoPath != null && provider.coverPhotoPath!.isNotEmpty) ||
+    final hasMedia =
+        (provider.logoPath != null && provider.logoPath!.isNotEmpty) ||
+        (provider.coverPhotoPath != null &&
+            provider.coverPhotoPath!.isNotEmpty) ||
         provider.galleryPaths.isNotEmpty ||
         (provider.videoUrl != null && provider.videoUrl!.isNotEmpty);
 
@@ -63,10 +66,13 @@ class ProviderMediaScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Add a logo, photos, and a short intro video so athletes know exactly who they\'re booking with.',
-              style: AppTypography.font(color: AppColors.textSecondary, fontSize: 15),
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 15,
+              ),
             ),
             const SizedBox(height: 24),
-            
+
             // LOGO
             _buildSection(
               title: 'LOGO',
@@ -79,15 +85,21 @@ class ProviderMediaScreen extends StatelessWidget {
                       color: AppColors.surface2,
                       borderRadius: BorderRadius.circular(AppRadii.tile),
                       border: Border.all(color: AppColors.hairline),
-                      image: provider.logoPath != null && provider.logoPath!.isNotEmpty
+                      image:
+                          provider.logoPath != null &&
+                              provider.logoPath!.isNotEmpty
                           ? DecorationImage(
                               image: FileImage(File(provider.logoPath!)),
                               fit: BoxFit.cover,
                             )
                           : null,
                     ),
-                    child: provider.logoPath == null || provider.logoPath!.isEmpty
-                        ? const Icon(Icons.style, color: AppColors.textSecondary)
+                    child:
+                        provider.logoPath == null || provider.logoPath!.isEmpty
+                        ? const Icon(
+                            Icons.style,
+                            color: AppColors.textSecondary,
+                          )
                         : null,
                   ),
                   const SizedBox(width: 20),
@@ -97,22 +109,41 @@ class ProviderMediaScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Upload your logo',
-                          style: AppTypography.font(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary),
+                          style: AppTypography.font(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                         Text(
                           'PNG or JPG • Recommended 400x400px',
-                          style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11),
+                          style: AppTypography.font(
+                            color: AppColors.textTertiary,
+                            fontSize: 11,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             SporveButton(
-                              provider.logoPath != null && provider.logoPath!.isNotEmpty ? 'Change' : 'Upload',
+                              provider.logoPath != null &&
+                                      provider.logoPath!.isNotEmpty
+                                  ? 'Change'
+                                  : 'Upload',
                               onPressed: () async {
-                                final picker = ImagePicker();
-                                final image = await picker.pickImage(source: ImageSource.gallery);
-                                if (image != null) {
-                                  provider.setLogo(image.path);
+                                final messenger = ScaffoldMessenger.of(context);
+                                final res = await pickValidatedImage(
+                                  ImagePicker(),
+                                );
+                                if (res.hasError) {
+                                  messenger.showSnackBar(
+                                    SnackBar(
+                                      content: Text(res.error!),
+                                      backgroundColor: AppColors.negative,
+                                    ),
+                                  );
+                                } else if (res.hasImage) {
+                                  provider.setLogo(res.path!);
                                 }
                               },
                               variant: SporveButtonVariant.secondary,
@@ -120,7 +151,8 @@ class ProviderMediaScreen extends StatelessWidget {
                               size: SporveButtonSize.compact,
                               fullWidth: false,
                             ),
-                            if (provider.logoPath != null && provider.logoPath!.isNotEmpty) ...[
+                            if (provider.logoPath != null &&
+                                provider.logoPath!.isNotEmpty) ...[
                               const SizedBox(width: 8),
                               SporveButton(
                                 'Remove',
@@ -129,7 +161,7 @@ class ProviderMediaScreen extends StatelessWidget {
                                 size: SporveButtonSize.compact,
                                 fullWidth: false,
                               ),
-                            ]
+                            ],
                           ],
                         ),
                       ],
@@ -147,10 +179,17 @@ class ProviderMediaScreen extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () async {
-                      final picker = ImagePicker();
-                      final image = await picker.pickImage(source: ImageSource.gallery);
-                      if (image != null) {
-                        provider.setCoverPhoto(image.path);
+                      final messenger = ScaffoldMessenger.of(context);
+                      final res = await pickValidatedImage(ImagePicker());
+                      if (res.hasError) {
+                        messenger.showSnackBar(
+                          SnackBar(
+                            content: Text(res.error!),
+                            backgroundColor: AppColors.negative,
+                          ),
+                        );
+                      } else if (res.hasImage) {
+                        provider.setCoverPhoto(res.path!);
                       }
                     },
                     child: Container(
@@ -160,22 +199,37 @@ class ProviderMediaScreen extends StatelessWidget {
                         color: AppColors.surface2,
                         borderRadius: BorderRadius.circular(AppRadii.card),
                         border: Border.all(color: AppColors.hairline),
-                        image: provider.coverPhotoPath != null && provider.coverPhotoPath!.isNotEmpty
+                        image:
+                            provider.coverPhotoPath != null &&
+                                provider.coverPhotoPath!.isNotEmpty
                             ? DecorationImage(
-                                image: FileImage(File(provider.coverPhotoPath!)),
+                                image: FileImage(
+                                  File(provider.coverPhotoPath!),
+                                ),
                                 fit: BoxFit.cover,
                               )
                             : null,
                       ),
-                      child: provider.coverPhotoPath == null || provider.coverPhotoPath!.isEmpty
+                      child:
+                          provider.coverPhotoPath == null ||
+                              provider.coverPhotoPath!.isEmpty
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.image, color: AppColors.textTertiary, size: 32),
+                                const Icon(
+                                  Icons.image,
+                                  color: AppColors.textTertiary,
+                                  size: 32,
+                                ),
                                 const SizedBox(height: 12),
                                 Text(
                                   'TAP TO UPLOAD',
-                                  style: AppTypography.font(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textTertiary, letterSpacing: 1.0),
+                                  style: AppTypography.font(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textTertiary,
+                                    letterSpacing: 1.0,
+                                  ),
                                 ),
                               ],
                             )
@@ -194,7 +248,11 @@ class ProviderMediaScreen extends StatelessWidget {
                                         color: AppColors.negative,
                                         shape: BoxShape.circle,
                                       ),
-                                      child: const Icon(Icons.close, color: Colors.white, size: 16),
+                                      child: const Icon(
+                                        Icons.close,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -205,7 +263,10 @@ class ProviderMediaScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     'JPG or PNG • At least 1200x400px • This appears at the top of your listing',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                    ),
                   ),
                 ],
               ),
@@ -232,7 +293,9 @@ class ProviderMediaScreen extends StatelessWidget {
                           children: [
                             Positioned.fill(
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(AppRadii.card),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadii.card,
+                                ),
                                 child: Image.file(
                                   File(path),
                                   fit: BoxFit.cover,
@@ -250,7 +313,11 @@ class ProviderMediaScreen extends StatelessWidget {
                                     color: AppColors.negative,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(Icons.close, color: Colors.white, size: 16),
+                                  child: const Icon(
+                                    Icons.close,
+                                    color: Colors.white,
+                                    size: 16,
+                                  ),
                                 ),
                               ),
                             ),
@@ -259,10 +326,17 @@ class ProviderMediaScreen extends StatelessWidget {
                       } else {
                         return GestureDetector(
                           onTap: () async {
-                            final picker = ImagePicker();
-                            final image = await picker.pickImage(source: ImageSource.gallery);
-                            if (image != null) {
-                              provider.addGalleryPhoto(image.path);
+                            final messenger = ScaffoldMessenger.of(context);
+                            final res = await pickValidatedImage(ImagePicker());
+                            if (res.hasError) {
+                              messenger.showSnackBar(
+                                SnackBar(
+                                  content: Text(res.error!),
+                                  backgroundColor: AppColors.negative,
+                                ),
+                              );
+                            } else if (res.hasImage) {
+                              provider.addGalleryPhoto(res.path!);
                             }
                           },
                           child: _buildGalleryPlaceholder(),
@@ -273,7 +347,10 @@ class ProviderMediaScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text(
                     'Show your facility, sessions in action, and team environment. Athletes browse these before booking.',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                    ),
                   ),
                 ],
               ),
@@ -292,7 +369,11 @@ class ProviderMediaScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Optional',
-                  style: AppTypography.font(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textSecondary),
+                  style: AppTypography.font(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
               child: Column(
@@ -300,7 +381,9 @@ class ProviderMediaScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () async {
                       final picker = ImagePicker();
-                      final video = await picker.pickVideo(source: ImageSource.gallery);
+                      final video = await picker.pickVideo(
+                        source: ImageSource.gallery,
+                      );
                       if (video != null) {
                         provider.setVideoUrl(video.path);
                       }
@@ -319,9 +402,15 @@ class ProviderMediaScreen extends StatelessWidget {
                             height: 48,
                             decoration: BoxDecoration(
                               color: AppColors.slateTint,
-                              borderRadius: BorderRadius.circular(AppRadii.tile),
+                              borderRadius: BorderRadius.circular(
+                                AppRadii.tile,
+                              ),
                             ),
-                            child: const Icon(Icons.movie, color: AppColors.slateText, size: 20),
+                            child: const Icon(
+                              Icons.movie,
+                              color: AppColors.slateText,
+                              size: 20,
+                            ),
                           ),
                           const SizedBox(width: 16),
                           Expanded(
@@ -329,31 +418,50 @@ class ProviderMediaScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  provider.videoUrl != null && provider.videoUrl!.isNotEmpty && !provider.videoUrl!.startsWith('http')
+                                  provider.videoUrl != null &&
+                                          provider.videoUrl!.isNotEmpty &&
+                                          !provider.videoUrl!.startsWith('http')
                                       ? 'Video selected'
                                       : 'Upload a short video',
-                                  style: AppTypography.font(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary),
+                                  style: AppTypography.font(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppColors.textPrimary,
+                                  ),
                                 ),
                                 Text(
-                                  provider.videoUrl != null && provider.videoUrl!.isNotEmpty && !provider.videoUrl!.startsWith('http')
+                                  provider.videoUrl != null &&
+                                          provider.videoUrl!.isNotEmpty &&
+                                          !provider.videoUrl!.startsWith('http')
                                       ? provider.videoUrl!.split('/').last
                                       : 'MP4 or MOV • Up to 60 seconds • Max 100MB',
-                                  style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11),
+                                  style: AppTypography.font(
+                                    color: AppColors.textTertiary,
+                                    fontSize: 11,
+                                  ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],
                             ),
                           ),
-                          if (provider.videoUrl != null && provider.videoUrl!.isNotEmpty && !provider.videoUrl!.startsWith('http'))
+                          if (provider.videoUrl != null &&
+                              provider.videoUrl!.isNotEmpty &&
+                              !provider.videoUrl!.startsWith('http'))
                             GestureDetector(
                               onTap: () {
                                 provider.setVideoUrl('');
                               },
-                              child: const Icon(Icons.delete_outline, color: AppColors.negative),
+                              child: const Icon(
+                                Icons.delete_outline,
+                                color: AppColors.negative,
+                              ),
                             )
                           else
-                            const Icon(Icons.arrow_forward, color: AppColors.textTertiary),
+                            const Icon(
+                              Icons.arrow_forward,
+                              color: AppColors.textTertiary,
+                            ),
                         ],
                       ),
                     ),
@@ -361,7 +469,12 @@ class ProviderMediaScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text(
                     'OR PASTE A LINK',
-                    style: AppTypography.font(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textSecondary, letterSpacing: 1.0),
+                    style: AppTypography.font(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textSecondary,
+                      letterSpacing: 1.0,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
@@ -370,18 +483,36 @@ class ProviderMediaScreen extends StatelessWidget {
                     cursorColor: AppColors.slateText,
                     decoration: InputDecoration(
                       hintText: 'https://youtube.com/watch?v=...',
-                      hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 12),
+                      hintStyle: AppTypography.font(
+                        color: AppColors.textTertiary,
+                        fontSize: 12,
+                      ),
                       filled: true,
                       fillColor: AppColors.surface2,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadii.tile), borderSide: const BorderSide(color: AppColors.hairline)),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadii.tile), borderSide: const BorderSide(color: AppColors.hairline)),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(AppRadii.tile), borderSide: const BorderSide(color: AppColors.slateBorder, width: 1.5)),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppRadii.tile),
+                        borderSide: const BorderSide(color: AppColors.hairline),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppRadii.tile),
+                        borderSide: const BorderSide(color: AppColors.hairline),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(AppRadii.tile),
+                        borderSide: const BorderSide(
+                          color: AppColors.slateBorder,
+                          width: 1.5,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     'Athletes are 4x more likely to book a coach with an intro video. Keep it under 60 seconds.',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                    ),
                   ),
                 ],
               ),
@@ -415,7 +546,12 @@ class ProviderMediaScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSection({required String title, String? trailing, Widget? trailingWidget, required Widget child}) {
+  Widget _buildSection({
+    required String title,
+    String? trailing,
+    Widget? trailingWidget,
+    required Widget child,
+  }) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -432,12 +568,21 @@ class ProviderMediaScreen extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: AppTypography.font(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textSecondary, letterSpacing: 1.5),
+                style: AppTypography.font(
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textSecondary,
+                  letterSpacing: 1.5,
+                ),
               ),
               if (trailing != null)
                 Text(
                   trailing,
-                  style: AppTypography.font(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textSecondary),
+                  style: AppTypography.font(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ?trailingWidget,
             ],
@@ -459,11 +604,20 @@ class ProviderMediaScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.add_a_photo, color: AppColors.textTertiary, size: 24),
+          const Icon(
+            Icons.add_a_photo,
+            color: AppColors.textTertiary,
+            size: 24,
+          ),
           const SizedBox(height: 8),
           Text(
             'ADD PHOTO',
-            style: AppTypography.font(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textTertiary, letterSpacing: 1.0),
+            style: AppTypography.font(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textTertiary,
+              letterSpacing: 1.0,
+            ),
           ),
         ],
       ),
