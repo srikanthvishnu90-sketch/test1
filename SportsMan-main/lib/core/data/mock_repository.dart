@@ -28,6 +28,8 @@ class MockRepository implements AppRepository {
   @override
   Future<List<dynamic>> getBookings() => Future.value(MockData.bookings);
   @override
+  Future<List<dynamic>> getBookingsOrThrow() => Future.value(MockData.bookings);
+  @override
   Future<void> saveBookings(List<dynamic> bookings) async =>
       MockData.bookings = bookings;
   @override
@@ -186,6 +188,9 @@ class MockRepository implements AppRepository {
   // ── Conversations & messages ─────────────────────────────────────────────
   @override
   Future<List<dynamic>> getConversations() =>
+      Future.value(MockData.conversations);
+  @override
+  Future<List<dynamic>> getConversationsOrThrow() =>
       Future.value(MockData.conversations);
   @override
   Future<void> saveConversations(List<dynamic> conversations) async =>

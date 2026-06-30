@@ -270,9 +270,13 @@ class ProviderController with ChangeNotifier {
   // Listings State — loaded from API
   final List<ProviderListing> _listings = [];
   bool _listingsLoaded = false;
+  bool _listingsError = false;
+  bool _bookingsError = false;
 
   List<ProviderListing> get listings => _listings;
   bool get listingsLoaded => _listingsLoaded;
+  bool get listingsError => _listingsError; // last listings load FAILED
+  bool get bookingsError => _bookingsError; // last bookings load FAILED
 
   // Provider profile (incl. Stripe payouts status) — loaded from the data layer.
   Map<String, dynamic> _providerProfile = {};
@@ -363,9 +367,10 @@ class ProviderController with ChangeNotifier {
   /// full detail data (provider info, gallery, ratings, etc.).
   Future<void> fetchMyPrograms() async {
     _setLoading(true);
+    _listingsError = false;
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      final data = await _repo.getPrograms();
+      final data = await _repo.getProgramsOrThrow();
       _listings.clear();
       for (final item in data) {
         try {
@@ -413,6 +418,9 @@ class ProviderController with ChangeNotifier {
       }
       notifyListeners();
       await _fetchAllDetails();
+    } catch (e) {
+      debugPrint('fetchMyPrograms failed: $e');
+      _listingsError = true;
     } finally {
       _listingsLoaded = true;
       _setLoading(false);
@@ -611,9 +619,10 @@ class ProviderController with ChangeNotifier {
 
   Future<void> fetchProviderBookings() async {
     _setLoading(true);
+    _bookingsError = false;
     await Future.delayed(const Duration(milliseconds: 300));
     try {
-      final data = await _repo.getBookings();
+      final data = await _repo.getBookingsOrThrow();
       _sessions.clear();
       _revenue = 0;
       for (final booking in data) {
@@ -679,6 +688,9 @@ class ProviderController with ChangeNotifier {
         }
       }
       notifyListeners();
+    } catch (e) {
+      debugPrint('fetchProviderBookings failed: $e');
+      _bookingsError = true;
     } finally {
       _bookingsLoaded = true;
       _setLoading(false);

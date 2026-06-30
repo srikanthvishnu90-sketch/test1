@@ -28,6 +28,10 @@ abstract class ProgramRepository {
 /// Athlete/family bookings.
 abstract class BookingRepository {
   Future<List<dynamic>> getBookings();
+
+  /// Like [getBookings] but RETHROWS on failure so the UI can show retry.
+  Future<List<dynamic>> getBookingsOrThrow();
+
   Future<void> saveBookings(List<dynamic> bookings);
 
   /// Persists a booking and returns its new id (null if it couldn't be created).
@@ -56,6 +60,10 @@ abstract class AthleteRepository {
 /// Conversations + their messages.
 abstract class ConversationRepository {
   Future<List<dynamic>> getConversations();
+
+  /// Like [getConversations] but RETHROWS on failure so the UI can show retry.
+  Future<List<dynamic>> getConversationsOrThrow();
+
   Future<void> saveConversations(List<dynamic> conversations);
   Future<List<dynamic>> getMessages(String conversationId);
   Future<void> saveMessages(String conversationId, List<dynamic> messages);

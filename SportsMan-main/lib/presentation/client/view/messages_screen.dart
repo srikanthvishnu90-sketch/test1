@@ -26,7 +26,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
     });
   }
 
-  Map<String, dynamic>? _getRecipient(dynamic conversation, String? currentUserId) {
+  Map<String, dynamic>? _getRecipient(
+    dynamic conversation,
+    String? currentUserId,
+  ) {
     final participants = conversation['participants'];
     if (participants is List && participants.isNotEmpty) {
       for (var p in participants) {
@@ -48,7 +51,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
       if (difference.inDays == 0 && dateTime.day == now.day) {
         final hourRaw = dateTime.hour;
-        final hour = hourRaw == 0 ? 12 : (hourRaw > 12 ? hourRaw - 12 : hourRaw);
+        final hour = hourRaw == 0
+            ? 12
+            : (hourRaw > 12 ? hourRaw - 12 : hourRaw);
         final minute = dateTime.minute.toString().padLeft(2, '0');
         final amPm = hourRaw >= 12 ? 'PM' : 'AM';
         return '$hour:$minute $amPm';
@@ -56,7 +61,20 @@ class _MessagesScreenState extends State<MessagesScreen> {
         final weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         return weekdays[dateTime.weekday - 1];
       } else {
-        final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        final months = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ];
         return '${months[dateTime.month - 1]} ${dateTime.day}';
       }
     } catch (e) {
@@ -136,7 +154,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       ],
                     ],
                   ),
-                  
+
                   // Plus Action Button
                   SporveIconButton(
                     Icons.add,
@@ -180,9 +198,24 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 onRefresh: () => chatProvider.loadConversations(),
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 250),
-                  child: _activeTab == 'DIRECT'
-                      ? _buildDirectList(directConvs, currentUserId, isLoading)
-                      : _buildProgramsList(programConvs, currentUserId, isLoading),
+                  child:
+                      (chatProvider.conversationsError && conversations.isEmpty)
+                      ? ErrorRetry(
+                          message:
+                              "We couldn't load your messages. Check your connection and try again.",
+                          onRetry: () => chatProvider.loadConversations(),
+                        )
+                      : (_activeTab == 'DIRECT'
+                            ? _buildDirectList(
+                                directConvs,
+                                currentUserId,
+                                isLoading,
+                              )
+                            : _buildProgramsList(
+                                programConvs,
+                                currentUserId,
+                                isLoading,
+                              )),
                 ),
               ),
             ),
@@ -193,9 +226,15 @@ class _MessagesScreenState extends State<MessagesScreen> {
   }
 
   // --- TAB 1: DIRECT LIST ---
-  Widget _buildDirectList(List<dynamic> convs, String? currentUserId, bool isLoading) {
+  Widget _buildDirectList(
+    List<dynamic> convs,
+    String? currentUserId,
+    bool isLoading,
+  ) {
     if (isLoading && convs.isEmpty) {
-      return const Center(child: CircularProgressIndicator(color: AppColors.slateText));
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.slateText),
+      );
     }
     if (convs.isEmpty) {
       return Center(
@@ -205,7 +244,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
             Center(
               child: Text(
                 'No messages yet',
-                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 14),
+                style: AppTypography.font(
+                  color: AppColors.textSecondary,
+                  fontSize: 14,
+                ),
               ),
             ),
           ],
@@ -219,12 +261,19 @@ class _MessagesScreenState extends State<MessagesScreen> {
       itemBuilder: (context, index) {
         final conv = convs[index];
         final recipient = _getRecipient(conv, currentUserId);
-        final String name = recipient != null ? '${recipient['firstName'] ?? ''} ${recipient['lastName'] ?? ''}' : 'Chat';
-        final String avatar = recipient != null ? (recipient['profileImage'] ?? '') : '';
-        final String lastMsg = conv['lastMessage']?['text'] ?? 'No messages yet';
+        final String name = recipient != null
+            ? '${recipient['firstName'] ?? ''} ${recipient['lastName'] ?? ''}'
+            : 'Chat';
+        final String avatar = recipient != null
+            ? (recipient['profileImage'] ?? '')
+            : '';
+        final String lastMsg =
+            conv['lastMessage']?['text'] ?? 'No messages yet';
         final String time = _formatDateTime(conv['lastMessage']?['createdAt']);
         final String conversationId = conv['_id'] ?? '';
-        final int unreadCount = conv['unreadCount'] is int ? conv['unreadCount'] as int : 0;
+        final int unreadCount = conv['unreadCount'] is int
+            ? conv['unreadCount'] as int
+            : 0;
 
         return Column(
           children: [
@@ -245,9 +294,15 @@ class _MessagesScreenState extends State<MessagesScreen> {
   }
 
   // --- TAB 2: PROGRAMS LIST ---
-  Widget _buildProgramsList(List<dynamic> convs, String? currentUserId, bool isLoading) {
+  Widget _buildProgramsList(
+    List<dynamic> convs,
+    String? currentUserId,
+    bool isLoading,
+  ) {
     if (isLoading && convs.isEmpty) {
-      return const Center(child: CircularProgressIndicator(color: AppColors.slateText));
+      return const Center(
+        child: CircularProgressIndicator(color: AppColors.slateText),
+      );
     }
     if (convs.isEmpty) {
       return Center(
@@ -257,7 +312,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
             Center(
               child: Text(
                 'No messages yet',
-                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 14),
+                style: AppTypography.font(
+                  color: AppColors.textSecondary,
+                  fontSize: 14,
+                ),
               ),
             ),
           ],
@@ -271,12 +329,17 @@ class _MessagesScreenState extends State<MessagesScreen> {
       itemBuilder: (context, index) {
         final conv = convs[index];
         final program = conv['program'];
-        final String name = program != null ? (program['title'] ?? 'Program Chat') : 'Program Chat';
+        final String name = program != null
+            ? (program['title'] ?? 'Program Chat')
+            : 'Program Chat';
         final String avatar = program != null ? (program['image'] ?? '') : '';
-        final String lastMsg = conv['lastMessage']?['text'] ?? 'No messages yet';
+        final String lastMsg =
+            conv['lastMessage']?['text'] ?? 'No messages yet';
         final String time = _formatDateTime(conv['lastMessage']?['createdAt']);
         final String conversationId = conv['_id'] ?? '';
-        final int unreadCount = conv['unreadCount'] is int ? conv['unreadCount'] as int : 0;
+        final int unreadCount = conv['unreadCount'] is int
+            ? conv['unreadCount'] as int
+            : 0;
 
         return Column(
           children: [
@@ -416,11 +479,18 @@ class _MessagesScreenState extends State<MessagesScreen> {
     return const Hairline();
   }
 
-  void _openDirectChat(String conversationId, String contactName, String avatarUrl) {
-    Get.toNamed(AppRoutes.chatDetails, arguments: {
-      'conversationId': conversationId,
-      'contactName': contactName,
-      'avatarUrl': avatarUrl,
-    });
+  void _openDirectChat(
+    String conversationId,
+    String contactName,
+    String avatarUrl,
+  ) {
+    Get.toNamed(
+      AppRoutes.chatDetails,
+      arguments: {
+        'conversationId': conversationId,
+        'contactName': contactName,
+        'avatarUrl': avatarUrl,
+      },
+    );
   }
 }

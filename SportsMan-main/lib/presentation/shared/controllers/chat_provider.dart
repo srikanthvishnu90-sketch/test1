@@ -41,16 +41,26 @@ class ChatProvider with ChangeNotifier {
     }
   }
 
+  bool _conversationsError = false;
+  bool get conversationsError => _conversationsError;
+
   Future<void> loadConversations() async {
     _isLoadingConversations = true;
+    _conversationsError = false;
     notifyListeners();
 
     await Future.delayed(const Duration(milliseconds: 300));
     await _fetchCurrentUserId();
 
-    _conversations = await _repo.getConversations();
-    _isLoadingConversations = false;
-    notifyListeners();
+    try {
+      _conversations = await _repo.getConversationsOrThrow();
+    } catch (e) {
+      debugPrint('loadConversations failed: $e');
+      _conversationsError = true;
+    } finally {
+      _isLoadingConversations = false;
+      notifyListeners();
+    }
   }
 
   Future<Map<String, dynamic>?> initiateConversation(
@@ -249,9 +259,11 @@ class ChatProvider with ChangeNotifier {
 
   void _sortMessages() {
     _messages.sort((a, b) {
-      final at = DateTime.tryParse(a['createdAt'] ?? '') ??
+      final at =
+          DateTime.tryParse(a['createdAt'] ?? '') ??
           DateTime.fromMillisecondsSinceEpoch(0);
-      final bt = DateTime.tryParse(b['createdAt'] ?? '') ??
+      final bt =
+          DateTime.tryParse(b['createdAt'] ?? '') ??
           DateTime.fromMillisecondsSinceEpoch(0);
       return at.compareTo(bt);
     });

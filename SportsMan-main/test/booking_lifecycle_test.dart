@@ -12,7 +12,10 @@ class _FakeRepo implements AppRepository {
   bool ok = true;
 
   @override
-  Future<List<dynamic>> getBookings() async => [
+  Future<List<dynamic>> getBookings() async => getBookingsOrThrow();
+
+  @override
+  Future<List<dynamic>> getBookingsOrThrow() async => [
         {'_id': 'b1', 'status': 'pending', 'athleteId': <String, dynamic>{}},
       ];
 

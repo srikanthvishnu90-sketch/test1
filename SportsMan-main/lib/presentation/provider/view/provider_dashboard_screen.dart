@@ -13,12 +13,12 @@ import '../../widgets/common_widgets.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
 
-
 class ProviderDashboardScreen extends StatefulWidget {
   const ProviderDashboardScreen({super.key});
 
   @override
-  State<ProviderDashboardScreen> createState() => _ProviderDashboardScreenState();
+  State<ProviderDashboardScreen> createState() =>
+      _ProviderDashboardScreenState();
 }
 
 class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
@@ -41,7 +41,8 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
     // stripe_charges_enabled back — then the re-fetch reflects the live status.
     // A plain re-fetch alone can never refresh charges; only the function writes
     // it. Self-limiting: once charges are active this no longer fires.
-    if (controller.stripeAccountId != null && !controller.stripeChargesEnabled) {
+    if (controller.stripeAccountId != null &&
+        !controller.stripeChargesEnabled) {
       await _refreshPayoutsFromStripe(controller);
     }
   }
@@ -113,8 +114,11 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
         _payoutsSnack(messenger, 'Payouts active', ok: true);
         await controller.fetchProviderProfile();
       } else {
-        _payoutsSnack(messenger,
-            'Could not start payouts setup. Please try again.', ok: false);
+        _payoutsSnack(
+          messenger,
+          'Could not start payouts setup. Please try again.',
+          ok: false,
+        );
       }
     } on FunctionException catch (e) {
       final d = e.details;
@@ -129,16 +133,24 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
     }
   }
 
-  void _payoutsSnack(ScaffoldMessengerState messenger, String msg,
-      {required bool ok}) {
-    messenger.showSnackBar(SnackBar(
-      content: Text(msg),
-      backgroundColor: ok ? AppColors.positive : AppColors.negative,
-    ));
+  void _payoutsSnack(
+    ScaffoldMessengerState messenger,
+    String msg, {
+    required bool ok,
+  }) {
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(msg),
+        backgroundColor: ok ? AppColors.positive : AppColors.negative,
+      ),
+    );
   }
 
   /// Payouts status row: active (slate check) or a "Set up payouts" button.
-  Widget _buildPayoutsCard(BuildContext context, ProviderController controller) {
+  Widget _buildPayoutsCard(
+    BuildContext context,
+    ProviderController controller,
+  ) {
     final active = controller.stripeChargesEnabled;
     return Container(
       width: double.infinity,
@@ -165,7 +177,11 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
           if (active)
             Row(
               children: [
-                const Icon(Icons.check_circle, color: AppColors.positive, size: 20),
+                const Icon(
+                  Icons.check_circle,
+                  color: AppColors.positive,
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   'Payouts active',
@@ -220,132 +236,173 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              // Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
+                // Header
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Good morning',
+                            style: AppTypography.font(
+                              color: AppColors.textGrey,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            onboardingProvider.institutionName.isNotEmpty
+                                ? onboardingProvider.institutionName
+                                : 'Apex Performance Academy',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.font(
+                              color: AppColors.textPrimary,
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: -0.6,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Container(
+                                width: 8,
+                                height: 8,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.slateText,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                'Active • ${providerController.sessionsToday} sessions today',
+                                style: AppTypography.font(
+                                  color: AppColors.slateText,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    ClipOval(
+                      child: SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: SporveImage(
+                          '',
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                          fallbackIcon: Icons.person,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32),
+
+                if (!onboardingProvider.profileCompleted)
+                  _buildFinishProfileCard(context, onboardingProvider),
+
+                // Payouts (Stripe Connect) status / setup
+                _buildPayoutsCard(context, providerController),
+
+                // Summary Cards — computed from real bookings/listings.
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildSummaryCard(
+                        label: 'REVENUE',
+                        value:
+                            '\$${providerController.revenue.toStringAsFixed(0)}',
+                        trend: 'PAID',
+                        trendColor: AppColors.slateText,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildSummaryCard(
+                        label: 'BOOKINGS',
+                        value: '${providerController.bookingCount}',
+                        trend: 'TOTAL',
+                        trendColor: AppColors.slateText,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildSummaryCard(
+                        label: 'LISTINGS',
+                        value: '${providerController.listingCount}',
+                        trend: 'LIVE',
+                        trendColor: AppColors.slateText,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+
+                // Insight Card
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(AppRadii.card),
+                    border: Border.all(color: AppColors.hairline),
+                  ),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Good morning',
+                        'TODAY\'S INSIGHT',
                         style: AppTypography.font(
-                          color: AppColors.textGrey,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        onboardingProvider.institutionName.isNotEmpty
-                            ? onboardingProvider.institutionName
-                            : 'Apex Performance Academy',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTypography.font(
-                          color: AppColors.textPrimary,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: -0.6,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
-                          Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(
-                              color: AppColors.slateText,
-                              shape: BoxShape.circle,
+                          Expanded(
+                            child: Text(
+                              '"Providers with 5+ photos in their listing earn 2× more views per week."',
+                              style: AppTypography.font(
+                                color: AppColors.textPrimary,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                height: 1.4,
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 6),
-                          Text(
-                            'Active • ${providerController.sessionsToday} sessions today',
-                            style: AppTypography.font(
-                              color: AppColors.slateText,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          const SizedBox(width: 16),
+                          const Icon(
+                            Icons.lightbulb_outline,
+                            color: AppColors.slateText,
+                            size: 32,
                           ),
                         ],
                       ),
                     ],
                   ),
-                  ),
-                  const SizedBox(width: 12),
-                  ClipOval(
-                    child: SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: SporveImage(
-                        '',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                        fallbackIcon: Icons.person,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-
-              if (!onboardingProvider.profileCompleted)
-                _buildFinishProfileCard(context, onboardingProvider),
-
-              // Payouts (Stripe Connect) status / setup
-              _buildPayoutsCard(context, providerController),
-
-              // Summary Cards — computed from real bookings/listings.
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildSummaryCard(
-                      label: 'REVENUE',
-                      value: '\$${providerController.revenue.toStringAsFixed(0)}',
-                      trend: 'PAID',
-                      trendColor: AppColors.slateText,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildSummaryCard(
-                      label: 'BOOKINGS',
-                      value: '${providerController.bookingCount}',
-                      trend: 'TOTAL',
-                      trendColor: AppColors.slateText,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildSummaryCard(
-                      label: 'LISTINGS',
-                      value: '${providerController.listingCount}',
-                      trend: 'LIVE',
-                      trendColor: AppColors.slateText,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-
-              // Insight Card
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppColors.surface,
-                  borderRadius: BorderRadius.circular(AppRadii.card),
-                  border: Border.all(color: AppColors.hairline),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(height: 32),
+
+                // Today's Sessions
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'TODAY\'S INSIGHT',
+                      'TODAY\'S SESSIONS',
                       style: AppTypography.font(
                         color: AppColors.textSecondary,
                         fontSize: 11,
@@ -353,138 +410,136 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         letterSpacing: 1.5,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '"Providers with 5+ photos in their listing earn 2× more views per week."',
-                            style: AppTypography.font(
-                              color: AppColors.textPrimary,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              height: 1.4,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        const Icon(Icons.lightbulb_outline, color: AppColors.slateText, size: 32),
-                      ],
-                    ),
+                    const SeeAll(label: 'View all'),
                   ],
                 ),
-              ),
-              const SizedBox(height: 32),
-
-              // Today's Sessions
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'TODAY\'S SESSIONS',
-                    style: AppTypography.font(
-                      color: AppColors.textSecondary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const SeeAll(label: 'View all'),
-                ],
-              ),
-              const SizedBox(height: 16),
-              if (providerController.sessions.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: Center(
-                    child: Text(
-                      'No sessions scheduled.',
-                      style: AppTypography.font(color: AppColors.textTertiary, fontSize: 12),
-                    ),
-                  ),
-                )
-              else ...[
-                for (final session in providerController.sessions.take(2)) ...[
-                  Builder(
-                    builder: (context) {
-                      final timeParts = session.timeStr.split(' ');
-                      final timeVal = timeParts[0];
-                      final periodVal = timeParts.length > 1 ? timeParts[1] : 'PM';
-                      return _buildSessionCard(
-                        time: timeVal,
-                        period: periodVal,
-                        title: session.serviceTitle,
-                        subtitle: session.userName.toUpperCase(),
-                        status: session.isConfirmed ? 'CONFIRMED' : 'PENDING',
-                        statusColor: session.isConfirmed ? AppColors.slateText : AppColors.warning,
-                      );
-                    }
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ],
-              const SizedBox(height: 20),
-
-              // Active Listings
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ACTIVE LISTINGS',
-                    style: AppTypography.font(
-                      color: AppColors.textSecondary,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const SeeAll(label: 'Manage'),
-                ],
-              ),
-              if (providerController.isLoading && !providerController.listingsLoaded)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator(color: AppColors.slateText, strokeWidth: 2)),
-                )
-              else if (listings.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: Column(
-                    children: [
-                      const Icon(Icons.inbox_outlined, color: AppColors.textTertiary, size: 40),
-                      const SizedBox(height: 8),
-                      Text(
-                        'No active listings yet.\nTap below to create your first program.',
-                        textAlign: TextAlign.center,
-                        style: AppTypography.font(color: AppColors.textTertiary, fontSize: 12, height: 1.6),
+                const SizedBox(height: 16),
+                if (providerController.bookingsError)
+                  ErrorRetry(
+                    message:
+                        "We couldn't load your sessions. Please try again.",
+                    onRetry: () => providerController.fetchProviderBookings(),
+                  )
+                else if (providerController.sessions.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Center(
+                      child: Text(
+                        'No sessions scheduled.',
+                        style: AppTypography.font(
+                          color: AppColors.textTertiary,
+                          fontSize: 12,
+                        ),
                       ),
-                    ],
-                  ),
-                )
-              else ...[
-                for (int i = 0; i < listings.length && i < 2; i++) ...[
-                  _buildActiveListingCard(
-                    index: i,
-                    image: listings[i].image,
-                    title: listings[i].title,
-                    rating: listings[i].rating,
-                    spots: listings[i].availability,
-                    context: context,
-                  ),
-                  const SizedBox(height: 12),
+                    ),
+                  )
+                else ...[
+                  for (final session in providerController.sessions.take(
+                    2,
+                  )) ...[
+                    Builder(
+                      builder: (context) {
+                        final timeParts = session.timeStr.split(' ');
+                        final timeVal = timeParts[0];
+                        final periodVal = timeParts.length > 1
+                            ? timeParts[1]
+                            : 'PM';
+                        return _buildSessionCard(
+                          time: timeVal,
+                          period: periodVal,
+                          title: session.serviceTitle,
+                          subtitle: session.userName.toUpperCase(),
+                          status: session.isConfirmed ? 'CONFIRMED' : 'PENDING',
+                          statusColor: session.isConfirmed
+                              ? AppColors.slateText
+                              : AppColors.warning,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                 ],
-              ],
+                const SizedBox(height: 20),
 
+                // Active Listings
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'ACTIVE LISTINGS',
+                      style: AppTypography.font(
+                        color: AppColors.textSecondary,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
+                    const SeeAll(label: 'Manage'),
+                  ],
+                ),
+                if (providerController.isLoading &&
+                    !providerController.listingsLoaded)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 24),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.slateText,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  )
+                else if (providerController.listingsError)
+                  ErrorRetry(
+                    message:
+                        "We couldn't load your listings. Please try again.",
+                    onRetry: () => providerController.fetchMyPrograms(),
+                  )
+                else if (listings.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: Column(
+                      children: [
+                        const Icon(
+                          Icons.inbox_outlined,
+                          color: AppColors.textTertiary,
+                          size: 40,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'No active listings yet.\nTap below to create your first program.',
+                          textAlign: TextAlign.center,
+                          style: AppTypography.font(
+                            color: AppColors.textTertiary,
+                            fontSize: 12,
+                            height: 1.6,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                else ...[
+                  for (int i = 0; i < listings.length && i < 2; i++) ...[
+                    _buildActiveListingCard(
+                      index: i,
+                      image: listings[i].image,
+                      title: listings[i].title,
+                      rating: listings[i].rating,
+                      spots: listings[i].availability,
+                      context: context,
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+                ],
 
-              // Create New Listing Button
-              SporveButton(
-                'Create new listing',
-                onPressed: () => _showCreateListing(context),
-                variant: SporveButtonVariant.secondary,
-                icon: Icons.add,
-                onDark: true,
-              ),
-              const SizedBox(height: 20),
+                // Create New Listing Button
+                SporveButton(
+                  'Create new listing',
+                  onPressed: () => _showCreateListing(context),
+                  variant: SporveButtonVariant.secondary,
+                  icon: Icons.add,
+                  onDark: true,
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -569,7 +624,11 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
             children: [
               Text(
                 'STARTS',
-                style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                style: AppTypography.font(
+                  color: AppColors.textTertiary,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -577,12 +636,20 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                 children: [
                   Text(
                     time,
-                    style: AppTypography.mono(size: 20, weight: FontWeight.bold, color: AppColors.textPrimary),
+                    style: AppTypography.mono(
+                      size: 20,
+                      weight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                   const SizedBox(width: 2),
                   Text(
                     period,
-                    style: AppTypography.mono(size: 11, weight: FontWeight.bold, color: AppColors.textPrimary),
+                    style: AppTypography.mono(
+                      size: 11,
+                      weight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
                 ],
               ),
@@ -597,21 +664,33 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.font(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
+                  style: AppTypography.font(
+                    color: AppColors.textPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   subtitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                  style: AppTypography.font(
+                    color: AppColors.textSecondary,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
           ),
           OutlinePill(status, color: statusColor),
           const SizedBox(width: 8),
-          const Icon(Icons.arrow_forward_ios, size: 10, color: AppColors.textTertiary),
+          const Icon(
+            Icons.arrow_forward_ios,
+            size: 10,
+            color: AppColors.textTertiary,
+          ),
         ],
       ),
     );
@@ -650,21 +729,37 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTypography.font(color: AppColors.textPrimary, fontSize: 13, fontWeight: FontWeight.bold),
+                  style: AppTypography.font(
+                    color: AppColors.textPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(Icons.star, color: AppColors.textPrimary, size: 12),
+                    const Icon(
+                      Icons.star,
+                      color: AppColors.textPrimary,
+                      size: 12,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       rating,
-                      style: AppTypography.mono(size: 11, weight: FontWeight.bold, color: AppColors.textPrimary),
+                      style: AppTypography.mono(
+                        size: 11,
+                        weight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Text(
                       spots,
-                      style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                      style: AppTypography.font(
+                        color: AppColors.textSecondary,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -678,7 +773,8 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                 context: context,
                 isScrollControlled: true,
                 backgroundColor: Colors.transparent,
-                builder: (context) => CreateListingBottomSheet(editIndex: index),
+                builder: (context) =>
+                    CreateListingBottomSheet(editIndex: index),
               );
             },
             variant: SporveButtonVariant.secondary,
@@ -690,7 +786,10 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
     );
   }
 
-  void _showFinishProfileModal(BuildContext context, OnboardingProvider provider) {
+  void _showFinishProfileModal(
+    BuildContext context,
+    OnboardingProvider provider,
+  ) {
     int localCapacity = provider.maxAthletes;
     String localLogo = provider.logoPath ?? '';
     List<String> localGallery = List.from(provider.galleryPaths);
@@ -736,7 +835,11 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                       const SizedBox(height: 24),
                       Text(
                         '1. MAX ATHLETES PER SESSION',
-                        style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Row(
@@ -763,14 +866,22 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                           ),
                           Text(
                             '$localCapacity',
-                            style: AppTypography.mono(size: 20, weight: FontWeight.bold, color: AppColors.textPrimary),
+                            style: AppTypography.mono(
+                              size: 20,
+                              weight: FontWeight.bold,
+                              color: AppColors.textPrimary,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 24),
                       Text(
                         '2. UPLOAD BRAND LOGO',
-                        style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       GestureDetector(
@@ -790,12 +901,26 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(localLogo.isNotEmpty ? Icons.check_circle : Icons.upload,
-                                   color: localLogo.isNotEmpty ? AppColors.slateText : AppColors.textSecondary, size: 18),
+                              Icon(
+                                localLogo.isNotEmpty
+                                    ? Icons.check_circle
+                                    : Icons.upload,
+                                color: localLogo.isNotEmpty
+                                    ? AppColors.slateText
+                                    : AppColors.textSecondary,
+                                size: 18,
+                              ),
                               const SizedBox(width: 8),
                               Text(
-                                localLogo.isNotEmpty ? 'logo_mock.png uploaded!' : 'Upload Logo File',
-                                style: AppTypography.font(color: localLogo.isNotEmpty ? AppColors.textPrimary : AppColors.textSecondary, fontSize: 13),
+                                localLogo.isNotEmpty
+                                    ? 'logo_mock.png uploaded!'
+                                    : 'Upload Logo File',
+                                style: AppTypography.font(
+                                  color: localLogo.isNotEmpty
+                                      ? AppColors.textPrimary
+                                      : AppColors.textSecondary,
+                                  fontSize: 13,
+                                ),
                               ),
                             ],
                           ),
@@ -804,14 +929,20 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                       const SizedBox(height: 24),
                       Text(
                         '3. MEDIA GALLERY (ADD MOCK PHOTOS)',
-                        style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       GestureDetector(
                         onTap: () {
                           if (localGallery.length < 4) {
                             setModalState(() {
-                              localGallery.add('gallery_${localGallery.length + 1}.png');
+                              localGallery.add(
+                                'gallery_${localGallery.length + 1}.png',
+                              );
                             });
                           }
                         },
@@ -826,11 +957,18 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.add_photo_alternate, color: AppColors.textSecondary, size: 18),
+                              const Icon(
+                                Icons.add_photo_alternate,
+                                color: AppColors.textSecondary,
+                                size: 18,
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 'Add Photo (${localGallery.length}/4)',
-                                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+                                style: AppTypography.font(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 13,
+                                ),
                               ),
                             ],
                           ),
@@ -840,16 +978,26 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         const SizedBox(height: 12),
                         Wrap(
                           spacing: 8,
-                          children: localGallery.map((p) => Chip(
-                            backgroundColor: AppColors.surface2,
-                            label: Text(p, style: AppTypography.font(color: AppColors.textPrimary, fontSize: 11)),
-                            onDeleted: () {
-                              setModalState(() {
-                                localGallery.remove(p);
-                              });
-                            },
-                            deleteIconColor: AppColors.textSecondary,
-                          )).toList(),
+                          children: localGallery
+                              .map(
+                                (p) => Chip(
+                                  backgroundColor: AppColors.surface2,
+                                  label: Text(
+                                    p,
+                                    style: AppTypography.font(
+                                      color: AppColors.textPrimary,
+                                      fontSize: 11,
+                                    ),
+                                  ),
+                                  onDeleted: () {
+                                    setModalState(() {
+                                      localGallery.remove(p);
+                                    });
+                                  },
+                                  deleteIconColor: AppColors.textSecondary,
+                                ),
+                              )
+                              .toList(),
                         ),
                       ],
                       const SizedBox(height: 32),
@@ -887,7 +1035,10 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
     );
   }
 
-  Widget _buildFinishProfileCard(BuildContext context, OnboardingProvider provider) {
+  Widget _buildFinishProfileCard(
+    BuildContext context,
+    OnboardingProvider provider,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       padding: const EdgeInsets.all(20),
@@ -907,7 +1058,11 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   color: AppColors.slateText,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.star, color: AppColors.onSlate, size: 16),
+                child: const Icon(
+                  Icons.star,
+                  color: AppColors.onSlate,
+                  size: 16,
+                ),
               ),
               const SizedBox(width: 12),
               Text(
@@ -955,7 +1110,11 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                   const SizedBox(width: 8),
                   Text(
                     '3 of 6 completed',
-                    style: AppTypography.font(color: AppColors.slateText, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.slateText,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),

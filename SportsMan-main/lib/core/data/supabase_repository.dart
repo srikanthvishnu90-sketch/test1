@@ -267,20 +267,27 @@ class SupabaseRepository implements AppRepository {
   }
 
   // ── Bookings ──────────────────────────────────────────────────────────────
+  Future<List<dynamic>> _fetchBookings() async {
+    final rows = await _db
+        .from('bookings')
+        .select(
+          '*, sessions(*, programs(*)), athletes(first_name,last_name,profile_image)',
+        );
+    return (rows as List).map((r) => _mapBooking(r as Map)).toList();
+  }
+
   @override
   Future<List<dynamic>> getBookings() async {
     try {
-      final rows = await _db
-          .from('bookings')
-          .select(
-            '*, sessions(*, programs(*)), athletes(first_name,last_name,profile_image)',
-          );
-      return (rows as List).map((r) => _mapBooking(r as Map)).toList();
+      return await _fetchBookings();
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
+
+  @override
+  Future<List<dynamic>> getBookingsOrThrow() => _fetchBookings();
 
   @override
   Future<void> saveBookings(List<dynamic> bookings) async {
@@ -818,30 +825,37 @@ class SupabaseRepository implements AppRepository {
   // which the current mock chat shape doesn't carry. Reads are wired; writes are
   // safe no-ops for now (ChatProvider keeps its in-session copy). Full chat
   // persistence is a follow-up, not part of #19's data flip.
+  Future<List<dynamic>> _fetchConversations() async {
+    final rows = await _db
+        .from('conversations')
+        .select()
+        .order('last_message_at', ascending: false);
+    return (rows as List)
+        .map(
+          (r) => {
+            '_id': (r as Map)['id'],
+            'programId': r['program_id'],
+            'participants': const [],
+            'lastMessage': r['last_message'] == null
+                ? null
+                : {'text': r['last_message']},
+          },
+        )
+        .toList();
+  }
+
   @override
   Future<List<dynamic>> getConversations() async {
     try {
-      final rows = await _db
-          .from('conversations')
-          .select()
-          .order('last_message_at', ascending: false);
-      return (rows as List)
-          .map(
-            (r) => {
-              '_id': (r as Map)['id'],
-              'programId': r['program_id'],
-              'participants': const [],
-              'lastMessage': r['last_message'] == null
-                  ? null
-                  : {'text': r['last_message']},
-            },
-          )
-          .toList();
+      return await _fetchConversations();
     } catch (e) {
       debugPrint('SupabaseRepository read failed: $e');
       return [];
     }
   }
+
+  @override
+  Future<List<dynamic>> getConversationsOrThrow() => _fetchConversations();
 
   @override
   Future<void> saveConversations(List<dynamic> conversations) async {}
