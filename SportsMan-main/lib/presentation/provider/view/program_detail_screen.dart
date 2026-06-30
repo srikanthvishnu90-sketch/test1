@@ -26,7 +26,9 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProviderController>().fetchProgramSessions(widget.listing.id);
+      context.read<ProviderController>().fetchProgramSessions(
+        widget.listing.id,
+      );
     });
   }
 
@@ -36,8 +38,8 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
     final spotsColor = spots <= 0
         ? AppColors.negative
         : spots <= 3
-            ? AppColors.warning
-            : AppColors.slateText;
+        ? AppColors.warning
+        : AppColors.slateText;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -58,7 +60,11 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                   color: Colors.black45,
                   borderRadius: BorderRadius.circular(AppRadii.tile),
                 ),
-                child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18),
+                child: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                  size: 18,
+                ),
               ),
             ),
             actions: [
@@ -69,14 +75,23 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                   borderRadius: BorderRadius.circular(AppRadii.tile),
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.share_outlined, color: Colors.white, size: 18),
+                  icon: const Icon(
+                    Icons.share_outlined,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                   onPressed: () {
-                    Clipboard.setData(const ClipboardData(
-                        text: 'Check out this program on Sporve'));
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Link copied to clipboard'),
-                      backgroundColor: AppColors.slateText,
-                    ));
+                    Clipboard.setData(
+                      const ClipboardData(
+                        text: 'Check out this program on Sporve',
+                      ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Link copied to clipboard'),
+                        backgroundColor: AppColors.slateText,
+                      ),
+                    );
                   },
                   padding: const EdgeInsets.all(8),
                   constraints: const BoxConstraints(),
@@ -89,7 +104,11 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
             slivers: [
               // ── Hero Cover ─────────────────────────────────────────
               SliverToBoxAdapter(
-                child: _HeroCover(listing: widget.listing, spotsColor: spotsColor, spots: spots),
+                child: _HeroCover(
+                  listing: widget.listing,
+                  spotsColor: spotsColor,
+                  spots: spots,
+                ),
               ),
 
               // ── Content ────────────────────────────────────────────
@@ -110,7 +129,11 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                     FadeInUp(
                       delay: const Duration(milliseconds: 100),
                       duration: const Duration(milliseconds: 400),
-                      child: _StatRow(listing: widget.listing, spotsColor: spotsColor, spots: spots),
+                      child: _StatRow(
+                        listing: widget.listing,
+                        spotsColor: spotsColor,
+                        spots: spots,
+                      ),
                     ),
                     const SizedBox(height: 24),
 
@@ -142,20 +165,45 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                         title: 'PROGRAM DETAILS',
                         child: Column(
                           children: [
-                            _InfoRow(icon: Icons.sports, label: 'Sport', value: widget.listing.sportType),
-                            _InfoRow(icon: Icons.bar_chart_rounded, label: 'Skill Level', value: _capitalize(widget.listing.skillLevel)),
-                            _InfoRow(icon: Icons.group_outlined, label: 'Age Group', value: widget.listing.ageGroup.toUpperCase()),
-                            _InfoRow(icon: Icons.cake_outlined, label: 'Age Range', value: '${widget.listing.minimumAge} – ${widget.listing.maximumAge} years'),
-                            _InfoRow(icon: Icons.language_outlined, label: 'Language', value: widget.listing.language),
+                            _InfoRow(
+                              icon: Icons.sports,
+                              label: 'Sport',
+                              value: widget.listing.sportType,
+                            ),
+                            _InfoRow(
+                              icon: Icons.bar_chart_rounded,
+                              label: 'Skill Level',
+                              value: _capitalize(widget.listing.skillLevel),
+                            ),
+                            _InfoRow(
+                              icon: Icons.group_outlined,
+                              label: 'Age Group',
+                              value: widget.listing.ageGroup.toUpperCase(),
+                            ),
+                            _InfoRow(
+                              icon: Icons.cake_outlined,
+                              label: 'Age Range',
+                              value:
+                                  '${widget.listing.minimumAge} – ${widget.listing.maximumAge} years',
+                            ),
+                            _InfoRow(
+                              icon: Icons.language_outlined,
+                              label: 'Language',
+                              value: widget.listing.language,
+                            ),
                             _InfoRow(
                               icon: Icons.sell_outlined,
                               label: 'Pricing Model',
-                              value: widget.listing.pricingModel.replaceAll('_', ' ').toUpperCase(),
+                              value: widget.listing.pricingModel
+                                  .replaceAll('_', ' ')
+                                  .toUpperCase(),
                             ),
                             _InfoRow(
                               icon: Icons.policy_outlined,
                               label: 'Cancellation',
-                              value: _capitalize(widget.listing.cancellationPolicy),
+                              value: _capitalize(
+                                widget.listing.cancellationPolicy,
+                              ),
                               isLast: true,
                             ),
                           ],
@@ -168,7 +216,11 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
                     FadeInUp(
                       delay: const Duration(milliseconds: 250),
                       duration: const Duration(milliseconds: 400),
-                      child: _CapacityCard(listing: widget.listing, spotsColor: spotsColor, spots: spots),
+                      child: _CapacityCard(
+                        listing: widget.listing,
+                        spotsColor: spotsColor,
+                        spots: spots,
+                      ),
                     ),
                     const SizedBox(height: 16),
 
@@ -264,7 +316,11 @@ class _ProgramDetailScreenState extends State<ProgramDetailScreen> {
 // Hero Cover
 // ─────────────────────────────────────────────────────────────────────────────
 class _HeroCover extends StatelessWidget {
-  const _HeroCover({required this.listing, required this.spotsColor, required this.spots});
+  const _HeroCover({
+    required this.listing,
+    required this.spotsColor,
+    required this.spots,
+  });
   final ProviderListing listing;
   final Color spotsColor;
   final int spots;
@@ -278,7 +334,12 @@ class _HeroCover extends StatelessWidget {
           height: 320,
           width: double.infinity,
           child: listing.image.isNotEmpty
-              ? SporveImage(listing.image, width: double.infinity, height: 320, fit: BoxFit.cover)
+              ? SporveImage(
+                  listing.image,
+                  width: double.infinity,
+                  height: 320,
+                  fit: BoxFit.cover,
+                )
               : _PlaceholderCover(listing: listing),
         ),
         // Gradient overlay
@@ -334,15 +395,21 @@ class _HeroCover extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  listing.status == 'published' ? Icons.check_circle : Icons.circle_outlined,
-                  color: listing.status == 'published' ? AppColors.onSlate : Colors.white,
+                  listing.status == 'published'
+                      ? Icons.check_circle
+                      : Icons.circle_outlined,
+                  color: listing.status == 'published'
+                      ? AppColors.onSlate
+                      : Colors.white,
                   size: 11,
                 ),
                 const SizedBox(width: 5),
                 Text(
                   listing.status.toUpperCase(),
                   style: AppTypography.font(
-                    color: listing.status == 'published' ? AppColors.onSlate : Colors.white,
+                    color: listing.status == 'published'
+                        ? AppColors.onSlate
+                        : Colors.white,
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -414,7 +481,9 @@ class _TitleSection extends StatelessWidget {
           decoration: BoxDecoration(
             color: SportColors.tintOf(listing.sportType),
             borderRadius: BorderRadius.circular(AppRadii.chip),
-            border: Border.all(color: SportColors.of(listing.sportType).withValues(alpha: 0.4)),
+            border: Border.all(
+              color: SportColors.of(listing.sportType).withValues(alpha: 0.4),
+            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -454,7 +523,9 @@ class _TitleSection extends StatelessWidget {
           Row(
             children: [
               Icon(
-                listing.providerVerified ? Icons.verified : Icons.store_outlined,
+                listing.providerVerified
+                    ? Icons.verified
+                    : Icons.store_outlined,
                 size: 15,
                 color: listing.providerVerified
                     ? AppColors.slateText
@@ -478,7 +549,10 @@ class _TitleSection extends StatelessWidget {
               if (listing.providerVerified) ...[
                 const SizedBox(width: 6),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.slateTint,
                     borderRadius: BorderRadius.circular(AppRadii.chip),
@@ -504,7 +578,11 @@ class _TitleSection extends StatelessWidget {
 // Stat Row
 // ─────────────────────────────────────────────────────────────────────────────
 class _StatRow extends StatelessWidget {
-  const _StatRow({required this.listing, required this.spotsColor, required this.spots});
+  const _StatRow({
+    required this.listing,
+    required this.spotsColor,
+    required this.spots,
+  });
   final ProviderListing listing;
   final Color spotsColor;
   final int spots;
@@ -591,7 +669,11 @@ class _StatCard extends StatelessWidget {
 // Capacity Bar Card
 // ─────────────────────────────────────────────────────────────────────────────
 class _CapacityCard extends StatelessWidget {
-  const _CapacityCard({required this.listing, required this.spotsColor, required this.spots});
+  const _CapacityCard({
+    required this.listing,
+    required this.spotsColor,
+    required this.spots,
+  });
   final ProviderListing listing;
   final Color spotsColor;
   final int spots;
@@ -626,11 +708,17 @@ class _CapacityCard extends StatelessWidget {
             children: [
               Text(
                 '${listing.enrolledCount} enrolled',
-                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+                style: AppTypography.font(
+                  color: AppColors.textSecondary,
+                  fontSize: 13,
+                ),
               ),
               Text(
                 '${listing.maxCapacity} max',
-                style: AppTypography.font(color: AppColors.textTertiary, fontSize: 13),
+                style: AppTypography.font(
+                  color: AppColors.textTertiary,
+                  fontSize: 13,
+                ),
               ),
             ],
           ),
@@ -748,8 +836,7 @@ class _InfoRow extends StatelessWidget {
             ],
           ),
         ),
-        if (!isLast)
-          const Divider(color: AppColors.hairlineSoft, height: 1),
+        if (!isLast) const Divider(color: AppColors.hairlineSoft, height: 1),
       ],
     );
   }
@@ -772,13 +859,21 @@ class _CheckRow extends StatelessWidget {
           const SizedBox(
             width: 20,
             height: 20,
-            child: Icon(Icons.check_circle, color: AppColors.slateText, size: 16),
+            child: Icon(
+              Icons.check_circle,
+              color: AppColors.slateText,
+              size: 16,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13, height: 1.4),
+              style: AppTypography.font(
+                color: AppColors.textSecondary,
+                fontSize: 13,
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -817,7 +912,13 @@ class _GallerySection extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: gallery.length,
             separatorBuilder: (_, _) => const SizedBox(width: 10),
-            itemBuilder: (context, i) => SporveImage(gallery[i], width: 110, height: 110, fit: BoxFit.cover, radius: AppRadii.card),
+            itemBuilder: (context, i) => SporveImage(
+              gallery[i],
+              width: 110,
+              height: 110,
+              fit: BoxFit.cover,
+              radius: AppRadii.card,
+            ),
           ),
         ),
       ],
@@ -835,7 +936,12 @@ class _BottomCTA extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(20, 16, 20, MediaQuery.of(context).padding.bottom + 16),
+      padding: EdgeInsets.fromLTRB(
+        20,
+        16,
+        20,
+        MediaQuery.of(context).padding.bottom + 16,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.ink,
         border: Border(top: BorderSide(color: AppColors.hairline)),
@@ -857,7 +963,10 @@ class _BottomCTA extends StatelessWidget {
               ),
               Text(
                 listing.pricingModel.replaceAll('_', ' '),
-                style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11),
+                style: AppTypography.font(
+                  color: AppColors.textTertiary,
+                  fontSize: 11,
+                ),
               ),
             ],
           ),
@@ -868,7 +977,9 @@ class _BottomCTA extends StatelessWidget {
               'Edit program',
               onPressed: () {
                 final controller = context.read<ProviderController>();
-                final index = controller.listings.indexWhere((l) => l.id == listing.id);
+                final index = controller.listings.indexWhere(
+                  (l) => l.id == listing.id,
+                );
                 Navigator.of(context).pop(index);
               },
               variant: SporveButtonVariant.primary,
@@ -902,34 +1013,26 @@ class _SessionsCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'SCHEDULED SESSIONS',
-                    style: AppTypography.font(
-                      color: AppColors.textGrey,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                  SporveButton(
-                    'Add session',
-                    onPressed: () => _showAddSessionBottomSheet(context, listing, controller),
-                    variant: SporveButtonVariant.primary,
-                    size: SporveButtonSize.compact,
-                    fullWidth: false,
-                    icon: Icons.add,
-                  ),
-                ],
+              // Sessions are auto-scheduled when the program is created and
+              // managed from the calendar — no manual "list a session" step.
+              Text(
+                'SCHEDULED SESSIONS',
+                style: AppTypography.font(
+                  color: AppColors.textGrey,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                ),
               ),
               const SizedBox(height: 16),
               if (loading)
                 const Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
-                    child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.slateText),
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.slateText,
+                    ),
                   ),
                 )
               else if (sessions.isEmpty)
@@ -951,7 +1054,8 @@ class _SessionsCard extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: sessions.length,
-                  separatorBuilder: (_, _) => const Divider(color: AppColors.hairlineSoft, height: 24),
+                  separatorBuilder: (_, _) =>
+                      const Divider(color: AppColors.hairlineSoft, height: 24),
                   itemBuilder: (context, index) {
                     final session = sessions[index];
                     final startDateStr = session['startDate'] ?? '';
@@ -960,7 +1064,7 @@ class _SessionsCard extends StatelessWidget {
                     final instructor = session['instructor'] ?? '';
                     final coachTip = session['coachTip'] ?? '';
                     final capacity = session['maxCapacity'] ?? 0;
-                    
+
                     DateTime? startDate;
                     try {
                       startDate = DateTime.parse(startDateStr);
@@ -1004,10 +1108,15 @@ class _SessionsCard extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: AppColors.surface2,
-                                    borderRadius: BorderRadius.circular(AppRadii.chip),
+                                    borderRadius: BorderRadius.circular(
+                                      AppRadii.chip,
+                                    ),
                                   ),
                                   child: Text(
                                     'Capacity: $capacity',
@@ -1038,7 +1147,11 @@ class _SessionsCard extends StatelessWidget {
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              const Icon(Icons.person_outline, color: AppColors.textTertiary, size: 14),
+                              const Icon(
+                                Icons.person_outline,
+                                color: AppColors.textTertiary,
+                                size: 14,
+                              ),
                               const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
@@ -1059,7 +1172,11 @@ class _SessionsCard extends StatelessWidget {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(Icons.lightbulb_outline, color: AppColors.warning, size: 14),
+                              const Icon(
+                                Icons.lightbulb_outline,
+                                color: AppColors.warning,
+                                size: 14,
+                              ),
                               const SizedBox(width: 6),
                               Expanded(
                                 child: Text(
@@ -1086,32 +1203,53 @@ class _SessionsCard extends StatelessWidget {
 
   String _weekdayName(int day) {
     switch (day) {
-      case 1: return 'Monday';
-      case 2: return 'Tuesday';
-      case 3: return 'Wednesday';
-      case 4: return 'Thursday';
-      case 5: return 'Friday';
-      case 6: return 'Saturday';
-      case 7: return 'Sunday';
-      default: return '';
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+        return '';
     }
   }
 
   String _monthName(int month) {
     switch (month) {
-      case 1: return 'Jan';
-      case 2: return 'Feb';
-      case 3: return 'Mar';
-      case 4: return 'Apr';
-      case 5: return 'May';
-      case 6: return 'Jun';
-      case 7: return 'Jul';
-      case 8: return 'Aug';
-      case 9: return 'Sep';
-      case 10: return 'Oct';
-      case 11: return 'Nov';
-      case 12: return 'Dec';
-      default: return '';
+      case 1:
+        return 'Jan';
+      case 2:
+        return 'Feb';
+      case 3:
+        return 'Mar';
+      case 4:
+        return 'Apr';
+      case 5:
+        return 'May';
+      case 6:
+        return 'Jun';
+      case 7:
+        return 'Jul';
+      case 8:
+        return 'Aug';
+      case 9:
+        return 'Sep';
+      case 10:
+        return 'Oct';
+      case 11:
+        return 'Nov';
+      case 12:
+        return 'Dec';
+      default:
+        return '';
     }
   }
 }
@@ -1127,30 +1265,49 @@ void _showAddSessionBottomSheet(
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     builder: (context) {
-      DateTime selectedDate = existingSession != null && existingSession['startDate'] != null
-          ? (DateTime.tryParse(existingSession['startDate'].toString()) ?? DateTime.now())
+      DateTime selectedDate =
+          existingSession != null && existingSession['startDate'] != null
+          ? (DateTime.tryParse(existingSession['startDate'].toString()) ??
+                DateTime.now())
           : DateTime.now();
-      String startTime = existingSession != null ? (existingSession['startTime'] ?? '09:00') : '09:00';
-      String endTime = existingSession != null ? (existingSession['endTime'] ?? '10:30') : '10:30';
+      String startTime = existingSession != null
+          ? (existingSession['startTime'] ?? '09:00')
+          : '09:00';
+      String endTime = existingSession != null
+          ? (existingSession['endTime'] ?? '10:30')
+          : '10:30';
       final capacityController = TextEditingController(
-        text: existingSession != null ? (existingSession['maxCapacity'] ?? '').toString() : '',
+        text: existingSession != null
+            ? (existingSession['maxCapacity'] ?? '').toString()
+            : '',
       );
       final instructorController = TextEditingController(
-        text: existingSession != null ? (existingSession['instructor'] ?? '') : '',
+        text: existingSession != null
+            ? (existingSession['instructor'] ?? '')
+            : '',
       );
       final tipController = TextEditingController(
-        text: existingSession != null ? (existingSession['coachTip'] ?? '') : '',
+        text: existingSession != null
+            ? (existingSession['coachTip'] ?? '')
+            : '',
       );
-      String? selectedTimezone = existingSession != null ? existingSession['timezone'] : null;
-      final listCoords = existingSession != null && existingSession['location'] != null
+      String? selectedTimezone = existingSession != null
+          ? existingSession['timezone']
+          : null;
+      final listCoords =
+          existingSession != null && existingSession['location'] != null
           ? existingSession['location']['coordinates']
           : null;
       final latVal = listCoords != null && listCoords.length == 2
           ? listCoords[1].toString()
-          : (listing.coordinates.length == 2 ? listing.coordinates[1].toString() : '');
+          : (listing.coordinates.length == 2
+                ? listing.coordinates[1].toString()
+                : '');
       final lngVal = listCoords != null && listCoords.length == 2
           ? listCoords[0].toString()
-          : (listing.coordinates.length == 2 ? listing.coordinates[0].toString() : '');
+          : (listing.coordinates.length == 2
+                ? listing.coordinates[0].toString()
+                : '');
       final addressVal = [
         listing.addressLine1,
         listing.city,
@@ -1159,17 +1316,24 @@ void _showAddSessionBottomSheet(
         listing.country,
       ].where((s) => s.isNotEmpty).join(', ');
       final defaultAddress = addressVal.isNotEmpty ? addressVal : '';
-      final existingLine1 = existingSession != null && existingSession['address'] != null
+      final existingLine1 =
+          existingSession != null && existingSession['address'] != null
           ? existingSession['address']['line1']?.toString()
           : null;
       final latController = TextEditingController(text: latVal);
       final lngController = TextEditingController(text: lngVal);
-      final addressController = TextEditingController(text: existingLine1 ?? '');
-      bool waitlistEnabled = existingSession != null ? (existingSession['waitlistEnabled'] ?? false) : false;
+      final addressController = TextEditingController(
+        text: existingLine1 ?? '',
+      );
+      bool waitlistEnabled = existingSession != null
+          ? (existingSession['waitlistEnabled'] ?? false)
+          : false;
       bool isSubmitting = false;
       bool locationFetched = existingSession != null;
 
-      Future<void> fetchCurrentLocation(void Function(void Function()) setModalState) async {
+      Future<void> fetchCurrentLocation(
+        void Function(void Function()) setModalState,
+      ) async {
         final messenger = ScaffoldMessenger.of(context);
         try {
           bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -1231,7 +1395,10 @@ void _showAddSessionBottomSheet(
         builder: (context, setModalState) {
           if (!locationFetched) {
             locationFetched = true;
-            Future.delayed(Duration.zero, () => fetchCurrentLocation(setModalState));
+            Future.delayed(
+              Duration.zero,
+              () => fetchCurrentLocation(setModalState),
+            );
           }
 
           Future<void> pickDate() async {
@@ -1262,7 +1429,9 @@ void _showAddSessionBottomSheet(
           }
 
           Future<void> pickTime(bool isStart) async {
-            final initialTime = isStart ? const TimeOfDay(hour: 9, minute: 0) : const TimeOfDay(hour: 10, minute: 30);
+            final initialTime = isStart
+                ? const TimeOfDay(hour: 9, minute: 0)
+                : const TimeOfDay(hour: 10, minute: 30);
             final time = await showTimePicker(
               context: context,
               initialTime: initialTime,
@@ -1280,7 +1449,8 @@ void _showAddSessionBottomSheet(
               },
             );
             if (time != null) {
-              final formattedTime = '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+              final formattedTime =
+                  '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
               setModalState(() {
                 if (isStart) {
                   startTime = formattedTime;
@@ -1294,9 +1464,16 @@ void _showAddSessionBottomSheet(
           return Container(
             decoration: const BoxDecoration(
               color: AppColors.surface,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadii.card)),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(AppRadii.card),
+              ),
             ),
-            padding: EdgeInsets.fromLTRB(24, 20, 24, MediaQuery.of(context).viewInsets.bottom + 24),
+            padding: EdgeInsets.fromLTRB(
+              24,
+              20,
+              24,
+              MediaQuery.of(context).viewInsets.bottom + 24,
+            ),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -1314,7 +1491,9 @@ void _showAddSessionBottomSheet(
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    existingSession != null ? 'Update Session' : 'Schedule New Session',
+                    existingSession != null
+                        ? 'Update Session'
+                        : 'Schedule New Session',
                     style: AppTypography.font(
                       color: AppColors.textPrimary,
                       fontSize: 20,
@@ -1326,13 +1505,20 @@ void _showAddSessionBottomSheet(
                   // Date selector
                   Text(
                     'DATE',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   InkWell(
                     onTap: pickDate,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.surface2,
                         borderRadius: BorderRadius.circular(AppRadii.tile),
@@ -1343,9 +1529,16 @@ void _showAddSessionBottomSheet(
                         children: [
                           Text(
                             '${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}',
-                            style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                            style: AppTypography.font(
+                              color: AppColors.textPrimary,
+                              fontSize: 14,
+                            ),
                           ),
-                          const Icon(Icons.calendar_today, color: AppColors.slateText, size: 16),
+                          const Icon(
+                            Icons.calendar_today,
+                            color: AppColors.slateText,
+                            size: 16,
+                          ),
                         ],
                       ),
                     ),
@@ -1361,23 +1554,43 @@ void _showAddSessionBottomSheet(
                           children: [
                             Text(
                               'START TIME',
-                              style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                              style: AppTypography.font(
+                                color: AppColors.textTertiary,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(height: 8),
                             InkWell(
                               onTap: () => pickTime(true),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.surface2,
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadii.tile,
+                                  ),
                                   border: Border.all(color: AppColors.hairline),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(startTime, style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14)),
-                                    const Icon(Icons.access_time, color: AppColors.textTertiary, size: 16),
+                                    Text(
+                                      startTime,
+                                      style: AppTypography.font(
+                                        color: AppColors.textPrimary,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.access_time,
+                                      color: AppColors.textTertiary,
+                                      size: 16,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -1392,23 +1605,43 @@ void _showAddSessionBottomSheet(
                           children: [
                             Text(
                               'END TIME',
-                              style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                              style: AppTypography.font(
+                                color: AppColors.textTertiary,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(height: 8),
                             InkWell(
                               onTap: () => pickTime(false),
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.surface2,
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadii.tile,
+                                  ),
                                   border: Border.all(color: AppColors.hairline),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(endTime, style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14)),
-                                    const Icon(Icons.access_time, color: AppColors.textTertiary, size: 16),
+                                    Text(
+                                      endTime,
+                                      style: AppTypography.font(
+                                        color: AppColors.textPrimary,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    const Icon(
+                                      Icons.access_time,
+                                      color: AppColors.textTertiary,
+                                      size: 16,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -1423,26 +1656,40 @@ void _showAddSessionBottomSheet(
                   // Max Capacity
                   Text(
                     'MAX CAPACITY',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: capacityController,
                     keyboardType: TextInputType.number,
-                    style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontSize: 14,
+                    ),
                     decoration: InputDecoration(
                       hintText: 'e.g. ${listing.maxCapacity}',
-                      hintStyle: AppTypography.font(color: AppColors.textTertiary),
+                      hintStyle: AppTypography.font(
+                        color: AppColors.textTertiary,
+                      ),
                       filled: true,
                       fillColor: AppColors.surface2,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
                         borderSide: const BorderSide(color: AppColors.hairline),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
-                        borderSide: const BorderSide(color: AppColors.slateText),
+                        borderSide: const BorderSide(
+                          color: AppColors.slateText,
+                        ),
                       ),
                     ),
                   ),
@@ -1451,25 +1698,39 @@ void _showAddSessionBottomSheet(
                   // Instructor
                   Text(
                     'INSTRUCTOR (OPTIONAL)',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: instructorController,
-                    style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontSize: 14,
+                    ),
                     decoration: InputDecoration(
                       hintText: 'e.g. Coach John Doe',
-                      hintStyle: AppTypography.font(color: AppColors.textTertiary),
+                      hintStyle: AppTypography.font(
+                        color: AppColors.textTertiary,
+                      ),
                       filled: true,
                       fillColor: AppColors.surface2,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
                         borderSide: const BorderSide(color: AppColors.hairline),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
-                        borderSide: const BorderSide(color: AppColors.slateText),
+                        borderSide: const BorderSide(
+                          color: AppColors.slateText,
+                        ),
                       ),
                     ),
                   ),
@@ -1478,30 +1739,45 @@ void _showAddSessionBottomSheet(
                   // Timezone
                   Text(
                     'TIMEZONE',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
                     initialValue: selectedTimezone,
                     dropdownColor: AppColors.surface2,
-                    style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontSize: 14,
+                    ),
                     iconEnabledColor: AppColors.textSecondary,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: AppColors.surface2,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
                         borderSide: const BorderSide(color: AppColors.hairline),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
-                        borderSide: const BorderSide(color: AppColors.slateText),
+                        borderSide: const BorderSide(
+                          color: AppColors.slateText,
+                        ),
                       ),
                     ),
                     hint: Text(
                       'Select Timezone',
-                      style: AppTypography.font(color: AppColors.textTertiary, fontSize: 14),
+                      style: AppTypography.font(
+                        color: AppColors.textTertiary,
+                        fontSize: 14,
+                      ),
                     ),
                     items: _allTimezones.map((tz) {
                       return DropdownMenuItem<String>(
@@ -1520,25 +1796,39 @@ void _showAddSessionBottomSheet(
                   // Address
                   Text(
                     'ADDRESS (OPTIONAL)',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: addressController,
-                    style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontSize: 14,
+                    ),
                     decoration: InputDecoration(
                       hintText: 'e.g. $defaultAddress',
-                      hintStyle: AppTypography.font(color: AppColors.textTertiary),
+                      hintStyle: AppTypography.font(
+                        color: AppColors.textTertiary,
+                      ),
                       filled: true,
                       fillColor: AppColors.surface2,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
                         borderSide: const BorderSide(color: AppColors.hairline),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
-                        borderSide: const BorderSide(color: AppColors.slateText),
+                        borderSide: const BorderSide(
+                          color: AppColors.slateText,
+                        ),
                       ),
                     ),
                   ),
@@ -1556,14 +1846,26 @@ void _showAddSessionBottomSheet(
                               children: [
                                 Text(
                                   'LATITUDE (OPTIONAL)',
-                                  style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                                  style: AppTypography.font(
+                                    color: AppColors.textTertiary,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 GestureDetector(
-                                  onTap: () => fetchCurrentLocation(setModalState),
+                                  onTap: () =>
+                                      fetchCurrentLocation(setModalState),
                                   behavior: HitTestBehavior.opaque,
                                   child: const Padding(
-                                    padding: EdgeInsets.only(left: 12, bottom: 4),
-                                    child: Icon(Icons.my_location, color: AppColors.slateText, size: 22),
+                                    padding: EdgeInsets.only(
+                                      left: 12,
+                                      bottom: 4,
+                                    ),
+                                    child: Icon(
+                                      Icons.my_location,
+                                      color: AppColors.slateText,
+                                      size: 22,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -1571,21 +1873,40 @@ void _showAddSessionBottomSheet(
                             const SizedBox(height: 8),
                             TextField(
                               controller: latController,
-                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                              style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                              style: AppTypography.font(
+                                color: AppColors.textPrimary,
+                                fontSize: 14,
+                              ),
                               decoration: InputDecoration(
                                 hintText: 'e.g. $latVal',
-                                hintStyle: AppTypography.font(color: AppColors.textTertiary),
+                                hintStyle: AppTypography.font(
+                                  color: AppColors.textTertiary,
+                                ),
                                 filled: true,
                                 fillColor: AppColors.surface2,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
-                                  borderSide: const BorderSide(color: AppColors.hairline),
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadii.tile,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.hairline,
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
-                                  borderSide: const BorderSide(color: AppColors.slateText),
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadii.tile,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.slateText,
+                                  ),
                                 ),
                               ),
                             ),
@@ -1599,26 +1920,49 @@ void _showAddSessionBottomSheet(
                           children: [
                             Text(
                               'LONGITUDE (OPTIONAL)',
-                              style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                              style: AppTypography.font(
+                                color: AppColors.textTertiary,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             const SizedBox(height: 8),
                             TextField(
                               controller: lngController,
-                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                              style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                  ),
+                              style: AppTypography.font(
+                                color: AppColors.textPrimary,
+                                fontSize: 14,
+                              ),
                               decoration: InputDecoration(
                                 hintText: 'e.g. $lngVal',
-                                hintStyle: AppTypography.font(color: AppColors.textTertiary),
+                                hintStyle: AppTypography.font(
+                                  color: AppColors.textTertiary,
+                                ),
                                 filled: true,
                                 fillColor: AppColors.surface2,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
-                                  borderSide: const BorderSide(color: AppColors.hairline),
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadii.tile,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.hairline,
+                                  ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(AppRadii.tile),
-                                  borderSide: const BorderSide(color: AppColors.slateText),
+                                  borderRadius: BorderRadius.circular(
+                                    AppRadii.tile,
+                                  ),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.slateText,
+                                  ),
                                 ),
                               ),
                             ),
@@ -1632,26 +1976,40 @@ void _showAddSessionBottomSheet(
                   // Coach Tip
                   Text(
                     'COACH TIP (OPTIONAL)',
-                    style: AppTypography.font(color: AppColors.textTertiary, fontSize: 11, fontWeight: FontWeight.bold),
+                    style: AppTypography.font(
+                      color: AppColors.textTertiary,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: tipController,
                     maxLines: 2,
-                    style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontSize: 14,
+                    ),
                     decoration: InputDecoration(
                       hintText: 'e.g. Please wear non-marking shoes.',
-                      hintStyle: AppTypography.font(color: AppColors.textTertiary),
+                      hintStyle: AppTypography.font(
+                        color: AppColors.textTertiary,
+                      ),
                       filled: true,
                       fillColor: AppColors.surface2,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
                         borderSide: const BorderSide(color: AppColors.hairline),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(AppRadii.tile),
-                        borderSide: const BorderSide(color: AppColors.slateText),
+                        borderSide: const BorderSide(
+                          color: AppColors.slateText,
+                        ),
                       ),
                     ),
                   ),
@@ -1661,7 +2019,10 @@ void _showAddSessionBottomSheet(
                   SwitchListTile(
                     title: Text(
                       'Enable Waitlist',
-                      style: AppTypography.font(color: AppColors.textPrimary, fontSize: 14),
+                      style: AppTypography.font(
+                        color: AppColors.textPrimary,
+                        fontSize: 14,
+                      ),
                     ),
                     value: waitlistEnabled,
                     activeThumbColor: AppColors.slateText,
@@ -1692,33 +2053,52 @@ void _showAddSessionBottomSheet(
                           onPressed: isSubmitting
                               ? null
                               : () async {
-                                  final cap = int.tryParse(capacityController.text) ?? listing.maxCapacity;
-                                  
+                                  final cap =
+                                      int.tryParse(capacityController.text) ??
+                                      listing.maxCapacity;
+
                                   // Formatting DateTimes
                                   final partsStart = startTime.split(':');
                                   final startHour = int.parse(partsStart[0]);
                                   final startMin = int.parse(partsStart[1]);
-                                  final dtStart = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, startHour, startMin);
-                                  
+                                  final dtStart = DateTime(
+                                    selectedDate.year,
+                                    selectedDate.month,
+                                    selectedDate.day,
+                                    startHour,
+                                    startMin,
+                                  );
+
                                   final partsEnd = endTime.split(':');
                                   final endHour = int.parse(partsEnd[0]);
                                   final endMin = int.parse(partsEnd[1]);
-                                  final dtEnd = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, endHour, endMin);
+                                  final dtEnd = DateTime(
+                                    selectedDate.year,
+                                    selectedDate.month,
+                                    selectedDate.day,
+                                    endHour,
+                                    endMin,
+                                  );
 
                                   if (dtEnd.isBefore(dtStart)) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('End time must be after start time.'),
+                                        content: Text(
+                                          'End time must be after start time.',
+                                        ),
                                         backgroundColor: AppColors.negative,
                                       ),
                                     );
                                     return;
                                   }
 
-                                  if (selectedTimezone == null || selectedTimezone!.isEmpty) {
+                                  if (selectedTimezone == null ||
+                                      selectedTimezone!.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Please select a timezone.'),
+                                        content: Text(
+                                          'Please select a timezone.',
+                                        ),
                                         backgroundColor: AppColors.negative,
                                       ),
                                     );
@@ -1730,20 +2110,27 @@ void _showAddSessionBottomSheet(
                                   if (latStr.isEmpty || lngStr.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Please provide coordinates or fetch current location.'),
+                                        content: Text(
+                                          'Please provide coordinates or fetch current location.',
+                                        ),
                                         backgroundColor: AppColors.negative,
                                       ),
                                     );
                                     return;
                                   }
 
-                                  final line1Val = addressController.text.trim().isNotEmpty
+                                  final line1Val =
+                                      addressController.text.trim().isNotEmpty
                                       ? addressController.text.trim()
-                                      : (listing.addressLine1.isNotEmpty ? listing.addressLine1 : '');
+                                      : (listing.addressLine1.isNotEmpty
+                                            ? listing.addressLine1
+                                            : '');
                                   if (line1Val.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text('Please enter an address.'),
+                                        content: Text(
+                                          'Please enter an address.',
+                                        ),
                                         backgroundColor: AppColors.negative,
                                       ),
                                     );
@@ -1754,18 +2141,29 @@ void _showAddSessionBottomSheet(
                                     isSubmitting = true;
                                   });
 
-                                  final lat = double.tryParse(latStr) ?? (listing.coordinates.length == 2 ? listing.coordinates[1] : 0.0);
-                                  final lng = double.tryParse(lngStr) ?? (listing.coordinates.length == 2 ? listing.coordinates[0] : 0.0);
+                                  final lat =
+                                      double.tryParse(latStr) ??
+                                      (listing.coordinates.length == 2
+                                          ? listing.coordinates[1]
+                                          : 0.0);
+                                  final lng =
+                                      double.tryParse(lngStr) ??
+                                      (listing.coordinates.length == 2
+                                          ? listing.coordinates[0]
+                                          : 0.0);
 
                                   final body = {
                                     'programId': listing.id,
-                                    'startDate': dtStart.toUtc().toIso8601String(),
+                                    'startDate': dtStart
+                                        .toUtc()
+                                        .toIso8601String(),
                                     'endDate': dtEnd.toUtc().toIso8601String(),
                                     'startTime': startTime,
                                     'endTime': endTime,
                                     'timezone': selectedTimezone,
                                     'maxCapacity': cap,
-                                    'instructor': instructorController.text.trim(),
+                                    'instructor': instructorController.text
+                                        .trim(),
                                     'waitlistEnabled': waitlistEnabled,
                                     'coachTip': tipController.text.trim(),
                                     'location': {
@@ -1774,10 +2172,18 @@ void _showAddSessionBottomSheet(
                                     },
                                     'address': {
                                       'line1': line1Val,
-                                      'city': listing.city.isNotEmpty ? listing.city : '',
-                                      'state': listing.state.isNotEmpty ? listing.state : '',
-                                      'zip': listing.zip.isNotEmpty ? listing.zip : '',
-                                      'country': listing.country.isNotEmpty ? listing.country : '',
+                                      'city': listing.city.isNotEmpty
+                                          ? listing.city
+                                          : '',
+                                      'state': listing.state.isNotEmpty
+                                          ? listing.state
+                                          : '',
+                                      'zip': listing.zip.isNotEmpty
+                                          ? listing.zip
+                                          : '',
+                                      'country': listing.country.isNotEmpty
+                                          ? listing.country
+                                          : '',
                                     },
                                     // Flat fields at root level in case the backend DTO uses flat fields
                                     'latitude': lat,
@@ -1785,33 +2191,47 @@ void _showAddSessionBottomSheet(
                                     'lat': lat,
                                     'lng': lng,
                                     'addressLine1': line1Val,
-                                    'city': listing.city.isNotEmpty ? listing.city : '',
-                                    'state': listing.state.isNotEmpty ? listing.state : '',
-                                    'zip': listing.zip.isNotEmpty ? listing.zip : '',
-                                    'country': listing.country.isNotEmpty ? listing.country : '',
+                                    'city': listing.city.isNotEmpty
+                                        ? listing.city
+                                        : '',
+                                    'state': listing.state.isNotEmpty
+                                        ? listing.state
+                                        : '',
+                                    'zip': listing.zip.isNotEmpty
+                                        ? listing.zip
+                                        : '',
+                                    'country': listing.country.isNotEmpty
+                                        ? listing.country
+                                        : '',
                                   };
 
                                   debugPrint('📤 Sending payload: $body');
                                   final navigator = Navigator.of(context);
-                                  final messenger = ScaffoldMessenger.of(context);
+                                  final messenger = ScaffoldMessenger.of(
+                                    context,
+                                  );
                                   final bool success;
                                   if (existingSession != null) {
-                                    success = await controller.updateProgramSession(
-                                      existingSession['_id'].toString(),
-                                      listing.id,
-                                      body,
-                                    );
+                                    success = await controller
+                                        .updateProgramSession(
+                                          existingSession['_id'].toString(),
+                                          listing.id,
+                                          body,
+                                        );
                                   } else {
-                                    success = await controller.createProgramSession(body);
+                                    success = await controller
+                                        .createProgramSession(body);
                                   }
 
                                   if (success) {
                                     navigator.pop();
                                     messenger.showSnackBar(
                                       SnackBar(
-                                        content: Text(existingSession != null
-                                            ? 'Session updated successfully!'
-                                            : 'Session scheduled successfully!'),
+                                        content: Text(
+                                          existingSession != null
+                                              ? 'Session updated successfully!'
+                                              : 'Session scheduled successfully!',
+                                        ),
                                         backgroundColor: AppColors.slateText,
                                       ),
                                     );
@@ -1821,9 +2241,11 @@ void _showAddSessionBottomSheet(
                                     });
                                     messenger.showSnackBar(
                                       SnackBar(
-                                        content: Text(existingSession != null
-                                            ? 'Failed to update session. Please try again.'
-                                            : 'Failed to schedule session. Please try again.'),
+                                        content: Text(
+                                          existingSession != null
+                                              ? 'Failed to update session. Please try again.'
+                                              : 'Failed to schedule session. Please try again.',
+                                        ),
                                         backgroundColor: AppColors.negative,
                                       ),
                                     );
