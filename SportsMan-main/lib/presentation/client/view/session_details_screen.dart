@@ -21,7 +21,8 @@ class SessionDetailsScreen extends StatefulWidget {
 }
 
 class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
-  String _selectedTab = 'OVERVIEW'; // 'OVERVIEW', 'WHAT YOU\'LL LEARN', 'REVIEWS'
+  String _selectedTab =
+      'OVERVIEW'; // 'OVERVIEW', 'WHAT YOU\'LL LEARN', 'REVIEWS'
   String _selectedTier = 'STANDARD'; // 'STANDARD', 'PRO', 'ELITE'
 
   double get _basePrice {
@@ -88,20 +89,20 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
     final dynamic args = Get.arguments;
     Opportunity? opportunity;
     Map<String, dynamic>? programData;
-    
+
     if (args is Opportunity) {
       opportunity = args;
       programData = args.rawData;
     } else if (args is Map<String, dynamic>) {
       programData = args;
     }
-    
+
     if (opportunity == null && programData != null) {
       final gallery = programData['gallery'];
       final image = (gallery != null && (gallery as List).isNotEmpty)
           ? gallery[0].toString()
           : '';
-          
+
       opportunity = Opportunity(
         id: 0,
         title: programData['title'] ?? 'Program',
@@ -117,27 +118,33 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
         rawData: programData,
       );
     }
-    
-    final String title = programData?['title'] ?? opportunity?.title ?? 'Session';
+
+    final String title =
+        programData?['title'] ?? opportunity?.title ?? 'Session';
 
     // Sport identity for this session — drives the per-sport CTA, tag, scrim.
     final String sport = (programData?['sportType'] ?? 'basketball').toString();
 
-    final String image = programData?['coverImage'] ?? 
-        ((programData != null && programData['gallery'] != null && (programData['gallery'] as List).isNotEmpty) 
-            ? programData['gallery'][0].toString() 
-            : null) ?? 
-        opportunity?.image ?? 
+    final String image =
+        programData?['coverImage'] ??
+        ((programData != null &&
+                programData['gallery'] != null &&
+                (programData['gallery'] as List).isNotEmpty)
+            ? programData['gallery'][0].toString()
+            : null) ??
+        opportunity?.image ??
         '';
-        
-    final String coach = programData?['providerId']?['businessName'] ??
+
+    final String coach =
+        programData?['providerId']?['businessName'] ??
         opportunity?.coach ??
         'Coach';
 
     // Rating comes from REAL program data only — no fabricated default stars.
     final double averageRatingVal =
         (programData?['averageRating'] as num?)?.toDouble() ?? 0;
-    final int reviewsCountVal = (programData?['totalReviews'] as num?)?.toInt() ?? 0;
+    final int reviewsCountVal =
+        (programData?['totalReviews'] as num?)?.toInt() ?? 0;
     final String rating = averageRatingVal > 0
         ? '${averageRatingVal.toStringAsFixed(1)} ($reviewsCountVal)'
         : 'New';
@@ -149,14 +156,15 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
         final parts = [
           addr['line1'] ?? addr['addressLine1'],
           addr['city'],
-          addr['state']
+          addr['state'],
         ].where((s) => s != null && s.toString().trim().isNotEmpty).toList();
         if (parts.isNotEmpty) {
           locationText = parts.join(', ');
         }
       } else if (addr is String && addr.isNotEmpty) {
         locationText = addr;
-      } else if (programData['location'] is String && (programData['location'] as String).isNotEmpty) {
+      } else if (programData['location'] is String &&
+          (programData['location'] as String).isNotEmpty) {
         locationText = programData['location'];
       }
     }
@@ -217,7 +225,10 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                 // Top Action Row (Back Button)
                 SafeArea(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -231,16 +242,26 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white24),
                             ),
-                            child: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 18),
+                            child: const Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                           ),
                         ),
                         Consumer<HomeProvider>(
                           builder: (context, homeProvider, child) {
-                            if (opportunity == null) return const SizedBox.shrink();
-                            final isFav = homeProvider.isFavorite(opportunity.programId);
+                            if (opportunity == null) {
+                              return const SizedBox.shrink();
+                            }
+                            final isFav = homeProvider.isFavorite(
+                              opportunity.programId,
+                            );
                             return GestureDetector(
                               onTap: () {
-                                homeProvider.toggleFavorite(opportunity?.programId);
+                                homeProvider.toggleFavorite(
+                                  opportunity?.programId,
+                                );
                               },
                               child: Container(
                                 height: 44,
@@ -251,8 +272,12 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                                   border: Border.all(color: Colors.white24),
                                 ),
                                 child: Icon(
-                                  isFav ? Icons.favorite : Icons.favorite_border,
-                                  color: isFav ? AppColors.slateText : AppColors.textPrimary,
+                                  isFav
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isFav
+                                      ? AppColors.slateText
+                                      : AppColors.textPrimary,
                                   size: 18,
                                 ),
                               ),
@@ -287,14 +312,23 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                               );
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 8,
+                              ),
                               decoration: BoxDecoration(
                                 color: AppColors.slateText,
-                                borderRadius: BorderRadius.circular(AppRadii.chip),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadii.chip,
+                                ),
                               ),
                               child: Row(
                                 children: [
-                                  const Icon(Icons.chat_bubble_outline, color: AppColors.onSlate, size: 12),
+                                  const Icon(
+                                    Icons.chat_bubble_outline,
+                                    color: AppColors.onSlate,
+                                    size: 12,
+                                  ),
                                   const SizedBox(width: 6),
                                   Text(
                                     'CHAT',
@@ -329,7 +363,10 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(6),
@@ -337,7 +374,11 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.star, color: Colors.white, size: 12),
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.white,
+                                  size: 12,
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   rating.split(' ')[0],
@@ -361,7 +402,11 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          const Icon(Icons.location_on, color: AppColors.slateText, size: 14),
+                          const Icon(
+                            Icons.location_on,
+                            color: AppColors.slateText,
+                            size: 14,
+                          ),
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
@@ -421,7 +466,8 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                       return SporveSegmented(
                         segments: tiers,
                         selected: tiers.indexOf(_selectedTier),
-                        onChanged: (i) => setState(() => _selectedTier = tiers[i]),
+                        onChanged: (i) =>
+                            setState(() => _selectedTier = tiers[i]),
                       );
                     },
                   ),
@@ -456,20 +502,23 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                       fontSize: 13,
                     ),
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Action buttons
                   SporveButton(
                     'Book session',
                     onPressed: () {
-                      Get.toNamed(AppRoutes.bookingFlow, arguments: {
-                        'program': programData,
-                        'title': title,
-                        'coach': coach,
-                        'tier': _selectedTier,
-                        'price': _tierPriceValue,
-                      });
+                      Get.toNamed(
+                        AppRoutes.bookingFlow,
+                        arguments: {
+                          'program': programData,
+                          'title': title,
+                          'coach': coach,
+                          'tier': _selectedTier,
+                          'price': _tierPriceValue,
+                        },
+                      );
                     },
                     variant: SporveButtonVariant.primary,
                     color: SportColors.of(sport),
@@ -491,7 +540,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 48),
           ],
         ),
@@ -512,7 +561,9 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
           Text(
             title,
             style: AppTypography.font(
-              color: isSelected ? AppColors.textPrimary : AppColors.textSecondary,
+              color: isSelected
+                  ? AppColors.textPrimary
+                  : AppColors.textSecondary,
               fontSize: 11,
               fontWeight: FontWeight.bold,
               letterSpacing: 0.5,
@@ -543,24 +594,30 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
               name: 'Jordan M.',
               date: 'FEB 2026',
               rating: 5,
-              comment: 'Coach Marcus transformed my son\'s game in 6 weeks. Incredibly detail-oriented and motivating.',
-              avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+              comment:
+                  'Coach Marcus transformed my son\'s game in 6 weeks. Incredibly detail-oriented and motivating.',
+              avatarUrl:
+                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
             ),
             const SizedBox(height: 16),
             _buildIndividualReview(
               name: 'Taylor R.',
               date: 'JAN 2026',
               rating: 5,
-              comment: 'Best investment we\'ve made. My daughter went from JV to Varsity after 2 months of sessions.',
-              avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+              comment:
+                  'Best investment we\'ve made. My daughter went from JV to Varsity after 2 months of sessions.',
+              avatarUrl:
+                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
             ),
             const SizedBox(height: 16),
             _buildIndividualReview(
               name: 'Alex B.',
               date: 'DEC 2025',
               rating: 4,
-              comment: 'Great drills and coaching philosophy. Would recommend for serious athletes.',
-              avatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+              comment:
+                  'Great drills and coaching philosophy. Would recommend for serious athletes.',
+              avatarUrl:
+                  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
             ),
           ],
         ),
@@ -594,37 +651,45 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
     }
 
     final String sportType = programData?['sportType'] ?? '';
-    
+
     // Choose dynamic breakdown steps based on sportType
     String step1Title = 'Warm-Up Protocol';
-    String step1Desc = 'Dynamic stretching, light cardio, and sport-specific warm-up.';
+    String step1Desc =
+        'Dynamic stretching, light cardio, and sport-specific warm-up.';
     String step2Title = 'Skill Drills';
-    String step2Desc = 'Core skill development and technical drill progression.';
+    String step2Desc =
+        'Core skill development and technical drill progression.';
     String step3Title = 'Live Application';
-    String step3Desc = 'Game-speed scenarios applying drill concepts in real-time.';
+    String step3Desc =
+        'Game-speed scenarios applying drill concepts in real-time.';
     String step4Title = 'Cool Down & Review';
     String step4Desc = 'Recovery stretches and tactical review of the session.';
-    
+
     if (sportType.toLowerCase() == 'soccer') {
       step1Desc = 'Dynamic stretching, light footwork, and dribbling warm-up.';
       step2Title = 'Tactical Drills';
       step2Desc = 'Passing accuracy, ball control, and shooting practice.';
       step3Title = 'Match Simulation';
-      step3Desc = 'Small-sided game application to test positioning and teamwork.';
+      step3Desc =
+          'Small-sided game application to test positioning and teamwork.';
       step4Title = 'Cool Down & Feedback';
-      step4Desc = 'Recovery stretch session and strategic feedback from the coach.';
+      step4Desc =
+          'Recovery stretch session and strategic feedback from the coach.';
     } else if (sportType.toLowerCase() == 'basketball') {
       step1Desc = 'Dynamic stretching, dribbling drills, and shooting warm-up.';
-      step2Desc = 'Finishing at the rim, pick & roll execution, and defensive positioning.';
+      step2Desc =
+          'Finishing at the rim, pick & roll execution, and defensive positioning.';
       step3Title = 'Scrimmage';
-      step3Desc = 'Half-court game simulation applying concepts learned under pressure.';
+      step3Desc =
+          'Half-court game simulation applying concepts learned under pressure.';
       step4Title = 'Cool Down & Feedback';
       step4Desc = 'Free-throw shooting and individual performance review.';
     }
 
     // Inclusions
     final List<dynamic>? inclusionsRaw = programData?['whatsIncluded'];
-    final List<String> inclusions = (inclusionsRaw != null && inclusionsRaw.isNotEmpty)
+    final List<String> inclusions =
+        (inclusionsRaw != null && inclusionsRaw.isNotEmpty)
         ? inclusionsRaw.map((e) => e.toString()).toList()
         : ['Video analysis included', '1-on-1 focus', 'Customized drills'];
 
@@ -670,9 +735,9 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
           duration: '10 MIN',
           description: step4Desc,
         ),
-        
+
         const SizedBox(height: 28),
-        
+
         // What's Included Green Box Card
         Container(
           width: double.infinity,
@@ -810,8 +875,11 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
       programData = args;
     }
 
-    final String overviewDescription = programData?['description'] ?? 
-        (args is Opportunity ? args.title : 'Focused session on ball handling, court vision, and finishing under pressure.');
+    final String overviewDescription =
+        programData?['description'] ??
+        (args is Opportunity
+            ? args.title
+            : 'Focused session on ball handling, court vision, and finishing under pressure.');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -837,148 +905,84 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
         ),
         const SizedBox(height: 20),
 
-        // Views count tag
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            color: AppColors.slateTint,
-            borderRadius: BorderRadius.circular(AppRadii.chip),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.local_fire_department, color: AppColors.slateText, size: 14),
-              const SizedBox(width: 8),
-              Text(
-                '94 people viewed this week',
-                style: AppTypography.font(
+        // Verified badge — shown ONLY when the coach is genuinely verified.
+        // (Fabricated "94 viewed", "booked 3x today", and a blanket
+        // "Background checked" / "98% response rate" were removed — they were
+        // not real data, and a false safety claim is worse than none.)
+        if (args is Opportunity && args.isVerified)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.surface2,
+              borderRadius: BorderRadius.circular(AppRadii.tile),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.verified_user,
                   color: AppColors.slateText,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
+                  size: 16,
                 ),
-              ),
-            ],
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Verified by Sporve',
+                        style: AppTypography.font(
+                          color: AppColors.textPrimary,
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Identity confirmed',
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
 
-        // Booking count tag
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          decoration: BoxDecoration(
-            color: AppColors.slateTint,
-            borderRadius: BorderRadius.circular(AppRadii.chip),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.event_available, color: AppColors.slateText, size: 14),
-              const SizedBox(width: 8),
-              Text(
-                'Booked 3 times today',
-                style: AppTypography.font(
-                  color: AppColors.slateText,
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-        
         const SizedBox(height: 24),
-        
-        // Sporve verified badge bar
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: AppColors.surface2,
-            borderRadius: BorderRadius.circular(AppRadii.tile),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    const Icon(Icons.verified_user, color: AppColors.slateText, size: 16),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Background checked',
-                            style: AppTypography.font(
-                              color: AppColors.textPrimary,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Identity verified by Sporve',
-                            style: AppTypography.font(
-                              color: AppColors.textSecondary,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Row(
-                  children: [
-                    const Icon(Icons.bolt, color: AppColors.slateText, size: 16),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '98% response rate',
-                            style: AppTypography.font(
-                              color: AppColors.textPrimary,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Typically replies under 1 hr',
-                            style: AppTypography.font(
-                              color: AppColors.textSecondary,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        
-        const SizedBox(height: 24),
-        
+
         // Grid Properties (Sport, Distance, Age, Response)
         Row(
           children: [
-            _buildGridBox('SPORT', Icons.emoji_events, '${programData?['sportType'] ?? (args is Opportunity ? 'Basketball' : 'General')}'),
+            _buildGridBox(
+              'SPORT',
+              Icons.emoji_events,
+              '${programData?['sportType'] ?? (args is Opportunity ? 'Basketball' : 'General')}',
+            ),
             const SizedBox(width: 12),
-            _buildGridBox('DISTANCE', Icons.place, '${programData?['distance']?.toString() ?? '0.8'} miles'),
+            _buildGridBox(
+              'DISTANCE',
+              Icons.place,
+              '${programData?['distance']?.toString() ?? '0.8'} miles',
+            ),
           ],
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            _buildGridBox('AGE RANGE', Icons.person, '${programData != null ? ('${programData['minimumAge'] ?? 10}-${programData['maximumAge'] ?? 17}') : '10-17'} years'),
+            _buildGridBox(
+              'AGE RANGE',
+              Icons.person,
+              '${programData != null ? ('${programData['minimumAge'] ?? 10}-${programData['maximumAge'] ?? 17}') : '10-17'} years',
+            ),
             const SizedBox(width: 12),
-            _buildGridBox('CANCELLATION', Icons.shield, '${programData?['cancellationPolicy'] ?? 'flexible'}'),
+            _buildGridBox(
+              'CANCELLATION',
+              Icons.shield,
+              '${programData?['cancellationPolicy'] ?? 'flexible'}',
+            ),
           ],
         ),
       ],
@@ -1039,9 +1043,14 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
       programData = args;
     }
 
-    final double avgRating = (programData?['averageRating'] as num?)?.toDouble() ?? 
-        double.tryParse(args is Opportunity ? args.rating.split(' ')[0] : '4.9') ?? 4.9;
-    final int reviewsCount = (programData?['totalReviews'] as num?)?.toInt() ?? 124;
+    final double avgRating =
+        (programData?['averageRating'] as num?)?.toDouble() ??
+        double.tryParse(
+          args is Opportunity ? args.rating.split(' ')[0] : '4.9',
+        ) ??
+        4.9;
+    final int reviewsCount =
+        (programData?['totalReviews'] as num?)?.toInt() ?? 124;
 
     return Container(
       width: double.infinity,
@@ -1131,7 +1140,9 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
             child: LinearProgressIndicator(
               value: percentage,
               backgroundColor: AppColors.surface2,
-              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.warning),
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                AppColors.warning,
+              ),
               minHeight: 6,
             ),
           ),
@@ -1211,7 +1222,9 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                           children: List.generate(5, (index) {
                             return Icon(
                               Icons.star,
-                              color: index < rating ? AppColors.textPrimary : AppColors.textTertiary,
+                              color: index < rating
+                                  ? AppColors.textPrimary
+                                  : AppColors.textTertiary,
                               size: 14,
                             );
                           }),
@@ -1245,5 +1258,4 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
       ),
     );
   }
-
 }

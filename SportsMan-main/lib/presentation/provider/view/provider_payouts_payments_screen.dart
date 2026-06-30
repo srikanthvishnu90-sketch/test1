@@ -10,47 +10,23 @@ class ProviderPayoutsPaymentsScreen extends StatefulWidget {
   const ProviderPayoutsPaymentsScreen({super.key});
 
   @override
-  State<ProviderPayoutsPaymentsScreen> createState() => _ProviderPayoutsPaymentsScreenState();
+  State<ProviderPayoutsPaymentsScreen> createState() =>
+      _ProviderPayoutsPaymentsScreenState();
 }
 
-class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsScreen> with SingleTickerProviderStateMixin {
+class _ProviderPayoutsPaymentsScreenState
+    extends State<ProviderPayoutsPaymentsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   String _selectedSchedule = 'Monthly'; // Daily, Weekly, Monthly
 
-  final List<Map<String, dynamic>> _banks = [
-    {
-      'id': 1,
-      'bankName': 'Chase Bank',
-      'details': 'Checking **** 4821',
-      'isDefault': true,
-    },
-    {
-      'id': 2,
-      'bankName': 'Bank of America',
-      'details': 'Savings **** 7392',
-      'isDefault': false,
-    }
-  ];
+  // Bank accounts + payout history are real Stripe data — never fabricated.
+  // Until the Stripe payouts feed is wired (a coach's connected account lists
+  // these), these stay empty so the screen shows honest empty states instead of
+  // fake "PAID" history with invented bank names.
+  final List<Map<String, dynamic>> _banks = [];
 
-  final List<Map<String, dynamic>> _payouts = [
-    {
-      'amount': '\$1,250.00',
-      'date': 'Today, 2:30 PM',
-      'bank': 'Chase Bank (**** 4821)',
-      'status': 'PAID',
-    },
-    {
-      'amount': '\$3,400.00',
-      'date': 'May 15, 2026',
-      'bank': 'Chase Bank (**** 4821)',
-      'status': 'PAID',
-    },
-    {
-      'amount': '\$950.00',
-      'date': 'May 08, 2026',
-      'bank': 'Bank of America (**** 7392)',
-    },
-  ];
+  final List<Map<String, dynamic>> _payouts = [];
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _routingController = TextEditingController();
@@ -111,8 +87,16 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
               dividerColor: Colors.transparent,
               labelColor: AppColors.textPrimary,
               unselectedLabelColor: AppColors.textTertiary,
-              labelStyle: AppTypography.font(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 0.5),
-              unselectedLabelStyle: AppTypography.font(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+              labelStyle: AppTypography.font(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
+              unselectedLabelStyle: AppTypography.font(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
               tabs: const [
                 Tab(text: 'Payouts'),
                 Tab(text: 'Bank Accounts'),
@@ -145,7 +129,10 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
         child: Center(
           child: Text(
             'No payouts yet.',
-            style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+            style: AppTypography.font(
+              color: AppColors.textSecondary,
+              fontSize: 13,
+            ),
           ),
         ),
       );
@@ -205,8 +192,12 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
                     ),
                   ),
                   const SizedBox(height: 6),
-                  OutlinePill(payout['status'] ?? 'PENDING',
-                      color: payout['status'] == 'PAID' ? AppColors.slateText : AppColors.warning),
+                  OutlinePill(
+                    payout['status'] ?? 'PENDING',
+                    color: payout['status'] == 'PAID'
+                        ? AppColors.slateText
+                        : AppColors.warning,
+                  ),
                 ],
               ),
             ],
@@ -238,7 +229,10 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
               child: Center(
                 child: Text(
                   'No bank accounts linked yet.',
-                  style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+                  style: AppTypography.font(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                  ),
                 ),
               ),
             ),
@@ -250,7 +244,9 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppRadii.card),
                 border: Border.all(
-                  color: bank['isDefault'] ? AppColors.slateBorder : AppColors.hairline,
+                  color: bank['isDefault']
+                      ? AppColors.slateBorder
+                      : AppColors.hairline,
                 ),
               ),
               child: Row(
@@ -261,7 +257,11 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
                       color: AppColors.surface2,
                       borderRadius: BorderRadius.circular(AppRadii.tile),
                     ),
-                    child: const Icon(Icons.account_balance, color: AppColors.textSecondary, size: 20),
+                    child: const Icon(
+                      Icons.account_balance,
+                      color: AppColors.textSecondary,
+                      size: 20,
+                    ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
@@ -339,15 +339,24 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
                 const SizedBox(height: 20),
                 _buildFieldLabel('Account holder name'),
                 const SizedBox(height: 6),
-                _buildTextInputField(hint: 'Name on account', controller: _nameController),
+                _buildTextInputField(
+                  hint: 'Name on account',
+                  controller: _nameController,
+                ),
                 const SizedBox(height: 16),
                 _buildFieldLabel('Routing number'),
                 const SizedBox(height: 6),
-                _buildTextInputField(hint: '9-digit routing number', controller: _routingController),
+                _buildTextInputField(
+                  hint: '9-digit routing number',
+                  controller: _routingController,
+                ),
                 const SizedBox(height: 16),
                 _buildFieldLabel('Account number'),
                 const SizedBox(height: 6),
-                _buildTextInputField(hint: 'Account number', controller: _accountController),
+                _buildTextInputField(
+                  hint: 'Account number',
+                  controller: _accountController,
+                ),
                 const SizedBox(height: 24),
                 Row(
                   children: [
@@ -413,7 +422,11 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
             ),
             child: Row(
               children: [
-                const Icon(Icons.lock_outline, color: AppColors.textSecondary, size: 20),
+                const Icon(
+                  Icons.lock_outline,
+                  color: AppColors.textSecondary,
+                  size: 20,
+                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Text(
@@ -437,7 +450,11 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
   Widget _buildFieldLabel(String text) {
     return Text(
       text,
-      style: AppTypography.font(color: AppColors.textSecondary, fontSize: 11, fontWeight: FontWeight.bold),
+      style: AppTypography.font(
+        color: AppColors.textSecondary,
+        fontSize: 11,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 
@@ -459,7 +476,10 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
         cursorColor: AppColors.slateText,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 13),
+          hintStyle: AppTypography.font(
+            color: AppColors.textTertiary,
+            fontSize: 13,
+          ),
           border: InputBorder.none,
         ),
       ),
@@ -493,9 +513,15 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
               children: [
                 _buildScheduleOption('Daily', 'Every business day'),
                 const Divider(color: AppColors.hairline, height: 1),
-                _buildScheduleOption('Weekly', 'Every Monday for the prior week'),
+                _buildScheduleOption(
+                  'Weekly',
+                  'Every Monday for the prior week',
+                ),
                 const Divider(color: AppColors.hairline, height: 1),
-                _buildScheduleOption('Monthly', '1st of the month for the prior month'),
+                _buildScheduleOption(
+                  'Monthly',
+                  '1st of the month for the prior month',
+                ),
               ],
             ),
           ),
@@ -556,7 +582,9 @@ class _ProviderPayoutsPaymentsScreenState extends State<ProviderPayoutsPaymentsS
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.slateText : AppColors.textTertiary,
+                  color: isSelected
+                      ? AppColors.slateText
+                      : AppColors.textTertiary,
                   width: 2,
                 ),
               ),
