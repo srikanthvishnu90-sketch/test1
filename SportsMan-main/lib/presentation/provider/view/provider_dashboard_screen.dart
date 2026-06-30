@@ -254,9 +254,15 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            onboardingProvider.institutionName.isNotEmpty
-                                ? onboardingProvider.institutionName
-                                : 'Apex Performance Academy',
+                            (providerController.providerProfile['businessName']
+                                            as String?)
+                                        ?.isNotEmpty ==
+                                    true
+                                ? providerController
+                                      .providerProfile['businessName']
+                                : (onboardingProvider.institutionName.isNotEmpty
+                                      ? onboardingProvider.institutionName
+                                      : 'Your academy'),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: AppTypography.font(

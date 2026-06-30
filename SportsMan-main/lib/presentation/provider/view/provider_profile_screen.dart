@@ -107,8 +107,26 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
     }
   }
 
+  /// Real profile completeness — fraction of the 5 key fields that are filled.
+  double _profileStrength(Map<String, dynamic> p) {
+    var score = 0;
+    if ((p['businessName'] ?? '').toString().trim().isNotEmpty) score++;
+    if ((p['bio'] ?? '').toString().trim().isNotEmpty) score++;
+    if ((p['sports'] is List) && (p['sports'] as List).isNotEmpty) score++;
+    if ((p['location'] ?? '').toString().trim().isNotEmpty) score++;
+    if (p['verificationStatus'] == 'verified' ||
+        p['stripeChargesEnabled'] == true) {
+      score++;
+    }
+    return score / 5;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final strength = _profileStrength(
+      context.watch<ProviderController>().providerProfile,
+    );
+    final strengthPct = (strength * 100).round();
     return GradientScaffold(
       body: SafeArea(
         bottom: false,
@@ -263,7 +281,7 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                                   ),
                                 ),
                                 Text(
-                                  '72%',
+                                  '$strengthPct%',
                                   style: AppTypography.font(
                                     color: AppColors.slateText,
                                     fontSize: 12,
@@ -278,10 +296,10 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                               borderRadius: BorderRadius.circular(
                                 AppRadii.chip,
                               ),
-                              child: const LinearProgressIndicator(
-                                value: 0.72,
+                              child: LinearProgressIndicator(
+                                value: strength,
                                 backgroundColor: AppColors.surface2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
+                                valueColor: const AlwaysStoppedAnimation<Color>(
                                   AppColors.slateText,
                                 ),
                                 minHeight: 6,

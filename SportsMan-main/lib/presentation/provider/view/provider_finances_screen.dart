@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import '../controllers/provider_controller.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
@@ -15,13 +17,18 @@ class ProviderFinancesScreen extends StatefulWidget {
   State<ProviderFinancesScreen> createState() => _ProviderFinancesScreenState();
 }
 
-class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with SingleTickerProviderStateMixin {
+class _ProviderFinancesScreenState extends State<ProviderFinancesScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    // Load real bookings so revenue/earnings reflect actual paid sessions.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProviderController>().fetchProviderBookings();
+    });
   }
 
   @override
@@ -86,8 +93,16 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
               dividerColor: Colors.transparent,
               labelColor: AppColors.textPrimary,
               unselectedLabelColor: AppColors.textTertiary,
-              labelStyle: AppTypography.font(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 0.5),
-              unselectedLabelStyle: AppTypography.font(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 0.5),
+              labelStyle: AppTypography.font(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
+              unselectedLabelStyle: AppTypography.font(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
               tabs: const [
                 Tab(text: 'DASHBOARD'),
                 Tab(text: 'TRANSFERS'),
@@ -116,6 +131,10 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
   }
 
   Widget _buildDashboardTab() {
+    final c = context.watch<ProviderController>();
+    final revenue = c.revenue;
+    final revenueStr = '\$${revenue.toStringAsFixed(0)}';
+    final athletes = c.rosterAthletes.length;
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -131,25 +150,25 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
             children: [
               _buildFinanceGridCard(
                 label: 'REVENUE',
-                value: '\$0',
-                trend: '—',
-                trendColor: AppColors.textTertiary,
+                value: revenueStr,
+                trend: 'paid',
+                trendColor: AppColors.positive,
               ),
               _buildFinanceGridCard(
                 label: 'ATHLETES',
-                value: '0',
+                value: '$athletes',
                 trend: '—',
                 trendColor: AppColors.textTertiary,
               ),
               _buildFinanceGridCard(
-                label: 'PENDING',
-                value: '\$0',
+                label: 'PENDING PAYOUT',
+                value: revenueStr,
                 trend: '—',
                 trendColor: AppColors.textTertiary,
               ),
               _buildFinanceGridCard(
-                label: 'MARGIN',
-                value: '0%',
+                label: 'SESSIONS',
+                value: '${c.sessions.length}',
                 trend: '—',
                 trendColor: AppColors.textTertiary,
               ),
@@ -179,7 +198,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  '\$0',
+                  revenueStr,
                   style: AppTypography.mono(
                     size: 40,
                     weight: FontWeight.bold,
@@ -187,7 +206,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                   ),
                 ),
                 Text(
-                  'NET PROFIT · MARCH',
+                  'TOTAL EARNED · ALL TIME',
                   style: AppTypography.font(
                     color: AppColors.textSecondary,
                     fontSize: 11,
@@ -198,15 +217,15 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                 const SizedBox(height: 24),
                 _buildProgressRow(
                   label: 'REVENUE',
-                  amount: '\$0',
-                  progress: 0,
+                  amount: revenueStr,
+                  progress: revenue > 0 ? 1 : 0,
                   color: AppColors.slateText,
                 ),
                 const SizedBox(height: 16),
                 _buildProgressRow(
-                  label: 'EXPENSES',
-                  amount: '\$0',
-                  progress: 0,
+                  label: 'PLATFORM FEE (10%)',
+                  amount: '\$${(revenue * 0.1).toStringAsFixed(0)}',
+                  progress: revenue > 0 ? 0.1 : 0,
                   color: AppColors.negative,
                 ),
               ],
@@ -336,16 +355,18 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
 
           // Badge row
           Row(
-            children: [
-              _buildTransfersBadge('NOT CONNECTED', isGreenDot: true),
-            ],
+            children: [_buildTransfersBadge('NOT CONNECTED', isGreenDot: true)],
           ),
           const SizedBox(height: 24),
 
           // Bullet points
-          _buildBulletPoint('Payments aren\'t connected yet — your balance will appear here once payouts are live.'),
+          _buildBulletPoint(
+            'Payments aren\'t connected yet — your balance will appear here once payouts are live.',
+          ),
           const SizedBox(height: 12),
-          _buildBulletPoint('Once live, withdrawals will be processed through your linked bank account.'),
+          _buildBulletPoint(
+            'Once live, withdrawals will be processed through your linked bank account.',
+          ),
           const SizedBox(height: 32),
 
           // Buttons
@@ -382,7 +403,10 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
             child: Center(
               child: Text(
                 'No bank accounts linked yet.',
-                style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+                style: AppTypography.font(
+                  color: AppColors.textSecondary,
+                  fontSize: 13,
+                ),
               ),
             ),
           ),
@@ -407,7 +431,10 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
             Container(
               height: 6,
               width: 6,
-              decoration: const BoxDecoration(color: AppColors.slateText, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                color: AppColors.slateText,
+                shape: BoxShape.circle,
+              ),
             ),
             const SizedBox(width: 6),
           ],
@@ -431,7 +458,10 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
       children: [
         Container(
           margin: const EdgeInsets.only(top: 2),
-          decoration: const BoxDecoration(color: AppColors.slateText, shape: BoxShape.circle),
+          decoration: const BoxDecoration(
+            color: AppColors.slateText,
+            shape: BoxShape.circle,
+          ),
           padding: const EdgeInsets.all(3),
           child: const Icon(Icons.check, color: AppColors.onSlate, size: 8),
         ),
@@ -464,7 +494,10 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.card),
@@ -498,7 +531,10 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
               const SizedBox(width: 12),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.card),
@@ -545,105 +581,118 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                     child: Center(
                       child: Text(
                         'No transactions yet.',
-                        style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   )
                 : ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: transactions.length,
-              separatorBuilder: (context, index) => const Divider(color: AppColors.hairline, height: 28),
-              itemBuilder: (context, index) {
-                final tx = transactions[index];
-                final bool isCompleted = tx['status'] == 'COMPLETED';
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: transactions.length,
+                    separatorBuilder: (context, index) =>
+                        const Divider(color: AppColors.hairline, height: 28),
+                    itemBuilder: (context, index) {
+                      final tx = transactions[index];
+                      final bool isCompleted = tx['status'] == 'COMPLETED';
 
-                return Row(
-                  children: [
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        ClipOval(
-                          child: SizedBox(
-                            width: 44,
-                            height: 44,
-                            child: SporveImage(
-                              tx['imageUrl'],
-                              width: 44,
-                              height: 44,
-                              fit: BoxFit.cover,
-                              fallbackIcon: Icons.person,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -2,
-                          right: -2,
-                          child: Container(
-                            height: 14,
-                            width: 14,
-                            decoration: BoxDecoration(
-                              color: tx['isIncome'] ? AppColors.slateText : AppColors.negative,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: AppColors.surface, width: 2),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      return Row(
                         children: [
-                          Row(
+                          Stack(
+                            clipBehavior: Clip.none,
                             children: [
-                              Flexible(
-                                child: Text(
-                                  tx['name'],
+                              ClipOval(
+                                child: SizedBox(
+                                  width: 44,
+                                  height: 44,
+                                  child: SporveImage(
+                                    tx['imageUrl'],
+                                    width: 44,
+                                    height: 44,
+                                    fit: BoxFit.cover,
+                                    fallbackIcon: Icons.person,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                bottom: -2,
+                                right: -2,
+                                child: Container(
+                                  height: 14,
+                                  width: 14,
+                                  decoration: BoxDecoration(
+                                    color: tx['isIncome']
+                                        ? AppColors.slateText
+                                        : AppColors.negative,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: AppColors.surface,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        tx['name'],
+                                        style: AppTypography.font(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    OutlinePill(
+                                      tx['status'],
+                                      color: isCompleted
+                                          ? AppColors.slateText
+                                          : AppColors.warning,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${tx['type']} • ${tx['time']}',
                                   style: AppTypography.font(
-                                    color: AppColors.textPrimary,
+                                    color: AppColors.textTertiary,
+                                    fontSize: 11,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                    letterSpacing: 0.5,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                              const SizedBox(width: 8),
-                              OutlinePill(
-                                tx['status'],
-                                color: isCompleted ? AppColors.slateText : AppColors.warning,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${tx['type']} • ${tx['time']}',
-                            style: AppTypography.font(
-                              color: AppColors.textTertiary,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.5,
+                              ],
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            tx['amount'],
+                            style: AppTypography.mono(
+                              size: 15,
+                              weight: FontWeight.bold,
+                              color: tx['isIncome']
+                                  ? AppColors.slateText
+                                  : AppColors.textPrimary,
+                            ),
                           ),
                         ],
-                      ),
-                    ),
-                    Text(
-                      tx['amount'],
-                      style: AppTypography.mono(
-                        size: 15,
-                        weight: FontWeight.bold,
-                        color: tx['isIncome'] ? AppColors.slateText : AppColors.textPrimary,
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+                      );
+                    },
+                  ),
           ),
           const SizedBox(height: 40),
         ],
@@ -678,121 +727,128 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen> with Si
                     child: Center(
                       child: Text(
                         'No invoices yet.',
-                        style: AppTypography.font(color: AppColors.textSecondary, fontSize: 13),
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
                   )
                 : ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: invoices.length,
-              separatorBuilder: (context, index) => const Divider(color: AppColors.hairline, height: 28),
-              itemBuilder: (context, index) {
-                final inv = invoices[index];
-                Color statusColor;
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: invoices.length,
+                    separatorBuilder: (context, index) =>
+                        const Divider(color: AppColors.hairline, height: 28),
+                    itemBuilder: (context, index) {
+                      final inv = invoices[index];
+                      Color statusColor;
 
-                if (inv['status'] == 'PAID') {
-                  statusColor = AppColors.slateText;
-                } else if (inv['status'] == 'PENDING') {
-                  statusColor = AppColors.warning;
-                } else {
-                  statusColor = AppColors.negative;
-                }
+                      if (inv['status'] == 'PAID') {
+                        statusColor = AppColors.slateText;
+                      } else if (inv['status'] == 'PENDING') {
+                        statusColor = AppColors.warning;
+                      } else {
+                        statusColor = AppColors.negative;
+                      }
 
-                return Row(
-                  children: [
-                    ClipOval(
-                      child: SizedBox(
-                        width: 44,
-                        height: 44,
-                        child: SporveImage(
-                          inv['imageUrl'],
-                          width: 44,
-                          height: 44,
-                          fit: BoxFit.cover,
-                          fallbackIcon: Icons.person,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      return Row(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  inv['client'],
+                          ClipOval(
+                            child: SizedBox(
+                              width: 44,
+                              height: 44,
+                              child: SporveImage(
+                                inv['imageUrl'],
+                                width: 44,
+                                height: 44,
+                                fit: BoxFit.cover,
+                                fallbackIcon: Icons.person,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        inv['client'],
+                                        style: AppTypography.font(
+                                          color: AppColors.textPrimary,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 6),
+                                    OutlinePill(
+                                      inv['status'],
+                                      color: statusColor,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${inv['service']} • ${inv['due']}',
                                   style: AppTypography.font(
-                                    color: AppColors.textPrimary,
+                                    color: AppColors.textTertiary,
+                                    fontSize: 11,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 13,
+                                    letterSpacing: 0.5,
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                inv['amount'],
+                                style: AppTypography.mono(
+                                  size: 15,
+                                  weight: FontWeight.bold,
+                                  color: AppColors.textPrimary,
+                                ),
                               ),
-                              const SizedBox(width: 6),
-                              OutlinePill(inv['status'], color: statusColor),
+                              const SizedBox(height: 2),
+                              Text(
+                                inv['invNo'],
+                                style: AppTypography.mono(
+                                  size: 11,
+                                  weight: FontWeight.bold,
+                                  color: AppColors.textTertiary,
+                                ),
+                              ),
                             ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${inv['service']} • ${inv['due']}',
-                            style: AppTypography.font(
-                              color: AppColors.textTertiary,
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.5,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
                         ],
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          inv['amount'],
-                          style: AppTypography.mono(
-                            size: 15,
-                            weight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          inv['invNo'],
-                          style: AppTypography.mono(
-                            size: 11,
-                            weight: FontWeight.bold,
-                            color: AppColors.textTertiary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                );
-              },
-            ),
+                      );
+                    },
+                  ),
           ),
           const SizedBox(height: 40),
         ],
       ),
     );
   }
-
 }
 
 class ProviderWithdrawalScreen extends StatefulWidget {
   const ProviderWithdrawalScreen({super.key});
 
   @override
-  State<ProviderWithdrawalScreen> createState() => _ProviderWithdrawalScreenState();
+  State<ProviderWithdrawalScreen> createState() =>
+      _ProviderWithdrawalScreenState();
 }
 
 class _ProviderWithdrawalScreenState extends State<ProviderWithdrawalScreen> {
@@ -994,11 +1050,24 @@ class _ProviderWithdrawalScreenState extends State<ProviderWithdrawalScreen> {
                 ),
                 child: Column(
                   children: [
-                    _buildSummaryRow('Withdrawal amount', '\$${amount.toStringAsFixed(2)}', AppColors.textPrimary),
+                    _buildSummaryRow(
+                      'Withdrawal amount',
+                      '\$${amount.toStringAsFixed(2)}',
+                      AppColors.textPrimary,
+                    ),
                     const SizedBox(height: 12),
-                    _buildSummaryRow('Transfer fee (0.25%)', '-\$${fee.toStringAsFixed(2)}', AppColors.warning),
+                    _buildSummaryRow(
+                      'Transfer fee (0.25%)',
+                      '-\$${fee.toStringAsFixed(2)}',
+                      AppColors.warning,
+                    ),
                     const Divider(color: AppColors.hairline, height: 24),
-                    _buildSummaryRow('You receive', '\$${receive.toStringAsFixed(2)}', AppColors.slateText, isBold: true),
+                    _buildSummaryRow(
+                      'You receive',
+                      '\$${receive.toStringAsFixed(2)}',
+                      AppColors.slateText,
+                      isBold: true,
+                    ),
                   ],
                 ),
               ),
@@ -1085,9 +1154,16 @@ class _ProviderWithdrawalScreenState extends State<ProviderWithdrawalScreen> {
             ),
             if (isSelected)
               Container(
-                decoration: const BoxDecoration(color: AppColors.slateText, shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                  color: AppColors.slateText,
+                  shape: BoxShape.circle,
+                ),
                 padding: const EdgeInsets.all(4),
-                child: const Icon(Icons.check, color: AppColors.onSlate, size: 10),
+                child: const Icon(
+                  Icons.check,
+                  color: AppColors.onSlate,
+                  size: 10,
+                ),
               ),
           ],
         ),
@@ -1095,7 +1171,12 @@ class _ProviderWithdrawalScreenState extends State<ProviderWithdrawalScreen> {
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, Color valueColor, {bool isBold = false}) {
+  Widget _buildSummaryRow(
+    String label,
+    String value,
+    Color valueColor, {
+    bool isBold = false,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
