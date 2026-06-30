@@ -307,6 +307,26 @@ class MockRepository implements AppRepository {
   @override
   Future<List<dynamic>> getAthletes() => Future.value(MockData.athletes);
   @override
+  Future<String?> addAthlete(Map<String, dynamic> athlete) async {
+    final id = 'athlete_${DateTime.now().millisecondsSinceEpoch}';
+    final first = (athlete['firstName'] ?? '').toString();
+    final last = (athlete['lastName'] ?? '').toString();
+    MockData.athletes = [
+      ...MockData.athletes,
+      {
+        '_id': id,
+        'firstName': first,
+        'lastName': last,
+        'fullName': '$first $last'.trim(),
+        if (athlete['dateOfBirth'] != null)
+          'dateOfBirth': athlete['dateOfBirth'],
+        if (athlete['gender'] != null) 'gender': athlete['gender'],
+      },
+    ];
+    return id;
+  }
+
+  @override
   Future<void> saveAthletes(List<dynamic> athletes) async =>
       MockData.athletes = athletes;
 

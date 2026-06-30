@@ -62,6 +62,10 @@ abstract class ProfileRepository {
 abstract class AthleteRepository {
   Future<List<dynamic>> getAthletes();
   Future<void> saveAthletes(List<dynamic> athletes);
+
+  /// Adds ONE child for the signed-in parent and returns its new id (null on
+  /// failure). Stamps parent_id + COPPA consent server-side.
+  Future<String?> addAthlete(Map<String, dynamic> athlete);
 }
 
 /// Conversations + their messages.

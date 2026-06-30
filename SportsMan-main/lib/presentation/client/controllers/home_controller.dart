@@ -67,6 +67,28 @@ class HomeProvider with ChangeNotifier {
     }
   }
 
+  /// Adds a child for the signed-in parent, refreshes the list, and returns the
+  /// new id (null on failure). Powers the in-app "Add child" flow so booking
+  /// never dead-ends on an empty profile.
+  Future<String?> addAthlete({
+    required String firstName,
+    required String lastName,
+    String? dateOfBirth,
+    String? gender,
+  }) async {
+    final id = await _repo.addAthlete({
+      'firstName': firstName.trim(),
+      'lastName': lastName.trim(),
+      'dateOfBirth': ?dateOfBirth,
+      'gender': ?gender,
+    });
+    if (id != null) {
+      await fetchAthletes();
+      notifyListeners();
+    }
+    return id;
+  }
+
   /// Real upcoming sessions for a program (today or later, soonest first).
   Future<List<dynamic>> sessionsForProgram(String? programId) async {
     if (programId == null || programId.isEmpty) return [];

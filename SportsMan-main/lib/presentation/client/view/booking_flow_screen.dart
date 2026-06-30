@@ -12,6 +12,7 @@ import '../../../core/theme/sport_colors.dart';
 import '../controllers/home_controller.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/sporve_button.dart';
+import '../widgets/add_child_sheet.dart';
 
 class BookingFlowScreen extends StatefulWidget {
   const BookingFlowScreen({super.key});
@@ -293,6 +294,23 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
     setState(() => _currentStep = 2);
   }
 
+  // Opens the in-app "Add a child" sheet, then refreshes so the new child is
+  // selectable — no more dead-ending on an empty profile.
+  Future<void> _addChild() async {
+    final added = await showAddChildSheet(context);
+    if (!mounted || !added) return;
+    final home = context.read<HomeProvider>();
+    await home.fetchAthletes();
+    if (!mounted) return;
+    setState(() {
+      _athletes = home.athletes;
+      if (_athletes.length == 1) {
+        _selectedAthleteId = _athletes.first['_id']?.toString();
+        _selectedAthleteName = _athleteName(_athletes.first);
+      }
+    });
+  }
+
   // "Who's attending" — pick one of the searcher's children (sets athlete_id).
   Widget _buildChildSelector() {
     return Column(
@@ -317,12 +335,26 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
               borderRadius: BorderRadius.circular(AppRadii.tile),
               border: Border.all(color: AppColors.hairline),
             ),
-            child: Text(
-              'No children on your profile yet. Add one to book.',
-              style: AppTypography.font(
-                color: AppColors.textSecondary,
-                fontSize: 13,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'No children on your profile yet. Add one to book.',
+                  style: AppTypography.font(
+                    color: AppColors.textSecondary,
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                SporveButton(
+                  'Add a child',
+                  onPressed: _addChild,
+                  variant: SporveButtonVariant.secondary,
+                  size: SporveButtonSize.compact,
+                  fullWidth: false,
+                  icon: Icons.add,
+                ),
+              ],
             ),
           )
         else

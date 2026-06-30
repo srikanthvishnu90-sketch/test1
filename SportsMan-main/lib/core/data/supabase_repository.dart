@@ -901,6 +901,34 @@ class SupabaseRepository implements AppRepository {
   }
 
   @override
+  Future<String?> addAthlete(Map<String, dynamic> athlete) async {
+    try {
+      final uid = _uid;
+      if (uid == null) return null;
+      final dob = athlete['dateOfBirth']?.toString();
+      final inserted = await _db
+          .from('athletes')
+          .insert({
+            'parent_id': uid, // RLS: parent owns the child
+            'first_name': athlete['firstName'],
+            'last_name': athlete['lastName'],
+            if (dob != null && dob.length >= 10)
+              'date_of_birth': dob.substring(0, 10),
+            if (athlete['gender'] != null) 'gender': athlete['gender'],
+            'parent_consent': true,
+            'consent_at': DateTime.now().toUtc().toIso8601String(),
+            'consent_version': 'v1',
+          })
+          .select('id')
+          .single();
+      return inserted['id']?.toString();
+    } catch (e) {
+      debugPrint('addAthlete failed: $e');
+      return null;
+    }
+  }
+
+  @override
   Future<void> saveAthletes(List<dynamic> athletes) async {
     try {
       final uid = _uid;
