@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../widgets/common_widgets.dart';
+import '../../../core/theme/sport_colors.dart';
 import '../../widgets/sporve_button.dart';
 import '../../widgets/sporve_image.dart';
 
@@ -1009,7 +1010,13 @@ class _SearchScreenState extends State<SearchScreen> {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppRadii.card),
-          border: Border.all(color: AppColors.hairline),
+          // Sport-color left accent (measured color, Kalshi-style category cue).
+          border: Border(
+            left: BorderSide(color: SportColors.of(specialty), width: 3),
+            top: const BorderSide(color: AppColors.hairline),
+            right: const BorderSide(color: AppColors.hairline),
+            bottom: const BorderSide(color: AppColors.hairline),
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1026,14 +1033,8 @@ class _SearchScreenState extends State<SearchScreen> {
             Row(
               children: [
                 if (specialty.isNotEmpty) ...[
-                  Text(
-                    _cap(specialty),
-                    style: AppTypography.font(
-                      color: AppColors.textSecondary,
-                      fontSize: 12,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
+                  SportTag(_cap(specialty)),
+                  const SizedBox(width: 10),
                 ],
                 if (price != null)
                   Text(
@@ -1227,6 +1228,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontSize: 14,
                     ),
                   ),
+                  if (opp.rawData?['sportType'] != null) ...[
+                    const SizedBox(height: 10),
+                    SportTag(_cap(opp.rawData!['sportType'])),
+                  ],
                   const SizedBox(height: 16),
                   Row(
                     children: [
