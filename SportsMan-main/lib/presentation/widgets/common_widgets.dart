@@ -251,16 +251,30 @@ class SportTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
-        color: SportColors.tintOf(sport),
+        // Bolder, more defined sport chip (Kalshi-style category cue): stronger
+        // tint + a hairline in the sport color.
+        color: c.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(AppRadii.chip),
+        border: Border.all(color: c.withValues(alpha: 0.55)),
       ),
-      child: Text(
-        sport,
-        style: AppTypography.font(
-          color: c,
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: c, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            sport,
+            style: AppTypography.font(
+              color: c,
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
