@@ -277,17 +277,18 @@ class SupabaseRepository implements AppRepository {
   }
 
   /// A new listing needs bookable sessions or the booking flow shows "no
-  /// upcoming sessions". Seed four weekly future sessions; the coach can edit.
+  /// upcoming sessions". Seed a DAILY session for the next 90 days so a program
+  /// effectively never runs out of bookable slots (the calendar stays full).
   Future<void> _seedDefaultSessions(String programId) async {
     try {
       final now = DateTime.now();
       final rows = [
-        for (var w = 1; w <= 4; w++)
+        for (var d = 1; d <= 90; d++)
           {
             'program_id': programId,
             'title': 'Session',
             'start_date': now
-                .add(Duration(days: 7 * w))
+                .add(Duration(days: d))
                 .toIso8601String()
                 .substring(0, 10),
             'start_time': '05:00 PM',
