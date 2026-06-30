@@ -1,16 +1,26 @@
-name: CI
+name: Sporve CI
 
-# Protects the branch: every push and PR must pass `flutter analyze` and
-# `flutter test`. Formatting is reported but non-blocking for now (the repo is
-# not yet fully `dart format`-clean — see the "Check formatting" step).
+# The Flutter project lives in the SportsMan-main/ subtree of this repo, so the
+# workflow lives at the repo root (GitHub only runs workflows from the root) and
+# every step operates inside SportsMan-main/. Scoped to changes in that subtree.
 on:
   push:
+    paths:
+      - 'SportsMan-main/**'
+      - '.github/workflows/ci.yml'
   pull_request:
+    paths:
+      - 'SportsMan-main/**'
+      - '.github/workflows/ci.yml'
 
 # A newer push to the same branch/PR cancels the older, still-running job.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: sporve-ci-${{ github.ref }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: SportsMan-main
 
 jobs:
   analyze-and-test:
