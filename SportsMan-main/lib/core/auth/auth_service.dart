@@ -34,6 +34,7 @@ abstract class AuthService {
     required String password,
     required String role, // 'searcher' | 'provider'
     required String name,
+    String? phone,
     String? captchaToken,
   });
 

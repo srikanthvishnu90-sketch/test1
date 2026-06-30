@@ -28,6 +28,7 @@ class SupabaseAuthService implements AuthService {
     required String password,
     required String role,
     required String name,
+    String? phone,
     String? captchaToken,
   }) async {
     try {
@@ -35,7 +36,13 @@ class SupabaseAuthService implements AuthService {
         email: email,
         password: password,
         captchaToken: captchaToken,
-        data: {'role': role, 'name': name}, // -> user_metadata
+        // -> user_metadata; handle_new_user reads role/name/phone into profiles
+        // (and creates the providers row when role == 'provider').
+        data: {
+          'role': role,
+          'name': name,
+          if (phone != null && phone.trim().isNotEmpty) 'phone': phone.trim(),
+        },
       );
       // Session present => confirmation is OFF, user is already in.
       // Session null => Supabase requires email confirmation first.
@@ -81,8 +88,9 @@ class SupabaseAuthService implements AuthService {
   AppUser? get currentUser => _toAppUser(_client.auth.currentSession?.user);
 
   @override
-  Stream<AppUser?> get authStateChanges =>
-      _client.auth.onAuthStateChange.map((data) => _toAppUser(data.session?.user));
+  Stream<AppUser?> get authStateChanges => _client.auth.onAuthStateChange.map(
+    (data) => _toAppUser(data.session?.user),
+  );
 
   @override
   Future<bool> sendPasswordReset(String email) async {

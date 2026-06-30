@@ -22,6 +22,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _agreeToTerms = false;
@@ -31,6 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -39,9 +41,13 @@ class _SignupScreenState extends State<SignupScreen> {
     final firstName = _firstNameController.text.trim();
     final lastName = _lastNameController.text.trim();
     final email = _emailController.text.trim();
+    final phone = _phoneController.text.trim();
     final password = _passwordController.text;
 
-    if (firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty) {
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill out all the fields.'),
@@ -54,15 +60,22 @@ class _SignupScreenState extends State<SignupScreen> {
     if (!_agreeToTerms) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('You must agree to Sporve\'s Terms of Service and Privacy Policy to continue.'),
+          content: Text(
+            'You must agree to Sporve\'s Terms of Service and Privacy Policy to continue.',
+          ),
           backgroundColor: AppColors.negative,
         ),
       );
       return;
     }
 
-    final onboardingProvider = Provider.of<OnboardingProvider>(context, listen: false);
-    final String role = onboardingProvider.isServiceProvider ? 'provider' : 'searcher';
+    final onboardingProvider = Provider.of<OnboardingProvider>(
+      context,
+      listen: false,
+    );
+    final String role = onboardingProvider.isServiceProvider
+        ? 'provider'
+        : 'searcher';
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final result = await authProvider.signUp(
@@ -70,6 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
       email: email,
       password: password,
       role: role,
+      phone: phone,
     );
     if (!mounted) return;
 
@@ -129,7 +143,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   Image.asset(AppAssets.appLogo, width: 45, height: 45),
                   const SizedBox(height: 28),
                   Text(
-                    Provider.of<OnboardingProvider>(context, listen: false).isServiceProvider
+                    Provider.of<OnboardingProvider>(
+                          context,
+                          listen: false,
+                        ).isServiceProvider
                         ? 'Create provider account'
                         : 'Create your account',
                     style: AppTypography.font(
@@ -139,7 +156,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  if (Provider.of<OnboardingProvider>(context, listen: false).isServiceProvider)
+                  if (Provider.of<OnboardingProvider>(
+                    context,
+                    listen: false,
+                  ).isServiceProvider)
                     Text(
                       'Institution: ${Provider.of<OnboardingProvider>(context, listen: false).institutionName}',
                       style: AppTypography.font(
@@ -150,7 +170,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   const SizedBox(height: 8),
                   Text(
-                    Provider.of<OnboardingProvider>(context, listen: false).isServiceProvider
+                    Provider.of<OnboardingProvider>(
+                          context,
+                          listen: false,
+                        ).isServiceProvider
                         ? 'Final step — Your details'
                         : 'Step 1 of 2 — Your details',
                     style: AppTypography.font(
@@ -164,12 +187,21 @@ class _SignupScreenState extends State<SignupScreen> {
                     children: [
                       Text(
                         'Already have an account? ',
-                        style: AppTypography.font(color: AppColors.textSecondary),
+                        style: AppTypography.font(
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
-                          final isProvider = Provider.of<OnboardingProvider>(context, listen: false).isServiceProvider;
-                          Get.toNamed(isProvider ? AppRoutes.providerLogin : AppRoutes.login);
+                          final isProvider = Provider.of<OnboardingProvider>(
+                            context,
+                            listen: false,
+                          ).isServiceProvider;
+                          Get.toNamed(
+                            isProvider
+                                ? AppRoutes.providerLogin
+                                : AppRoutes.login,
+                          );
                         },
                         child: Text(
                           'Log in',
@@ -191,7 +223,9 @@ class _SignupScreenState extends State<SignupScreen> {
               padding: const EdgeInsets.fromLTRB(24, 40, 24, 24),
               decoration: BoxDecoration(
                 color: AppColors.surface,
-                border: const Border(top: BorderSide(color: AppColors.hairline)),
+                border: const Border(
+                  top: BorderSide(color: AppColors.hairline),
+                ),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(AppRadii.card),
                   topRight: Radius.circular(AppRadii.card),
@@ -228,6 +262,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 24),
                   _buildTextField(
+                    controller: _phoneController,
+                    label: 'PHONE NUMBER',
+                    hint: '+1 (555) 000-0000',
+                    keyboardType: TextInputType.phone,
+                  ),
+                  const SizedBox(height: 24),
+                  _buildTextField(
                     controller: _passwordController,
                     label: 'PASSWORD',
                     hint: 'Min. 8 characters',
@@ -255,8 +296,13 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                           activeColor: AppColors.slateText,
                           checkColor: AppColors.onSlate,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                          side: const BorderSide(color: AppColors.hairline, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          side: const BorderSide(
+                            color: AppColors.hairline,
+                            width: 2,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -320,7 +366,10 @@ class _SignupScreenState extends State<SignupScreen> {
           cursorColor: AppColors.slateText,
           decoration: InputDecoration(
             hintText: hint,
-            hintStyle: AppTypography.font(color: AppColors.textTertiary, fontSize: 15),
+            hintStyle: AppTypography.font(
+              color: AppColors.textTertiary,
+              fontSize: 15,
+            ),
             filled: true,
             fillColor: AppColors.surface2,
             border: OutlineInputBorder(
@@ -333,13 +382,21 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadii.tile),
-              borderSide: const BorderSide(color: AppColors.slateBorder, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.slateBorder,
+                width: 1.5,
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 18,
+            ),
             suffixIcon: isPassword
                 ? IconButton(
                     icon: Icon(
-                      obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                      obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
                       color: AppColors.textTertiary,
                       size: 20,
                     ),

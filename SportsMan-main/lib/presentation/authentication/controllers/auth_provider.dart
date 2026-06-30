@@ -55,12 +55,18 @@ class AuthProvider extends ChangeNotifier {
   Future<String> determineNextRoute() async => routeForRole(role);
 
   // ── New API (screens use these after Stage 4) ─────────────────────────────
-  Future<AuthResult> signIn(String email, String password,
-      {String? captchaToken}) async {
+  Future<AuthResult> signIn(
+    String email,
+    String password, {
+    String? captchaToken,
+  }) async {
     _setError(null);
     _setLoading(true);
     final res = await _auth.signIn(
-        email: email.trim(), password: password, captchaToken: captchaToken);
+      email: email.trim(),
+      password: password,
+      captchaToken: captchaToken,
+    );
     if (res.status == AuthStatus.error) _setError(res.message);
     _setLoading(false);
     return res;
@@ -71,6 +77,7 @@ class AuthProvider extends ChangeNotifier {
     required String email,
     required String password,
     required String role,
+    String? phone,
     String? captchaToken,
   }) async {
     _setError(null);
@@ -81,6 +88,7 @@ class AuthProvider extends ChangeNotifier {
       password: password,
       role: role,
       name: name,
+      phone: phone,
       captchaToken: captchaToken,
     );
     if (res.status == AuthStatus.error) _setError(res.message);

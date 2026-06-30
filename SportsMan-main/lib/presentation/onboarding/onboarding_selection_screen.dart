@@ -51,25 +51,31 @@ class OnboardingSelectionScreen extends StatelessWidget {
               const SizedBox(height: 32),
               _buildOptionCard(
                 title: 'Athlete & Family',
-                subtitle: 'Find coaches, book sessions, and manage your entire athletic schedule in one place.',
+                subtitle:
+                    'Find coaches, book sessions, and manage your entire athletic schedule in one place.',
                 icon: Icons.directions_run,
                 accent: AppColors.slateText,
                 tint: AppColors.slateTint,
                 onTap: () {
+                  // Account first: create a real Supabase user (signup reads the
+                  // chosen role), then preferences are editable in-app.
                   provider.setServiceProvider(false);
-                  Get.toNamed(AppRoutes.selectSports);
+                  Get.toNamed(AppRoutes.signup);
                 },
               ),
               const SizedBox(height: 20),
               _buildOptionCard(
                 title: 'Coach or program',
-                subtitle: 'Manage your program — bookings, athletes, payments, and more.',
+                subtitle:
+                    'Manage your program — bookings, athletes, payments, and more.',
                 icon: Icons.person_search,
                 accent: AppColors.blueText,
                 tint: AppColors.blueTint,
                 onTap: () {
+                  // Account first: a coach signup auto-provisions the providers
+                  // row (handle_new_user), so payouts + listings work right after.
                   provider.setServiceProvider(true);
-                  Get.toNamed(AppRoutes.providerIdentity);
+                  Get.toNamed(AppRoutes.signup);
                 },
               ),
               const Spacer(),
