@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_typography.dart';
 import '../../core/constants/app_assets.dart';
 import 'package:provider/provider.dart';
 import '../authentication/controllers/auth_provider.dart';
@@ -15,11 +14,25 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  // Continuous gentle up/down float for the logo.
+  late final AnimationController _float;
+
   @override
   void initState() {
     super.initState();
+    _float = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2400),
+    )..repeat(reverse: true);
     _navigateToNext();
+  }
+
+  @override
+  void dispose() {
+    _float.dispose();
+    super.dispose();
   }
 
   void _navigateToNext() async {
@@ -41,56 +54,29 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Flat slate brand fill.
-      // Depth: the slate wall gradient instead of a flat fill.
       body: Container(
         decoration: const BoxDecoration(gradient: AppColors.slateWall),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Logo zooms in, then breathes (infinite pulse) while loading.
-              Pulse(
-                infinite: true,
-                duration: const Duration(milliseconds: 1800),
-                child: ZoomIn(
-                  duration: const Duration(milliseconds: 800),
-                  child: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcIn,
-                    ),
-                    child: Image.asset(
-                      AppAssets.appLogo,
-                      width: 76,
-                      height: 76,
-                    ),
-                  ),
+          child: FadeIn(
+            duration: const Duration(milliseconds: 900),
+            child: AnimatedBuilder(
+              animation: _float,
+              builder: (context, child) {
+                // Ease the value so the float feels soft at the turns.
+                final t = Curves.easeInOut.transform(_float.value);
+                return Transform.translate(
+                  offset: Offset(0, -9 + 18 * t), // floats ~±9px
+                  child: child,
+                );
+              },
+              child: ColorFiltered(
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
                 ),
+                child: Image.asset(AppAssets.appLogo, width: 84, height: 84),
               ),
-              const SizedBox(height: 22),
-              FadeInUp(
-                delay: const Duration(milliseconds: 350),
-                from: 12,
-                child: Text(
-                  'Sporve',
-                  style: AppTypography.displayLarge.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: 18,
-                height: 18,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    Colors.white.withValues(alpha: 0.65),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
