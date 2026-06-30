@@ -509,6 +509,15 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
                           SporveButton(
                             'Sign out',
                             onPressed: () async {
+                              final ok = await showConfirmDialog(
+                                context,
+                                title: 'Sign out?',
+                                message:
+                                    "You'll need to sign in again to manage your program.",
+                                confirmLabel: 'Sign out',
+                                destructive: true,
+                              );
+                              if (!ok || !context.mounted) return;
                               final authProvider = Provider.of<AuthProvider>(
                                 context,
                                 listen: false,

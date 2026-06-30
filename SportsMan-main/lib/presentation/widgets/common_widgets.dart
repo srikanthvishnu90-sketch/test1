@@ -902,3 +902,64 @@ class ErrorRetry extends StatelessWidget {
     );
   }
 }
+
+/// Slate-styled confirm dialog. Returns true if the user confirmed. Use for any
+/// hard-to-reverse action (sign out, delete, cancel) before doing it.
+Future<bool> showConfirmDialog(
+  BuildContext context, {
+  required String title,
+  required String message,
+  String confirmLabel = 'Confirm',
+  String cancelLabel = 'Cancel',
+  bool destructive = false,
+}) async {
+  final result = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => AlertDialog(
+      backgroundColor: AppColors.surface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        side: const BorderSide(color: AppColors.hairline),
+      ),
+      title: Text(
+        title,
+        style: AppTypography.font(
+          color: AppColors.textPrimary,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      content: Text(
+        message,
+        style: AppTypography.font(
+          color: AppColors.textSecondary,
+          fontSize: 14,
+          height: 1.4,
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, false),
+          child: Text(
+            cancelLabel,
+            style: AppTypography.font(
+              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => Navigator.pop(ctx, true),
+          child: Text(
+            confirmLabel,
+            style: AppTypography.font(
+              color: destructive ? AppColors.negative : AppColors.slateText,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+  return result ?? false;
+}
