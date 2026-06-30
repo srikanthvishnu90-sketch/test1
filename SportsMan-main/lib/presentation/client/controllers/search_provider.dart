@@ -82,6 +82,19 @@ class SearchProvider with ChangeNotifier {
     await _execute(locationHint: locationHint);
   }
 
+  /// Apply filter-sheet selections and run discovery — works even when no NL
+  /// query was typed. Merges [updates] over the current constraints, so it
+  /// round-trips with the chips. Marks the search as run so results render.
+  Future<void> applyConstraints(
+    Map<String, dynamic> updates, {
+    Map<String, dynamic>? locationHint,
+  }) async {
+    _constraints = {..._constraints, ...updates};
+    _constraints['query_text'] ??= _constraints['sport']?.toString() ?? '';
+    _hasSearched = true;
+    await _execute(locationHint: locationHint);
+  }
+
   Future<void> _execute({Map<String, dynamic>? locationHint}) async {
     _error = null;
     _isExecuting = true;

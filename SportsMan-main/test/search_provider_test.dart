@@ -122,4 +122,22 @@ void main() {
     expect(repo.lastExecuteConstraints!['max_price'], 120);
     expect(repo.lastExecuteConstraints!['soft_attributes'], isEmpty);
   });
+
+  test('applyConstraints runs discovery even with no prior NL query', () async {
+    final repo = _FakeRepo();
+    final p = SearchProvider(repo); // never called runSearch
+
+    await p.applyConstraints({
+      'sport': 'tennis',
+      'radius_miles': 25.0,
+      'soft_attributes': ['beginner-friendly'],
+    });
+
+    expect(p.hasSearched, true);
+    expect(repo.executeCalls, 1);
+    expect(repo.lastExecuteConstraints!['sport'], 'tennis');
+    expect(repo.lastExecuteConstraints!['radius_miles'], 25.0);
+    // query_text is backfilled from sport so the embedder has a term.
+    expect(repo.lastExecuteConstraints!['query_text'], 'tennis');
+  });
 }
