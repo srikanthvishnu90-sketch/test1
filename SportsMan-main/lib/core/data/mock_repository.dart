@@ -224,13 +224,15 @@ class MockRepository implements AppRepository {
           return true;
         })
         .map((p) {
-          final gallery = p['gallery'];
+          // Mirror the real search_listings row shape (no image column).
           return {
             'program_id': p['_id'],
             'title': p['title'] ?? 'Program',
             'specialty': p['sportType'] ?? '',
             'price': p['price'] ?? 0,
-            'image': (gallery is List && gallery.isNotEmpty) ? gallery[0] : '',
+            'rating': p['averageRating'] ?? p['rating'] ?? 0,
+            'review_count': p['totalReviews'] ?? 0,
+            'has_availability': true,
             'why': sport != null
                 ? 'Matches ${sport[0].toUpperCase()}${sport.substring(1)} in your search.'
                 : 'A strong match for what you described.',

@@ -3,6 +3,7 @@ import 'package:flutter_structure/core/theme/app_typography.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../controllers/home_controller.dart';
+import '../controllers/search_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
 import '../../../core/routes/app_routes.dart';
@@ -177,6 +178,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                       context
                                           .read<HomeProvider>()
                                           .addPastSearch(val);
+                                      // Run AI discovery: NL query -> editable
+                                      // constraint chips -> ranked results.
+                                      context.read<SearchProvider>().runSearch(
+                                        val.trim(),
+                                      );
                                       setState(() {});
                                     }
                                   },
@@ -195,6 +201,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     _searchController.clear();
+                                    context.read<SearchProvider>().reset();
                                     setState(() {});
                                   },
                                   child: const Icon(
@@ -330,6 +337,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       dynamicOpportunities,
                     );
                     final hasQuery = _searchController.text.trim().isNotEmpty;
+                    final search = context.watch<SearchProvider>();
+                    // Show AI discovery results once a search has run and the
+                    // market is ready; a gated result falls back to browse.
+                    final showAi = search.hasSearched && !search.gated;
 
                     return ListView(
                       controller: scrollController,
@@ -358,119 +369,130 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                         ],
 
-                        // 1. Recommended Carousel Section (When no active query and no pin details selected)
-                        if (!hasQuery &&
-                            _selectedOpportunityIndex == null &&
-                            recommendations.isNotEmpty) ...[
-                          const SizedBox(height: 24),
+                        // ── AI discovery: editable chips + ranked results ────
+                        if (search.hasSearched) ..._buildAiSection(search),
+
+                        // Browse (recommendations + list) — shown until an AI
+                        // search runs; a gated market also falls back here.
+                        if (!showAi) ...[
+                          // 1. Recommended Carousel Section (When no active query and no pin details selected)
+                          if (!hasQuery &&
+                              _selectedOpportunityIndex == null &&
+                              recommendations.isNotEmpty) ...[
+                            const SizedBox(height: 24),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Recommended for You',
+                                    style: AppTypography.font(
+                                      color: AppColors.textPrimary,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const AIBadge(label: 'AI Recommend'),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                              height: 190,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                ),
+                                itemCount: recommendations.length,
+                                itemBuilder: (context, index) {
+                                  return _buildRecommendedCard(
+                                    recommendations[index],
+                                    homeProvider,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+
+                          // 2. Main List Title Section
+                          const SizedBox(height: 28),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Recommended for You',
+                                  _selectedOpportunityIndex == null
+                                      ? (hasQuery
+                                            ? 'Search Results'
+                                            : 'Top Opportunities')
+                                      : 'Selected Session',
                                   style: AppTypography.font(
                                     color: AppColors.textPrimary,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(width: 8),
-                                const AIBadge(label: 'AI Recommend'),
+                                if (_selectedOpportunityIndex != null)
+                                  SporveButton(
+                                    'Show all',
+                                    onPressed: () => setState(
+                                      () => _selectedOpportunityIndex = null,
+                                    ),
+                                    variant: SporveButtonVariant.tertiary,
+                                    size: SporveButtonSize.compact,
+                                    fullWidth: false,
+                                    onDark: true,
+                                  )
+                                else
+                                  const Icon(
+                                    Icons.sort,
+                                    color: AppColors.slateText,
+                                  ),
                               ],
                             ),
                           ),
                           const SizedBox(height: 16),
-                          SizedBox(
-                            height: 190,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
+
+                          // 3. Main Opportunities List (or empty state)
+                          if (displayedItems.isEmpty)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 40,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'No matches — try adjusting your filters.',
+                                  textAlign: TextAlign.center,
+                                  style: AppTypography.font(
+                                    color: AppColors.textSecondary,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            )
+                          else
+                            Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 24,
                               ),
-                              itemCount: recommendations.length,
-                              itemBuilder: (context, index) {
-                                return _buildRecommendedCard(
-                                  recommendations[index],
-                                  homeProvider,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-
-                        // 2. Main List Title Section
-                        const SizedBox(height: 28),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                _selectedOpportunityIndex == null
-                                    ? (hasQuery
-                                          ? 'Search Results'
-                                          : 'Top Opportunities')
-                                    : 'Selected Session',
-                                style: AppTypography.font(
-                                  color: AppColors.textPrimary,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              if (_selectedOpportunityIndex != null)
-                                SporveButton(
-                                  'Show all',
-                                  onPressed: () => setState(
-                                    () => _selectedOpportunityIndex = null,
-                                  ),
-                                  variant: SporveButtonVariant.tertiary,
-                                  size: SporveButtonSize.compact,
-                                  fullWidth: false,
-                                  onDark: true,
-                                )
-                              else
-                                const Icon(
-                                  Icons.sort,
-                                  color: AppColors.slateText,
-                                ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // 3. Main Opportunities List (or empty state)
-                        if (displayedItems.isEmpty)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 40,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'No matches — try adjusting your filters.',
-                                textAlign: TextAlign.center,
-                                style: AppTypography.font(
-                                  color: AppColors.textSecondary,
-                                  fontSize: 13,
-                                ),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: displayedItems.length,
+                                itemBuilder: (context, index) {
+                                  return _buildOpportunityCard(
+                                    displayedItems[index],
+                                  );
+                                },
                               ),
                             ),
-                          )
-                        else
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: displayedItems.length,
-                              itemBuilder: (context, index) {
-                                return _buildOpportunityCard(
-                                  displayedItems[index],
-                                );
-                              },
-                            ),
-                          ),
+                        ], // end browse (!showAi)
                       ],
                     );
                   },
@@ -750,6 +772,319 @@ class _SearchScreenState extends State<SearchScreen> {
               color: isSelected ? AppColors.slateText : AppColors.textSecondary,
               size: isSelected ? 28 : 24,
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── AI discovery rendering (parse -> chips -> ranked results) ──────────────
+
+  String _cap(Object? s) {
+    final str = s?.toString() ?? '';
+    if (str.isEmpty) return str;
+    return str[0].toUpperCase() + str.substring(1);
+  }
+
+  List<Widget> _buildAiSection(SearchProvider search) {
+    return [
+      const SizedBox(height: 24),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Row(
+          children: [
+            Text(
+              'AI Results',
+              style: AppTypography.font(
+                color: AppColors.textPrimary,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 8),
+            const AIBadge(label: 'AI'),
+          ],
+        ),
+      ),
+      // Editable constraint chips — tap × to drop one and re-rank.
+      Padding(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+        child: _buildConstraintChips(search),
+      ),
+      const SizedBox(height: 16),
+
+      if (search.isBusy)
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 32),
+          child: Center(
+            child: CircularProgressIndicator(color: AppColors.slateText),
+          ),
+        )
+      else if (search.error != null)
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: ErrorRetry(
+            message: search.error!,
+            onRetry: () => search.reExecute(),
+          ),
+        )
+      else if (search.isEmptyResult) ...[
+        if (search.relax != null) _buildRelaxBanner(search),
+        const EmptyState(
+          icon: Icons.search_off_outlined,
+          title: 'No matches yet',
+          message: 'Try removing a filter above, or widen your search.',
+        ),
+      ] else
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              for (final r in search.results)
+                if (r is Map) _buildAiResultCard(r),
+            ],
+          ),
+        ),
+    ];
+  }
+
+  Widget _buildConstraintChips(SearchProvider search) {
+    final c = search.constraints;
+    void dropKey(String key) {
+      search.clearConstraint(key);
+      search.reExecute();
+    }
+
+    final chips = <Widget>[];
+    if (c['sport'] != null) {
+      chips.add(_chip(_cap(c['sport']), () => dropKey('sport')));
+    }
+    if (c['athlete_age'] != null) {
+      chips.add(_chip('Age ${c['athlete_age']}', () => dropKey('athlete_age')));
+    }
+    if (c['max_price'] is num) {
+      chips.add(
+        _chip(
+          'Under \$${(c['max_price'] as num).round()}',
+          () => dropKey('max_price'),
+        ),
+      );
+    }
+    if (c['radius_miles'] is num) {
+      chips.add(
+        _chip(
+          '${(c['radius_miles'] as num).round()} mi',
+          () => dropKey('radius_miles'),
+        ),
+      );
+    }
+    final soft = (c['soft_attributes'] as List?) ?? const [];
+    for (final s in soft) {
+      chips.add(
+        _chip(s.toString(), () {
+          search.setConstraint(
+            'soft_attributes',
+            soft.where((x) => x != s).toList(),
+          );
+          search.reExecute();
+        }),
+      );
+    }
+
+    if (chips.isEmpty) {
+      return Text(
+        'No specific filters detected — showing the best overall matches.',
+        style: AppTypography.font(color: AppColors.textTertiary, fontSize: 12),
+      );
+    }
+    return Wrap(spacing: 8, runSpacing: 8, children: chips);
+  }
+
+  Widget _chip(String label, VoidCallback onRemove) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
+      decoration: BoxDecoration(
+        color: AppColors.slateTint,
+        borderRadius: BorderRadius.circular(AppRadii.chip),
+        border: Border.all(color: AppColors.slateBorder),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: AppTypography.font(
+              color: AppColors.slateText,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(width: 4),
+          GestureDetector(
+            onTap: onRemove,
+            child: const Icon(
+              Icons.close,
+              size: 14,
+              color: AppColors.slateText,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRelaxBanner(SearchProvider search) {
+    final msg = search.relax?['message']?.toString();
+    if (msg == null || msg.isEmpty) return const SizedBox.shrink();
+    return Container(
+      margin: const EdgeInsets.fromLTRB(24, 0, 24, 16),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: AppColors.slateTint,
+        borderRadius: BorderRadius.circular(AppRadii.card),
+        border: Border.all(color: AppColors.slateBorder),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.tips_and_updates_outlined,
+            color: AppColors.slateText,
+            size: 18,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              msg,
+              style: AppTypography.font(
+                color: AppColors.slateText,
+                fontSize: 13,
+                height: 1.3,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Opportunity _opportunityFromResult(Map r) {
+    final price = r['price'];
+    return Opportunity(
+      id: 0,
+      programId: r['program_id']?.toString(),
+      title: r['title']?.toString() ?? 'Program',
+      coach: r['specialty']?.toString() ?? '',
+      price: '\$${price is num ? price.round() : (price ?? 0)}',
+      rating: '${r['rating'] ?? ''}',
+      image: '',
+      spotsLeft: '',
+      isVerified: false,
+      bookingTrend: '',
+      top: 0,
+      team: '',
+      rawData: Map<String, dynamic>.from(r),
+    );
+  }
+
+  Widget _buildAiResultCard(Map r) {
+    final title = r['title']?.toString() ?? 'Program';
+    final specialty = r['specialty']?.toString() ?? '';
+    final price = r['price'];
+    final rating = r['rating'];
+    final why = r['why']?.toString();
+    return GestureDetector(
+      onTap: () => Get.toNamed(
+        AppRoutes.sessionDetails,
+        arguments: _opportunityFromResult(r),
+      ),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadii.card),
+          border: Border.all(color: AppColors.hairline),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: AppTypography.font(
+                color: AppColors.textPrimary,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                if (specialty.isNotEmpty) ...[
+                  Text(
+                    _cap(specialty),
+                    style: AppTypography.font(
+                      color: AppColors.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                ],
+                if (price != null)
+                  Text(
+                    '\$${price is num ? price.round() : price}',
+                    style: AppTypography.font(
+                      color: AppColors.textPrimary,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                if (rating != null &&
+                    '$rating'.isNotEmpty &&
+                    '$rating' != '0') ...[
+                  const SizedBox(width: 12),
+                  const Icon(Icons.star, color: AppColors.slateText, size: 13),
+                  const SizedBox(width: 2),
+                  Text(
+                    '$rating',
+                    style: AppTypography.font(
+                      color: AppColors.textSecondary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            if (why != null && why.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.slateTint,
+                  borderRadius: BorderRadius.circular(AppRadii.tile),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.auto_awesome,
+                      color: AppColors.slateText,
+                      size: 14,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        why,
+                        style: AppTypography.font(
+                          color: AppColors.slateText,
+                          fontSize: 12,
+                          height: 1.35,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),
