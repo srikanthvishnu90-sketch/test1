@@ -15,19 +15,20 @@ class MockData {
         "role": "searcher",
         "phoneNumber": "+1 (555) 019-2834",
         "preferredSports": ["Soccer", "Tennis"],
-        "profileImage": "https://picsum.photos/seed/athlete-alex/150/150"
+        "profileImage": "https://picsum.photos/seed/athlete-alex/150/150",
       });
 
       _box.write('mock_provider_profile', {
         "_id": "provider_123",
         "userId": "user_123",
         "businessName": "Apex Performance Club",
-        "bio": "Dedicated sports academy providing elite training clinics for junior athletes.",
+        "bio":
+            "Dedicated sports academy providing elite training clinics for junior athletes.",
         "sports": ["Soccer", "Tennis", "Basketball"],
         "location": "Miami, FL",
         "status": "approved",
         "onboardingCompleted": true,
-        "stripeAccountId": "acct_mockstripe123"
+        "stripeAccountId": "acct_mockstripe123",
       });
 
       _box.write('mock_athletes', [
@@ -42,10 +43,10 @@ class MockData {
           "emergencyContact": {
             "name": "Alex Mercer",
             "phone": "+1 (555) 019-2834",
-            "relation": "Father"
+            "relation": "Father",
           },
-          "profileImage": "https://picsum.photos/seed/coach-jordan/150/150"
-        }
+          "profileImage": "https://picsum.photos/seed/coach-jordan/150/150",
+        },
       ]);
 
       _box.write('mock_programs', [
@@ -53,7 +54,8 @@ class MockData {
           "_id": "prog_1",
           "coverImage": "https://picsum.photos/seed/court-basketball/600/400",
           "title": "Elite Soccer Academy - U12 Training",
-          "description": "High-intensity technical training focusing on dribbling, passing, and match awareness.",
+          "description":
+              "High-intensity technical training focusing on dribbling, passing, and match awareness.",
           "sportType": "Soccer",
           "skillLevel": "Intermediate",
           "ageGroup": "Youth (Under 12)",
@@ -65,19 +67,23 @@ class MockData {
           "enrolledCount": 8,
           "gallery": [
             "https://picsum.photos/seed/court-basketball/600/400",
-            "https://picsum.photos/seed/court-tennis/600/400"
+            "https://picsum.photos/seed/court-tennis/600/400",
           ],
-          "whatsIncluded": ["Training Bibs", "Water Bottles", "Professional Coaching"],
+          "whatsIncluded": [
+            "Training Bibs",
+            "Water Bottles",
+            "Professional Coaching",
+          ],
           "location": {
             "type": "Point",
-            "coordinates": [-80.1918, 25.7617]
+            "coordinates": [-80.1918, 25.7617],
           },
           "address": {
             "line1": "123 Coral Way",
             "city": "Miami",
             "state": "FL",
             "zip": "33145",
-            "country": "USA"
+            "country": "USA",
           },
           "cancellationPolicy": "moderate",
           "minimumAge": 9,
@@ -88,14 +94,15 @@ class MockData {
           "totalReviews": 12,
           "providerId": {
             "businessName": "Apex Performance Club",
-            "verificationStatus": "verified"
-          }
+            "verificationStatus": "verified",
+          },
         },
         {
           "_id": "prog_2",
           "coverImage": "https://picsum.photos/seed/court-soccer/600/400",
           "title": "Junior Tennis Clinic - All Levels",
-          "description": "Learn basic and advanced tennis strokes, service, and court strategies from certified instructors.",
+          "description":
+              "Learn basic and advanced tennis strokes, service, and court strategies from certified instructors.",
           "sportType": "Tennis",
           "skillLevel": "All Levels",
           "ageGroup": "Juniors (Under 16)",
@@ -105,20 +112,18 @@ class MockData {
           "pricingModel": "monthly",
           "maxCapacity": 8,
           "enrolledCount": 5,
-          "gallery": [
-            "https://picsum.photos/seed/court-soccer/600/400"
-          ],
+          "gallery": ["https://picsum.photos/seed/court-soccer/600/400"],
           "whatsIncluded": ["Tennis Balls", "Racquet rentals"],
           "location": {
             "type": "Point",
-            "coordinates": [-80.2000, 25.7700]
+            "coordinates": [-80.2000, 25.7700],
           },
           "address": {
             "line1": "450 Tennis Center Dr",
             "city": "Miami",
             "state": "FL",
             "zip": "33149",
-            "country": "USA"
+            "country": "USA",
           },
           "cancellationPolicy": "strict",
           "minimumAge": 10,
@@ -129,9 +134,9 @@ class MockData {
           "totalReviews": 8,
           "providerId": {
             "businessName": "Apex Performance Club",
-            "verificationStatus": "verified"
-          }
-        }
+            "verificationStatus": "verified",
+          },
+        },
       ]);
 
       _box.write('mock_sessions', [
@@ -145,7 +150,7 @@ class MockData {
           "startTime": "05:00 PM",
           "endTime": "06:30 PM",
           "timezone": "EST",
-          "address": "123 Coral Way, Miami, FL"
+          "address": "123 Coral Way, Miami, FL",
         },
         {
           "_id": "sess_2",
@@ -157,7 +162,7 @@ class MockData {
           "startTime": "05:00 PM",
           "endTime": "06:30 PM",
           "timezone": "EST",
-          "address": "123 Coral Way, Miami, FL"
+          "address": "123 Coral Way, Miami, FL",
         },
         {
           "_id": "sess_3",
@@ -169,8 +174,8 @@ class MockData {
           "startTime": "04:00 PM",
           "endTime": "05:30 PM",
           "timezone": "EST",
-          "address": "450 Tennis Center Dr, Miami, FL"
-        }
+          "address": "450 Tennis Center Dr, Miami, FL",
+        },
       ]);
 
       _box.write('mock_bookings', [
@@ -180,19 +185,19 @@ class MockData {
           "athleteId": {
             "_id": "athlete_1",
             "fullName": "Julian Mercer",
-            "profileImage": "https://picsum.photos/seed/coach-jordan/150/150"
+            "profileImage": "https://picsum.photos/seed/coach-jordan/150/150",
           },
           "providerId": "provider_123",
           "programId": {
             "_id": "prog_1",
-            "title": "Elite Soccer Academy - U12 Training"
+            "title": "Elite Soccer Academy - U12 Training",
           },
           "sessionId": {
             "_id": "sess_1",
             "title": "Soccer Skill Session 1",
             "date": "2026-05-04T00:00:00.000Z",
             "startTime": "05:00 PM",
-            "programId": "prog_1"
+            "programId": "prog_1",
           },
           "selectedTier": "Standard",
           "originalPrice": 45.0,
@@ -200,8 +205,8 @@ class MockData {
           "currency": "USD",
           "status": "confirmed",
           "paymentStatus": "paid",
-          "createdAt": "2026-05-01T10:00:00.000Z"
-        }
+          "createdAt": "2026-05-01T10:00:00.000Z",
+        },
       ]);
 
       _box.write('mock_conversations', [
@@ -212,14 +217,14 @@ class MockData {
               "_id": "user_123",
               "firstName": "Alex",
               "lastName": "Mercer",
-              "role": "searcher"
+              "role": "searcher",
             },
             {
               "_id": "provider_user_123",
               "firstName": "Apex Performance",
               "lastName": "Club",
-              "role": "provider"
-            }
+              "role": "provider",
+            },
           ],
           "programId": "prog_1",
           "lastMessage": {
@@ -227,36 +232,39 @@ class MockData {
             "conversationId": "conv_1",
             "text": "Hello, thank you for booking! See you on Monday.",
             "senderId": "provider_user_123",
-            "createdAt": "2026-05-01T10:05:00.000Z"
-          }
-        }
+            "createdAt": "2026-05-01T10:05:00.000Z",
+          },
+        },
       ]);
 
       _box.write('mock_messages_conv_1', [
         {
           "_id": "msg_1",
           "conversationId": "conv_1",
-          "text": "Hi, I just booked the soccer session for Julian. Does he need to bring his own ball?",
+          "text":
+              "Hi, I just booked the soccer session for Julian. Does he need to bring his own ball?",
           "senderId": "user_123",
-          "createdAt": "2026-05-01T10:02:00.000Z"
+          "createdAt": "2026-05-01T10:02:00.000Z",
         },
         {
           "_id": "msg_initial",
           "conversationId": "conv_1",
-          "text": "Hello, thank you for booking! See you on Monday. We will provide training bibs and soccer balls, but he is welcome to bring his own.",
+          "text":
+              "Hello, thank you for booking! See you on Monday. We will provide training bibs and soccer balls, but he is welcome to bring his own.",
           "senderId": "provider_user_123",
-          "createdAt": "2026-05-01T10:05:00.000Z"
-        }
+          "createdAt": "2026-05-01T10:05:00.000Z",
+        },
       ]);
 
       _box.write('mock_notifications', [
         {
           "_id": "notif_1",
           "title": "Booking Confirmed",
-          "message": "Your booking for Soccer Skill Session 1 has been confirmed.",
+          "message":
+              "Your booking for Soccer Skill Session 1 has been confirmed.",
           "isRead": false,
-          "createdAt": "2026-05-01T10:00:00.000Z"
-        }
+          "createdAt": "2026-05-01T10:00:00.000Z",
+        },
       ]);
 
       _box.write('mock_teams', [
@@ -272,22 +280,15 @@ class MockData {
               "jerseyNumber": "10",
               "avatar": "https://picsum.photos/seed/coach-jordan/150/150",
               "isAvailable": true,
-              "isPaid": true
-            }
-          ]
-        }
+              "isPaid": true,
+            },
+          ],
+        },
       ]);
 
       _box.write('mock_favorites', <String>[]);
     }
   }
-
-  // Active state
-  static String get activeRole => _box.read('mock_active_role') ?? 'searcher';
-  static set activeRole(String role) => _box.write('mock_active_role', role);
-
-  static bool get isLoggedIn => _box.read('mock_is_logged_in') ?? false;
-  static set isLoggedIn(bool val) => _box.write('mock_is_logged_in', val);
 
   // Getters & Setters
   static Map<String, dynamic> get userProfile {
@@ -296,6 +297,7 @@ class MockData {
     if (data == null) return {};
     return Map<String, dynamic>.from(data);
   }
+
   static set userProfile(Map<String, dynamic> val) {
     init();
     _box.write('mock_user_profile', val);
@@ -307,6 +309,7 @@ class MockData {
     if (data == null) return {};
     return Map<String, dynamic>.from(data);
   }
+
   static set providerProfile(Map<String, dynamic> val) {
     init();
     _box.write('mock_provider_profile', val);
@@ -316,6 +319,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_athletes') ?? [];
   }
+
   static set athletes(List<dynamic> val) {
     init();
     _box.write('mock_athletes', val);
@@ -325,6 +329,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_programs') ?? [];
   }
+
   static set programs(List<dynamic> val) {
     init();
     _box.write('mock_programs', val);
@@ -334,6 +339,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_sessions') ?? [];
   }
+
   static set sessions(List<dynamic> val) {
     init();
     _box.write('mock_sessions', val);
@@ -343,6 +349,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_bookings') ?? [];
   }
+
   static set bookings(List<dynamic> val) {
     init();
     _box.write('mock_bookings', val);
@@ -361,6 +368,7 @@ class MockData {
     final data = _box.read('mock_notification_prefs');
     return data != null ? Map<String, dynamic>.from(data) : {};
   }
+
   static set notificationPrefs(Map<String, dynamic> val) {
     init();
     _box.write('mock_notification_prefs', val);
@@ -370,6 +378,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_conversations') ?? [];
   }
+
   static set conversations(List<dynamic> val) {
     init();
     _box.write('mock_conversations', val);
@@ -379,6 +388,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_messages_$convId') ?? [];
   }
+
   static void saveMessages(String convId, List<dynamic> msgs) {
     init();
     _box.write('mock_messages_$convId', msgs);
@@ -388,6 +398,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_notifications') ?? [];
   }
+
   static set notifications(List<dynamic> val) {
     init();
     _box.write('mock_notifications', val);
@@ -397,6 +408,7 @@ class MockData {
     init();
     return _box.read<List<dynamic>>('mock_teams') ?? [];
   }
+
   static set teams(List<dynamic> val) {
     init();
     _box.write('mock_teams', val);
@@ -408,6 +420,7 @@ class MockData {
     if (favs == null) return [];
     return List<String>.from(favs);
   }
+
   static set favorites(List<String> val) {
     init();
     _box.write('mock_favorites', val);

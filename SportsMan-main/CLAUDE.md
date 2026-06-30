@@ -61,6 +61,9 @@ Demo runs on mock data (`lib/core/mock/mock_data.dart`, via GetStorage).
   availability, certifications, or background-check status (queried deterministically).
 
 ## Known cleanups
-- Auth state is split across `AuthController` (GetStorage tokens) and
-  `AuthProvider` (mock `mock_access_token`); unify to a single owner during the
-  Supabase auth work (#18), not before.
+- ~~Auth state split across `AuthController` + `AuthProvider`~~ — DONE. Auth is
+  owned solely by **`AuthProvider`** (backed by `AuthService` → the Supabase
+  session). `AuthController` and the mock token are gone; the vestigial repo
+  auth methods (`isLoggedIn`/`setLoggedIn`/`getActiveRole`/`setActiveRole`) were
+  removed (zero callers). Identity comes from one place — do not reintroduce a
+  second auth surface on `AppRepository`.

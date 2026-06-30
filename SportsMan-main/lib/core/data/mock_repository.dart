@@ -351,15 +351,7 @@ class MockRepository implements AppRepository {
   Future<void> saveNotifications(List<dynamic> notifications) async =>
       MockData.notifications = notifications;
 
-  // ── Auth/session (defined now; Supabase auth swap is #18) ────────────────
-  @override
-  Future<bool> isLoggedIn() => Future.value(MockData.isLoggedIn);
-  @override
-  Future<void> setLoggedIn(bool value) async => MockData.isLoggedIn = value;
-  @override
-  Future<String> getActiveRole() => Future.value(MockData.activeRole);
-  @override
-  Future<void> setActiveRole(String role) async => MockData.activeRole = role;
+  // ── Favorites ────────────────────────────────────────────────────────────
   @override
   Future<List<String>> getFavorites() => Future.value(MockData.favorites);
   @override

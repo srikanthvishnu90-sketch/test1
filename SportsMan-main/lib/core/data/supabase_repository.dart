@@ -19,8 +19,9 @@ import 'app_repository.dart';
 ///    renders its existing empty states instead of crashing.
 ///
 /// A few list-replace writes inherited from the mock surface (chat persistence,
-/// favourites, notification prefs, the legacy auth flags) have no dedicated
-/// table; those are kept local (GetStorage) or safe no-ops and are noted inline.
+/// favourites, notification prefs) have no dedicated table; those are kept local
+/// (GetStorage) or safe no-ops and are noted inline. Auth state is NOT here — it
+/// is owned by AuthProvider/AuthService (the Supabase session); see #18.
 class SupabaseRepository implements AppRepository {
   SupabaseRepository();
 
@@ -543,10 +544,7 @@ class SupabaseRepository implements AppRepository {
     try {
       final res = await _db.functions.invoke(
         'search-parse',
-        body: {
-          'query': query,
-          'parentLocationHint': ?locationHint,
-        },
+        body: {'query': query, 'parentLocationHint': ?locationHint},
       );
       return Map<String, dynamic>.from((res.data as Map?) ?? {});
     } on FunctionException catch (e) {
@@ -572,10 +570,7 @@ class SupabaseRepository implements AppRepository {
     try {
       final res = await _db.functions.invoke(
         'search-execute',
-        body: {
-          'constraints': constraints,
-          'parentLocationHint': ?locationHint,
-        },
+        body: {'constraints': constraints, 'parentLocationHint': ?locationHint},
       );
       return Map<String, dynamic>.from((res.data as Map?) ?? {});
     } on FunctionException catch (e) {
@@ -1096,16 +1091,7 @@ class SupabaseRepository implements AppRepository {
   @override
   Future<void> saveNotifications(List<dynamic> notifications) async {}
 
-  // ── Auth/session legacy flags (no DB table; kept local) ───────────────────
-  @override
-  Future<bool> isLoggedIn() async => _db.auth.currentSession != null;
-  @override
-  Future<void> setLoggedIn(bool value) async {}
-  @override
-  Future<String> getActiveRole() async =>
-      (_db.auth.currentUser?.userMetadata?['role'] as String?) ?? 'searcher';
-  @override
-  Future<void> setActiveRole(String role) async {}
+  // ── Favorites (local; no dedicated table yet) ─────────────────────────────
   @override
   Future<List<String>> getFavorites() async {
     final favs = _local.read('favorites');

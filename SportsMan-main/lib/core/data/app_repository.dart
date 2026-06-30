@@ -96,12 +96,14 @@ abstract class NotificationRepository {
   Future<void> saveNotifications(List<dynamic> notifications);
 }
 
-/// Auth/session state. Defined now; the Supabase auth swap itself is #18.
-abstract class AuthRepository {
-  Future<bool> isLoggedIn();
-  Future<void> setLoggedIn(bool value);
-  Future<String> getActiveRole();
-  Future<void> setActiveRole(String role);
+/// Saved/favourited programs.
+///
+/// NOTE: login + active-role state used to live here too, but auth is now owned
+/// solely by [AuthProvider] (backed by AuthService → the Supabase session) since
+/// #18 — the old repo `isLoggedIn`/`setLoggedIn`/`getActiveRole`/`setActiveRole`
+/// methods had zero callers and were removed. The repository no longer carries
+/// any auth state; identity comes from one place.
+abstract class FavoritesRepository {
   Future<List<String>> getFavorites();
   Future<void> saveFavorites(List<String> favorites);
 }
@@ -202,4 +204,4 @@ abstract class AppRepository
         SessionUpdateRepository,
         LifecycleRepository,
         SearchRepository,
-        AuthRepository {}
+        FavoritesRepository {}
