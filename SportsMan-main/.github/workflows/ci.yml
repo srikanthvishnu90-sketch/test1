@@ -1,0 +1,48 @@
+name: CI
+
+# Protects the branch: every push and PR must pass `flutter analyze` and
+# `flutter test`. Formatting is reported but non-blocking for now (the repo is
+# not yet fully `dart format`-clean — see the "Check formatting" step).
+on:
+  push:
+  pull_request:
+
+# A newer push to the same branch/PR cancels the older, still-running job.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze-and-test:
+    name: Analyze & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.2
+          channel: stable
+          cache: true
+
+      # Public client config is gitignored; tests/analyze run on the mock repo
+      # and only need placeholder values (String.fromEnvironment defaults).
+      - name: Provide placeholder env.json
+        run: cp env.example.json env.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      # Non-blocking: surfaces unformatted files without failing the build while
+      # the back-catalogue is brought up to `dart format` standard.
+      - name: Check formatting (non-blocking)
+        continue-on-error: true
+        run: dart format --output=none --set-exit-if-changed lib test
