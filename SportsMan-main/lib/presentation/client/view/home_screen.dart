@@ -64,11 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 48,
                               fit: BoxFit.cover,
                               fallbackIcon: Icons.person,
+                              semanticLabel: 'Your profile',
                             ),
                           ),
                         ),
                         SporveIconButton(
                           Icons.notifications_outlined,
+                          semanticLabel: 'Notifications',
                           onTap: () =>
                               Get.toNamed(AppRoutes.notificationSettings),
                           iconSize: 22,

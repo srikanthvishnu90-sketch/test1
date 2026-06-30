@@ -624,6 +624,10 @@ class SporveIconButton extends StatefulWidget {
   final bool filled; // solid slate primary
   final bool border; // hairline border (when not filled)
   final bool circle; // round instead of rounded-square
+
+  /// Screen-reader label for this icon-only control (e.g. 'Back', 'Close').
+  /// Without it a TalkBack/VoiceOver user hears only "button".
+  final String? semanticLabel;
   const SporveIconButton(
     this.icon, {
     super.key,
@@ -634,6 +638,7 @@ class SporveIconButton extends StatefulWidget {
     this.filled = false,
     this.border = true,
     this.circle = false,
+    this.semanticLabel,
   });
 
   @override
@@ -648,38 +653,45 @@ class _SporveIconButtonState extends State<SporveIconButton> {
     final fg = widget.filled
         ? AppColors.onSlate
         : (widget.color ?? AppColors.textPrimary);
-    return Listener(
-      onPointerDown: widget.onTap == null
-          ? null
-          : (_) => setState(() => _pressed = true),
-      onPointerUp: widget.onTap == null
-          ? null
-          : (_) => setState(() => _pressed = false),
-      onPointerCancel: widget.onTap == null
-          ? null
-          : (_) => setState(() => _pressed = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        behavior: HitTestBehavior.opaque,
-        child: AnimatedScale(
-          scale: _pressed ? 0.92 : 1.0,
-          duration: const Duration(milliseconds: 90),
-          curve: Curves.easeOut,
-          child: Container(
-            width: widget.size,
-            height: widget.size,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: bg,
-              shape: widget.circle ? BoxShape.circle : BoxShape.rectangle,
-              borderRadius: widget.circle
-                  ? null
-                  : BorderRadius.circular(AppRadii.tile),
-              border: (widget.border && !widget.filled)
-                  ? Border.all(color: AppColors.hairline)
-                  : null,
+    return MergeSemantics(
+      child: Semantics(
+        button: true,
+        enabled: widget.onTap != null,
+        label: widget.semanticLabel,
+        child: Listener(
+          onPointerDown: widget.onTap == null
+              ? null
+              : (_) => setState(() => _pressed = true),
+          onPointerUp: widget.onTap == null
+              ? null
+              : (_) => setState(() => _pressed = false),
+          onPointerCancel: widget.onTap == null
+              ? null
+              : (_) => setState(() => _pressed = false),
+          child: GestureDetector(
+            onTap: widget.onTap,
+            behavior: HitTestBehavior.opaque,
+            child: AnimatedScale(
+              scale: _pressed ? 0.92 : 1.0,
+              duration: const Duration(milliseconds: 90),
+              curve: Curves.easeOut,
+              child: Container(
+                width: widget.size,
+                height: widget.size,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: bg,
+                  shape: widget.circle ? BoxShape.circle : BoxShape.rectangle,
+                  borderRadius: widget.circle
+                      ? null
+                      : BorderRadius.circular(AppRadii.tile),
+                  border: (widget.border && !widget.filled)
+                      ? Border.all(color: AppColors.hairline)
+                      : null,
+                ),
+                child: Icon(widget.icon, size: widget.iconSize, color: fg),
+              ),
             ),
-            child: Icon(widget.icon, size: widget.iconSize, color: fg),
           ),
         ),
       ),

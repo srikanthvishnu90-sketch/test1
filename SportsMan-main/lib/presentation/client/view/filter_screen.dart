@@ -77,6 +77,7 @@ class _FilterScreenState extends State<FilterScreen> {
             padding: const EdgeInsets.only(right: 12),
             child: SporveIconButton(
               Icons.close,
+              semanticLabel: 'Close filters',
               onTap: () => Get.back(),
               color: AppColors.negative,
             ),

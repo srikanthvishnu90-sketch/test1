@@ -18,6 +18,11 @@ class SporveImage extends StatelessWidget {
   /// never reads as "broken".
   final IconData fallbackIcon;
 
+  /// Screen-reader description (e.g. a coach/athlete name for an avatar). When
+  /// null the image is treated as DECORATIVE and hidden from assistive tech, so
+  /// it never announces a raw URL or clutters the reading order.
+  final String? semanticLabel;
+
   const SporveImage(
     this.url, {
     super.key,
@@ -26,6 +31,7 @@ class SporveImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.radius = 0,
     this.fallbackIcon = Icons.image_not_supported_outlined,
+    this.semanticLabel,
   });
 
   Widget _placeholder({bool broken = false}) {
@@ -65,16 +71,20 @@ class SporveImage extends StatelessWidget {
           if (progress == null) return child;
           return _placeholder();
         },
-        errorBuilder: (context, error, stackTrace) => _placeholder(broken: true),
+        errorBuilder: (context, error, stackTrace) =>
+            _placeholder(broken: true),
       );
     }
 
     if (radius > 0) {
-      return ClipRRect(
+      content = ClipRRect(
         borderRadius: BorderRadius.circular(radius),
         child: SizedBox(width: width, height: height, child: content),
       );
     }
-    return content;
+    // Labelled -> announce it as an image; unlabelled -> decorative (hidden).
+    return semanticLabel == null
+        ? ExcludeSemantics(child: content)
+        : Semantics(image: true, label: semanticLabel, child: content);
   }
 }

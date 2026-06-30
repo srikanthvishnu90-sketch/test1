@@ -158,6 +158,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   // Plus Action Button
                   SporveIconButton(
                     Icons.add,
+                    semanticLabel: 'New message',
                     onTap: () {
                       Get.snackbar(
                         'New Message',

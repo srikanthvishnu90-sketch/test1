@@ -143,6 +143,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       // Back Button
                       SporveIconButton(
                         Icons.arrow_back_ios_new,
+                        semanticLabel: 'Back',
                         onTap: () => Get.back(),
                         size: 56,
                         iconSize: 20,
@@ -198,16 +199,20 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                               ),
                               if (_searchController.text.isNotEmpty)
-                                GestureDetector(
-                                  onTap: () {
-                                    _searchController.clear();
-                                    context.read<SearchProvider>().reset();
-                                    setState(() {});
-                                  },
-                                  child: const Icon(
-                                    Icons.close,
-                                    color: AppColors.textSecondary,
-                                    size: 18,
+                                Semantics(
+                                  button: true,
+                                  label: 'Clear search',
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _searchController.clear();
+                                      context.read<SearchProvider>().reset();
+                                      setState(() {});
+                                    },
+                                    child: const Icon(
+                                      Icons.close,
+                                      color: AppColors.textSecondary,
+                                      size: 18,
+                                    ),
                                   ),
                                 ),
                             ],
@@ -217,6 +222,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       const SizedBox(width: 12),
                       SporveIconButton(
                         Icons.tune,
+                        semanticLabel: 'Filters',
                         onTap: () => Get.toNamed(AppRoutes.filters),
                         size: 56,
                         iconSize: 24,
