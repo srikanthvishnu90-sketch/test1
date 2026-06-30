@@ -12,6 +12,7 @@ class ProviderListing {
   String title;
   String description;
   String sportType;
+  String programType; // Training | Camp | Clinic | League | AAU | Private | ...
   String skillLevel;
   String ageGroup;
   String language;
@@ -99,6 +100,7 @@ class ProviderListing {
     required this.title,
     required this.description,
     required this.sportType,
+    this.programType = 'Training',
     required this.skillLevel,
     required this.ageGroup,
     required this.language,
@@ -134,6 +136,7 @@ class ProviderListing {
       'title': title,
       'description': description,
       'sportType': sportType,
+      'programType': programType,
       'skillLevel': skillLevel,
       'ageGroup': ageGroup,
       'language': language,
@@ -384,6 +387,7 @@ class ProviderController with ChangeNotifier {
               title: item['title'] ?? '',
               description: item['description'] ?? '',
               sportType: item['sportType'] ?? '',
+              programType: item['programType'] ?? 'Training',
               skillLevel: item['skillLevel'] ?? '',
               ageGroup: item['ageGroup'] ?? '',
               language: item['language'] ?? 'English',

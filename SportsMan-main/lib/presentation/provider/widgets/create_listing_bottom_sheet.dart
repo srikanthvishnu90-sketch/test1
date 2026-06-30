@@ -39,6 +39,7 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
   final List<String> _pickedGalleryPaths = [];
 
   String _selectedSport = 'Soccer';
+  String _selectedListingType = 'Training';
   String _selectedSkillLevel = 'beginner';
   String _selectedAgeGroup = 'u12';
   String _selectedLanguage = 'English';
@@ -47,6 +48,16 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
 
   // The full catalogue, each with its identity color — no longer a hardcoded 5.
   final List<String> _sports = SportColors.pickerNames;
+  final List<String> _listingTypes = const [
+    'Training',
+    'Camp',
+    'Clinic',
+    'Class',
+    'League',
+    'AAU',
+    'Private Lesson',
+    'Tournament',
+  ];
   final List<String> _skillLevels = ['beginner', 'intermediate', 'advanced'];
   final List<String> _ageGroups = ['u8', 'u10', 'u12', 'u14', 'u16', 'u18'];
   final List<String> _languages = ['English', 'Spanish', 'French'];
@@ -90,6 +101,9 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
         (s) => s.toLowerCase() == listing.sportType.toLowerCase(),
         orElse: () => _sports.first,
       );
+      _selectedListingType = _listingTypes.contains(listing.programType)
+          ? listing.programType
+          : _listingTypes.first;
       _selectedSkillLevel = listing.skillLevel;
       _selectedAgeGroup = listing.ageGroup;
       _selectedLanguage = listing.language;
@@ -143,9 +157,25 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
     final imageUrl = _pickedImagePath ?? _imageUrlController.text.trim();
 
     if (title.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Title is required')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Title is required'),
+          backgroundColor: AppColors.negative,
+        ),
+      );
+      return;
+    }
+
+    // Price is REQUIRED and must be > $0 — otherwise the listing can't be paid
+    // for and booking dead-ends with "no payable amount".
+    final price = double.tryParse(priceStr);
+    if (price == null || price <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Enter a price greater than \$0 so it can be booked.'),
+          backgroundColor: AppColors.negative,
+        ),
+      );
       return;
     }
 
@@ -154,10 +184,11 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
       title: title,
       description: description,
       sportType: _selectedSport,
+      programType: _selectedListingType,
       skillLevel: _selectedSkillLevel,
       ageGroup: _selectedAgeGroup,
       language: _selectedLanguage,
-      price: double.tryParse(priceStr) ?? 0.0,
+      price: price,
       pricingModel: _selectedPricingModel,
       maxCapacity: int.tryParse(maxCapacityStr) ?? 0,
       coordinates: [0.0, 0.0],
@@ -299,6 +330,15 @@ class _CreateListingBottomSheetState extends State<CreateListingBottomSheet> {
                         'Describe your training session, program, or facility...',
                     maxLines: 4,
                     controller: _descriptionController,
+                  ),
+                  const SizedBox(height: 20),
+
+                  _buildDropdownField(
+                    label: 'LISTING TYPE',
+                    value: _selectedListingType,
+                    items: _listingTypes,
+                    onChanged: (val) =>
+                        setState(() => _selectedListingType = val),
                   ),
                   const SizedBox(height: 20),
 
