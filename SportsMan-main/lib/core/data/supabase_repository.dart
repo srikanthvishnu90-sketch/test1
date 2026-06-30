@@ -856,7 +856,81 @@ class SupabaseRepository implements AppRepository {
   Future<void> saveMessages(
     String conversationId,
     List<dynamic> messages,
-  ) async {}
+  ) async {
+    // Deprecated: chat is append-only now. Use postMessage() for new messages;
+    // this wholesale-replace no-op stays only for interface compatibility.
+  }
+
+  @override
+  Future<Map<String, dynamic>?> postMessage(
+    String conversationId,
+    String body,
+  ) async {
+    try {
+      if (!_isUuid(conversationId) || body.trim().isEmpty) return null;
+      final inserted = await _db
+          .from('messages')
+          .insert({
+            'conversation_id': conversationId,
+            'sender_id': _uid,
+            'body': body.trim(),
+          })
+          .select()
+          .single();
+      final m = inserted as Map;
+      // Best-effort: bump the conversation's last-message preview.
+      await _db
+          .from('conversations')
+          .update({
+            'last_message': body.trim(),
+            'last_message_at': m['created_at'],
+          })
+          .eq('id', conversationId);
+      return {
+        '_id': m['id'],
+        'conversationId': m['conversation_id'],
+        'text': m['body'],
+        'senderId': m['sender_id'],
+        'createdAt': m['created_at'],
+      };
+    } on PostgrestException catch (e) {
+      debugPrint('postMessage failed: ${e.message}');
+      return null;
+    }
+  }
+
+  @override
+  Future<void Function()> subscribeMessages(
+    String conversationId,
+    void Function(Map<String, dynamic>) onMessage,
+  ) async {
+    final channel = _db.channel('messages:$conversationId');
+    channel
+        .onPostgresChanges(
+          event: PostgresChangeEvent.insert,
+          schema: 'public',
+          table: 'messages',
+          filter: PostgresChangeFilter(
+            type: PostgresChangeFilterType.eq,
+            column: 'conversation_id',
+            value: conversationId,
+          ),
+          callback: (payload) {
+            final r = payload.newRecord;
+            onMessage({
+              '_id': r['id'],
+              'conversationId': r['conversation_id'],
+              'text': r['body'],
+              'senderId': r['sender_id'],
+              'createdAt': r['created_at'],
+            });
+          },
+        )
+        .subscribe();
+    return () async {
+      await _db.removeChannel(channel);
+    };
+  }
 
   // ── Teams ─────────────────────────────────────────────────────────────────
   @override

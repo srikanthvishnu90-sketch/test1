@@ -48,6 +48,19 @@ abstract class ConversationRepository {
   Future<void> saveConversations(List<dynamic> conversations);
   Future<List<dynamic>> getMessages(String conversationId);
   Future<void> saveMessages(String conversationId, List<dynamic> messages);
+
+  /// Persists ONE new message (append-only; messages are immutable) and returns
+  /// it mapped (`{_id, conversationId, text, senderId, createdAt}`), or null on
+  /// failure. Also bumps the conversation's last-message preview.
+  Future<Map<String, dynamic>?> postMessage(String conversationId, String body);
+
+  /// Subscribes to new messages in a conversation via realtime; [onMessage]
+  /// fires once per inserted row (mapped). Returns a function that cancels the
+  /// subscription. RLS-scoped: only messages the caller may read are delivered.
+  Future<void Function()> subscribeMessages(
+    String conversationId,
+    void Function(Map<String, dynamic>) onMessage,
+  );
 }
 
 /// Coach teams / roster groups.

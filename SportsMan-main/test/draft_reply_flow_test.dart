@@ -34,6 +34,24 @@ class _FakeRepo implements AppRepository {
       messages[conversationId] = List.from(msgs);
 
   @override
+  Future<Map<String, dynamic>?> postMessage(String conversationId, String body) async {
+    final msg = {
+      '_id': 'm-${messages[conversationId]?.length ?? 0}',
+      'conversationId': conversationId,
+      'text': body,
+      'senderId': 'coach-1',
+      'createdAt': '2026-06-28T11:00:00Z',
+    };
+    (messages[conversationId] ??= []).add(msg);
+    return msg;
+  }
+
+  @override
+  Future<void Function()> subscribeMessages(
+          String conversationId, void Function(Map<String, dynamic>) onMessage) async =>
+      () {};
+
+  @override
   Future<List<dynamic>> getConversations() async => [
     <String, dynamic>{'_id': 'conv_1', 'lastMessage': null},
   ];

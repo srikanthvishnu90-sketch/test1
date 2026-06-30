@@ -186,6 +186,31 @@ class MockRepository implements AppRepository {
     List<dynamic> messages,
   ) async => MockData.saveMessages(conversationId, messages);
 
+  @override
+  Future<Map<String, dynamic>?> postMessage(
+    String conversationId,
+    String body,
+  ) async {
+    final msg = {
+      '_id': 'mock-${DateTime.now().millisecondsSinceEpoch}',
+      'conversationId': conversationId,
+      'text': body,
+      'senderId': MockData.userProfile['_id'] ?? 'me',
+      'createdAt': DateTime.now().toIso8601String(),
+    };
+    final msgs = List<dynamic>.from(MockData.getMessages(conversationId))
+      ..add(msg);
+    MockData.saveMessages(conversationId, msgs);
+    return msg;
+  }
+
+  @override
+  Future<void Function()> subscribeMessages(
+    String conversationId,
+    void Function(Map<String, dynamic>) onMessage,
+  ) async =>
+      () {}; // no realtime in the mock
+
   // ── Teams ────────────────────────────────────────────────────────────────
   @override
   Future<List<dynamic>> getTeams() => Future.value(MockData.teams);

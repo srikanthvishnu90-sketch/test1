@@ -38,6 +38,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
   String _conversationId = '';
   String _contactName = '';
   String _avatarUrl = '';
+  ChatProvider? _chat; // captured for realtime unsubscribe in dispose
 
   @override
   void initState() {
@@ -75,9 +76,11 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
       }
 
       if (_conversationId.isNotEmpty) {
-        chatProvider
-            .loadMessages(_conversationId)
-            .then((_) => _scrollToBottom());
+        _chat = chatProvider;
+        chatProvider.loadMessages(_conversationId).then((_) {
+          _scrollToBottom();
+          chatProvider.subscribeToConversation(_conversationId); // live updates
+        });
       }
       setState(() {});
     });
@@ -113,6 +116,7 @@ class _ChatDetailsScreenState extends State<ChatDetailsScreen> {
 
   @override
   void dispose() {
+    _chat?.unsubscribeFromConversation(); // stop the realtime channel
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();

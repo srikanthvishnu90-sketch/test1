@@ -184,38 +184,91 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<bool> sendMessage(String conversationId, String text) async {
-    if (text.trim().isEmpty) return false;
+    final body = text.trim();
+    if (body.isEmpty) return false;
 
-    final tempId = DateTime.now().millisecondsSinceEpoch.toString();
-    final newMsg = {
+    // Optimistic: show it immediately with a temporary id.
+    final tempId = 'temp-${DateTime.now().millisecondsSinceEpoch}';
+    _messages.add({
       '_id': tempId,
       'conversationId': conversationId,
-      'text': text,
+      'text': body,
       'senderId': _currentUserId ?? _auth.currentUser?.id ?? '',
       'createdAt': DateTime.now().toIso8601String(),
-    };
-
-    _messages.add(newMsg);
+    });
     notifyListeners();
 
-    // Persist via repository
-    await _repo.saveMessages(conversationId, _messages);
-
-    // Update lastMessage in local conversations list
-    final convs = await _repo.getConversations();
-    final convIndex = convs.indexWhere((c) => c['_id'] == conversationId);
-    if (convIndex != -1) {
-      convs[convIndex]['lastMessage'] = newMsg;
-      final conv = convs.removeAt(convIndex);
-      convs.insert(0, conv);
-      await _repo.saveConversations(convs);
-      _conversations = convs;
+    // Persist (append-only insert into messages).
+    final saved = await _repo.postMessage(conversationId, body);
+    if (saved == null) {
+      _messages.removeWhere((m) => m['_id'] == tempId); // roll back optimistic
+      notifyListeners();
+      return false;
     }
 
+    // Swap the temp for the real row; de-dupe if realtime already delivered it.
+    final realId = saved['_id'];
+    _messages.removeWhere((m) => m['_id'] == tempId || m['_id'] == realId);
+    _messages.add(saved);
+    _sortMessages();
+    _bumpConversation(conversationId, saved);
     notifyListeners();
-    // NOTE: no fabricated auto-reply. Real two-way chat requires real
-    // conversations/messages rows (provider participant) — a separate feature;
-    // until then a sent message simply shows for this session.
     return true;
+  }
+
+  // ── Realtime: live incoming messages for the open thread ──────────────────
+  void Function()? _unsub;
+  String? _subscribedConv;
+
+  Future<void> subscribeToConversation(String conversationId) async {
+    if (_subscribedConv == conversationId && _unsub != null) return;
+    await unsubscribeFromConversation();
+    _subscribedConv = conversationId;
+    _unsub = await _repo.subscribeMessages(conversationId, _onRealtimeMessage);
+  }
+
+  Future<void> unsubscribeFromConversation() async {
+    final u = _unsub;
+    _unsub = null;
+    _subscribedConv = null;
+    if (u != null) u();
+  }
+
+  void _onRealtimeMessage(Map<String, dynamic> m) {
+    final id = m['_id'];
+    // Ignore our own just-sent message (already present by real id) and any dupe.
+    if (id == null || _messages.any((x) => x['_id'] == id)) return;
+    _messages.add(m);
+    _sortMessages();
+    _bumpConversation(
+      m['conversationId']?.toString() ?? _subscribedConv ?? '',
+      m,
+    );
+    notifyListeners();
+  }
+
+  void _sortMessages() {
+    _messages.sort((a, b) {
+      final at = DateTime.tryParse(a['createdAt'] ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      final bt = DateTime.tryParse(b['createdAt'] ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      return at.compareTo(bt);
+    });
+  }
+
+  void _bumpConversation(String conversationId, Map<String, dynamic> msg) {
+    final i = _conversations.indexWhere((c) => c['_id'] == conversationId);
+    if (i != -1) {
+      _conversations[i]['lastMessage'] = msg;
+      final conv = _conversations.removeAt(i);
+      _conversations.insert(0, conv);
+    }
+  }
+
+  @override
+  void dispose() {
+    unsubscribeFromConversation();
+    super.dispose();
   }
 }
