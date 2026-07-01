@@ -162,9 +162,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           child: Row(
                             children: [
+                              // AI is the way you search — not a side feature.
                               const Icon(
-                                Icons.search,
-                                color: AppColors.textTertiary,
+                                Icons.auto_awesome,
+                                color: AppColors.slateText,
+                                size: 20,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -190,7 +192,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   },
                                   decoration: InputDecoration(
                                     hintText:
-                                        'Search sessions, coaches, sports...',
+                                        'Ask Sporve — find a coach or session…',
                                     hintStyle: AppTypography.font(
                                       color: AppColors.textTertiary,
                                       fontSize: 14,

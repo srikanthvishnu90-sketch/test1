@@ -521,6 +521,7 @@ class _SessionDetailsScreenState extends State<SessionDetailsScreen> {
                       );
                     },
                     variant: SporveButtonVariant.primary,
+                    color: SportColors.of(sport), // sport-context CTA
                   ),
                   const SizedBox(height: 12),
                   SporveButton(

@@ -12,11 +12,12 @@ import 'package:flutter/material.dart';
 /// the entire app re-skins at once. New code must use the named tokens below.
 class AppColors {
   // ── Core neutrals (the 90%) ─────────────────────────────────────────────
-  // Canvas is a near-black (not pure #000) to kill neon halation and soften
-  // every edge — the single highest-impact "calm" change.
+  // Canvas is a DEEP near-black (a hair off pure #000 to kill neon halation).
+  // Deliberately darker than the raised surfaces so cards, sport color, and
+  // white type read brighter against it — the base recedes, content pops.
   static const Color ink = Color(
-    0xFF0B0F14,
-  ); // product canvas (near-black, slate-tinted)
+    0xFF050608,
+  ); // product canvas (deep near-black, faint slate tint)
   static const Color surface = Color(0xFF12181F); // raised surface 1
   static const Color surface2 = Color(0xFF1A222B); // raised surface 2 / pressed
   static const Color hairline = Color(0xFF283039); // divider / border (slate)
@@ -58,7 +59,7 @@ class AppColors {
   static const Color destructiveRed = Color(0xFFEF4444);
 
   /// Off-canvas letterbox behind the phone frame on desktop web.
-  static const Color frame = Color(0xFF05080F);
+  static const Color frame = Color(0xFF020304);
 
   // ── Entry-wall gradient (Layer 1 only: splash + auth) ───────────────────
   static const LinearGradient slateWall = LinearGradient(

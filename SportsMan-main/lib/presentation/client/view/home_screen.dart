@@ -368,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 32,
               height: 32,
               errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.gps_fixed,
+                Icons.auto_awesome,
                 color: AppColors.slateText,
                 size: 28,
               ),
@@ -387,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    'PERSONALIZED FOR YOU',
+                    'AI-PERSONALIZED FOR YOU',
                     style: AppTypography.font(
                       color: AppColors.textSecondary,
                       fontSize: 11,

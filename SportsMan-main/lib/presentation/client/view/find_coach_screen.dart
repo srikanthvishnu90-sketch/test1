@@ -194,7 +194,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
               ),
             ),
             Text(
-              'AI-ranked, safety-checked · near Chicago',
+              'Sporve AI · ranked & safety-checked · Chicago',
               style: AppTypography.font(
                 color: AppColors.textTertiary,
                 fontSize: 12,

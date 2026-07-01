@@ -100,7 +100,7 @@ class CustomSearchField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   const CustomSearchField({
     super.key,
-    this.hint = 'Search programs...',
+    this.hint = 'Ask Sporve to find a coach…',
     this.onTap,
     this.controller,
     this.onChanged,
@@ -130,9 +130,10 @@ class CustomSearchField extends StatelessWidget {
               color: AppColors.textTertiary,
               fontSize: 14,
             ),
+            // AI-native: the search bar IS the Sporve AI prompt.
             prefixIcon: const Icon(
-              Icons.search,
-              color: AppColors.textTertiary,
+              Icons.auto_awesome,
+              color: AppColors.slateText,
               size: 20,
             ),
             border: InputBorder.none,
