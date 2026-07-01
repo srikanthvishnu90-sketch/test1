@@ -53,10 +53,12 @@ async function markPaid(bookingId: string) {
 }
 
 async function markRefunded(bookingId: string) {
+  // Only a PAID booking can be refunded — idempotent + can't clobber a stale id.
   const { error } = await admin
     .from("bookings")
     .update({ payment_status: "refunded" })
-    .eq("id", bookingId);
+    .eq("id", bookingId)
+    .eq("payment_status", "paid");
   if (error) console.error("markRefunded failed", bookingId, error.message);
 }
 
