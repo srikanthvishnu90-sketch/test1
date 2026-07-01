@@ -180,6 +180,13 @@ abstract class SearchRepository {
     Map<String, dynamic> constraints, {
     Map<String, dynamic>? locationHint,
   });
+
+  /// Guided "find my coach": a [client] profile ({athlete_age, sport,
+  /// skill_level?, maturation?, goal?, budget_max_per_session?,
+  /// session_type_pref?, lat, lng, max_distance_km?}) -> safety-gated, ranked
+  /// matches. Returns `{matches:[...], note, eligible_count}` or `{error}`.
+  /// All gating + ranking lives server-side in the ai-match Edge Function.
+  Future<Map<String, dynamic>> aiMatch(Map<String, dynamic> client);
 }
 
 /// Facade aggregating every domain repository. Controllers depend on this one

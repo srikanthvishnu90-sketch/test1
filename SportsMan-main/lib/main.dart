@@ -15,6 +15,7 @@ import 'presentation/onboarding/controllers/onboarding_controller.dart';
 import 'presentation/onboarding/controllers/onboard_draft_controller.dart';
 import 'presentation/client/controllers/home_controller.dart';
 import 'presentation/client/controllers/search_provider.dart';
+import 'presentation/client/controllers/match_provider.dart';
 import 'core/push/push_service.dart';
 import 'presentation/client/controllers/progress_updates_controller.dart';
 import 'presentation/provider/controllers/provider_controller.dart';
@@ -61,6 +62,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => OnboardDraftProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider(repo)),
         ChangeNotifierProvider(create: (_) => SearchProvider(repo)),
+        ChangeNotifierProvider(create: (_) => MatchProvider(repo)),
         ChangeNotifierProvider(create: (_) => ProgressUpdatesController(repo)),
         ChangeNotifierProvider(create: (_) => ProviderController(repo)),
         ChangeNotifierProvider(create: (_) => ParentUpdateController(repo)),

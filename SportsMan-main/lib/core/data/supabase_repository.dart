@@ -636,6 +636,27 @@ class SupabaseRepository implements AppRepository {
   }
 
   @override
+  Future<Map<String, dynamic>> aiMatch(Map<String, dynamic> client) async {
+    try {
+      final res = await _db.functions.invoke(
+        'ai-match',
+        body: {'client': client},
+      );
+      return Map<String, dynamic>.from((res.data as Map?) ?? {});
+    } on FunctionException catch (e) {
+      debugPrint('aiMatch FunctionException: ${e.status}');
+      final det = e.details;
+      if (det is Map && det['error'] != null) {
+        return {'error': det['error'].toString()};
+      }
+      return {'error': 'Could not find matches (status ${e.status}).'};
+    } catch (e) {
+      debugPrint('aiMatch failed: $e');
+      return {'error': 'Could not find matches. Please try again.'};
+    }
+  }
+
+  @override
   Future<Map<String, dynamic>> draftMessage(
     Map<String, dynamic> payload,
   ) async {

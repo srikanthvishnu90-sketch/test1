@@ -266,6 +266,49 @@ class MockRepository implements AppRepository {
   }
 
   @override
+  Future<Map<String, dynamic>> aiMatch(Map<String, dynamic> client) async {
+    await Future.delayed(const Duration(milliseconds: 400));
+    final sport = (client['sport'] as String?)?.toLowerCase();
+    final budget = client['budget_max_per_session'] as num?; // cents
+    final matches = MockData.programs
+        .where((p) {
+          if (p is! Map) return false;
+          if (sport != null &&
+              !(p['sportType']?.toString().toLowerCase().contains(sport) ??
+                  false)) {
+            return false;
+          }
+          if (budget != null &&
+              p['price'] is num &&
+              ((p['price'] as num) * 100) > budget) {
+            return false;
+          }
+          return true;
+        })
+        .map(
+          (p) => {
+            'provider_id': p['_id'],
+            'name': p['providerName'] ?? p['title'] ?? 'Coach',
+            'title': p['title'] ?? 'Program',
+            'sport': p['sportType'] ?? '',
+            'score': 80,
+            'why': 'A safety-gated, age-appropriate match for your athlete.',
+            'price_per_session': ((p['price'] ?? 0) as num).round() * 100,
+            'distance_km': 8.0,
+            'rating_avg': p['averageRating'] ?? p['rating'] ?? 0,
+            'rating_count': p['totalReviews'] ?? 0,
+            'available_this_week': true,
+          },
+        )
+        .toList();
+    return {
+      'matches': matches,
+      'note': matches.isEmpty ? 'No age-appropriate matches in this demo.' : '',
+      'eligible_count': matches.length,
+    };
+  }
+
+  @override
   Future<String?> upsertParentUpdateDraft(Map<String, dynamic> update) async =>
       (update['id'] as String?) ??
       'mock-update-${DateTime.now().millisecondsSinceEpoch}';

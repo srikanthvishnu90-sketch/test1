@@ -229,6 +229,18 @@ class _SearchScreenState extends State<SearchScreen> {
                         iconSize: 24,
                         circle: true,
                       ),
+                      const SizedBox(width: 12),
+                      // Guided AI matching ("Find your coach") — structured
+                      // athlete profile -> safety-gated, ranked coaches.
+                      SporveIconButton(
+                        Icons.auto_awesome,
+                        semanticLabel: 'Find your coach',
+                        onTap: () => Get.toNamed(AppRoutes.findCoach),
+                        size: 56,
+                        iconSize: 22,
+                        circle: true,
+                        filled: true,
+                      ),
                     ],
                   ),
 

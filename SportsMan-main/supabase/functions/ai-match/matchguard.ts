@@ -67,6 +67,11 @@ export function enforceMatches(modelMatches, eligible) {
     const { why } = stripClaims(m?.why);
     out.push({
       provider_id: id,
+      // Identity facts from the eligible row (public, safety-neutral) so the UI
+      // can render a card. Like all facts here, they come from data, not the model.
+      name: e.name ?? null,
+      title: e.title ?? null,
+      sport: e.sport ?? null,
       score: clampScore(m?.score),
       why,                                              // text only (facts overwritten below)
       price_per_session: e.price_per_session ?? null,   // FACTS from data, never the model

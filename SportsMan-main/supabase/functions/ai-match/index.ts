@@ -158,6 +158,9 @@ Deno.serve(async (req) => {
     if (final.length === 0) {
       final = elig.map((e) => ({
         provider_id: String(e.program_id),
+        name: e.name ?? null,
+        title: e.title ?? null,
+        sport: e.sport ?? null,
         score: 0,
         why: "",
         price_per_session: e.price_per_session ?? null,
