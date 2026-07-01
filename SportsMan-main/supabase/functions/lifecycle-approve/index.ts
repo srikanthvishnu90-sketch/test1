@@ -15,6 +15,7 @@
 
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { enforceLifecycleDraft } from "../lifecycle-process/policy.ts";
+import { deliverPush } from "../_shared/push.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -87,6 +88,9 @@ Deno.serve(async (req) => {
     const { error: notifErr } = await admin.from("notifications")
       .insert([{ user_id: guardianId, title, message: cleanBody.slice(0, 280) }]);
     if (notifErr) return json({ error: `Could not deliver: ${notifErr.message}` }, 500);
+
+    // Best-effort push (the inbox row already delivered).
+    await deliverPush(admin, guardianId, title, cleanBody.slice(0, 280));
 
     const { data: updated, error: updErr } = await admin.from("outbound_messages")
       .update({
