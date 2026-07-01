@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/push/push_service.dart';
 import './view/provider_dashboard_screen.dart';
 import './view/provider_listings_screen.dart';
 import './view/provider_schedule_screen.dart';
@@ -25,6 +27,16 @@ class _ProviderMainNavScreenState extends State<ProviderMainNavScreen> {
     const ProviderChatScreen(),
     const ProviderProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Provider reached their app shell → a session exists. Register this device
+    // for push (no-op unless a Firebase project is wired up).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<PushService>().register();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/push/push_service.dart';
 import '../client/view/home_screen.dart';
 import '../client/view/search_screen.dart';
 import '../client/view/schedule_screen.dart';
@@ -25,6 +27,16 @@ class _MainNavScreenState extends State<MainNavScreen> {
     const MessagesScreen(),
     const ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // The user has reached the app shell → a session exists. Register this
+    // device for push (no-op unless a Firebase project is wired up).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<PushService>().register();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
