@@ -864,7 +864,12 @@ class SupabaseRepository implements AppRepository {
         if (profile['bio'] != null) 'bio': profile['bio'],
         if (profile['sports'] != null) 'sports': profile['sports'],
         if (profile['location'] != null) 'location': profile['location'],
-        if (profile['status'] != null) 'status': profile['status'],
+        // `status`, `verification_status` and the stripe_* columns are NOT sent
+        // from the client — they are server-controlled by the
+        // enforce_provider_trust trigger. `status` is DERIVED from
+        // onboarding_completed (completing onboarding lists the provider); the
+        // 'verified' trust badge is admin/service-role only. So a provider can
+        // never self-approve or self-verify.
         if (profile['onboardingCompleted'] != null)
           'onboarding_completed': profile['onboardingCompleted'],
       };

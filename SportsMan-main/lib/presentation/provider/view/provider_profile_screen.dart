@@ -52,10 +52,11 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
 
       if (providerData.isNotEmpty) {
         setState(() {
-          _verificationStatus =
-              providerData['verificationStatus'] ??
-              providerData['status'] ??
-              'pending';
+          // The badge reflects the real trust signal (verification_status),
+          // which is admin/service-role only — NEVER `status`. A freshly
+          // onboarded provider is honestly 'unverified' until an admin verifies
+          // them, rather than showing 'approved' as if it were a trust badge.
+          _verificationStatus = providerData['verificationStatus'] ?? 'unverified';
           _logoUrl = providerData['logo'] ?? userData['profileImage'] ?? '';
 
           final address = providerData['address'];

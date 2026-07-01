@@ -369,7 +369,11 @@ class OnboardingProvider with ChangeNotifier {
         'galleryPaths': _galleryPaths,
         'videoUrl': _videoUrl,
       };
-      prof['status'] = 'approved';
+      // Completing onboarding LISTS the provider (server derives status =
+      // 'approved' from this flag via the enforce_provider_trust trigger). We
+      // never send `status` directly — a provider can't self-approve, and can
+      // never self-grant the 'verified' trust badge (admin/service-role only).
+      prof['onboardingCompleted'] = true;
       await _repo.saveProviderProfile(prof);
       // Role is set at signup via user_metadata (#18); no separate store needed.
 
