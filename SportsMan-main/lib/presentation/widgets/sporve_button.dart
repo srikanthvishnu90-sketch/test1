@@ -48,8 +48,10 @@ class SporveButton extends StatefulWidget {
   /// For [secondary]/[tertiary] on dark backgrounds — picks light text/border.
   final bool onDark;
 
-  /// Optional accent override for the [primary] variant — pass a sport color to
-  /// theme the CTA to the current sport's content (text color auto-contrasts).
+  /// Rare brand-accent override for the [primary] variant (text auto-contrasts).
+  /// Do NOT pass a sport color: CTAs are chrome and must stay the slate brand
+  /// accent. Sport (exterior) color belongs only on tags/badges/glyphs/tiles/
+  /// the 3px bar — never on a button. Leave null so primary defaults to slate.
   final Color? color;
 
   const SporveButton(

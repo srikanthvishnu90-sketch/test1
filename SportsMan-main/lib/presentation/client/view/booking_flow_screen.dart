@@ -137,7 +137,8 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
   String _coach = 'Academy';
   String _tier = 'STANDARD';
 
-  // Sport identity of the booked program — themes the primary CTAs + selections.
+  // Sport identity of the booked program — used ONLY on the sport icon tile
+  // (exterior-color accent). Chrome, selections, and CTAs use slate.
   String get _sport => (_program?['sportType'] ?? 'basketball').toString();
   Color get _sportColor => SportColors.of(_sport);
 
@@ -379,7 +380,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.chip),
                     border: Border.all(
-                      color: selected ? _sportColor : AppColors.hairline,
+                      color: selected ? AppColors.slate : AppColors.hairline,
                       width: 2,
                     ),
                   ),
@@ -388,7 +389,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                     children: [
                       Icon(
                         selected ? Icons.check_circle : Icons.person_outline,
-                        color: selected ? _sportColor : AppColors.textTertiary,
+                        color: selected ? AppColors.slate : AppColors.textTertiary,
                         size: 16,
                       ),
                       const SizedBox(width: 8),
@@ -464,7 +465,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(AppRadii.tile),
                     border: Border.all(
-                      color: selected ? _sportColor : AppColors.hairline,
+                      color: selected ? AppColors.slate : AppColors.hairline,
                       width: 2,
                     ),
                   ),
@@ -474,7 +475,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                         selected
                             ? Icons.radio_button_checked
                             : Icons.radio_button_off,
-                        color: selected ? _sportColor : AppColors.textTertiary,
+                        color: selected ? AppColors.slate : AppColors.textTertiary,
                         size: 20,
                       ),
                       const SizedBox(width: 14),
@@ -863,7 +864,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 150),
                         decoration: BoxDecoration(
-                          color: isSelected ? _sportColor : Colors.transparent,
+                          color: isSelected ? AppColors.slate : Colors.transparent,
                           shape: BoxShape.circle,
                         ),
                         alignment: Alignment.center,
@@ -873,7 +874,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                             color: isPast
                                 ? AppColors.textTertiary
                                 : (isSelected
-                                      ? SportColors.onColorOf(_sport)
+                                      ? AppColors.onSlate
                                       : AppColors.textPrimary),
                             fontSize: 14,
                             fontWeight: isSelected
@@ -922,7 +923,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 150),
                         decoration: BoxDecoration(
-                          color: isSelected ? _sportColor : AppColors.surface,
+                          color: isSelected ? AppColors.slate : AppColors.surface,
                           borderRadius: BorderRadius.circular(AppRadii.tile),
                           border: Border.all(
                             color: isSelected
@@ -937,7 +938,7 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                             // Contrast-correct on any sport color (white on dark
                             // sports, near-black on yellow/lime).
                             color: isSelected
-                                ? SportColors.onColorOf(_sport)
+                                ? AppColors.onSlate
                                 : AppColors.textSecondary,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
@@ -1047,7 +1048,6 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                   child: SporveButton(
                     'Continue',
                     variant: SporveButtonVariant.primary,
-                    color: _sportColor,
                     onPressed: _onContinueFromStep1,
                   ),
                 ),
@@ -1151,15 +1151,17 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
                             height: 44,
                             width: 44,
                             decoration: BoxDecoration(
-                              color: AppColors.surface2,
+                              // Sport identity tile (the one exterior color on
+                              // this screen) — sanctioned icon-tile, not chrome.
+                              color: SportColors.tileTintOf(_sport),
                               borderRadius: BorderRadius.circular(
                                 AppRadii.tile,
                               ),
                             ),
                             alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.emoji_events,
-                              color: AppColors.slateText,
+                            child: Icon(
+                              SportColors.iconOf(_sport),
+                              color: _sportColor,
                               size: 20,
                             ),
                           ),
@@ -1305,7 +1307,6 @@ class _BookingFlowScreenState extends State<BookingFlowScreen> {
             child: SporveButton(
               'Confirm & Pay ${_money(_total)}',
               variant: SporveButtonVariant.primary,
-              color: _sportColor,
               icon: Icons.lock_outline,
               loading: _checkoutLoading,
               onPressed: _checkoutLoading ? null : _handleConfirmAndPay,

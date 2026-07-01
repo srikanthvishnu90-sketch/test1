@@ -983,7 +983,6 @@ class _BottomCTA extends StatelessWidget {
                 Navigator.of(context).pop(index);
               },
               variant: SporveButtonVariant.primary,
-              color: SportColors.of(listing.sportType),
             ),
           ),
         ],
