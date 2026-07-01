@@ -1168,6 +1168,22 @@ class SupabaseRepository implements AppRepository {
   @override
   Future<void> saveNotifications(List<dynamic> notifications) async {}
 
+  @override
+  Future<void> savePushToken(String token, {String platform = 'web'}) async {
+    try {
+      final uid = _uid;
+      if (uid == null || token.isEmpty) return;
+      await _db.from('push_tokens').upsert({
+        'user_id': uid,
+        'token': token,
+        'platform': platform,
+        'updated_at': DateTime.now().toUtc().toIso8601String(),
+      }, onConflict: 'user_id,token');
+    } catch (e) {
+      debugPrint('savePushToken failed: $e');
+    }
+  }
+
   // ── Favorites (local; no dedicated table yet) ─────────────────────────────
   @override
   Future<List<String>> getFavorites() async {

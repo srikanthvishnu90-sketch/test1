@@ -105,6 +105,10 @@ abstract class NotificationRepository {
   Future<void> saveNotificationPrefs(Map<String, dynamic> prefs);
   Future<List<dynamic>> getNotifications();
   Future<void> saveNotifications(List<dynamic> notifications);
+
+  /// Registers a push destination for the signed-in user — an FCM token or a
+  /// JSON web-push subscription. Idempotent (upsert by user + token).
+  Future<void> savePushToken(String token, {String platform});
 }
 
 /// Saved/favourited programs.

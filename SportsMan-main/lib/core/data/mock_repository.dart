@@ -392,6 +392,8 @@ class MockRepository implements AppRepository {
   @override
   Future<void> saveNotifications(List<dynamic> notifications) async =>
       MockData.notifications = notifications;
+  @override
+  Future<void> savePushToken(String token, {String platform = 'web'}) async {}
 
   // ── Favorites ────────────────────────────────────────────────────────────
   @override
