@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radii.dart';
+import '../../../core/theme/sport_colors.dart';
 import '../controllers/provider_controller.dart';
 import '../../widgets/common_widgets.dart';
 import '../../widgets/sporve_button.dart';
@@ -585,14 +586,27 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      session.serviceTitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTypography.font(
-                        color: AppColors.textGrey,
-                        fontSize: 12,
-                      ),
+                    Row(
+                      children: [
+                        Icon(
+                          SportColors.iconOf(session.serviceTitle),
+                          color: SportColors.of(session.serviceTitle),
+                          size: 13,
+                        ),
+                        const SizedBox(width: 5),
+                        Flexible(
+                          child: Text(
+                            session.serviceTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.font(
+                              color: SportColors.of(session.serviceTitle),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -734,14 +748,27 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    Text(
-                      session.serviceTitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTypography.font(
-                        color: AppColors.textSecondary,
-                        fontSize: 12,
-                      ),
+                    Row(
+                      children: [
+                        Icon(
+                          SportColors.iconOf(session.serviceTitle),
+                          color: SportColors.of(session.serviceTitle),
+                          size: 13,
+                        ),
+                        const SizedBox(width: 5),
+                        Flexible(
+                          child: Text(
+                            session.serviceTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTypography.font(
+                              color: SportColors.of(session.serviceTitle),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -754,10 +781,10 @@ class _ProviderScheduleScreenState extends State<ProviderScheduleScreen> {
                       : (session.isCompleted ? 'COMPLETED' : 'CONFIRMED');
                   final fg = isNoShow
                       ? AppColors.textTertiary
-                      : AppColors.slateDeep;
+                      : AppColors.successGreen;
                   final bg = isNoShow
                       ? AppColors.negativeTint
-                      : AppColors.slateTint;
+                      : AppColors.successTint;
                   return Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,

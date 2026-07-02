@@ -152,7 +152,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen>
                 label: 'REVENUE',
                 value: revenueStr,
                 trend: 'paid',
-                trendColor: AppColors.positive,
+                trendColor: AppColors.warmAccent,
               ),
               _buildFinanceGridCard(
                 label: 'ATHLETES',
@@ -624,7 +624,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen>
                                   width: 14,
                                   decoration: BoxDecoration(
                                     color: tx['isIncome']
-                                        ? AppColors.slateText
+                                        ? AppColors.successGreen
                                         : AppColors.negative,
                                     shape: BoxShape.circle,
                                     border: Border.all(
@@ -659,8 +659,8 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen>
                                     OutlinePill(
                                       tx['status'],
                                       color: isCompleted
-                                          ? AppColors.slateText
-                                          : AppColors.warning,
+                                          ? AppColors.successGreen
+                                          : AppColors.warmAccent,
                                     ),
                                   ],
                                 ),
@@ -685,7 +685,7 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen>
                               size: 15,
                               weight: FontWeight.bold,
                               color: tx['isIncome']
-                                  ? AppColors.slateText
+                                  ? AppColors.successGreen
                                   : AppColors.textPrimary,
                             ),
                           ),
@@ -745,9 +745,9 @@ class _ProviderFinancesScreenState extends State<ProviderFinancesScreen>
                       Color statusColor;
 
                       if (inv['status'] == 'PAID') {
-                        statusColor = AppColors.slateText;
+                        statusColor = AppColors.successGreen;
                       } else if (inv['status'] == 'PENDING') {
-                        statusColor = AppColors.warning;
+                        statusColor = AppColors.warmAccent;
                       } else {
                         statusColor = AppColors.negative;
                       }

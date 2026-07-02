@@ -694,19 +694,19 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Sport glyph tile
+              // Sport glyph tile — sport-tinted base + sport-color glyph.
               Container(
                 height: 48,
                 width: 48,
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  color: SportColors.tileTintOf(emoji),
                   borderRadius: BorderRadius.circular(AppRadii.tile),
                 ),
                 alignment: Alignment.center,
                 child: SportGlyph(
                   emoji,
                   size: 22,
-                  color: AppColors.textPrimary,
+                  color: SportColors.of(emoji),
                 ),
               ),
               // Time & Location

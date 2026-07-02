@@ -392,7 +392,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       height: 12,
                       width: 12,
                       decoration: BoxDecoration(
-                        color: AppColors.slateText, // active dot
+                        color: AppColors.successGreen, // active/online dot
                         shape: BoxShape.circle,
                         border: Border.all(color: AppColors.ink, width: 2),
                       ),
@@ -446,7 +446,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     height: 18,
                     width: 18,
                     decoration: const BoxDecoration(
-                      color: AppColors.slateText, // unread badge
+                      color: AppColors.warmAccent, // unread badge
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,

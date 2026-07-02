@@ -85,9 +85,9 @@ class _ProviderProfileScreenState extends State<ProviderProfileScreen> {
   Color _getVerificationColor(String status) {
     switch (status.toLowerCase()) {
       case 'verified':
-        return AppColors.slateText;
+        return AppColors.successGreen;
       case 'pending':
-        return AppColors.warning;
+        return AppColors.warmAccent;
       case 'rejected':
         return AppColors.negative;
       default:

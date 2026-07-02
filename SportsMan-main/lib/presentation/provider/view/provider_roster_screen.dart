@@ -879,12 +879,12 @@ class _ProviderRosterScreenState extends State<ProviderRosterScreen> {
                                         children: [
                                           _buildStatusChip(
                                             text: athlete['isAvailable'] ? 'Available' : 'Away',
-                                            color: athlete['isAvailable'] ? AppColors.slateText : AppColors.negative,
+                                            color: athlete['isAvailable'] ? AppColors.successGreen : AppColors.negative,
                                           ),
                                           const SizedBox(height: 4),
                                           _buildStatusChip(
                                             text: athlete['isPaid'] ? 'Paid' : 'Unpaid',
-                                            color: athlete['isPaid'] ? AppColors.slateText : AppColors.warning,
+                                            color: athlete['isPaid'] ? AppColors.successGreen : AppColors.warmAccent,
                                             isFilled: athlete['isPaid'],
                                           ),
                                         ],

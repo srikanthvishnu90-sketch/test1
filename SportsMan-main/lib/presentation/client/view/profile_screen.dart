@@ -117,14 +117,14 @@ class ProfileScreen extends StatelessWidget {
                                       children: [
                                         const Icon(
                                           Icons.check,
-                                          color: AppColors.slateText,
+                                          color: AppColors.successGreen,
                                           size: 10,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
                                           'VERIFIED',
                                           style: AppTypography.font(
-                                            color: AppColors.slateText,
+                                            color: AppColors.successGreen,
                                             fontSize: 11,
                                             fontWeight: FontWeight.bold,
                                             letterSpacing: 0.5,
