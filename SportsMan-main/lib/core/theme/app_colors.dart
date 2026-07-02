@@ -58,6 +58,14 @@ class AppColors {
   // RED IS DESTRUCTIVE ONLY (Sign out, Delete).
   static const Color destructiveRed = Color(0xFFEF4444);
 
+  // ── Semantic accents (color richness) ───────────────────────────────────
+  // Deliberate warmth so no screen is grey-on-black. Used on STATUS + TREND
+  // metadata only (never chrome/CTAs — those are slate or sport-color).
+  static const Color successGreen = Color(0xFF34C759); // confirmed/available/paid/active
+  static const Color successTint = Color(0x2434C759);
+  static const Color warmAccent = Color(0xFFE8A23D); // pending + up-trends (reference warmth)
+  static const Color warmTint = Color(0x24E8A23D);
+
   /// Off-canvas letterbox behind the phone frame on desktop web.
   static const Color frame = Color(0xFF020304);
 

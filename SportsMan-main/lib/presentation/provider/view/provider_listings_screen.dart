@@ -214,7 +214,10 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: AppColors.surface2,
+                  // Sport-color tile when there's no photo (was flat grey).
+                  color: listing.image.isNotEmpty
+                      ? AppColors.surface2
+                      : SportColors.tileTintOf(listing.sportType),
                   borderRadius: BorderRadius.circular(AppRadii.tile),
                   border: Border.all(color: AppColors.hairline),
                 ),
@@ -226,10 +229,10 @@ class _ProviderListingsScreenState extends State<ProviderListingsScreen> {
                         fit: BoxFit.cover,
                         radius: AppRadii.tile,
                       )
-                    : const Icon(
-                        Icons.image_outlined,
-                        color: AppColors.textTertiary,
-                        size: 24,
+                    : Icon(
+                        SportColors.iconOf(listing.sportType),
+                        color: sportColor,
+                        size: 28,
                       ),
               ),
               const SizedBox(width: 16),

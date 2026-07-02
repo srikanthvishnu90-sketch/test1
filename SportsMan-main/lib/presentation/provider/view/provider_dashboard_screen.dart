@@ -179,7 +179,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
               children: [
                 const Icon(
                   Icons.check_circle,
-                  color: AppColors.positive,
+                  color: AppColors.successGreen,
                   size: 20,
                 ),
                 const SizedBox(width: 8),
@@ -330,7 +330,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         value:
                             '\$${providerController.revenue.toStringAsFixed(0)}',
                         trend: 'PAID',
-                        trendColor: AppColors.slateText,
+                        trendColor: AppColors.warmAccent,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -339,7 +339,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         label: 'BOOKINGS',
                         value: '${providerController.bookingCount}',
                         trend: 'TOTAL',
-                        trendColor: AppColors.slateText,
+                        trendColor: AppColors.warmAccent,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -348,7 +348,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                         label: 'LISTINGS',
                         value: '${providerController.listingCount}',
                         trend: 'LIVE',
-                        trendColor: AppColors.slateText,
+                        trendColor: AppColors.warmAccent,
                       ),
                     ),
                   ],
@@ -457,8 +457,9 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                           subtitle: session.userName.toUpperCase(),
                           status: session.isConfirmed ? 'CONFIRMED' : 'PENDING',
                           statusColor: session.isConfirmed
-                              ? AppColors.slateText
-                              : AppColors.warning,
+                              ? AppColors.successGreen
+                              : AppColors.warmAccent,
+                          sport: session.serviceTitle,
                         );
                       },
                     ),
@@ -531,6 +532,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
                       title: listings[i].title,
                       rating: listings[i].rating,
                       spots: listings[i].availability,
+                      sport: listings[i].sportType,
                       context: context,
                     ),
                     const SizedBox(height: 12),
@@ -615,6 +617,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
     required String subtitle,
     required String status,
     required Color statusColor,
+    required String sport,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -625,6 +628,8 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
       ),
       child: Row(
         children: [
+          SportIconTile(sport, size: 44), // sport color, not grey
+          const SizedBox(width: 14),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -708,6 +713,7 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
     required String title,
     required String rating,
     required String spots,
+    required String sport,
     required BuildContext context,
   }) {
     return Container(
@@ -719,13 +725,17 @@ class _ProviderDashboardScreenState extends State<ProviderDashboardScreen> {
       ),
       child: Row(
         children: [
-          SporveImage(
-            image,
-            width: 48,
-            height: 48,
-            fit: BoxFit.cover,
-            radius: AppRadii.tile,
-          ),
+          // Sport-color tile instead of a grey image placeholder.
+          if (image.isNotEmpty)
+            SporveImage(
+              image,
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover,
+              radius: AppRadii.tile,
+            )
+          else
+            SportIconTile(sport, size: 48),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
