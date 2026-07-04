@@ -81,14 +81,23 @@ class SupabaseAuthService implements AuthService {
     }
   }
 
+  /// Deep-link the mobile OAuth flow returns through. Registered natively
+  /// (iOS Info.plist CFBundleURLTypes + Android manifest intent-filter) and
+  /// added to Supabase Auth → URL Configuration → Redirect URLs.
+  static const String mobileRedirect = 'sporve://login-callback';
+
   @override
   Future<void> signInWithGoogle() async {
-    // Web: redirect back to the app's own origin (must be in Supabase Auth →
-    // URL Configuration → Redirect URLs). On return, the persisted session is
-    // picked up by the splash route guard. Mobile deep-link is a later step.
+    // Web redirects to the app's own origin; mobile returns via the custom
+    // scheme deep link. Both must be in Supabase's Redirect URLs allowlist.
+    // supabase_flutter picks up the session on return; the splash route guard
+    // then sends the user home.
     await _client.auth.signInWithOAuth(
       OAuthProvider.google,
-      redirectTo: kIsWeb ? Uri.base.origin : null,
+      redirectTo: kIsWeb ? Uri.base.origin : mobileRedirect,
+      authScreenLaunchMode: kIsWeb
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication,
     );
   }
 

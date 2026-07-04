@@ -20,17 +20,26 @@ class PushService {
   String get _platform => kIsWeb ? 'web' : defaultTargetPlatform.name;
 
   Future<void> register() async {
-    if (!Env.pushConfigured) return;
+    // Web needs the JS config from Env. Mobile reads the native config files
+    // (android/app/google-services.json, ios GoogleService-Info.plist), so we
+    // attempt registration there and let initializeApp() no-op via catch if the
+    // config isn't present yet.
+    if (kIsWeb && !Env.pushConfigured) return;
     try {
       if (!_firebaseReady) {
-        await Firebase.initializeApp(
-          options: FirebaseOptions(
-            apiKey: Env.firebaseApiKey,
-            appId: Env.firebaseAppId,
-            messagingSenderId: Env.firebaseMessagingSenderId,
-            projectId: Env.firebaseProjectId,
-          ),
-        );
+        if (kIsWeb) {
+          await Firebase.initializeApp(
+            options: FirebaseOptions(
+              apiKey: Env.firebaseApiKey,
+              appId: Env.firebaseAppId,
+              messagingSenderId: Env.firebaseMessagingSenderId,
+              projectId: Env.firebaseProjectId,
+            ),
+          );
+        } else {
+          // Native platforms: options come from the bundled config files.
+          await Firebase.initializeApp();
+        }
         _firebaseReady = true;
       }
 
