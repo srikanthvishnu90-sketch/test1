@@ -44,9 +44,12 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         decoration: const BoxDecoration(gradient: AppColors.slateWall),
         child: Center(
-          // The logo (slate square + black S) shows in its true colors; its
-          // slate matches the splash so only the mark reads. No tint, no motion.
-          child: Image.asset(AppAssets.appLogo, width: 132, height: 132),
+          // Transparent S figure, rendered white on the slate wall (same
+          // treatment as before). Static — no tint change, no motion.
+          child: ColorFiltered(
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            child: Image.asset(AppAssets.appLogo, width: 104, height: 104),
+          ),
         ),
       ),
     );
