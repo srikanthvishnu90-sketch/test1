@@ -18,8 +18,8 @@ class AppColors {
   static const Color ink = Color(
     0xFF050608,
   ); // product canvas (deep near-black, faint slate tint)
-  static const Color surface = Color(0xFF12181F); // raised surface 1
-  static const Color surface2 = Color(0xFF1A222B); // raised surface 2 / pressed
+  static const Color surface = Color(0xFF171F29); // raised surface 1 (brighter)
+  static const Color surface2 = Color(0xFF222C38); // raised surface 2 / pressed
   static const Color hairline = Color(0xFF283039); // divider / border (slate)
   static const Color hairlineSoft = Color(0xFF1E252D); // faint divider
   static const Color textPrimary = Color(0xFFF3F6F8); // near-white
@@ -36,7 +36,7 @@ class AppColors {
   static const Color slateText = Color(
     0xFF536878,
   ); // slate accent for text/icons (active/selected use textPrimary)
-  static const Color slateTint = Color(0x2E536878); // ~18% slate fill
+  static const Color slateTint = Color(0x3D536878); // ~24% slate fill (brighter)
   static const Color slateBorder = Color(0x80536878); // ~50% slate border
   static const Color slateBrand = Color(
     0xFF536878,
@@ -45,7 +45,7 @@ class AppColors {
   // AI / social were a distinct blue; folded into slate (single accent).
   static const Color blue = Color(0xFF536878);
   static const Color blueText = Color(0xFF536878);
-  static const Color blueTint = Color(0x2E536878); // ~18% slate fill
+  static const Color blueTint = Color(0x3D536878); // ~24% slate fill (brighter)
 
   // ── Semantic ─────────────────────────────────────────────────────────────
   static const Color positive = slateText; // up / confirmed (slate, no green)

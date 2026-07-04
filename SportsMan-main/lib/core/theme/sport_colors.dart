@@ -121,14 +121,14 @@ class SportColors {
       ? const Color(0xFFF3F6F8)
       : const Color(0xFF0B0F14);
 
-  /// Low-opacity tint for sport tags (~20%).
-  static Color tintOf(String? sport) => of(sport).withValues(alpha: 0.20);
+  /// Low-opacity tint for sport tags — brighter, more vivid read.
+  static Color tintOf(String? sport) => of(sport).withValues(alpha: 0.30);
 
-  /// Stronger tint for icon-tile bases (~25%) — the bolder, more colorful look.
-  static Color tileTintOf(String? sport) => of(sport).withValues(alpha: 0.25);
+  /// Stronger tint for icon-tile bases — the bold, bright, colorful look.
+  static Color tileTintOf(String? sport) => of(sport).withValues(alpha: 0.44);
 
-  /// Faint header-zone wash for cards (~12%).
-  static Color washOf(String? sport) => of(sport).withValues(alpha: 0.12);
+  /// Header-zone wash for cards.
+  static Color washOf(String? sport) => of(sport).withValues(alpha: 0.20);
 
   /// Heavier scrim for gradient overlays on cover images (~60%).
   static Color scrimOf(String? sport) => of(sport).withValues(alpha: 0.60);

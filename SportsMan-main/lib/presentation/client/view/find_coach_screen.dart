@@ -252,14 +252,23 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${m.matches.length} safety-checked match${m.matches.length == 1 ? '' : 'es'}',
+              '${m.matches.length} best match${m.matches.length == 1 ? '' : 'es'}, ranked by Sporve AI',
               style: AppTypography.font(
-                color: AppColors.textTertiary,
-                fontSize: 12,
+                color: AppColors.textPrimary,
+                fontSize: 13,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 2),
+            Text(
+              'Scored on rating, distance, price, coach experience, fit & availability',
+              style: AppTypography.font(
+                color: AppColors.textTertiary,
+                fontSize: 11,
+                height: 1.3,
+              ),
+            ),
+            const SizedBox(height: 12),
             ...m.matches.asMap().entries.map(
               (e) => _matchCard(e.key + 1, e.value as Map),
             ),
@@ -280,6 +289,7 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
     final miles = km is num ? (km * 0.621371).round() : null;
     final avail = r['available_this_week'] == true;
     final why = r['why']?.toString();
+    final score = (r['score'] as num?)?.round();
 
     return GestureDetector(
       onTap: () => Get.toNamed(
@@ -333,6 +343,10 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
                     ),
                   ),
                 ),
+                if (score != null && score > 0) ...[
+                  const SizedBox(width: 8),
+                  _scoreBadge(score),
+                ],
               ],
             ),
             const SizedBox(height: 8),
@@ -386,6 +400,43 @@ class _FindCoachScreenState extends State<FindCoachScreen> {
             ],
           ],
         ),
+      ),
+    );
+  }
+
+  // The AI's 0-100 fit score (goal alignment, rating, developmental fit,
+  // distance, price, experience, availability). High scores read green.
+  Widget _scoreBadge(int score) {
+    final c = score >= 80 ? AppColors.successGreen : AppColors.slateText;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: c.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(AppRadii.chip),
+        border: Border.all(color: c.withValues(alpha: 0.5)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '$score',
+            style: AppTypography.font(
+              color: c,
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(width: 3),
+          Text(
+            'MATCH',
+            style: AppTypography.font(
+              color: c,
+              fontSize: 9,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
       ),
     );
   }
