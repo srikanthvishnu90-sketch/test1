@@ -82,6 +82,17 @@ class SupabaseAuthService implements AuthService {
   }
 
   @override
+  Future<void> signInWithGoogle() async {
+    // Web: redirect back to the app's own origin (must be in Supabase Auth →
+    // URL Configuration → Redirect URLs). On return, the persisted session is
+    // picked up by the splash route guard. Mobile deep-link is a later step.
+    await _client.auth.signInWithOAuth(
+      OAuthProvider.google,
+      redirectTo: kIsWeb ? Uri.base.origin : null,
+    );
+  }
+
+  @override
   Future<void> signOut() => _client.auth.signOut();
 
   @override

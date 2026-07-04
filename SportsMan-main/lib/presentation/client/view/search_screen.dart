@@ -232,6 +232,16 @@ class _SearchScreenState extends State<SearchScreen> {
                         circle: true,
                       ),
                       const SizedBox(width: 12),
+                      // Real map of nearby companies/coaches.
+                      SporveIconButton(
+                        Icons.map_outlined,
+                        semanticLabel: 'Map view',
+                        onTap: () => Get.toNamed(AppRoutes.map),
+                        size: 56,
+                        iconSize: 22,
+                        circle: true,
+                      ),
+                      const SizedBox(width: 12),
                       // Guided AI matching ("Find your coach") — structured
                       // athlete profile -> safety-gated, ranked coaches.
                       SporveIconButton(

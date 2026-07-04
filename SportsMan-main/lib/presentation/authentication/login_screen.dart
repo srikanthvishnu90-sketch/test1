@@ -8,6 +8,7 @@ import '../../core/theme/app_radii.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/auth/auth_service.dart';
 import '../widgets/sporve_button.dart';
+import '../widgets/google_sign_in_button.dart';
 import 'controllers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -193,6 +194,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     loading: authProvider.isLoading,
                     variant: SporveButtonVariant.primary,
                   ),
+                  const SizedBox(height: 20),
+                  const OrDivider(),
+                  const SizedBox(height: 20),
+                  const GoogleSignInButton(),
                   const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

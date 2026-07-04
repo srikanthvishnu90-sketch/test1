@@ -96,6 +96,20 @@ class AuthProvider extends ChangeNotifier {
     return res;
   }
 
+  /// Start Google OAuth. On web this redirects away and returns via the splash
+  /// route guard, so there's no AuthResult to await here.
+  Future<void> signInWithGoogle() async {
+    _setError(null);
+    _setLoading(true);
+    try {
+      await _auth.signInWithGoogle();
+    } catch (e) {
+      _setError('Could not start Google sign-in. Please try again.');
+      _setLoading(false);
+    }
+    // Note: on success the page redirects; loading stays until navigation.
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
     // The authStateChanges listener clears _currentUser and notifies.

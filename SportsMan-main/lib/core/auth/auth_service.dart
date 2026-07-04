@@ -44,6 +44,12 @@ abstract class AuthService {
     String? captchaToken,
   });
 
+  /// Starts the Google OAuth flow. On web this REDIRECTS the page to Google and
+  /// returns before completion — the session arrives on redirect-back via
+  /// [authStateChanges] (the app re-enters through the splash route guard). A
+  /// brand-new Google user is provisioned as a 'searcher' by default.
+  Future<void> signInWithGoogle();
+
   Future<void> signOut();
 
   /// The currently signed-in user, or null. Read synchronously from the

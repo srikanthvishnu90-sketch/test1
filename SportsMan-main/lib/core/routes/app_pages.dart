@@ -31,6 +31,7 @@ import '../../presentation/authentication/forgot_password_screen.dart';
 import '../../presentation/bottom_nav/bottom_nav_screen.dart';
 import '../../presentation/client/view/search_screen.dart';
 import '../../presentation/client/view/find_coach_screen.dart';
+import '../../presentation/client/view/map_screen.dart';
 import '../../presentation/client/view/filter_screen.dart';
 import '../../presentation/client/view/nearby_session_screen.dart';
 import '../../presentation/client/view/session_details_screen.dart';
@@ -104,6 +105,7 @@ class AppPages {
     GetPage(name: AppRoutes.mainNav, page: () => const MainNavScreen()),
     GetPage(name: AppRoutes.search, page: () => const SearchScreen()),
     GetPage(name: AppRoutes.findCoach, page: () => const FindCoachScreen()),
+    GetPage(name: AppRoutes.map, page: () => const MapScreen()),
     GetPage(name: AppRoutes.filters, page: () => const FilterScreen()),
     GetPage(
       name: AppRoutes.nearbySession,

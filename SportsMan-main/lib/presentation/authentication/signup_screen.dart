@@ -9,6 +9,7 @@ import '../../core/constants/app_assets.dart';
 import '../../core/auth/auth_service.dart';
 import '../onboarding/controllers/onboarding_controller.dart';
 import '../widgets/sporve_button.dart';
+import '../widgets/google_sign_in_button.dart';
 import 'controllers/auth_provider.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -347,6 +348,10 @@ class _SignupScreenState extends State<SignupScreen> {
                     icon: Icons.arrow_forward,
                     variant: SporveButtonVariant.primary,
                   ),
+                  const SizedBox(height: 20),
+                  const OrDivider(),
+                  const SizedBox(height: 20),
+                  const GoogleSignInButton(),
                   const SizedBox(height: 40),
                 ],
               ),

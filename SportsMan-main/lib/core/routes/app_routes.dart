@@ -23,6 +23,7 @@ abstract class AppRoutes {
   static const String mainNav = '/main-nav';
   static const String search = '/search';
   static const String findCoach = '/find-coach';
+  static const String map = '/map';
   static const String filters = '/filters';
   static const String nearbySession = '/nearby-session';
   static const String sessionDetails = '/session-details';
