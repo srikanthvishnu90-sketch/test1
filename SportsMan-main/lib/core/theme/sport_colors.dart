@@ -112,8 +112,19 @@ class SportColors {
 
   static String _key(String? sport) => (sport ?? '').toLowerCase().trim();
 
+  /// Raise a color's brightness while keeping its hue (same color, brighter).
+  /// A small lightness lift + slight saturation so sport colors read vivid on
+  /// the dark canvas, like brighter apps — without changing the hue.
+  static Color _brighten(Color c) {
+    final h = HSLColor.fromColor(c);
+    return h
+        .withLightness((h.lightness + 0.13).clamp(0.0, 1.0))
+        .withSaturation((h.saturation + 0.05).clamp(0.0, 1.0))
+        .toColor();
+  }
+
   /// The full sport color (glyph / text / 3px bar / in-context action only).
-  static Color of(String? sport) => _core[_key(sport)] ?? fallback;
+  static Color of(String? sport) => _brighten(_core[_key(sport)] ?? fallback);
 
   /// Legible text/glyph color to place ON a sport-color fill — a dark shade for
   /// light sports, near-white for the few dark ones (boxing, baseball, etc.).
