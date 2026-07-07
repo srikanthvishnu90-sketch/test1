@@ -55,10 +55,14 @@ class AuthEntryScreen extends StatelessWidget {
             child: Column(
               children: [
                 const Spacer(flex: 2),
-                // Logo rendered as a solid dark mark on the slate wall.
+                // Logo rendered as a solid BLACK mark on the slate wall
+                // (matches the source S; text/buttons stay white).
                 Center(
                   child: ColorFiltered(
-                    colorFilter: const ColorFilter.mode(ink, BlendMode.srcIn),
+                    colorFilter: const ColorFilter.mode(
+                      Colors.black,
+                      BlendMode.srcIn,
+                    ),
                     child: Image.asset(
                       AppAssets.appLogo,
                       width: 80,
