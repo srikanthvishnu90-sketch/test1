@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createPrediction } from "@/domain/prediction";
-import { createOutcome } from "@/domain/outcome";
-import { calibrate, type Calibration } from "@/domain/calibration";
+import { type Calibration } from "@/domain/calibration";
 import type { Cycle } from "@/domain/cycle";
 import { cycleRepository } from "@/composition";
+import { recordCycle } from "@/application/recordCycle";
 import ReflectionStep from "./ReflectionStep";
 import TransferProbeStep from "./TransferProbeStep";
+import LearningMap from "./LearningMap";
 
 /**
  * The academic loop: pre-register confidence → reveal the truth → see
@@ -86,25 +86,19 @@ export default function CalibrationDemo(): React.ReactElement {
     }
     setHint(null);
 
-    const prediction = createPrediction({
+    // Orchestration lives in the application layer, not the view.
+    void recordCycle(cycleRepository, {
       items: ITEMS.map((it) => ({
         itemId: it.id,
         confidence: confidence[it.id] / 100,
-      })),
-      predictedScore: predictedScore / 100,
-    });
-    const outcome = createOutcome({
-      items: ITEMS.map((it) => ({
-        itemId: it.id,
         correct: answers[it.id] === it.isTrue,
       })),
-    });
-    const calibration = calibrate(prediction, outcome);
-    setResult(calibration);
-
-    void cycleRepository
-      .save({ prediction, outcome, calibration, reflection: null })
-      .then(() => cycleRepository.list())
+      predictedScore: predictedScore / 100,
+    })
+      .then((cycle) => {
+        setResult(cycle.calibration);
+        return cycleRepository.list();
+      })
       .then(setHistory);
   }
 
@@ -298,6 +292,7 @@ export default function CalibrationDemo(): React.ReactElement {
           </ul>
         </section>
       )}
+      <LearningMap recentBriers={history.map((c) => c.calibration.brier)} />
     </>
   );
 }
