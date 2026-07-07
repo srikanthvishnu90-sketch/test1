@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* Mirrors src/ui/tokens.ts 1:1 — change one, change the other. */
+@theme {
+  --color-white: #ffffff;
+  --color-paper: #f6f8fa;
+  --color-ink: #1b3a5b;
+  --color-ink-tint: #3e6187;
+  --color-ink-wash: #e8eef4;
+  --color-ink-black: #0f1b26;
+  --color-secondary: #536878;
+  --color-warm: #e0a06a;
+
+  --radius-control: 6px;
+  --radius-card: 12px;
+
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+html,
+body {
+  background: var(--color-paper);
+  color: var(--color-ink-black);
+  font-family: var(--font-sans);
+}
