@@ -158,13 +158,7 @@ class _MarkerPin extends StatelessWidget {
           color: c,
           shape: BoxShape.circle,
           border: Border.all(color: Colors.white, width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.45),
-              blurRadius: 6,
-              spreadRadius: 1,
-            ),
-          ],
+          boxShadow: SportColors.glowOf(sport, intensity: selected ? 1.2 : 0.9),
         ),
         child: Icon(
           SportColors.iconOf(sport),

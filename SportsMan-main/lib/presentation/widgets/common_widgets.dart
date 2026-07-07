@@ -326,6 +326,7 @@ class SportIconTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: SportColors.tileTintOf(sport),
         borderRadius: BorderRadius.circular(AppRadii.tile),
+        boxShadow: SportColors.glowOf(sport, intensity: 0.8),
       ),
       child: Icon(SportColors.iconOf(sport), color: c, size: size * 0.52),
     );

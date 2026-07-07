@@ -16,13 +16,13 @@ class AppColors {
   // Deliberately darker than the raised surfaces so cards, sport color, and
   // white type read brighter against it — the base recedes, content pops.
   static const Color ink = Color(
-    0xFF050608,
-  ); // product canvas (deep near-black, faint slate tint)
+    0xFF030405,
+  ); // product canvas (deeper true-black — makes neon sport glow + white pop)
   static const Color surface = Color(0xFF171F29); // raised surface 1 (brighter)
   static const Color surface2 = Color(0xFF222C38); // raised surface 2 / pressed
   static const Color hairline = Color(0xFF283039); // divider / border (slate)
   static const Color hairlineSoft = Color(0xFF1E252D); // faint divider
-  static const Color textPrimary = Color(0xFFF3F6F8); // near-white
+  static const Color textPrimary = Color(0xFFFAFCFF); // purer white (deeper read)
   static const Color textSecondary = Color(0xFF9AA7B2);
   static const Color textTertiary = Color(0xFF647079); // muted
   static const Color inkOnSlate = Color(

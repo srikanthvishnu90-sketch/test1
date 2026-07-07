@@ -112,15 +112,33 @@ class SportColors {
 
   static String _key(String? sport) => (sport ?? '').toLowerCase().trim();
 
-  /// Raise a color's brightness while keeping its hue (same color, brighter).
-  /// A small lightness lift + slight saturation so sport colors read vivid on
-  /// the dark canvas, like brighter apps — without changing the hue.
+  /// Raise brightness + saturation while keeping the hue — a vivid, neon read
+  /// on the deep-black canvas (paired with [glowOf] for the actual halo).
   static Color _brighten(Color c) {
     final h = HSLColor.fromColor(c);
     return h
         .withLightness((h.lightness + 0.13).clamp(0.0, 1.0))
-        .withSaturation((h.saturation + 0.05).clamp(0.0, 1.0))
+        .withSaturation((h.saturation + 0.18).clamp(0.0, 1.0))
         .toColor();
+  }
+
+  /// Neon glow halo for a sport-colored surface — a tight bright ring + a soft
+  /// wide bloom, both in the sport's own color. Drop into a BoxDecoration's
+  /// boxShadow. Scale [intensity] 0..1 for stronger/weaker glow.
+  static List<BoxShadow> glowOf(String? sport, {double intensity = 1.0}) {
+    final c = of(sport);
+    return [
+      BoxShadow(
+        color: c.withValues(alpha: 0.55 * intensity),
+        blurRadius: 11 * intensity,
+        spreadRadius: -3,
+      ),
+      BoxShadow(
+        color: c.withValues(alpha: 0.32 * intensity),
+        blurRadius: 24 * intensity,
+        spreadRadius: -4,
+      ),
+    ];
   }
 
   /// The full sport color (glyph / text / 3px bar / in-context action only).
