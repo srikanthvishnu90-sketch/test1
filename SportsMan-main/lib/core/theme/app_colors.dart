@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Sporve color system — black canvas + slate brand + contained sport metadata.
 ///
 /// The register is Kalshi/Robinhood: a true-black product canvas, white/gray
-/// type, hairline structure, and the brand slate `#536878` used for all chrome
+/// type, hairline structure, and the brand slate `#647B8F` used for all chrome
 /// but ALWAYS as a small accent on top of black/white — never as a surface fill
 /// in the product layer.
 ///
@@ -30,22 +30,22 @@ class AppColors {
   ); // dark text on light fills (value unchanged; renamed in 1b)
 
   // ── Brand ───────────────────────────────────────────────────────────────
-  // The single accent is SLATE (#536878) — used for ALL chrome.
-  static const Color slate = Color(0xFF536878); // PRIMARY accent (slate)
-  static const Color slateDeep = Color(0xFF3E4F5C); // pressed
+  // The single accent is SLATE (#647B8F) — used for ALL chrome.
+  static const Color slate = Color(0xFF647B8F); // PRIMARY accent (slate)
+  static const Color slateDeep = Color(0xFF4E626F); // pressed
   static const Color slateText = Color(
-    0xFF536878,
+    0xFF647B8F,
   ); // slate accent for text/icons (active/selected use textPrimary)
-  static const Color slateTint = Color(0x3D536878); // ~24% slate fill (brighter)
-  static const Color slateBorder = Color(0x80536878); // ~50% slate border
+  static const Color slateTint = Color(0x3D647B8F); // ~24% slate fill (brighter)
+  static const Color slateBorder = Color(0x80647B8F); // ~50% slate border
   static const Color slateBrand = Color(
-    0xFF536878,
+    0xFF647B8F,
   ); // folded into slate (splash is flat slate)
   static const Color onSlate = Color(0xFFFFFFFF); // text/icons ON a slate fill
   // AI / social were a distinct blue; folded into slate (single accent).
-  static const Color blue = Color(0xFF536878);
-  static const Color blueText = Color(0xFF536878);
-  static const Color blueTint = Color(0x3D536878); // ~24% slate fill (brighter)
+  static const Color blue = Color(0xFF647B8F);
+  static const Color blueText = Color(0xFF647B8F);
+  static const Color blueTint = Color(0x3D647B8F); // ~24% slate fill (brighter)
 
   // ── Semantic ─────────────────────────────────────────────────────────────
   static const Color positive = slateText; // up / confirmed (slate, no green)
@@ -53,8 +53,8 @@ class AppColors {
   static const Color negative = Color(0xFF647079);
   static const Color negativeTint = Color(0x24647079); // ~14% muted fill
   // Folded into slate (status pills); rating stars use textPrimary instead.
-  static const Color warning = Color(0xFF536878);
-  static const Color warningTint = Color(0x2E536878);
+  static const Color warning = Color(0xFF647B8F);
+  static const Color warningTint = Color(0x2E647B8F);
   // RED IS DESTRUCTIVE ONLY (Sign out, Delete).
   static const Color destructiveRed = Color(0xFFEF4444);
 
@@ -73,7 +73,7 @@ class AppColors {
   static const LinearGradient slateWall = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0xFF536878), Color(0xFF536878), Color(0xFF536878)],
+    colors: [Color(0xFF647B8F), Color(0xFF647B8F), Color(0xFF647B8F)],
     stops: [0.0, 0.55, 1.0],
   );
 
@@ -81,7 +81,7 @@ class AppColors {
   static const LinearGradient brandGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF536878), Color(0xFF3E4F5C)],
+    colors: [Color(0xFF647B8F), Color(0xFF4E626F)],
   );
 
   // ── Backward-compatible aliases (legacy names → new system) ─────────────
