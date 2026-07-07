@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createPrediction } from "@/domain/prediction";
 import { createOutcome } from "@/domain/outcome";
 import { calibrate, type Calibration } from "@/domain/calibration";
+import ReflectionStep from "./ReflectionStep";
 
 /**
  * First vertical slice of the academic loop: a student pre-registers confidence,
@@ -86,6 +87,8 @@ export default function CalibrationDemo(): React.ReactElement {
 
   // ── Reveal / result view ──────────────────────────────────────────────
   if (result) {
+    // Reflect against the correct exemplar: the first item they got wrong.
+    const firstWrong = ITEMS.find((it) => answers[it.id] !== it.isTrue);
     return (
       <section className="rounded-card border border-ink-wash bg-white p-6">
         <h2 className="text-lg font-semibold text-ink">Where am I really?</h2>
@@ -147,6 +150,13 @@ export default function CalibrationDemo(): React.ReactElement {
             </div>
           </dl>
         </div>
+
+        {firstWrong && (
+          <ReflectionStep
+            focusStatement={firstWrong.statement}
+            correctAnswerText={firstWrong.isTrue ? "True" : "False"}
+          />
+        )}
 
         <button
           type="button"
