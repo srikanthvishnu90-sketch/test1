@@ -23,11 +23,13 @@ function tomorrowISO(): string {
 interface Props {
   readonly focusStatement: string;
   readonly correctAnswerText: string;
+  readonly onCommitted?: () => void;
 }
 
 export default function ReflectionStep({
   focusStatement,
   correctAnswerText,
+  onCommitted,
 }: Props): React.ReactElement {
   const [causeId, setCauseId] = useState<string>("");
   const [nextAction, setNextAction] = useState<string>("");
@@ -39,6 +41,7 @@ export default function ReflectionStep({
     try {
       setCommitted(createReflection({ causeId, nextAction, dueDate }));
       setHint(null);
+      onCommitted?.();
     } catch (e) {
       setHint(e instanceof Error ? e.message : "Please complete the reflection.");
     }
