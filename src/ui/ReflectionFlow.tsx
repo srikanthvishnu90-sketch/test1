@@ -89,11 +89,11 @@ export default function ReflectionFlow({
   return (
     <div className="mt-4 rounded-card border border-ink-wash bg-white p-5">
       <p className="text-sm text-ink-black">
-        That&apos;s a full loop — predicted, checked, reviewed, and reflected.
+        That&apos;s a full loop — you predicted, saw the truth, corrected each
+        miss, and reflected on the score you got.
       </p>
       <p className="mt-1 text-xs text-secondary">
-        Your cycle and your reflections are saved below. Run another whenever you
-        want.
+        Your score stands; the value is in the review. It&apos;s all saved below.
       </p>
     </div>
   );

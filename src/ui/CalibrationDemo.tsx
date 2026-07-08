@@ -110,15 +110,6 @@ export default function CalibrationDemo(): React.ReactElement {
       .then(setHistory);
   }
 
-  function restart(): void {
-    setAnswers({ q1: null, q2: null, q3: null });
-    setConfidence({ q1: 50, q2: 50, q3: 50 });
-    setPredictedScore(50);
-    setResult(null);
-    setCycleId(null);
-    setHint(null);
-  }
-
   const wrongItems = result
     ? ITEMS.filter((it) => answers[it.id] !== it.isTrue).map((it) => ({
         id: it.id,
@@ -192,14 +183,6 @@ export default function CalibrationDemo(): React.ReactElement {
         actualPct={actualPct}
         onReflections={handleReflections}
       />
-
-      <button
-        type="button"
-        onClick={restart}
-        className="mt-5 rounded-control border border-ink-tint px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-ink-wash"
-      >
-        Try again
-      </button>
     </section>
   ) : (
     <section className="rounded-card border border-ink-wash bg-white p-6">
