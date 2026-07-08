@@ -28,7 +28,7 @@ interface Props {
   readonly statement: string;
   readonly correctAnswerText: string;
   readonly probe: { readonly statement: string; readonly isTrue: boolean };
-  readonly onDone: () => void;
+  readonly onDone: (reflection: Reflection) => void;
 }
 
 export default function WrongItemStep({
@@ -154,7 +154,7 @@ export default function WrongItemStep({
           {probeChecked && (
             <button
               type="button"
-              onClick={onDone}
+              onClick={() => onDone(committed)}
               className="mt-4 rounded-control bg-ink px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             >
               {index + 1 < total ? "Next question" : "Last look back"}

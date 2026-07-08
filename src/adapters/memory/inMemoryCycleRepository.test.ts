@@ -11,7 +11,13 @@ function sampleCycle(): NewCycle {
     predictedScore: 0.8,
   });
   const outcome = createOutcome({ items: [{ itemId: "q1", correct: true }] });
-  return { prediction, outcome, calibration: calibrate(prediction, outcome), reflection: null };
+  return {
+    prediction,
+    outcome,
+    calibration: calibrate(prediction, outcome),
+    itemReflections: [],
+    scoreReflection: null,
+  };
 }
 
 describe("InMemoryCycleRepository", () => {
@@ -20,7 +26,8 @@ describe("InMemoryCycleRepository", () => {
     const saved = await repo.save(sampleCycle());
     expect(saved.id).toMatch(/^cycle_/);
     expect(typeof saved.createdAt).toBe("string");
-    expect(saved.calibration.brier).toBeGreaterThanOrEqual(0);
+    expect(saved.itemReflections).toEqual([]);
+    expect(saved.scoreReflection).toBeNull();
   });
 
   it("lists cycles oldest-first with distinct ids", async () => {
@@ -32,6 +39,25 @@ describe("InMemoryCycleRepository", () => {
     expect(all[0].id).toBe(a.id);
     expect(all[1].id).toBe(b.id);
     expect(a.id).not.toBe(b.id);
+  });
+
+  it("attaches reflections to a stored cycle", async () => {
+    const repo = new InMemoryCycleRepository();
+    const saved = await repo.save(sampleCycle());
+    const updated = await repo.attachReflections(saved.id, {
+      itemReflections: [],
+      scoreReflection: { answers: { gap: "moved fast" } },
+    });
+    expect(updated.scoreReflection?.answers.gap).toBe("moved fast");
+    const [fromStore] = await repo.list();
+    expect(fromStore.scoreReflection?.answers.gap).toBe("moved fast");
+  });
+
+  it("rejects attaching to an unknown id", async () => {
+    const repo = new InMemoryCycleRepository();
+    await expect(
+      repo.attachReflections("missing", { itemReflections: [], scoreReflection: null }),
+    ).rejects.toThrow(RangeError);
   });
 
   it("starts empty", async () => {

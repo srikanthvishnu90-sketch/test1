@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { type Calibration } from "@/domain/calibration";
-import type { Cycle } from "@/domain/cycle";
+import type { Cycle, CycleReflections } from "@/domain/cycle";
 import { cycleRepository } from "@/composition";
-import { recordCycle } from "@/application/recordCycle";
+import { recordCycle, attachReflections } from "@/application/recordCycle";
 import ReflectionFlow from "./ReflectionFlow";
 import LearningMap from "./LearningMap";
 
@@ -68,6 +68,7 @@ export default function CalibrationDemo(): React.ReactElement {
   });
   const [predictedScore, setPredictedScore] = useState<number>(50);
   const [result, setResult] = useState<Calibration | null>(null);
+  const [cycleId, setCycleId] = useState<string | null>(null);
   const [hint, setHint] = useState<string | null>(null);
   const [history, setHistory] = useState<readonly Cycle[]>([]);
 
@@ -95,8 +96,17 @@ export default function CalibrationDemo(): React.ReactElement {
     })
       .then((cycle) => {
         setResult(cycle.calibration);
+        setCycleId(cycle.id);
         return cycleRepository.list();
       })
+      .then(setHistory);
+  }
+
+  // Persist the student's reflections onto the saved cycle as they complete them.
+  function handleReflections(reflections: CycleReflections): void {
+    if (!cycleId) return;
+    void attachReflections(cycleRepository, cycleId, reflections)
+      .then(() => cycleRepository.list())
       .then(setHistory);
   }
 
@@ -105,6 +115,7 @@ export default function CalibrationDemo(): React.ReactElement {
     setConfidence({ q1: 50, q2: 50, q3: 50 });
     setPredictedScore(50);
     setResult(null);
+    setCycleId(null);
     setHint(null);
   }
 
@@ -179,6 +190,7 @@ export default function CalibrationDemo(): React.ReactElement {
         wrongItems={wrongItems}
         predictedPct={predictedScore}
         actualPct={actualPct}
+        onReflections={handleReflections}
       />
 
       <button
@@ -284,6 +296,11 @@ export default function CalibrationDemo(): React.ReactElement {
                     Brier {c.calibration.brier.toFixed(2)} · bias{" "}
                     {c.calibration.bias >= 0 ? "+" : ""}
                     {c.calibration.bias.toFixed(2)}
+                    {c.itemReflections.length > 0 &&
+                      ` · reviewed ${c.itemReflections.length}`}
+                    {c.scoreReflection &&
+                      Object.keys(c.scoreReflection.answers).length > 0 &&
+                      " · reflected"}
                   </span>
                 </li>
               ))}

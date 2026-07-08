@@ -18,6 +18,7 @@ interface Props {
   readonly predictedPct: number;
   readonly actualPct: number;
   readonly hadMiss: boolean;
+  readonly onSaved: (scoreReflection: ScoreReflection) => void;
   readonly onDone: () => void;
 }
 
@@ -25,6 +26,7 @@ export default function FinalReflection({
   predictedPct,
   actualPct,
   hadMiss,
+  onSaved,
   onDone,
 }: Props): React.ReactElement {
   const questions = questionsFor(hadMiss);
@@ -38,7 +40,9 @@ export default function FinalReflection({
   }
 
   function submit(): void {
-    setSaved(createScoreReflection(answers));
+    const reflection = createScoreReflection(answers);
+    setSaved(reflection);
+    onSaved(reflection);
   }
 
   if (saved) {

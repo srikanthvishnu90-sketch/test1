@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import type { Reflection } from "@/domain/reflection";
+import type { ScoreReflection } from "@/domain/scoreReflection";
+import type { CycleReflections } from "@/domain/cycle";
 import WrongItemStep from "./WrongItemStep";
 import FinalReflection from "./FinalReflection";
 
 /**
  * Orchestrates the self-reflection phase: walk through EVERY missed question one
- * at a time, then a closing reflection on the whole score, then done. Kept in a
- * cold, calm, reward-free sequence (per CLAUDE.md's hot/cold note).
+ * at a time, then a closing reflection on the whole score. Accumulates the
+ * reflections and reports them up (onReflections) so they can be persisted onto
+ * the saved cycle. Kept in a cold, calm, reward-free sequence.
  */
 
 export interface WrongItem {
@@ -23,24 +27,36 @@ interface Props {
   readonly wrongItems: readonly WrongItem[];
   readonly predictedPct: number;
   readonly actualPct: number;
+  readonly onReflections: (reflections: CycleReflections) => void;
 }
 
 export default function ReflectionFlow({
   wrongItems,
   predictedPct,
   actualPct,
+  onReflections,
 }: Props): React.ReactElement {
   const [phase, setPhase] = useState<Phase>(
     wrongItems.length > 0 ? "items" : "final",
   );
   const [index, setIndex] = useState<number>(0);
+  const [itemReflections, setItemReflections] = useState<readonly Reflection[]>(
+    [],
+  );
 
-  function advance(): void {
+  function completeItem(reflection: Reflection): void {
+    const next = [...itemReflections, reflection];
+    setItemReflections(next);
+    onReflections({ itemReflections: next, scoreReflection: null });
     if (index + 1 < wrongItems.length) {
       setIndex(index + 1);
     } else {
       setPhase("final");
     }
+  }
+
+  function completeFinal(scoreReflection: ScoreReflection): void {
+    onReflections({ itemReflections, scoreReflection });
   }
 
   if (phase === "items") {
@@ -53,7 +69,7 @@ export default function ReflectionFlow({
         statement={item.statement}
         correctAnswerText={item.correctAnswerText}
         probe={item.probe}
-        onDone={advance}
+        onDone={completeItem}
       />
     );
   }
@@ -64,6 +80,7 @@ export default function ReflectionFlow({
         predictedPct={predictedPct}
         actualPct={actualPct}
         hadMiss={wrongItems.length > 0}
+        onSaved={completeFinal}
         onDone={() => setPhase("done")}
       />
     );
@@ -75,7 +92,8 @@ export default function ReflectionFlow({
         That&apos;s a full loop — predicted, checked, reviewed, and reflected.
       </p>
       <p className="mt-1 text-xs text-secondary">
-        Your cycle is saved below. Run another whenever you want.
+        Your cycle and your reflections are saved below. Run another whenever you
+        want.
       </p>
     </div>
   );

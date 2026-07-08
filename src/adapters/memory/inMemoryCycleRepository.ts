@@ -4,7 +4,7 @@
  */
 
 import type { CycleRepository } from "@/domain/ports/cycleRepository";
-import type { Cycle, NewCycle } from "@/domain/cycle";
+import type { Cycle, NewCycle, CycleReflections } from "@/domain/cycle";
 
 export class InMemoryCycleRepository implements CycleRepository {
   private readonly cycles: Cycle[] = [];
@@ -18,6 +18,16 @@ export class InMemoryCycleRepository implements CycleRepository {
     };
     this.cycles.push(stored);
     return Promise.resolve(stored);
+  }
+
+  attachReflections(id: string, reflections: CycleReflections): Promise<Cycle> {
+    const i = this.cycles.findIndex((c) => c.id === id);
+    if (i === -1) {
+      return Promise.reject(new RangeError(`No cycle with id ${id}.`));
+    }
+    const updated: Cycle = { ...this.cycles[i], ...reflections };
+    this.cycles[i] = updated;
+    return Promise.resolve(updated);
   }
 
   list(): Promise<readonly Cycle[]> {

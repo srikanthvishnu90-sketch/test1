@@ -1,19 +1,16 @@
 /**
  * recordCycle — the application use-case that orchestrates one completed cycle:
  * assemble the domain objects from raw inputs, compute calibration, and persist
- * through the CycleRepository port. The UI passes raw values and gets a Cycle
- * back; all domain assembly lives here, not in the view.
- *
- * The repository is injected, so this use-case is fully testable without a
- * browser, database, or network.
+ * through the CycleRepository port. Reflections are added later via
+ * attachReflections. The repository is injected, so this is fully testable
+ * without a browser, database, or network.
  */
 
 import { createPrediction } from "@/domain/prediction";
 import { createOutcome } from "@/domain/outcome";
 import { calibrate } from "@/domain/calibration";
 import type { CycleRepository } from "@/domain/ports/cycleRepository";
-import type { Cycle } from "@/domain/cycle";
-import type { Reflection } from "@/domain/reflection";
+import type { Cycle, CycleReflections } from "@/domain/cycle";
 
 export interface RecordCycleItem {
   readonly itemId: string;
@@ -24,7 +21,6 @@ export interface RecordCycleItem {
 export interface RecordCycleInput {
   readonly items: readonly RecordCycleItem[];
   readonly predictedScore: number;
-  readonly reflection?: Reflection | null;
 }
 
 export async function recordCycle(
@@ -49,7 +45,17 @@ export async function recordCycle(
     prediction,
     outcome,
     calibration,
-    reflection: input.reflection ?? null,
+    itemReflections: [],
+    scoreReflection: null,
   });
   return cycle;
+}
+
+/** Attach the student's reflections to a saved cycle. */
+export function attachReflections(
+  repo: CycleRepository,
+  cycleId: string,
+  reflections: CycleReflections,
+): Promise<Cycle> {
+  return repo.attachReflections(cycleId, reflections);
 }
