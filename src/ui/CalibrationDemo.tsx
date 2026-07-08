@@ -5,8 +5,7 @@ import { type Calibration } from "@/domain/calibration";
 import type { Cycle } from "@/domain/cycle";
 import { cycleRepository } from "@/composition";
 import { recordCycle } from "@/application/recordCycle";
-import ReflectionStep from "./ReflectionStep";
-import TransferProbeStep from "./TransferProbeStep";
+import ReflectionFlow from "./ReflectionFlow";
 import LearningMap from "./LearningMap";
 
 /**
@@ -70,7 +69,6 @@ export default function CalibrationDemo(): React.ReactElement {
   const [predictedScore, setPredictedScore] = useState<number>(50);
   const [result, setResult] = useState<Calibration | null>(null);
   const [hint, setHint] = useState<string | null>(null);
-  const [reflected, setReflected] = useState<boolean>(false);
   const [history, setHistory] = useState<readonly Cycle[]>([]);
 
   useEffect(() => {
@@ -107,13 +105,18 @@ export default function CalibrationDemo(): React.ReactElement {
     setConfidence({ q1: 50, q2: 50, q3: 50 });
     setPredictedScore(50);
     setResult(null);
-    setReflected(false);
     setHint(null);
   }
 
-  const firstWrong = result
-    ? ITEMS.find((it) => answers[it.id] !== it.isTrue)
-    : undefined;
+  const wrongItems = result
+    ? ITEMS.filter((it) => answers[it.id] !== it.isTrue).map((it) => ({
+        id: it.id,
+        statement: it.statement,
+        correctAnswerText: it.isTrue ? "True" : "False",
+        probe: it.probe,
+      }))
+    : [];
+  const actualPct = result ? Math.round(result.meanCorrect * 100) : 0;
 
   const main = result ? (
     <section className="rounded-card border border-ink-wash bg-white p-6">
@@ -172,16 +175,11 @@ export default function CalibrationDemo(): React.ReactElement {
         </dl>
       </div>
 
-      {firstWrong && (
-        <>
-          <ReflectionStep
-            focusStatement={firstWrong.statement}
-            correctAnswerText={firstWrong.isTrue ? "True" : "False"}
-            onCommitted={() => setReflected(true)}
-          />
-          {reflected && <TransferProbeStep probe={firstWrong.probe} />}
-        </>
-      )}
+      <ReflectionFlow
+        wrongItems={wrongItems}
+        predictedPct={predictedScore}
+        actualPct={actualPct}
+      />
 
       <button
         type="button"

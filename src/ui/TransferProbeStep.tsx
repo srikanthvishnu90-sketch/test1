@@ -11,20 +11,24 @@ import { scoreProbe, type ProbeResult } from "@/domain/transferProbe";
 
 interface Props {
   readonly probe: { readonly statement: string; readonly isTrue: boolean };
+  readonly onChecked?: (transferred: boolean) => void;
 }
 
-export default function TransferProbeStep({ probe }: Props): React.ReactElement {
+export default function TransferProbeStep({
+  probe,
+  onChecked,
+}: Props): React.ReactElement {
   const [answer, setAnswer] = useState<boolean | null>(null);
   const [result, setResult] = useState<ProbeResult | null>(null);
 
   function check(): void {
     if (answer === null) return;
-    setResult(
-      scoreProbe(
-        { id: "probe", statement: probe.statement, isTrue: probe.isTrue },
-        answer,
-      ),
+    const scored = scoreProbe(
+      { id: "probe", statement: probe.statement, isTrue: probe.isTrue },
+      answer,
     );
+    setResult(scored);
+    onChecked?.(scored.transferred);
   }
 
   if (result) {

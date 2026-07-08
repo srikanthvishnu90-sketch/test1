@@ -34,6 +34,28 @@ describe("createReflection", () => {
       createReflection({ causeId: "misread", nextAction: "Review it.", dueDate: "next week" }),
     ).toThrow(RangeError);
   });
+
+  it("captures a free-text reason when the cause is 'other'", () => {
+    const r = createReflection({
+      causeId: "other",
+      otherText: "I second-guessed a right answer and switched it.",
+      nextAction: "Trust my first read unless I find a real reason.",
+      dueDate: "2026-07-10",
+    });
+    expect(r.causeId).toBe("other");
+    expect(r.otherText).toBe("I second-guessed a right answer and switched it.");
+  });
+
+  it("requires the free-text reason when the cause is 'other'", () => {
+    expect(() =>
+      createReflection({
+        causeId: "other",
+        otherText: "  ",
+        nextAction: "Do the thing.",
+        dueDate: "2026-07-10",
+      }),
+    ).toThrow(RangeError);
+  });
 });
 
 describe("causeLabel", () => {

@@ -8,19 +8,27 @@
  * Pure domain; no framework imports.
  */
 
-/** Controllable, specific causes a student can actually act on. */
+/**
+ * Controllable, specific causes a student can act on. The final "other" option
+ * opens a free-text box for the student's own specific reason — which tends to
+ * be MORE specific and controllable than a preset, exactly what supports
+ * adaptive attribution (Weiner). Stable/global blame is still unrepresentable.
+ */
 export const CAUSES = [
   { id: "misread", label: "I misread or misunderstood the question" },
   { id: "unreviewed", label: "I hadn't reviewed this specific topic" },
   { id: "rushed", label: "I rushed and didn't check my work" },
   { id: "guessed", label: "I guessed instead of reasoning it through" },
   { id: "mixed-up", label: "I mixed this up with something similar" },
+  { id: "other", label: "Something else — I'll say what" },
 ] as const;
 
 export type CauseId = (typeof CAUSES)[number]["id"];
 
 export interface Reflection {
   readonly causeId: CauseId;
+  /** The student's own specific reason, required when causeId is "other". */
+  readonly otherText?: string;
   readonly nextAction: string;
   /** ISO calendar date (YYYY-MM-DD) the action is committed to. */
   readonly dueDate: string;
@@ -28,6 +36,7 @@ export interface Reflection {
 
 export interface ReflectionInput {
   readonly causeId: string;
+  readonly otherText?: string;
   readonly nextAction: string;
   readonly dueDate: string;
 }
@@ -43,6 +52,14 @@ export function createReflection(input: ReflectionInput): Reflection {
     );
   }
 
+  let otherText: string | undefined;
+  if (input.causeId === "other") {
+    otherText = (input.otherText ?? "").trim();
+    if (otherText.length < 3) {
+      throw new RangeError("Tell us the specific reason in a few words.");
+    }
+  }
+
   const nextAction = input.nextAction.trim();
   if (nextAction.length < 3) {
     throw new RangeError("Next action must be a concrete step.");
@@ -52,7 +69,7 @@ export function createReflection(input: ReflectionInput): Reflection {
     throw new RangeError("Due date must be a valid calendar date (YYYY-MM-DD).");
   }
 
-  return { causeId: input.causeId as CauseId, nextAction, dueDate: input.dueDate };
+  return { causeId: input.causeId as CauseId, otherText, nextAction, dueDate: input.dueDate };
 }
 
 /** Human-readable label for a cause id. */
