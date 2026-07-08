@@ -18,7 +18,6 @@ export interface WrongItem {
   readonly id: string;
   readonly statement: string;
   readonly correctAnswerText: string;
-  readonly probe: { readonly statement: string; readonly isTrue: boolean };
 }
 
 type Phase = "items" | "final" | "done";
@@ -68,7 +67,6 @@ export default function ReflectionFlow({
         total={wrongItems.length}
         statement={item.statement}
         correctAnswerText={item.correctAnswerText}
-        probe={item.probe}
         onDone={completeItem}
       />
     );

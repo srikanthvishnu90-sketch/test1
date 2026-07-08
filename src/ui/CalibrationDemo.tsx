@@ -19,28 +19,12 @@ interface Item {
   readonly id: string;
   readonly statement: string;
   readonly isTrue: boolean;
-  readonly probe: { readonly statement: string; readonly isTrue: boolean };
 }
 
 const ITEMS: readonly Item[] = [
-  {
-    id: "q1",
-    statement: "The Earth orbits the Sun.",
-    isTrue: true,
-    probe: { statement: "The Moon orbits the Earth.", isTrue: true },
-  },
-  {
-    id: "q2",
-    statement: "A triangle has four sides.",
-    isTrue: false,
-    probe: { statement: "A pentagon has five sides.", isTrue: true },
-  },
-  {
-    id: "q3",
-    statement: "Water boils at 100°C at sea level.",
-    isTrue: true,
-    probe: { statement: "Water freezes at 0°C at sea level.", isTrue: true },
-  },
+  { id: "q1", statement: "The Earth orbits the Sun.", isTrue: true },
+  { id: "q2", statement: "A triangle has four sides.", isTrue: false },
+  { id: "q3", statement: "Water boils at 100°C at sea level.", isTrue: true },
 ];
 
 type Answer = boolean | null;
@@ -115,7 +99,6 @@ export default function CalibrationDemo(): React.ReactElement {
         id: it.id,
         statement: it.statement,
         correctAnswerText: it.isTrue ? "True" : "False",
-        probe: it.probe,
       }))
     : [];
   const actualPct = result ? Math.round(result.meanCorrect * 100) : 0;

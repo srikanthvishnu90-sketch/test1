@@ -7,13 +7,12 @@ import {
   CAUSES,
   type Reflection,
 } from "@/domain/reflection";
-import TransferProbeStep from "./TransferProbeStep";
 
 /**
- * One missed question, reviewed thoroughly: reflect against the correct exemplar
- * (Kluger & DeNisi: reflect on the right answer, not the wrong one), pick a
- * controllable cause or write your own specific reason, commit a concrete next
- * step, then a transfer check. Task-focused; ink-tint/warm, never green/red.
+ * One missed question, reviewed: reflect against the correct exemplar (Kluger &
+ * DeNisi: reflect on the right answer, not the wrong one), pick a controllable
+ * cause or write your own specific reason, and commit a concrete next step.
+ * Task-focused; ink-tint/warm, never green/red. No follow-up quiz question.
  */
 
 interface Props {
@@ -21,7 +20,6 @@ interface Props {
   readonly total: number;
   readonly statement: string;
   readonly correctAnswerText: string;
-  readonly probe: { readonly statement: string; readonly isTrue: boolean };
   readonly onDone: (reflection: Reflection) => void;
 }
 
@@ -30,14 +28,12 @@ export default function WrongItemStep({
   total,
   statement,
   correctAnswerText,
-  probe,
   onDone,
 }: Props): React.ReactElement {
   const [causeId, setCauseId] = useState<string>("");
   const [otherText, setOtherText] = useState<string>("");
   const [nextAction, setNextAction] = useState<string>("");
   const [committed, setCommitted] = useState<Reflection | null>(null);
-  const [probeChecked, setProbeChecked] = useState<boolean>(false);
   const [hint, setHint] = useState<string | null>(null);
 
   function commit(): void {
@@ -129,20 +125,13 @@ export default function WrongItemStep({
             </p>
           </div>
 
-          <TransferProbeStep
-            probe={probe}
-            onChecked={() => setProbeChecked(true)}
-          />
-
-          {probeChecked && (
-            <button
-              type="button"
-              onClick={() => onDone(committed)}
-              className="mt-4 rounded-control bg-ink px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-            >
-              {index + 1 < total ? "Next question" : "Last look back"}
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => onDone(committed)}
+            className="mt-4 rounded-control bg-ink px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+          >
+            {index + 1 < total ? "Next question" : "Last look back"}
+          </button>
         </>
       )}
     </div>
