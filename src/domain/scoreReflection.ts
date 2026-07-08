@@ -19,6 +19,11 @@
  *    raises willingness to answer honestly; the "what should the teacher cover"
  *    item leans on relatedness (teacher as ally) and gives the student a real
  *    voice — a low-threat way to ask for help.
+ *  - Weiner (external attribution): a SPECIFIC, one-time external factor (a game,
+ *    a club, something at home) is an ADAPTIVE attribution — it's stable/global/
+ *    internal blame that harms. The "anything outside school" item surfaces that
+ *    context (SDT relatedness — the student's whole life counts) without excusing
+ *    the score. Kept optional and gently worded because home topics are sensitive.
  *  - Deliberately NOT growth-mindset framing (per CLAUDE.md): grounded in
  *    attribution + SDT instead.
  *
@@ -42,6 +47,13 @@ export const SCORE_QUESTIONS: readonly ScoreQuestion[] = [
       "You expected about {predicted}% and got {actual}%. Thinking about how you worked — not whether you're “good at this” — what best explains that gap?",
     helper:
       "e.g. “They looked easy so I answered fast and didn’t re-read the tricky one.”",
+    needsMiss: false,
+  },
+  {
+    id: "outside",
+    prompt:
+      "Was there anything outside of school lately — sports, clubs, or things at home — that made it harder to focus or show what you know?",
+    helper: "Optional. “Nothing” is fine — this just helps you see the whole picture.",
     needsMiss: false,
   },
   {

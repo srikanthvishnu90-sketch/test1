@@ -8,7 +8,7 @@ import {
 describe("SCORE_QUESTIONS", () => {
   it("is a short series with unique ids and no empty prompts", () => {
     expect(SCORE_QUESTIONS.length).toBeGreaterThanOrEqual(2);
-    expect(SCORE_QUESTIONS.length).toBeLessThanOrEqual(4); // short = better engagement
+    expect(SCORE_QUESTIONS.length).toBeLessThanOrEqual(5); // keep it short for engagement
     const ids = SCORE_QUESTIONS.map((q) => q.id);
     expect(new Set(ids).size).toBe(ids.length);
     for (const q of SCORE_QUESTIONS) expect(q.prompt.trim().length).toBeGreaterThan(0);
