@@ -16,7 +16,9 @@
  *  - Gollwitzer & Sheeran (2006): implementation intentions ("when X, I'll Y")
  *    beat vague goals for follow-through — so the forward question is if-then.
  *  - Deci & Ryan (SDT): autonomy-supportive, non-evaluative, normalized wording
- *    raises willingness to answer honestly.
+ *    raises willingness to answer honestly; the "what should the teacher cover"
+ *    item leans on relatedness (teacher as ally) and gives the student a real
+ *    voice — a low-threat way to ask for help.
  *  - Deliberately NOT growth-mindset framing (per CLAUDE.md): grounded in
  *    attribution + SDT instead.
  *
@@ -48,6 +50,13 @@ export const SCORE_QUESTIONS: readonly ScoreQuestion[] = [
       "Take the question you were most sure about but still missed. What was going through your head the moment you answered it?",
     helper: "Walk me through it like you're telling a friend.",
     needsMiss: true,
+  },
+  {
+    id: "teacher",
+    prompt:
+      "Is there a concept or kind of question here you'd want your teacher to go over in class? Naming it helps them know what to cover.",
+    helper: "e.g. “How to rule out an answer that looks right.” — “Not sure” is fine too.",
+    needsMiss: false,
   },
   {
     id: "plan",
