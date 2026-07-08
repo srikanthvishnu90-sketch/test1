@@ -42,7 +42,6 @@ describe("attachReflections", () => {
     const reflection = createReflection({
       causeId: "rushed",
       nextAction: "Slow down and re-read.",
-      dueDate: "2026-07-10",
     });
     const scoreReflection = createScoreReflection({ gap: "I moved too fast." });
 

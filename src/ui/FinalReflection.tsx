@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   createScoreReflection,
   questionsFor,
@@ -11,7 +12,8 @@ import {
  * Closing metacognitive reflection on the whole score. Prompts are anchored to
  * the student's own numbers and modeled with example answers (scaffolding the
  * blank page raises response quality). Answering is optional (autonomy, SDT) —
- * we invite, we don't force.
+ * we invite, we don't force. A standing "book a tutor" option offers help
+ * outside class (teacher/tutor as ally — SDT relatedness).
  */
 
 interface Props {
@@ -20,6 +22,32 @@ interface Props {
   readonly hadMiss: boolean;
   readonly onSaved: (scoreReflection: ScoreReflection) => void;
   readonly onDone: () => void;
+}
+
+function TutorCallout(): React.ReactElement {
+  return (
+    <div className="mt-4 rounded-card border border-ink-wash bg-white p-5">
+      <p className="text-sm text-ink-black">Want a hand with this outside class?</p>
+      <p className="mt-1 text-xs text-secondary">
+        Book time with a tutor and bring the questions you flagged.
+      </p>
+      <Link
+        href="/tutoring"
+        className="mt-3 inline-flex items-center gap-1.5 rounded-control bg-ink px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+      >
+        Book time with a tutor
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M5 12h14M13 6l6 6-6 6"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </Link>
+    </div>
+  );
 }
 
 export default function FinalReflection({
@@ -45,30 +73,25 @@ export default function FinalReflection({
     onSaved(reflection);
   }
 
-  if (saved) {
-    const count = Object.keys(saved.answers).length;
-    return (
-      <div className="mt-4 rounded-card border border-ink-tint bg-ink-wash p-5">
-        <p className="text-xs font-semibold uppercase tracking-wide text-ink-tint">
-          One last look back
-        </p>
-        <p className="mt-2 text-sm text-ink-black">
-          {count > 0
-            ? "Saved. Naming how you worked is the part that actually moves your next score."
-            : "That's okay — you can come back to these anytime."}
-        </p>
-        <button
-          type="button"
-          onClick={onDone}
-          className="mt-4 rounded-control bg-ink px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-        >
-          Done
-        </button>
-      </div>
-    );
-  }
-
-  return (
+  const main = saved ? (
+    <div className="mt-4 rounded-card border border-ink-tint bg-ink-wash p-5">
+      <p className="text-xs font-semibold uppercase tracking-wide text-ink-tint">
+        One last look back
+      </p>
+      <p className="mt-2 text-sm text-ink-black">
+        {Object.keys(saved.answers).length > 0
+          ? "Saved. Naming how you worked is the part that actually moves your next score."
+          : "That's okay — you can come back to these anytime."}
+      </p>
+      <button
+        type="button"
+        onClick={onDone}
+        className="mt-4 rounded-control bg-ink px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+      >
+        Done
+      </button>
+    </div>
+  ) : (
     <div className="mt-4 rounded-card border border-ink-wash bg-white p-5">
       <p className="text-xs font-semibold uppercase tracking-wide text-ink-tint">
         One last look back
@@ -81,10 +104,7 @@ export default function FinalReflection({
       <div className="mt-4 space-y-5">
         {questions.map((q) => (
           <div key={q.id}>
-            <label
-              htmlFor={`sr-${q.id}`}
-              className="block text-sm text-ink-black"
-            >
+            <label htmlFor={`sr-${q.id}`} className="block text-sm text-ink-black">
               {fill(q.prompt)}
             </label>
             <p className="mt-1 text-xs text-secondary">{q.helper}</p>
@@ -109,5 +129,12 @@ export default function FinalReflection({
         Save my reflection
       </button>
     </div>
+  );
+
+  return (
+    <>
+      {main}
+      <TutorCallout />
+    </>
   );
 }

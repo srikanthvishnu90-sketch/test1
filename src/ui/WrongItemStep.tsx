@@ -16,12 +16,6 @@ import TransferProbeStep from "./TransferProbeStep";
  * step, then a transfer check. Task-focused; ink-tint/warm, never green/red.
  */
 
-function tomorrowISO(): string {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  return d.toISOString().slice(0, 10);
-}
-
 interface Props {
   readonly index: number;
   readonly total: number;
@@ -42,14 +36,13 @@ export default function WrongItemStep({
   const [causeId, setCauseId] = useState<string>("");
   const [otherText, setOtherText] = useState<string>("");
   const [nextAction, setNextAction] = useState<string>("");
-  const [dueDate, setDueDate] = useState<string>(tomorrowISO());
   const [committed, setCommitted] = useState<Reflection | null>(null);
   const [probeChecked, setProbeChecked] = useState<boolean>(false);
   const [hint, setHint] = useState<string | null>(null);
 
   function commit(): void {
     try {
-      setCommitted(createReflection({ causeId, otherText, nextAction, dueDate }));
+      setCommitted(createReflection({ causeId, otherText, nextAction }));
       setHint(null);
     } catch (e) {
       setHint(e instanceof Error ? e.message : "Please complete this first.");
@@ -114,16 +107,6 @@ export default function WrongItemStep({
             />
           </label>
 
-          <label className="mt-3 block text-xs text-secondary">
-            By when
-            <input
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              className="mt-1 block rounded-control border border-ink-wash px-3 py-2 text-sm text-ink-black"
-            />
-          </label>
-
           {hint && <p className="mt-2 text-sm text-ink-tint">{hint}</p>}
 
           <button
@@ -139,7 +122,7 @@ export default function WrongItemStep({
           <div className="mt-4 rounded-control border border-ink-tint bg-ink-wash p-3">
             <p className="text-sm text-ink-black">{committed.nextAction}</p>
             <p className="mt-1 text-xs text-secondary">
-              By {committed.dueDate} · because{" "}
+              Because{" "}
               {committed.causeId === "other" && committed.otherText
                 ? committed.otherText.toLowerCase()
                 : causeLabel(committed.causeId).toLowerCase()}
