@@ -199,6 +199,9 @@ export const reflectionSessionSchema = z.object({
   messages: z.array(reflectionMessageSchema),
   selectedAction: z.string().min(1).optional(),
   studentConfirmedSummary: z.boolean().optional(),
+  extraHelpRequested: z.boolean().optional(),
+  reviewRequested: z.boolean().optional(),
+  tutorRequested: z.boolean().optional(),
   startedAt: z.date(),
   completedAt: z.date().optional(),
 });

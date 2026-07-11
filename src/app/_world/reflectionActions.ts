@@ -9,6 +9,8 @@ import {
 import type { ConversationStep } from "@/domain/ports/intelligence";
 import { getSessionStudent } from "./session";
 import { getWorld, type World } from "./world";
+import { DEMO_REFLECTION_ID } from "./intelligence";
+import { buildFactoringSurvey } from "./factoringSurvey";
 import type { ChatResult } from "./reflectionTypes";
 
 /**
@@ -87,6 +89,28 @@ async function studentIdOrDemo(): Promise<string> {
 export async function startReflection(reflectionId: string): Promise<ChatResult> {
   const world = await getWorld();
   const studentId = await studentIdOrDemo();
+
+  // Demo lesson: always run the FULL survey fresh, with a newly randomized set of
+  // factoring questions, so the whole process can be seen in action each time a
+  // student opens it — a different set of questions on every run.
+  if (reflectionId === DEMO_REFLECTION_ID) {
+    const freshSet = buildFactoringSurvey(reflectionId, () => world.clock.now());
+    await world.intel.questionSets.save(freshSet);
+    const freshSession = createReflectionSession({
+      id: `${reflectionId}:${studentId}`,
+      reflectionId,
+      studentId,
+      status: "active",
+      startedAt: world.clock.now(),
+      messages: [],
+    });
+    const firstStep = await world.intelligence.nextTurn({
+      session: freshSession,
+      questionSet: freshSet,
+    });
+    return advance(world, freshSession, freshSet, firstStep);
+  }
+
   const set = await world.intel.questionSets.findByLesson(reflectionId);
   if (set === null) throw new Error("This reflection is not available.");
 
@@ -143,5 +167,45 @@ export async function selectReflectionAction(
       selectedAction: action,
       studentConfirmedSummary: true,
     }),
+  );
+}
+
+/**
+ * The student asks (or unasks) to set up time outside class for extra help. This
+ * is a student-initiated request recorded on their session — the teacher sees it
+ * on the reflection tab. No-op if the session is gone.
+ */
+export async function requestExtraHelp(
+  sessionId: string,
+  wants = true,
+): Promise<void> {
+  const world = await getWorld();
+  const session = await world.intel.sessions.findById(sessionId);
+  if (session === null) return;
+  await world.intel.sessions.save(
+    createReflectionSession({ ...session, extraHelpRequested: wants }),
+  );
+}
+
+/** The student asks (or unasks) that this topic get more time on a review day. */
+export async function requestTopicReview(
+  sessionId: string,
+  wants = true,
+): Promise<void> {
+  const world = await getWorld();
+  const session = await world.intel.sessions.findById(sessionId);
+  if (session === null) return;
+  await world.intel.sessions.save(
+    createReflectionSession({ ...session, reviewRequested: wants }),
+  );
+}
+
+/** The student asks (or unasks) to set up time with a tutor. */
+export async function requestTutor(sessionId: string, wants = true): Promise<void> {
+  const world = await getWorld();
+  const session = await world.intel.sessions.findById(sessionId);
+  if (session === null) return;
+  await world.intel.sessions.save(
+    createReflectionSession({ ...session, tutorRequested: wants }),
   );
 }

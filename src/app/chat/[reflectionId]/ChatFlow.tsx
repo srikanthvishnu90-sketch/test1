@@ -8,6 +8,9 @@ import {
   type ReactElement,
 } from "react";
 import {
+  requestExtraHelp,
+  requestTopicReview,
+  requestTutor,
   selectReflectionAction,
   sendReflectionMessage,
 } from "@/app/_world/reflectionActions";
@@ -163,6 +166,59 @@ export default function ChatFlow({ initial }: { initial: ChatResult }): ReactEle
   );
 }
 
+/** One yes/no opt-in on the summary. Records the choice; shows a short reply. */
+function OptIn({
+  prompt,
+  onAnswer,
+  confirmYes,
+}: {
+  prompt: string;
+  onAnswer: (wants: boolean) => Promise<void>;
+  confirmYes: string;
+}): ReactElement {
+  const [state, setState] = useState<"idle" | "yes" | "no">("idle");
+  const [, startTransition] = useTransition();
+
+  function answer(wants: boolean): void {
+    setState(wants ? "yes" : "no");
+    startTransition(async () => {
+      await onAnswer(wants);
+    });
+  }
+
+  if (state === "yes") {
+    return <p className="text-[14px] text-ink-black">{confirmYes}</p>;
+  }
+  if (state === "no") {
+    return (
+      <p className="text-[14px] text-secondary">
+        No problem — you can always ask later if you change your mind.
+      </p>
+    );
+  }
+  return (
+    <div>
+      <p className="text-[14px] text-ink-black">{prompt}</p>
+      <div className="mt-2.5 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => answer(true)}
+          className="rounded-control bg-ink px-4 py-2 text-[14px] font-medium text-white transition-colors hover:bg-ink-tint"
+        >
+          Yes, please
+        </button>
+        <button
+          type="button"
+          onClick={() => answer(false)}
+          className="rounded-control border border-ink-wash px-4 py-2 text-[14px] text-ink-black transition-colors hover:bg-ink-wash"
+        >
+          No thanks
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Avatar(): ReactElement {
   return (
     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink text-[13px] font-medium text-white">
@@ -278,6 +334,27 @@ function SummaryTurn({
               <p className="mt-1 text-[15px] text-ink-black">{chosen}</p>
             </div>
           )}
+
+          <div className="mt-5 flex flex-col gap-4 border-t border-ink-wash pt-5">
+            <p className="text-[12px] font-medium uppercase tracking-[0.14em] text-secondary">
+              A few quick things
+            </p>
+            <OptIn
+              prompt="Want your teacher to spend more time on this on a review day?"
+              onAnswer={(w) => requestTopicReview(sessionId, w)}
+              confirmYes="Noted — your teacher will see you'd like more time on this."
+            />
+            <OptIn
+              prompt="Want to set up some time outside class with your teacher?"
+              onAnswer={(w) => requestExtraHelp(sessionId, w)}
+              confirmYes="Got it — your teacher will see you'd like to set up a time."
+            />
+            <OptIn
+              prompt="Would you like to set up time with a tutor?"
+              onAnswer={(w) => requestTutor(sessionId, w)}
+              confirmYes="Great — your teacher can help set you up with a tutor."
+            />
+          </div>
         </div>
         <a
           href="/timeline"

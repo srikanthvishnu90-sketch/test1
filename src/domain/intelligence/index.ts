@@ -4,6 +4,8 @@ export * from "./lesson";
 export * from "./question";
 export * from "./session";
 export * from "./signals";
+export * from "./strugglingConcepts";
+export * from "./externalFactors";
 export * from "./nonDiagnostic";
 export * from "./insight";
 export * from "./metacognition";

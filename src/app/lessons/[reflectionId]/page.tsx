@@ -5,7 +5,17 @@ import { getSessionUser } from "@/app/_world/session";
 import {
   buildClassBrief,
   getLessonDetail,
+  getExternalFactorFlags,
+  getReflectionProgress,
+  getStrugglingConcepts,
+  listHelpRequests,
+  listReviewRequests,
+  listTutorRequests,
   listScoreRows,
+  type ExternalFactorFlags,
+  type HelpRequest,
+  type ReflectionProgress,
+  type StrugglingConceptsView,
 } from "@/app/_world/teacherReflectionActions";
 import { studentDisplayName } from "@/app/_world/teacher";
 import type { AttentionGroup } from "@/domain/intelligence/insight";
@@ -61,6 +71,12 @@ export default async function ClassBriefPage({
   const lesson = await getLessonDetail(reflectionId);
   if (lesson === null) notFound();
 
+  const progress = await getReflectionProgress(reflectionId);
+  const struggling = await getStrugglingConcepts(reflectionId);
+  const helpRequests = await listHelpRequests(reflectionId);
+  const tutorRequests = await listTutorRequests(reflectionId);
+  const reviewRequests = await listReviewRequests(reflectionId);
+  const externalFactors = await getExternalFactorFlags(reflectionId);
   const view = await buildClassBrief(reflectionId);
   const scoreRows = await listScoreRows(reflectionId);
   const byGroup = new Map<AttentionGroup, string[]>();
@@ -98,6 +114,42 @@ export default async function ClassBriefPage({
             />
           ))}
         </div>
+      )}
+
+      <ProgressStrip progress={progress} />
+
+      {helpRequests.length > 0 && (
+        <RequestList
+          label="Asked for time outside class"
+          note={`${
+            helpRequests.length === 1 ? "This student" : "These students"
+          } said they'd like to set up time with you — a good moment to reach out.`}
+          requests={helpRequests}
+        />
+      )}
+
+      {tutorRequests.length > 0 && (
+        <RequestList
+          label="Would like a tutor"
+          note={`${
+            tutorRequests.length === 1 ? "This student" : "These students"
+          } asked to set up time with a tutor — you can help connect them.`}
+          requests={tutorRequests}
+        />
+      )}
+
+      {externalFactors !== null && <ExternalFactors flags={externalFactors} />}
+
+      {struggling !== null && <StrugglingConcepts view={struggling} />}
+
+      {reviewRequests.length > 0 && (
+        <RequestList
+          label="Asked to revisit this on a review day"
+          note={`${
+            reviewRequests.length === 1 ? "This student" : "These students"
+          } asked for more time on this topic on a review day.`}
+          requests={reviewRequests}
+        />
       )}
 
       {view === null ? (
@@ -201,6 +253,163 @@ function ClassBriefBody({
       ) : null}
     </>
   );
+}
+
+/**
+ * Students whose own words suggest something OUTSIDE school is making school
+ * harder. Warm accent, never red; framed as an observation with the student's own
+ * words, plus a gentle steer — check in privately, or loop in the counselor. Never
+ * a diagnosis, and separate from the crisis path.
+ */
+function ExternalFactors({ flags }: { flags: ExternalFactorFlags }): ReactElement {
+  return (
+    <section className="mt-10">
+      <h2 className="text-[13px] font-medium uppercase tracking-[0.16em] text-secondary">
+        Something outside class may be in the way
+      </h2>
+      <p className="mt-2 text-[14px] text-secondary">
+        In their own words, {flags.students.length === 1 ? "this student" : "these students"}{" "}
+        mentioned something outside school that may be making it harder to focus. A quiet,
+        private check-in is often the right first step — and if it seems beyond a
+        classroom conversation, {flags.counselorName} (counselor) can help.
+      </p>
+      <div className="mt-4 flex flex-col gap-3">
+        {flags.students.map((s) => (
+          <div key={s.studentId} className="rounded-card border border-ink-wash bg-white p-4">
+            <div className="flex items-center gap-2">
+              <span aria-hidden className="inline-block h-2 w-2 rounded-full bg-warm" />
+              <p className="text-[15px] font-medium text-ink-black">{s.name}</p>
+            </div>
+            <p className="mt-2 text-[13px] text-secondary">
+              Mentioned: {s.factors.join("; ")}
+            </p>
+            <blockquote className="mt-2 border-l-2 border-ink-wash pl-3 text-[14px] italic leading-relaxed text-ink-black">
+              &ldquo;{s.excerpt}&rdquo;
+            </blockquote>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** A titled list of students who made a given student-initiated request. */
+function RequestList({
+  label,
+  note,
+  requests,
+}: {
+  label: string;
+  note: string;
+  requests: HelpRequest[];
+}): ReactElement {
+  return (
+    <section className="mt-10">
+      <h2 className="text-[13px] font-medium uppercase tracking-[0.16em] text-secondary">
+        {label}
+      </h2>
+      <p className="mt-2 text-[14px] text-secondary">{note}</p>
+      <div className="mt-4 flex flex-col gap-2">
+        {requests.map((r) => (
+          <div
+            key={r.studentId}
+            className="flex items-center gap-2 rounded-card border border-ink-wash bg-white px-4 py-3"
+          >
+            <span
+              aria-hidden
+              className="inline-block h-2 w-2 rounded-full bg-ink-tint"
+            />
+            <p className="text-[15px] text-ink-black">{r.name}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/** How many students have finished, are mid-conversation, or haven't started. */
+function ProgressStrip({ progress }: { progress: ReflectionProgress }): ReactElement {
+  const tiles: { label: string; value: number; dot: string }[] = [
+    { label: "Finished", value: progress.completed, dot: "bg-ink-tint" },
+    { label: "Working on it", value: progress.inProgress, dot: "bg-ink-wash" },
+    { label: "Not started", value: progress.notStarted, dot: "bg-ink-wash" },
+  ];
+  return (
+    <section className="mt-8">
+      <h2 className="text-[13px] font-medium uppercase tracking-[0.16em] text-secondary">
+        Who&rsquo;s done it
+      </h2>
+      <div className="mt-3 grid grid-cols-3 gap-3">
+        {tiles.map((t) => (
+          <div key={t.label} className="rounded-card border border-ink-wash bg-white p-4">
+            <span
+              aria-hidden
+              className={`inline-block h-2 w-2 rounded-full ${t.dot}`}
+            />
+            <p className="mt-2 text-3xl font-medium tabular-nums text-ink-black">
+              {t.value}
+            </p>
+            <p className="mt-1 text-[13px] text-secondary">{t.label}</p>
+          </div>
+        ))}
+      </div>
+      <p className="mt-2 text-[12px] text-secondary">
+        Out of {progress.rosterCount} student{progress.rosterCount === 1 ? "" : "s"} in
+        the class.
+      </p>
+    </section>
+  );
+}
+
+/**
+ * The concept(s) a lot of students are struggling with, read from their own words
+ * across the finished reflections. Struggle carries the warm accent, never red;
+ * each flag names the students it rests on, so it reads as evidence, not a verdict.
+ */
+function StrugglingConcepts({
+  view,
+}: {
+  view: StrugglingConceptsView;
+}): ReactElement {
+  return (
+    <section className="mt-10">
+      <h2 className="text-[13px] font-medium uppercase tracking-[0.16em] text-secondary">
+        Where the class is getting stuck
+      </h2>
+      <p className="mt-2 text-[14px] text-secondary">
+        Concepts several students named while describing what was hard — from their own
+        words across {view.completedCount} reflection
+        {view.completedCount === 1 ? "" : "s"}.
+      </p>
+      <div className="mt-4 flex flex-col gap-3">
+        {view.concepts.map((c) => (
+          <div
+            key={c.concept}
+            className="rounded-card border border-ink-wash bg-white p-4"
+          >
+            <div className="flex items-center gap-2">
+              <span
+                aria-hidden
+                className="inline-block h-2 w-2 rounded-full bg-warm"
+              />
+              <p className="text-[15px] font-medium text-ink-black">
+                {capitalizeFirst(c.concept)}
+              </p>
+            </div>
+            <p className="mt-2 text-[14px] text-secondary">
+              {c.studentCount} of {view.completedCount} student
+              {view.completedCount === 1 ? "" : "s"} who reflected showed difficulty
+              here — {c.studentNames.join(", ")}.
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function capitalizeFirst(text: string): string {
+  return text.length === 0 ? text : text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 function BackLink(): ReactElement {

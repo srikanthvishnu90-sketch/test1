@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition, type ReactElement } from "react";
 import { requestMagicLink } from "@/app/_world/authActions";
 import { signIn } from "@/app/_world/session";
-import { CRISIS_DISCLOSURE } from "@/compliance/disclosure";
+import { CRISIS_DISCLOSURE, WELLBEING_DISCLOSURE } from "@/compliance/disclosure";
 
 /**
  * Sign-in — the front door. It splits cleanly by who you are: teachers on one
@@ -179,6 +179,9 @@ export default function SignInList({
 
         <p className="mt-6 text-[13px] leading-relaxed text-secondary">
           {CRISIS_DISCLOSURE}
+        </p>
+        <p className="mt-2 text-[13px] leading-relaxed text-secondary">
+          {WELLBEING_DISCLOSURE}
         </p>
       </div>
     </main>

@@ -2,9 +2,30 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type ReactElement } from "react";
-import { createLessonReflection } from "@/app/_world/teacherReflectionActions";
-import type { NewLessonInput } from "@/app/_world/teacherReflectionActions";
+import {
+  createLessonReflection,
+  previewReflectionSurvey,
+} from "@/app/_world/teacherReflectionActions";
+import type {
+  NewLessonInput,
+  SurveyPreview,
+  SurveyPreviewQuestion,
+} from "@/app/_world/teacherReflectionActions";
 import type { LessonType } from "@/domain/intelligence/lesson";
+
+type Depth = "shorter" | "standard" | "deeper";
+
+const DEPTHS: { value: Depth; label: string }[] = [
+  { value: "shorter", label: "Shorter" },
+  { value: "standard", label: "Standard" },
+  { value: "deeper", label: "Deeper" },
+];
+
+/** Quick-reply scales the student taps — mirrors the real reflection chat. */
+const SCALE_LABELS: Record<string, string[]> = {
+  rating: ["Not at all", "A little", "Somewhat", "Mostly", "Completely"],
+  confidence_slider: ["Not yet", "A little", "Somewhat", "Confident", "Very confident"],
+};
 
 /** Keep in sync with lessonMedia.MAX_PHOTOS (server enforces the real cap). */
 const MAX_PHOTOS = 6;
@@ -45,6 +66,10 @@ export default function NewLessonForm(): ReactElement {
   const [photos, setPhotos] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [survey, setSurvey] = useState<SurveyPreview | null>(null);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+  const [depth, setDepth] = useState<Depth>("standard");
+  const [previewing, startPreview] = useTransition();
 
   async function addPhotos(files: FileList | null): Promise<void> {
     if (files === null) return;
@@ -66,6 +91,28 @@ export default function NewLessonForm(): ReactElement {
         router.push(`/lessons/${reflectionId}`);
       } catch (e) {
         setError(e instanceof Error ? e.message : "Something went wrong.");
+      }
+    });
+  }
+
+  function runPreview(nextDepth: Depth): void {
+    setPreviewError(null);
+    if (title.trim().length === 0) {
+      setPreviewError("Add a lesson title to preview the survey.");
+      return;
+    }
+    setDepth(nextDepth);
+    startPreview(async () => {
+      try {
+        const result = await previewReflectionSurvey({
+          title,
+          lessonType,
+          content,
+          depth: nextDepth,
+        });
+        setSurvey(result);
+      } catch (e) {
+        setPreviewError(e instanceof Error ? e.message : "Couldn't generate a preview.");
       }
     });
   }
@@ -160,14 +207,150 @@ export default function NewLessonForm(): ReactElement {
         <p className="mt-3 text-[13px] text-ink-black">{error}</p>
       ) : null}
 
-      <button
-        type="button"
-        disabled={pending || title.trim().length === 0 || content.trim().length === 0}
-        onClick={submit}
-        className="mt-5 rounded-control bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ink-tint disabled:opacity-40"
-      >
-        {pending ? "Reading the lesson…" : "Create reflection"}
-      </button>
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <button
+          type="button"
+          disabled={pending || title.trim().length === 0 || content.trim().length === 0}
+          onClick={submit}
+          className="rounded-control bg-ink px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ink-tint disabled:opacity-40"
+        >
+          {pending ? "Reading the lesson…" : "Create reflection"}
+        </button>
+        <button
+          type="button"
+          disabled={previewing || title.trim().length === 0}
+          onClick={() => runPreview(depth)}
+          className="rounded-control border border-ink-wash px-5 py-2.5 text-sm font-medium text-ink-black transition-colors hover:border-ink-tint disabled:opacity-40"
+        >
+          {previewing
+            ? "Generating…"
+            : survey !== null
+              ? "Refresh preview"
+              : "Preview survey"}
+        </button>
+        <span className="text-[12px] text-secondary">
+          See the questions students would get — nothing is saved.
+        </span>
+      </div>
+
+      {previewError !== null ? (
+        <p className="mt-3 text-[13px] text-ink-black">{previewError}</p>
+      ) : null}
+
+      {survey !== null ? (
+        <SurveyPreviewCard
+          survey={survey}
+          depth={depth}
+          onDepth={runPreview}
+          pending={previewing}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/** The generated survey, rendered as students see it (question + answer control). */
+function SurveyPreviewCard({
+  survey,
+  depth,
+  onDepth,
+  pending,
+}: {
+  survey: SurveyPreview;
+  depth: Depth;
+  onDepth: (d: Depth) => void;
+  pending: boolean;
+}): ReactElement {
+  return (
+    <div className="mt-6 overflow-hidden rounded-card border border-ink-wash bg-paper">
+      <div className="flex flex-wrap items-center gap-3 border-b border-ink-wash bg-white px-4 py-3">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[12px] font-medium text-white">
+          p
+        </span>
+        <div>
+          <p className="text-[13px] font-medium leading-none text-ink-black">
+            Survey preview
+          </p>
+          <p className="mt-0.5 text-[12px] text-secondary">
+            What the student would be asked · {survey.questions.length} questions
+          </p>
+        </div>
+        <div
+          className="ml-auto flex overflow-hidden rounded-control border border-ink-wash"
+          role="group"
+          aria-label="Survey length"
+        >
+          {DEPTHS.map((d) => {
+            const active = d.value === depth;
+            return (
+              <button
+                key={d.value}
+                type="button"
+                disabled={pending}
+                onClick={() => onDepth(d.value)}
+                className={`px-3 py-1.5 text-[12px] font-medium transition-colors disabled:opacity-50 ${
+                  active
+                    ? "bg-ink text-white"
+                    : "bg-white text-secondary hover:bg-ink-wash"
+                }`}
+              >
+                {d.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <ol className="flex flex-col gap-5 px-4 py-5">
+        {survey.questions.map((q, i) => (
+          <li key={i} className="flex flex-col gap-2.5">
+            <div className="flex items-baseline gap-2.5">
+              <span className="min-w-[14px] text-[12px] font-medium tabular-nums text-secondary">
+                {i + 1}
+              </span>
+              <span className="text-[15px] font-medium leading-snug text-ink-black">
+                {q.text}
+              </span>
+            </div>
+            <div className="pl-[26px]">
+              <AnswerControl question={q} />
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p className="border-t border-ink-wash px-4 py-3 text-[12px] text-secondary">
+        {survey.adaptiveFollowups
+          ? `Can branch into up to ${survey.maxFollowups} adaptive follow-ups based on answers.`
+          : "No adaptive follow-ups."}
+      </p>
+    </div>
+  );
+}
+
+/** Render the answer widget a given question format uses. */
+function AnswerControl({ question }: { question: SurveyPreviewQuestion }): ReactElement {
+  const scale = SCALE_LABELS[question.format];
+  const chips =
+    scale ??
+    (question.options && question.options.length > 0 ? question.options : null);
+  if (chips !== null) {
+    return (
+      <div className="flex flex-wrap gap-2">
+        {chips.map((c) => (
+          <span
+            key={c}
+            className="rounded-full border border-ink-wash bg-white px-3.5 py-1.5 text-[13px] text-ink-black"
+          >
+            {c}
+          </span>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <div className="rounded-2xl border border-ink-wash bg-white px-4 py-2.5 text-[13px] text-secondary">
+      Message… — a sentence or two in your own words
     </div>
   );
 }
